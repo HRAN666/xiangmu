@@ -5,6 +5,7 @@ import store from './store'
 import mint from 'mint-ui'
 import elmentUi from 'element-ui'
 import 'mint-ui/lib/style.css'
+import './assets/icon/iconfont'
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(mint)
 Vue.use(elmentUi)

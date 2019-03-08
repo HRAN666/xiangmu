@@ -5,7 +5,11 @@
   </div>
 </template>
 
-<style lang="less">
+<style>
+html body{
+  margin: 0;
+  padding: 0;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,3 +19,10 @@
 }
 
 </style>
+<script>
+import './assets/icon/iconfont.css'
+export default {
+  
+}
+</script>
+
