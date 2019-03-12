@@ -7,13 +7,18 @@
           </div>
           <div class="home-seach-shop">
             <img src="../assets/seach.png" alt="">
-            <el-input  placeholder="请输入内容" v-model="text"></el-input>
+            <el-input  placeholder="请输入内容" v-model="seachContent"></el-input>
           </div>
     </div>
     <div class="home-banner">
+      <el-carousel :interval="5000" arrow="never">
+        <el-carousel-item v-for="(item,index) in bannerImg" :key="index">
         <img src="../assets/Bannner.jpg" alt="">
+      </el-carousel-item>
+      </el-carousel>
+        <!-- <img src="../assets/Bannner.jpg" alt=""> -->
     </div>
-    <div class="home-shop">
+    <div class="home-shop"  @click="handleClick($event)">
       <div class="home-shop-list">
         <el-row :gutter="10">
             <el-col :span="6">
@@ -281,7 +286,7 @@
           </div>
           </div>
       </div>
-      <img src="../assets/bottom.png" alt="" class="home-bottom">
+      <img src="../assets/bottom.png" alt="" class="home-bottom">      
       <footer-currency></footer-currency>
   </div>
 </template>
@@ -294,11 +299,16 @@ export default {
   },
   data () {
     return {
-      text:'',
+      seachContent:'',//seach的值
+      bannerImg:[],//bannerImg
     }
   },
   methods: {
-    
+      handleClick(){
+        if (event.target.nodeName.toLowerCase()==='img' ||event.target.nodeName.toLowerCase()==='p') {//事件代理
+              console.log('事件代理')
+        }
+      }
   },
   mounted () {
     
@@ -306,9 +316,12 @@ export default {
 }
 </script>
 <style>
-.el-input__inner{
+.home .el-input__inner{
   border-radius: .5rem;
   padding: 0 .4rem;
+}
+.home .el-carousel__container{
+  height: 1.72rem;
 }
 </style>
 
@@ -352,6 +365,7 @@ export default {
 }
 .home-banner img{
   width:100%;
+  height: 100%;;
 }
 .home-shop{
   height:2rem ;
@@ -362,6 +376,7 @@ export default {
     font-size:.12rem;
     padding-top:.15rem;
     color:#bbb7b7;
+    font-weight: bold;
 }
 .home-shop-list img{
   width:.42rem;
@@ -393,7 +408,7 @@ export default {
   margin-top:-.5rem;
 }
 .home-discount-shoplist{
-  height: 2.28rem;
+  height: 2.55rem;
   width: 47%;
   background: #fff;
   float: left;
@@ -405,12 +420,19 @@ export default {
 }
 .home-discount-shoplist img{
   width:85%;
+  padding:.05rem;
 }
 .home-discount-shoplist {
   font-size:.14rem;
 }
+.home-discount-shoplist .home-discount-shoplist-price{
+  color:#0489D1;
+  font-size:.14rem;
+}
 .home-discount-shoplist  span{
-  margin-right:.1rem;
+  margin-right:.15rem;
+  font-size:.12rem;
+  color:#888888;
 }
 .home-title{
     height: 0;
@@ -423,11 +445,11 @@ export default {
     top: -.45rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
-  width:20px;
-  margin-left:.15rem;
-}
-.home-discount-shoplist-price{
-  color:#0489D1;
+  width:.21rem;
+  position: relative;
+  top: .03rem;
+  left: .08rem;
+  padding:0;
 }
 .home-bottom{
   width:50%;

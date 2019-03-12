@@ -11,7 +11,7 @@ export default new Router({
       path: '/',
       name: 'home',
       component: () => import( './views/home.vue'),
-      meta:{title:'首页'}
+      meta:{title:'首页'},
     },
     {
       path: '/home',
@@ -25,6 +25,36 @@ export default new Router({
       name: 'author',
       component: () => import( './views/author.vue'),
       meta:{title:'授权'}
+    },
+    {
+      path: '/myself',
+      name: 'myself',
+      component: () => import( './views/myself.vue'),
+      meta:{title:'我的'},
+    },
+    {
+      path: '/integral',
+      name: 'integral',
+      component: () => import( './views/integral.vue'),
+      meta:{title:'积分商城'},
+    },
+    {
+      path: '/shopcar',
+      name: 'shopcar',
+      component: () => import( './views/shopcar.vue'),
+      meta:{title:'购物车'},
+    },
+    {
+      path: '/reg',
+      name: 'reg',
+      component: () => import( './views/reg.vue'),
+      meta:{title:'注册会员'},
+    },
+    {
+      path: '/myvipInf',
+      name: 'myvipInf',
+      component: () => import( './views/myvipInf.vue'),
+      meta:{title:'我的信息'},
     },
   ]
 })
