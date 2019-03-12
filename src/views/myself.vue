@@ -12,7 +12,7 @@
                 </div>
                 <div class="header_float_nickname">
                 <span>{{nickName}}</span>
-                <img src="../assets/vip.png" alt="" style="header_float_nickname_vip" v-if="vip">
+                <img src="../assets/vip.png" alt="" class="header_float_nickname_vip" v-if="vip">
                 <div>
                     <img src="../assets/integral.png" alt="">
                     <span>积分：263</span>

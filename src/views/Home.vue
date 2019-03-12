@@ -67,7 +67,8 @@
         <img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen">      
       </div>
       <div class="home-title">
-          <img src="../assets/discount.png" alt="" class="home-sub">
+          <img src="../assets/comm.png" alt="" class="home-sub">
+          <span>优惠到底</span>
       </div>
           <img src="../assets/go.png" alt="" class="home-to">
       <div class="home-discount">
@@ -111,7 +112,8 @@
           </div>
       </div>
       <div class="home-title">
-          <img src="../assets/Spike.png" alt="" class="home-sub">
+          <img src="../assets/comm.png" alt="" class="home-sub">
+          <span>优惠到底</span>
       </div>
           <img src="../assets/go.png" alt="" class="home-to">
       <div class="home-discount">
@@ -155,7 +157,8 @@
           </div>
       </div>
             <div class="home-title">
-          <img src="../assets/gobuy.png" alt="" class="home-sub">
+          <img src="../assets/comm.png" alt="" class="home-sub">
+          <span>优惠到底</span>
       </div>
           <img src="../assets/go.png" alt="" class="home-to">
       <div class="home-discount">
@@ -199,7 +202,8 @@
           </div>
       </div>
             <div class="home-title">
-          <img src="../assets/nproduct.png" alt="" class="home-sub">
+          <img src="../assets/comm.png" alt="" class="home-sub">
+          <span>优惠到底</span>
       </div>
           <img src="../assets/go.png" alt="" class="home-to">
       <div class="home-discount">
@@ -242,8 +246,9 @@
           </div>
           </div>
       </div>
-            <div class="home-title">
-          <img src="../assets/hotShop.png" alt="" class="home-sub">
+        <div class="home-title">
+          <img src="../assets/comm.png" alt="" class="home-sub">
+          <span>优惠到底</span>
       </div>
           <img src="../assets/go.png" alt="" class="home-to">
       <div class="home-discount">
@@ -383,7 +388,7 @@ export default {
   height: .42rem;
 }
 .home-sub{
-  width:1.5rem;
+  width:1.55rem;
   margin-bottom:.5rem;
 }
 .home-substitute{
@@ -437,6 +442,7 @@ export default {
 .home-title{
     height: 0;
     margin-top: -25px;
+    position: relative;
 }
 .home-to{
     position: relative;
@@ -455,5 +461,15 @@ export default {
   width:50%;
   position: relative;
   top:-.45rem;
+}
+.home-title span{
+    font-size: 17px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    color: #0288D1;
+    font-weight: bold;
+    margin-top:.2rem;
 }
 </style>

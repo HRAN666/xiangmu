@@ -81,5 +81,7 @@ export default {
 }
 </script>
 <style scoped>
-
+h4{
+    font-size: .16rem;
+}
 </style>

@@ -9,8 +9,9 @@
         </div>
         <div class="header_second" v-if="headClassSecondDisplay">
             <router-link :to="routerTo">
-                <img src="../assets/arrow_second.png" alt="" class="header_img">
+                <img src="../assets/arrow.png" alt="" class="header_img">
             </router-link>
+            <div class="title_style2">{{headTitle}}</div>
         </div>
     </div>
 </template>
@@ -28,7 +29,7 @@ export default {
             if (this.$props.headClass =='style1') {
                 this.headClassdisplay=true
                 this.headClassSecondDisplay=false;
-            }   
+            } 
         }
     },
     mounted() {
@@ -66,6 +67,12 @@ export default {
         margin-top: 5%;
         margin-left: 4%;
 
+    }
+    .title_style2{
+        font-size: 16px;
+        float: left;
+        margin-left: 40px;
+        margin-top: 12px;
     }
 </style>
 
