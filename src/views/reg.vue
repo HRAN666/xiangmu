@@ -1,45 +1,54 @@
 <template>
     <div>
         <header-general routerTo="/myself" headClass='style1' headTitle='会员注册'></header-general>
-        <div class="reg">
-          <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign">
-            <el-form-item label="*姓名">
-                <el-input  v-model="formLabelAlign.name"></el-input>
-                <span class="note_name">姓名填写后不能修改</span>
-            </el-form-item>
-            <el-form-item label="*性别">
-                <el-radio v-model="formLabelAlign.radio" label="1">男</el-radio>
-                <el-radio v-model="formLabelAlign.radio" label="2">女</el-radio>
-            </el-form-item>
-            <el-form-item label="*出生日期">
-            <div class="block">
-                <!-- <el-date-picker type="dates" v-model="formLabelAlign.birthday" placeholder="选择出生日期">
-                </el-date-picker> -->
-                <el-date-picker
-                type="date"
-                v-model="formLabelAlign.birthday"
-                format="yyyy 年 MM 月 dd 日"
-                placeholder="选择你的生日">
-                </el-date-picker>
-            </div>
-                 <span class="note">出生日期填写后不能修改</span>
-            </el-form-item>
-            <el-form-item label="*所在校区">
-                <el-select v-model="formLabelAlign.school" placeholder="请选择">
-                    <el-option value="shanghai"></el-option>
-                    <el-option value="shanghai"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="*手机绑定">
-                <el-input  v-model="formLabelAlign.phone"></el-input>
-            </el-form-item>
-            <el-form-item label="电子邮箱">
-                <el-input  v-model="formLabelAlign.emali"></el-input>
-            </el-form-item>
-        </el-form>
+        <div class="reg" :model="formLabelAlign">
+                <div class="reg_content">
+                    <div >*姓名
+                    <br>
+                    <input type="text"  v-model="formLabelAlign.name">
+                    <span>姓名填写后不能修改</span>
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div >*性别
+                    <br>
+                    <el-radio v-model="formLabelAlign.radio" label="1">男</el-radio>
+                    <el-radio v-model="formLabelAlign.radio" label="2">女</el-radio>
+                    </div>
+                </div>
+                 <div class="reg_content">
+                    <div>*出生日期
+                    <br>
+                    <div class="block">
+                    <el-date-picker type="date" v-model="formLabelAlign.birthday" format="yyyy 年 MM 月 dd 日" placeholder="选择你的生日"></el-date-picker>
+                    </div>
+                    <span>出生日期填写后不能修改</span>
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div>*所在校区
+                    <br>
+                    <el-select v-model="formLabelAlign.school" placeholder="请选择">
+                        <el-option value="shanghai"></el-option>
+                        <el-option value="shanghai"></el-option>
+                    </el-select>
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div>*手机绑定
+                    <br>
+                    <input type="text"  v-model="formLabelAlign.school">
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div>*电子邮箱
+                    <br>
+                    <input type="text"  v-model="formLabelAlign.email">       
+                    </div>
+                </div>
         </div>
         <div class="add">
-          <el-button type="primary">加入会员</el-button>
+          <el-button type="primary" @click="joinVip">加入会员</el-button>
         </div>
     </div>
 </template>
@@ -56,14 +65,16 @@ export default {
                 name: '',//姓名
                 birthday: '',//生日
                 phone:'',
-                emali:'',
+                email:'',
                 school:'',
                 radio: '1',
             }
         }
     },
     methods: {
-        
+        joinVip(){
+           
+        }
     },
     mounted() {
 
@@ -71,48 +82,40 @@ export default {
 }
 </script>
 <style>
-.reg .el-input__inner{
-    border-radius: 0;
-    border:none;
-    border-bottom: 1px solid #0288D1;
-    width: 88%;
-    height: .2rem;
-    line-height: .2rem;
-}
-.reg .el-input{
-    display: block;
-    top: -.23rem;
-}
-.reg .el-form--label-top .el-form-item__label{
-    display: block;
-    margin-left: .25rem;
-}
-.reg .el-form-item{
-    margin-bottom: .05rem;
-    height: .85rem;
-}
 .reg .el-radio{
-    position: relative;
-    right: 28%;
-    margin-bottom: .25rem;
+    margin-top: .28rem;
 }
-.reg .el-select{
-    width: 100%;
-}
-.add .el-button--primary{
-    position: relative;
-    top: -.67rem;
-    width: 87%;
-    background: #0288D1;
+.reg .el-input--prefix .el-input__inner{
+    border:none;
+    border-bottom: .01rem solid #0288D1;
+    width: 107%;
+    padding-left: 40px;
+    border-radius: 0;
 }
 .reg .el-date-editor.el-input, .el-date-editor.el-input__inner{
-    width: 100%;
-    margin-left: .2rem;
+    width: 90%;
+    margin-left: -.2rem;
+}
+.reg .el-input--suffix .el-input__inner{
+    border:none;
+    border-bottom: .01rem solid #0288D1;
+    border-radius: 0;
+}
+.reg .el-input{
+    width: 2.9rem;
+    margin-left: -18px;
+}
+.add .el-button--primary{
+    width: 3.59rem;
+    position: relative;
+    top: -.6rem;
 }
 </style>
+
 <style scoped>
+
 .reg{
-    height: 5.3rem;
+    height: 5.6rem;
     width: 3.59rem;
     position: relative;
     left: 0;
@@ -122,19 +125,26 @@ export default {
     border-radius: .07rem;
     top: -.23rem;
 }
-.note{
-    position: relative;
-    left: -.85rem;
-    top:-.45rem;
-    display: block;
-    color:red;
+.reg div{
+    font-size: .14rem;
+    text-align: left;
+    margin-left: .2rem;
 }
-.note_name{
-    position: relative;
-    left: -.94rem;
-    top:-.45rem;
-    display: block;
-    color:red;
+.reg input{
+    border:none;
+    border-bottom: .01rem solid #0288D1;
+    width: 90%;
+    margin-top: .2rem;
+    outline: none;
+}
+.reg_content{
+    height: .88rem;
+    padding-top: .08rem;
+}
+.reg_content span{
+    font-size: .12rem;
+    color: #E51C23;
+    display: inline-block;
 }
 </style>
 
