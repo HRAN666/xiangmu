@@ -19,20 +19,24 @@
             </router-link>
             <div class="title_style3">{{headTitle}}</div>
             <div class="header_third_right">
-            <span>编辑</span>
+            <span>{{titleSecod}}</span>
             <img src="../assets/msg_shop.png" alt="">
             </div>
+        </div>
+         <div class="header_fourth" v-if="headClassfourthDisplay">
+            <div class="title_style4">{{headTitle}}</div>
         </div>
     </div>
 </template>
 <script>
 export default {
-    props:['routerTo','headClass','headTitle'],
+    props:['routerTo','headClass','headTitle','titleSecod'],
     data () {
         return {
             headClassdisplay:false,//第一种样式
             headClassSecondDisplay:true,//第二种样式
             headClassThirdDisplay:false,//第三种样式
+            headClassfourthDisplay:false,
         }
     },
     methods: {
@@ -44,6 +48,10 @@ export default {
             if (this.$props.headClass =='style3') {
                  this.headClassSecondDisplay=false;
                  this.headClassThirdDisplay=true;
+            } 
+            if (this.$props.headClass =='style4') {
+                 this.headClassSecondDisplay=false;
+                 this.headClassfourthDisplay=true;
             } 
         }
     },
@@ -60,6 +68,10 @@ export default {
     .header_second{
         height: .45rem;
         background: #fff;
+    }
+    .header_fourth{
+        height: .45rem;
+        background:#0288D1;
     }
     .header_img{
         position: absolute;
@@ -91,6 +103,11 @@ export default {
     }
     .title_style3{
         font-size: 16px;
+    }
+    .title_style4{
+        color: #fff;
+        font-size: .18rem;
+        padding-top: .1rem;
     }
     .header_third{
          height: .45rem;

@@ -62,6 +62,7 @@ export default {
     display: block;
     font-size: .12rem;
     font-weight: bold;
+    margin-right: -.06rem;
 }
 .footer-active{
   color: #0288d1;

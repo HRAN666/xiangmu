@@ -365,7 +365,7 @@ export default {
     height: .2rem;
     position: absolute;
     z-index: 888;
-    top: .17rem;
+    top: .22rem;
     left: 40%;
 }
 .home-banner {

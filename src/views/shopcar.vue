@@ -1,6 +1,7 @@
 <template>
     <div>
-        <header-general routerTo='/home' headTitle="购物车" headClass="style3"></header-general>
+        <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑"></header-general>
+        
         <footer-currency></footer-currency>
     </div>
 </template>
