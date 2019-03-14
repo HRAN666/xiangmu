@@ -10,14 +10,14 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import( './views/home.vue'),
+      component: () => import( './views/Home.vue'),
       meta:{title:'首页'},
     },
     {
       path: '/home',
       name: 'home',
       redirect: '/',
-      component: () => import( './views/home.vue'),
+      component: () => import( './views/Home.vue'),
       meta:{title:'首页'}
     },
     {
