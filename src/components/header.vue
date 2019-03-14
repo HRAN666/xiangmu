@@ -13,6 +13,16 @@
             </router-link>
             <div class="title_style2">{{headTitle}}</div>
         </div>
+        <div class="header_third" v-if="headClassThirdDisplay">
+            <router-link :to="routerTo">
+                <img src="../assets/arrow.png" alt="" class="header_img">
+            </router-link>
+            <div class="title_style3">{{headTitle}}</div>
+            <div class="header_third_right">
+            <span>编辑</span>
+            <img src="../assets/msg_shop.png" alt="">
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -22,6 +32,7 @@ export default {
         return {
             headClassdisplay:false,//第一种样式
             headClassSecondDisplay:true,//第二种样式
+            headClassThirdDisplay:false,//第三种样式
         }
     },
     methods: {
@@ -29,6 +40,10 @@ export default {
             if (this.$props.headClass =='style1') {
                 this.headClassdisplay=true
                 this.headClassSecondDisplay=false;
+            }
+            if (this.$props.headClass =='style3') {
+                 this.headClassSecondDisplay=false;
+                 this.headClassThirdDisplay=true;
             } 
         }
     },
@@ -71,8 +86,30 @@ export default {
     .title_style2{
         font-size: 16px;
         float: left;
-        margin-left: 40px;
-        margin-top: 12px;
+        margin-left: .4rem;
+        margin-top: .12rem;
+    }
+    .title_style3{
+        font-size: 16px;
+    }
+    .header_third{
+         height: .45rem;
+        background: #fff;
+        padding-top: .08rem;
+        box-sizing: border-box;
+    }
+    .header_third .header_third_right{
+        font-size: .16rem;
+        margin-top: -.23rem;
+        float: right;
+        margin-right: .2rem;
+    }
+    .header_third .header_third_right img{
+        width: .22rem;
+        height: .22rem;
+        position: relative;
+        top:.03rem;
+        left: .08rem;
     }
 </style>
 

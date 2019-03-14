@@ -347,7 +347,13 @@ export default {
     margin-left: .12rem;
 }
 .myself_list_solid{
-    height: .01rem;
+    height: .012
+    、
+    
+    
+    
+    
+    rem;
     width: 94%;
     background: #dad9d9;
     position: relative;

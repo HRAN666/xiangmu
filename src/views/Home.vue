@@ -324,6 +324,9 @@ export default {
 .home .el-input__inner{
   border-radius: .5rem;
   padding: 0 .4rem;
+  width: 2.3rem;
+  position: relative;
+  bottom: .07rem
 }
 .home .el-carousel__container{
   height: 1.72rem;
@@ -336,21 +339,21 @@ export default {
 }
 .home-seach{
   background:#f8f8f8;
-  height: .7rem;
+  height: .55rem;
 }
 .home-seach .home-seach-gps img{
-  width: .32rem;
-  height:.32rem;
+  width: .16rem;
+  height:.16rem;
   float: left;
-  margin-top: .10rem;
-  margin-left:.05rem;
+  margin-top: .15rem;
+  margin-left:.20rem;
 }
 .home-seach .home-seach-gps{
-  font-size: .16rem;
+  font-size: .14rem;
   color: #0288d1;
   width: 37%;
   float: left;
-  margin-top: .1rem;
+  margin-top: .07rem;
 }
 .home-seach-shop{
   margin-top: -.5rem;
@@ -362,7 +365,7 @@ export default {
     height: .2rem;
     position: absolute;
     z-index: 888;
-    top: .24rem;
+    top: .17rem;
     left: 40%;
 }
 .home-banner {
@@ -413,7 +416,7 @@ export default {
   margin-top:-.5rem;
 }
 .home-discount-shoplist{
-  height: 2.55rem;
+  height: 2.4rem;
   width: 47%;
   background: #fff;
   float: left;
@@ -422,6 +425,7 @@ export default {
   padding-left: .15rem;
   box-sizing: border-box;
   margin-top:.1rem;
+  border-radius: .05rem;
 }
 .home-discount-shoplist img{
   width:85%;
@@ -453,8 +457,8 @@ export default {
 .home-discount-shoplist .home-discount-shopCar{
   width:.21rem;
   position: relative;
-  top: .03rem;
-  left: .08rem;
+  top: .05rem;
+  left: -.05rem;
   padding:0;
 }
 .home-bottom{
