@@ -56,5 +56,11 @@ export default new Router({
       component: () => import( './views/myvipInf.vue'),
       meta:{title:'我的信息'},
     },
+    {
+      path: '/commoditiesList',
+      name: 'commoditiesList',
+      component: () => import( './views/commoditiesList.vue'),
+      meta:{title:'商品列表'},
+    },
   ]
 })
