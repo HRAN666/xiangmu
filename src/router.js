@@ -56,5 +56,11 @@ export default new Router({
       component: () => import( './views/myvipInf.vue'),
       meta:{title:'我的信息'},
     },
+    {
+      path: '/location',
+      name: 'location',
+      component: () => import( './views/location.vue'),
+      meta:{title:'位置'},
+    },
   ]
 })

@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="home-seach">
-          <div class="home-seach-gps">
+          <div class="home-seach-gps" @click="selectSchool">
             <img src="../assets/gps.png" alt="">
             <p>深圳技师学院</p>
           </div>
@@ -313,6 +313,9 @@ export default {
         if (event.target.nodeName.toLowerCase()==='img' ||event.target.nodeName.toLowerCase()==='p') {//事件代理
               console.log('事件代理')
         }
+      },
+      selectSchool(){
+        this.$router.push('/location')
       }
   },
   mounted () {

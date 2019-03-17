@@ -37,7 +37,7 @@
                 <div class="reg_content">
                     <div>*手机绑定
                     <br>
-                    <input type="text"  v-model="formLabelAlign.school">
+                    <input type="text"  v-model="formLabelAlign.phone">
                     </div>
                 </div>
                 <div class="reg_content">
