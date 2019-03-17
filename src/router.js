@@ -10,14 +10,14 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import( './views/home.vue'),
+      component: () => import( './views/Home.vue'),
       meta:{title:'首页'},
     },
     {
       path: '/home',
       name: 'home',
       redirect: '/',
-      component: () => import( './views/home.vue'),
+      component: () => import( './views/Home.vue'),
       meta:{title:'首页'}
     },
     {
@@ -61,6 +61,12 @@ export default new Router({
       name: 'location',
       component: () => import( './views/location.vue'),
       meta:{title:'位置'},
+    },
+    {
+      path: '/commoditiesList',
+      name: 'commoditiesList',
+      component: () => import( './views/commoditiesList.vue'),
+      meta:{title:'商品列表'},
     },
   ]
 })
