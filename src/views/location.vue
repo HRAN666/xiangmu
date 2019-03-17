@@ -19,7 +19,7 @@
             <div class="location_all">
                 <span>全部城市</span>
             </div>
-        <mt-index-list>
+        <mt-index-list :height="indexListHeight">
             <mt-index-section v-for="(item,index) in city" :key="index" :index="item.title">
                 <mt-cell v-for="(value,Indexes) in item.lists" :key="Indexes" :title="value" @click.native="thisCity(value)"></mt-cell>
             </mt-index-section>
@@ -36,7 +36,8 @@ export default {
     data () {
         return {
             city:'',
-            selectCity:''
+            selectCity:'',
+            indexListHeight:378
         }
     },
     methods:{
@@ -73,9 +74,7 @@ export default {
 .location .mint-cell-wrapper:last-child::after{
     display: none;
 }
-.location .mint-indexlist-content{
-    height:3.78rem;
-}
+
 .location .mint-indexlist-nav{
     border-radius: .05rem;
     background: #d8d8d8;
