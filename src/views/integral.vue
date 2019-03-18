@@ -1,6 +1,6 @@
 <template>
     <div>
-    <header-general  headTitle="积分商城" headClass="style4"></header-general>
+    <header-general  headTitle="积分商城" headClass="style4" routerTo='/'></header-general>
         <div class="integral_content">
             <div class="product">
             <div class="productBlock">

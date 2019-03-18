@@ -10,14 +10,14 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import( './views/Home.vue'),
+      component: () => import( './views/home.vue'),
       meta:{title:'首页'},
     },
     {
       path: '/home',
       name: 'home',
       redirect: '/',
-      component: () => import( './views/Home.vue'),
+      component: () => import( './views/home.vue'),
       meta:{title:'首页'}
     },
     {
@@ -55,6 +55,12 @@ export default new Router({
       name: 'myvipInf',
       component: () => import( './views/myvipInf.vue'),
       meta:{title:'我的信息'},
+    },
+    {
+      path: '/location',
+      name: 'location',
+      component: () => import( './views/location.vue'),
+      meta:{title:'位置'},
     },
     {
       path: '/commoditiesList',
