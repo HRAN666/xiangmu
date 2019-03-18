@@ -62,5 +62,11 @@ export default new Router({
       component: () => import( './views/commoditiesList.vue'),
       meta:{title:'商品列表'},
     },
+    {
+      path: '/commodityDetails',
+      name: 'commodityDetails',
+      component: () => import( './views/commodityDetails.vue'),
+      meta:{title:'商品详情'},
+    },
   ]
 })
