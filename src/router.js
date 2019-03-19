@@ -15,16 +15,22 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: () => import( './views/Home.vue'),
       meta:{title:'首页'},
     },
     {
-      path: '/home',
-      name: 'home',
+      path: '/Home',
+      name: 'Home',
       redirect: '/',
       component: () => import( './views/Home.vue'),
       meta:{title:'首页'}
+    },
+    {
+      path: '/index.html',
+      name: 'index',
+      redirect: '/',
+      meta: {title:'首页'}
     },
     {
       path: '/author',
@@ -67,6 +73,24 @@ export default new Router({
       name: 'orderdetails',
       component: () => import('./views/orderdetails.vue'),
       meta: {title: '订单详情'}
+    },
+    {
+      path: '/location',
+      name: 'location',
+      component: () => import( './views/location.vue'),
+      meta:{title:'位置'},
+    },
+    {
+      path: '/commoditiesList',
+      name: 'commoditiesList',
+      component: () => import( './views/commoditiesList.vue'),
+      meta:{title:'商品列表'},
+    },
+    {
+      path: '/commodityDetails',
+      name: 'commodityDetails',
+      component: () => import( './views/commodityDetails.vue'),
+      meta:{title:'商品详情'},
     },
   ]
 })
