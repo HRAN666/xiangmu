@@ -92,5 +92,24 @@ export default new Router({
       component: () => import( './views/commodityDetails.vue'),
       meta:{title:'商品详情'},
     },
+    {
+      path: '/express',
+      name: 'express',
+      component: () => import( './views/express.vue'),
+      meta:{title:'代取快递'},
+    },
+    {
+      path: '/expressfood',
+      name: 'expressfood',
+      component: () => import( './views/expressfood.vue'),
+      meta:{title:'代取食堂'},
+    },
+    {
+      path: '/expresselse',
+      name: 'expresselse',
+      component: () => import( './views/expresselse.vue'),
+      meta:{title:'代取其他'},
+    },
+    
   ]
 })

@@ -1,0 +1,752 @@
+<template>
+    <div>
+        <div class="header">
+            <div routerTo='/home'><img src="../assets/arrow.png" alt="" class="header_img"></div>
+            <div class="header-text">代取快递</div>
+            <div class="header-operation">
+                <div class="header-operation-share"></div>
+                <div class="header-operation-goodsmore"></div>
+            </div>
+        </div>
+        <div class="gooods-message">
+            <div class="goods-img">
+                <img src="../assets/details_wati_express.png" alt="">
+            </div>
+            <div class="goods-title">代取快递</div>
+            <div class="goods-price">￥1.00<span>月销量1222笔</span></div>
+        </div>
+        <div class="service">
+            <div class="service-message">服务<span>不支持7天无理由退货</span></div>
+        </div>
+        <div class="specifications">
+            <div class="specifications-message">规格<span>填写 姓名，电话...</span><div class="choice"></div></div>
+        </div>
+        <div class="comment">
+            <div class="comment-message">买家评论（50）<span>查看全部<span>></span></span></div>
+            <div class="comment-user">
+                <div class="comment-user-img"><img src="../assets/user.png" alt=""></div>
+                <div class="comment-user-name">j**3</div>
+                <div class="comment-user-message">速度很快，方便了不少！</div>
+            </div>
+        </div>
+        <div class="recommend">
+            <div class="recommend-line"></div>
+            <div class="recommend-img"><img src="../assets/img.png">推荐</div>
+            <div class="recommend-line"></div>
+        </div>
+        <div class="recommend-goods">
+            <div class="recommend-message">推荐商品</div>
+            <div class="recommend-goods-img">
+                <a href="expressfood"><img src="../assets/wait_canteen.png" alt=""></a>
+                代取食堂
+                <div class="recommend-goods-price">￥1.00<span>11人付款<div class="recommend-goods-car">加入购物车</div></span></div>
+            </div>
+            <div class="recommend-goods-img">
+                <a href="expresselse"><img src="../assets/wait_serve.png" alt=""></a>
+                代取药品
+                <div class="recommend-goods-price">￥1.00<span>15人付款<div class="recommend-goods-car">加入购物车</div></span></div>
+            </div>
+        </div>
+        <div class="to-the-end">
+            <div class="to-the-end-line"></div>
+            <div class="to-the-end-text">已经到底了</div>
+            <div class="to-the-end-line"></div>
+        </div>
+        <div class="footer">
+            <div class="footer-address">
+                <div class="footer-img">
+                    <router-link to="/"  active-class="footer-active" exact>
+                    <div class="customer-service"></div>
+                    <span>客服</span>
+                    </router-link>
+                </div>
+                <div class="footer-img">
+                    <router-link to='/' active-class="footer-active" exact>
+                    <div class="collection"></div>
+                    <span>收藏</span>
+                    </router-link>
+                </div>
+                <div class="footer-img">
+                    <router-link to="/shopcar" active-class="footer-active">
+                    <div class="shopcar"></div>
+                    <span>购物车</span>
+                    </router-link>
+                </div>
+            </div>
+            <div class="footer-operation">
+                <div class="add-cart">加入购物车</div>
+                <div class="purchase" @click="purchase()">立即购买</div>
+            </div>
+        </div>
+        <div class="cover" id="cover" v-bind:style="{display: state}"></div>
+        <div class="express-message"  v-bind:style="{display: state}">
+            <div class="express-message-img">
+                <img src="../assets/wati_express.png" alt="">
+            </div>
+            <div class="express-message-right">
+                <div class="express-message-right-title">代取快递</div>
+                <div class="express-message-right-price">￥1.00</div>
+                <div class="express-message-right-number">数量：1件</div>
+            </div>
+            <form>
+                <p>收件人姓名：<input type="text" name="name" placeholder="填写收件人名"></p>
+                <p>收件人电话：<input type="text" name="phone" placeholder="填写收件人手机号码"></p>
+                <p>快递名称：<span class="choose-express" @click="choose_express()">选择快递公司<span>></span></span></p>
+                <p>快递单号：<input type="text" name="express-number" placeholder="填写快递单号"></p>
+                <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="选填"></textarea>
+                <div class="button">确 认</div>
+            </form>
+        </div>
+        <div @click="expressback()" class="choose-express-message" v-bind:style="{display: choosestate}">
+           <div class="choose-express-title">
+               <div class="choose-express-back"><img src="../assets/arrow.png" alt="">返回</div>
+               <div class="no-find-express">找不到快递公司<img src="../assets/question_mark.png" alt=""></div>
+           </div>
+           <div class="all-express-list">
+                <div>
+                    <h1 class="all-express-letter">常用快递</h1>
+                    <ul class="all-express-content"><li>顺丰快递</li></ul>
+                    <ul class="all-express-content"><li>中通快递</li></ul>
+                    <ul class="all-express-content"><li>申通快递</li></ul>
+                    <ul class="all-express-content"><li>圆通快递</li></ul>
+                    <ul class="all-express-content"><li>韵达快递</li></ul>
+                </div>
+                <h1 class="all-express-letter">A</h1>
+                <ul class="all-express-content"><li>AAE快递</li></ul>
+                <ul class="all-express-content"><li>安能快递</li></ul>
+                <ul class="all-express-content"><li>安世通快递</li></ul>
+           </div>
+           <ul class="all-letter-list">
+               <li><a href="#*">*</a></li>
+               <li><a href="#A">A</a></li>
+               <li><a href="#B">B</a></li>
+               <li><a href="#C">C</a></li>
+               <li><a href="#D">D</a></li>
+               <li><a href="#E">E</a></li>
+               <li><a href="#F">F</a></li>
+               <li><a href="#G">G</a></li>
+               <li><a href="#H">H</a></li>
+               <li><a href="#I">I</a></li>
+               <li><a href="#J">J</a></li>
+               <li><a href="#K">K</a></li>
+               <li><a href="#L">L</a></li>
+               <li><a href="#M">M</a></li>
+               <li><a href="#N">N</a></li>
+               <li><a href="#O">O</a></li>
+               <li><a href="#P">P</a></li>
+               <li><a href="#Q">Q</a></li>
+               <li><a href="#R">R</a></li>
+               <li><a href="#S">S</a></li>
+               <li><a href="#T">T</a></li>
+               <li><a href="#U">U</a></li>
+               <li><a href="#V">V</a></li>
+               <li><a href="#W">W</a></li>
+               <li><a href="#X">X</a></li>
+               <li><a href="#Y">Y</a></li>
+               <li><a href="#Z">Z</a></li>
+           </ul>
+        </div>
+    </div>
+</template>
+<script>
+export default {
+    data () {
+        return {
+            state: 'none',
+            choosestate: 'none',
+		}
+    },
+    mounted(){
+       
+    },
+    methods:{
+        purchase:function(){
+            if(this.state=='none'){
+                this.state='block';
+                document.querySelector('body').setAttribute('style', 'overflow-y: hidden;')
+            }else{
+                this.state='none';
+            }
+        },
+        choose_express:function(){
+            if(this.choosestate=='none'){
+                this.choosestate='block';
+            }else{
+                this.choosestate='none';
+            }
+        },
+        expressback:function(){
+            if(this.choosestate=='block'){
+                this.choosestate='none';
+            }else{
+                this.choosestate='block';
+            }
+        },
+    }
+}
+</script>
+<style>
+.header{
+    height: .45rem;
+    background: #fff;
+    padding-top: .08rem;
+}
+.header_img{
+    position: absolute;
+    left: .06rem;
+    top: .11rem;
+    width: .21rem;
+    height: .21rem;
+}
+.header-text{
+    font-size: .17rem;
+    color: #101010;
+    margin: 0 auto;
+    line-height: .3rem;
+    width: 100%;
+    position:absolute;
+}
+.header-operation{
+    float: right;
+    margin-right: 0.1rem;
+    height: .3rem;
+    width: .7rem;
+}
+.header-operation .header-operation-share{
+    float: left;
+    width: .28rem;
+    height: .28rem;
+    margin-top: .01rem;
+    background:url(../assets/share.png) no-repeat;
+    background-size:100% 100% 
+}
+.header-operation .header-operation-goodsmore{
+    float: right;
+    width: .28rem;
+    height: .28rem;
+    margin-top: .02rem;
+    background:url(../assets/goodsmore.png) no-repeat;
+    background-size:100% 100% 
+}
+.gooods-message{
+    background-color: #ffffff;
+    font-size: .17rem;
+    text-align: left;
+    margin: 0 auto;
+    height: 3.25rem;
+}
+.gooods-message .goods-img{
+    text-align: center;
+    height: 2.45rem;
+}
+.gooods-message .goods-img img{
+    width: 90%;
+    border: .01rem solid #ccc;
+}
+.gooods-message .goods-title{
+    width: 93%;
+    margin: 0 auto;
+    color: #242424;
+}
+.gooods-message .goods-price{
+    width: 93%;
+    margin: .25rem auto;
+    font-size: .175rem;
+    color: #0288d1;
+}
+.gooods-message .goods-price span{
+    font-size: .16rem;
+    display: inline;
+    float: right;
+    color: #888888;
+}
+.service{
+    background-color: #ffffff;
+    margin-top: .15rem;
+    height: .45rem;
+    position: relative;
+}
+.service-message{
+    position: absolute;
+    font-size: .175rem;
+    height: .25rem;
+    border-left:.1rem solid #207cd3;
+    text-align: left;
+    padding-left: .05rem;
+    color: #9a9a9a;
+    margin: 0 auto;
+    top:.1rem; 
+    left: .1rem;
+}
+.service-message span{
+    color: #4f4f4f;
+    display: inline;
+    margin-left: .3rem;
+    font-size: .16rem;
+}
+.specifications{
+    background-color: #ffffff;
+    margin-top: .01rem;
+    height: .45rem;
+    position: relative;
+}
+.specifications-message{
+    position: absolute;
+    font-size: .175rem;
+    height: .25rem;
+    width: 90%;
+    border-left:.1rem solid #207cd3;
+    text-align: left;
+    padding-left: .05rem;
+    color: #9a9a9a;
+    margin: 0 auto;
+    top:.1rem; 
+    left: .1rem;
+}
+.specifications-message span{
+    color: #4f4f4f;
+    display: inline;
+    margin-left: .3rem;
+    font-size: .16rem;
+}
+.specifications-message .choice{
+    height: .25rem;
+    width: .25rem;
+    float: right;
+    background:url(../assets/choice.png) no-repeat;
+    background-size: 100% 100%;
+}
+.comment{
+    background-color: #ffffff;
+    margin-top: .15rem;
+    height: 1.45rem;
+    position: relative;
+}
+.comment .comment-message{
+    position: absolute;
+    font-size: .172rem;
+    height: .25rem;
+    border-left:.1rem solid #207cd3;
+    text-align: left;
+    padding-left: .05rem;
+    color: #616161;
+    margin: 0 auto;
+    top:.1rem; 
+    left: .1rem;
+    width: 90%;
+}
+.comment .comment-message span{
+    margin-top: 0.02rem;
+    color: #0288d1;
+    display: inline;
+    float: right;
+    font-size: .16rem;
+}
+.comment .comment-message span span{
+    margin-top:0; 
+    font-size: .21rem;
+    padding-left: .1rem;
+    font-family: '黑体';
+}
+.comment .comment-user{
+    position: absolute;
+    left: .2rem;
+    top:.5rem;
+    width: 89%;
+    height: .3rem;
+    border-top:.01rem solid #dddddd;
+}
+.comment .comment-user .comment-user-img{
+    margin-left: .1rem;
+    height: .2rem;
+    width: .2rem;
+    margin-top: .1rem;
+    float: left;
+}
+.comment .comment-user .comment-user-img img{
+    float: left;
+    width: 100%;
+}
+.comment .comment-user .comment-user-name{
+    margin-top: .1rem;
+    line-height: .2rem;
+    font-size: .175rem;
+    color: #9a9a9a;
+    text-align: left;
+    margin-left: .4rem;
+}
+.comment .comment-user .comment-user-message{
+   font-size: .16rem;
+   color: #757272;
+   text-align: left;
+   text-indent: .01rem;
+   margin-top:0.2rem; 
+}
+.recommend{
+    color: #a8a8a8;
+    font-size: .16rem;
+    height: .3rem;
+}
+.recommend .recommend-line{
+    border-top: #d8d8d8 solid .01rem;
+    width: 1rem;
+    position: relative;
+    top:.23rem;
+    height: .1rem;
+}
+.recommend .recommend-line:nth-child(1){
+    float: left;
+    margin-left: .3rem;
+}
+.recommend .recommend-line:nth-child(3){
+    float: right;
+    margin-right: .3rem;
+}
+.recommend .recommend-img{
+    margin: 0 auto;
+    width: 100%;
+    position:absolute;
+}
+.recommend .recommend-img img{
+    width: .3rem;
+    position: relative;
+    top: .08rem;
+    align-items: center;
+}
+.recommend-goods{
+    background-color: #ffffff;
+    margin-top: .15rem;
+    color: #242424;
+    font-size: .16rem;
+    height: 3rem;
+    position: relative;
+    text-align: left;
+}
+.recommend-goods .recommend-message{
+    line-height: .35rem;
+    height: .3rem;
+    border-left:.15rem solid #207cd3;
+    padding-left: .1rem;
+}
+.recommend-goods .recommend-goods-img{
+    float: left;
+    width: 47%;
+    margin-top: .08rem;
+}
+.recommend-goods .recommend-goods-img:nth-child(2){
+    margin-left: .068rem;
+}
+.recommend-goods .recommend-goods-img:nth-child(3){
+    float: right;
+    margin-right: .1rem;
+}
+.recommend-goods .recommend-goods-img img{
+    width: 100%;
+    border: .01rem solid #ccc;
+}
+.recommend-goods .recommend-goods-price{
+    margin-top: .1rem;
+    font-size: .15rem;
+    line-height: .23rem;
+    color: #0288d1;
+}
+.recommend-goods .recommend-goods-price span{
+    font-size: .13rem;
+    line-height: .23rem;
+    display: inline;
+    float: right;
+    color: #888888;
+}
+.recommend-goods .recommend-goods-price span .recommend-goods-car{
+    color: #ea1a33;
+    float: right;
+    border: .01rem solid #ea1a33;
+    padding: 0 0.02rem 0 0.02rem;
+    border-radius: 0.06rem;
+}
+.to-the-end{
+    color: #a8a8a8;
+    font-size: .16rem;
+    height: 1rem;
+}
+.to-the-end .to-the-end-line{
+    border-top: #d8d8d8 solid .01rem;
+    width: 1rem;
+    position: relative;
+    top:.23rem;
+    height: .1rem;
+}
+.to-the-end .to-the-end-line:nth-child(1){
+    float: left;
+    margin-left: .3rem;
+}
+.to-the-end .to-the-end-line:nth-child(3){
+    float: right;
+    margin-right: .3rem;
+}
+.to-the-end .to-the-end-text{
+    margin: 0 auto;
+    line-height: .45rem;
+    width: 100%;
+    position:absolute;
+}
+.footer{
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    height: .5rem;
+    z-index: 2;
+    width: 100%;
+}
+.footer-address{
+    position: relative;
+    width: 45%;
+    height: 100%;
+    float: left;
+}
+.footer .footer-address .footer-img{
+    width: 33%;
+    height: 100%;
+    float: left;
+    position: relative;
+    font-size: .14rem;
+}
+.footer-img div{
+    width: 100%;
+    margin-top: 0.05rem;
+    height: .27rem;
+}
+.footer-img span{
+    display: block;
+    font-size: .12rem;
+    font-weight: bold;
+}
+.footer-img .customer-service{
+    background: url(../assets/customer_service.png) no-repeat 52% 50%;
+    background-size: auto 100%;
+}
+.footer-img .collection{
+    background: url(../assets/collection.png) no-repeat 54% 50%;
+    background-size: auto 100%;
+}
+.footer-img .shopcar{
+    background: url(../assets/goods_shopcar.png) no-repeat 45% 50%;
+    background-size: auto 100%;
+}
+.footer-operation{
+    width: 55%;
+    height: 100%;
+    color: #fff;
+    line-height: 0.5rem;
+    font-size: 0.16rem;
+    float: left;
+}
+.footer-operation .add-cart{
+    width: 50%;
+    height: 100%;
+    background-color: #3caaf7;
+    float: left;
+}
+.footer-operation .purchase{
+    width: 50%;
+    height: 100%;
+    background-color: #0288d1;
+    float: left;
+}
+.footer-active{
+  color: #0288d1;
+}
+.cover{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: #000000;
+    opacity:0.4;
+    filter:alpha(opacity=40);
+}
+.express-message{
+    position: fixed;
+    top: 2rem;
+    left: 0;
+    z-index: 11;
+    background-color: #ffffff;
+    font-size: .17rem;
+    text-align: left;
+    margin: 0 auto;
+    height: 5.5rem;
+    width: 100%;
+}
+.express-message .express-message-img{
+    float: left;
+    position: relative;
+    top: .2rem;
+    left: .2rem;
+    height: 1.3rem;
+    width: 1.3rem;
+}
+.express-message .express-message-img img{
+    width: 100%;
+    border: .01rem solid #ccc;
+}
+.express-message .express-message-right{
+    position: relative;
+    top: .2rem;
+    left: .3rem;
+}
+.express-message .express-message-right .express-message-right-title{
+    margin-top: .2rem;
+    font-size: .18rem;
+    color: #242424;
+}
+.express-message .express-message-right .express-message-right-price{
+    margin-top: .05rem;
+    font-size: .2rem;
+    color: #0288d1;
+}
+.express-message .express-message-right .express-message-right-number{
+    margin-top: .2rem;
+    font-size: .16rem;
+    color: #888888;
+}
+.express-message form{
+    position:relative;
+    top: .4rem;
+    left: .2rem;
+    font-size: .16rem;
+    color: #242424;
+}
+.express-message form p{
+    width: 88%;
+    border-bottom:.01rem #e8e8e8 solid;
+    padding: .08rem 0 .08rem 0;
+}
+.express-message form p input{
+    font-size: .15rem;
+    border: none;
+}
+.express-message form p:nth-child(5){
+    border-bottom:none;
+}
+.express-message form .choose-express{
+    line-height: .18rem;
+    font-size: .15rem;
+    margin-left: .2rem;
+    float: right;
+    margin-right: .2rem;
+    color: #888;
+}
+.express-message form .choose-express span{
+    position: relative;
+    top: .01rem;
+    font-size: .18rem;
+    padding-left: .08rem;
+    font-family: '黑体';
+}
+.express-message form textarea{
+    font-size: .16rem;
+    position: relative;
+    top: -.47rem;
+    left: .5rem;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    border:none;
+    resize : none;
+}
+.express-message form .button{
+    position: relative;
+    top: -.5rem;
+    left: -.2rem;
+    line-height: .5rem;
+    font-size: .2rem;
+    text-align: center;
+    color: #fff;
+    background: #0288d1
+}
+.choose-express-message{
+    position: fixed;
+    top: 2rem;
+    left: 0;
+    z-index: 11;
+    background-color: #ffffff;
+    font-size: .17rem;
+    text-align: left;
+    margin: 0 auto;
+    height: 5.5rem;
+    width: 100%;
+}
+.choose-express-back{
+    margin-top: .11rem;
+    margin-left: .3rem;
+    font-size: .18rem;
+    line-height: .3rem;
+    color: #000000;
+}
+.choose-express-back img{
+    position: absolute;
+    left: .06rem;
+    top: .15rem;
+    width: .21rem;
+    height: .21rem;
+}
+.choose-express-message .no-find-express{
+    position: absolute;
+    top: .09rem;
+    right: .3rem;
+    font-size: .15rem;
+    color: #1d95d6;
+    line-height: .35rem;
+    float: right;
+}
+.choose-express-message .no-find-express img{
+    position: absolute;
+    top: .1rem;
+    left: 1.1rem;
+    width: .15rem;
+    height: .15rem;
+}
+.choose-express-message div .all-express-letter{
+    color: #777777;
+    font-size: .15rem;
+    background-color: #efefef;
+    line-height: .35rem;
+    padding-left: .08rem;
+}
+.choose-express-message .all-express-content{
+    color: #666666;
+    font-size: .16rem;
+    line-height: .25rem;
+    height: .34rem;
+    padding-left: .08rem;
+    border-bottom: #efefef solid 0.01rem;
+}
+.choose-express-message .all-express-content:nth-last-child(1){
+    border-bottom:none;
+    height: 0.2rem;
+}
+.choose-express-message .all-letter-list{
+    width: .3rem;
+    border-radius:.1rem 0 0 .1rem; 
+    text-align: center;
+    position: fixed;
+    float: right;
+    top: 2.4rem;
+    right: 0;
+    height: 4.65rem;
+    background-color: rgba(102,102,102,0.24);
+}
+.choose-express-message .all-letter-list li{
+    height: .17rem;
+}
+.choose-express-message .all-letter-list li a{
+    font-size: .15rem;
+    text-decoration: none;
+    color: #333333;
+    font-weight: bold;
+}
+.choose-express-message .all-letter-list li:nth-child(1) a{
+    font-size: .25rem;
+}
+</style>
+
