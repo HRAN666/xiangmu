@@ -8,6 +8,12 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/order',
+      name: 'order',
+      component: () => import('./views/order.vue'),
+      meta: {title: '我的订单'}
+    },
+    {
       path: '/',
       name: 'home',
       component: () => import( './views/Home.vue'),
@@ -55,6 +61,12 @@ export default new Router({
       name: 'myvipInf',
       component: () => import( './views/myvipInf.vue'),
       meta:{title:'我的信息'},
+    },
+    {
+      path: '/orderdetails',
+      name: 'orderdetails',
+      component: () => import('./views/orderdetails.vue'),
+      meta: {title: '订单详情'}
     },
   ]
 })

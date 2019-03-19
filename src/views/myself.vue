@@ -34,8 +34,10 @@
             <div class="myorder_top">
                 <span>我的订单</span>
                 <div class="myorder_go">
-                查看全部
-                <img src="../assets/more.png" alt="">
+                    <a href="/order" style="text-decoration: none;color: #B3B3B3;">
+                        查看全部
+                        <img src="../assets/more.png" alt="">
+                    </a>
                 </div>
             </div>
             <div class="myorder_list">
