@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-general routerTo="/myself" headClass='style1' headTitle='会员注册'></header-general>
+        <header-general routerTo="/myself" headClass='style1' headTitle='会员注册' titleSecod="只需几步即可成为会员，尽享所有专属福利！"></header-general>
         <div class="reg" :model="formLabelAlign">
                 <div class="reg_content">
                     <div >*姓名

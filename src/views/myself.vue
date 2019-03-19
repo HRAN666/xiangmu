@@ -107,8 +107,8 @@ export default {
     data () {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
-            nickName:localStorage.getItem('nickName'),//名字
-            vip:false,//判断是否是会员
+            nickName:localStorage.getItem('nickname'),//名字
+            vip:true,//判断是否是会员
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -327,6 +327,7 @@ export default {
     margin: auto;
     top: .7rem;
     font-size: .14rem;
+    margin-bottom: 1.5rem;
 }
 .myself_list img{
     width: .2rem;
@@ -349,13 +350,7 @@ export default {
     margin-left: .12rem;
 }
 .myself_list_solid{
-    height: .012
-    、
-    
-    
-    
-    
-    rem;
+    height: .01rem;
     width: 94%;
     background: #dad9d9;
     position: relative;
@@ -372,13 +367,13 @@ export default {
 }
 .myself_list_right{
     position: relative;
-    left: 218%;
-    top: 5px;
+    left: 225%;
+    top: .06rem;
 }
 .myself_list_rights{
     position: relative;
-    left: 180%;
-    top: 5px;
+    left: 187%;
+    top: .06rem;
 }
 .myself_list_offer{
     position: relative;

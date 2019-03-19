@@ -5,7 +5,7 @@
                 <img src="../assets/arrow_second.png" alt="" class="header_img">
             </router-link>
             <div class="title">{{headTitle}}</div>
-            <div class="title_second">只需几步即可成为会员，尽享所有专属福利！</div>
+            <div class="title_second">{{titleSecod}}</div>
         </div>
         <div class="header_second" v-if="headClassSecondDisplay">
             <router-link :to="routerTo">
@@ -89,10 +89,11 @@ export default {
     }
     .title_second{
         font-size: .14rem;
-        float: left;
+        position: absolute;
         color: #fff;
-        margin-top: 5%;
+        top: .88rem;
         margin-left: 4%;
+        left:.08rem;
 
     }
     .title_style2{
