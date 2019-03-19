@@ -9,16 +9,22 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import( './views/home.vue'),
+      name: 'Home',
+      component: () => import( './views/Home.vue'),
       meta:{title:'首页'},
     },
     {
-      path: '/home',
-      name: 'home',
+      path: '/Home',
+      name: 'Home',
       redirect: '/',
-      component: () => import( './views/home.vue'),
+      component: () => import( './views/Home.vue'),
       meta:{title:'首页'}
+    },
+    {
+      path: '/index.html',
+      name: 'index',
+      redirect: '/',
+      meta: {title:'首页'}
     },
     {
       path: '/author',
