@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div class="header" v-if="headClassdisplay">
+        <div class="header" v-if="headClassdisplay"><!--有标题，有返回按钮，副标题（注册会员页面&&我的会员信息）蓝色底  -->
             <router-link :to="routerTo">
                 <img src="../assets/arrow_second.png" alt="" class="header_img">
             </router-link>
             <div class="title">{{headTitle}}</div>
             <div class="title_second">{{titleSecod}}</div>
         </div>
-        <div class="header_second" v-if="headClassSecondDisplay">
+        <div class="header_second" v-if="headClassSecondDisplay"><!--有标题，有返回按钮  白色底-->
             <router-link :to="routerTo">
                 <img src="../assets/arrow.png" alt="" class="header_img">
             </router-link>
             <div class="title_style2">{{headTitle}}</div>
         </div>
-        <div class="header_third" v-if="headClassThirdDisplay">
+        <div class="header_third" v-if="headClassThirdDisplay"><!--有标题，有返回按钮，顶部右侧有按钮  白色底-->
             <router-link :to="routerTo">
                 <img src="../assets/arrow.png" alt="" class="header_img">
             </router-link>
@@ -23,7 +23,7 @@
             <img src="../assets/msg_shop.png" alt="">
             </div>
         </div>
-         <div class="header_fourth" v-if="headClassfourthDisplay">
+          <div class="header_fourth" v-if="headClassfourthDisplay"><!--只有标题没有返回按钮 蓝色底 -->
             <div class="title_style4">{{headTitle}}</div>
         </div>
     </div>
@@ -97,13 +97,13 @@ export default {
 
     }
     .title_style2{
-        font-size: 16px;
+        font-size: .16rem;
         float: left;
         margin-left: .4rem;
         margin-top: .12rem;
     }
     .title_style3{
-        font-size: 16px;
+        font-size: .16rem;
     }
     .title_style4{
         color: #fff;
@@ -113,12 +113,12 @@ export default {
     .header_third{
          height: .45rem;
         background: #fff;
-        padding-top: .08rem;
+        padding-top: .10rem;
         box-sizing: border-box;
     }
     .header_third .header_third_right{
         font-size: .16rem;
-        margin-top: -.23rem;
+        margin-top: -.27rem;
         float: right;
         margin-right: .2rem;
     }

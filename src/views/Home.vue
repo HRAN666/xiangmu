@@ -403,11 +403,11 @@ export default {
 }
 .home-substitute img{
   background:#fff;
-  height: 1.4rem;
-  margin-left:.1rem;
+  margin-left:.09rem;
 }
 .home-watiexpress{
     width:37%;
+    height: 1.15rem;
 }
 .home-waitserve{
   width:27%;

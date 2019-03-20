@@ -242,8 +242,8 @@ export default {
     font-size: .14rem;
 }
 .myorder_top img{
-    width: .2rem;
-    height: .2rem;
+    width: .15rem;
+    height: .15rem;
     position: relative;
     top: .03rem;
 }
@@ -329,13 +329,15 @@ export default {
     font-size: .14rem;
     margin-bottom: 1.5rem;
 }
-.myself_list img{
+.myself_list .myself_list_left img{
     width: .2rem;
     height: .2rem;
-
 }
 .myself_list_left{
     float: left;
+    margin-left: .12rem;
+    position: relative;
+    top:.05rem;
 }
 .myself_list ul li{
     display: table;
@@ -355,7 +357,7 @@ export default {
     background: #dad9d9;
     position: relative;
     left:.09rem;
-    top: .1rem;
+    top: .16rem;
 }
 .header_float_reg_vip{
     color: #0288D1 ;
@@ -367,17 +369,22 @@ export default {
 }
 .myself_list_right{
     position: relative;
-    left: 225%;
-    top: .06rem;
+    left: 200%;
+    top: .12rem;
+    width: .15rem;
+    height: .15rem;
 }
 .myself_list_rights{
     position: relative;
-    left: 187%;
-    top: .06rem;
+    left: 168%;
+    width: .15rem;
+    height: .15rem;
+    top: .12rem;
 }
 .myself_list_offer{
     position: relative;
-    left: 1.78rem;
+    left: 1.85rem;
+    top: .1rem;
 }
 </style>
 
