@@ -1,11 +1,11 @@
 <template>
     <div>
-        <header-general routerTo="/Home" headTitle="代取食堂" headClass="style5"></header-general>
+        <header-general routerTo="/Home" headTitle="代取外卖" headClass="style5"></header-general>
         <div class="gooods-message">
             <div class="goods-img">
                 <img src="../assets/details_wati_expressfood.png" alt="">
             </div>
-            <div class="goods-title">代取食堂</div>
+            <div class="goods-title">代取外卖</div>
             <div class="goods-price">￥1.00<span>月销量1222笔</span></div>
         </div>
         <div class="service">
@@ -24,20 +24,20 @@
         </div>
         <div class="recommend">
             <div class="recommend-line"></div>
-            <div class="recommend-img"><img src="../assets/img.png">推荐</div>
+            <div class="recommend-img"><img src="../assets/like.png">推荐</div>
             <div class="recommend-line"></div>
         </div>
         <div class="recommend-goods">
             <div class="recommend-message">推荐商品</div>
             <div class="recommend-goods-img">
-                <a href="express"><img src="../assets/wati_express.png" alt=""></a>
+                <a href="express"><img src="../assets/details_wati_express.png" alt=""></a>
                 代取快递
-                <div class="recommend-goods-price">￥1.00<span>11人付款<div class="recommend-goods-car">加入购物车</div></span></div>
+                <div class="recommend-goods-price">￥1.00<span>11人付款</span></div>
             </div>
             <div class="recommend-goods-img">
-                <a href="expresselse"><img src="../assets/wait_serve.png" alt=""></a>
+                <a href="expressmedicines"><img src="../assets/details_wati_expressmedicines.png" alt=""></a>
                 代取药品
-                <div class="recommend-goods-price">￥1.00<span>15人付款<div class="recommend-goods-car">加入购物车</div></span></div>
+                <div class="recommend-goods-price">￥1.00<span>15人付款</span></div>
             </div>
         </div>
         <div class="to-the-end">
@@ -74,10 +74,10 @@
         <div class="cover" id="cover" v-bind:style="{display: state}"></div>
         <div class="express-message"  v-bind:style="{display: state}">
             <div class="express-message-img">
-                <img src="../assets/wait_canteen.png" alt="">
+                <img src="../assets/details_wati_expressfood.png" alt="">
             </div>
             <div class="express-message-right">
-                <div class="express-message-right-title">代取食堂</div>
+                <div class="express-message-right-title">代取外卖</div>
                 <div class="express-message-right-price">￥1.00</div>
                 <div class="express-message-right-number">数量：1件</div>
             </div>
@@ -117,48 +117,6 @@ export default {
 }
 </script>
 <style>
-.header{
-    height: .45rem;
-    background: #fff;
-    padding-top: .08rem;
-}
-.header_img{
-    position: absolute;
-    left: .06rem;
-    top: .11rem;
-    width: .21rem;
-    height: .21rem;
-}
-.header-text{
-    font-size: .17rem;
-    color: #101010;
-    margin: 0 auto;
-    line-height: .3rem;
-    width: 100%;
-    position:absolute;
-}
-.header-operation{
-    float: right;
-    margin-right: 0.1rem;
-    height: .3rem;
-    width: .7rem;
-}
-.header-operation .header-operation-share{
-    float: left;
-    width: .28rem;
-    height: .28rem;
-    margin-top: .01rem;
-    background:url(../assets/share.png) no-repeat;
-    background-size:100% 100% 
-}
-.header-operation .header-operation-goodsmore{
-    float: right;
-    width: .28rem;
-    height: .28rem;
-    margin-top: .02rem;
-    background:url(../assets/goodsmore.png) no-repeat;
-    background-size:100% 100% 
-}
 .gooods-message{
     background-color: #ffffff;
     font-size: .17rem;
@@ -168,27 +126,33 @@ export default {
 }
 .gooods-message .goods-img{
     text-align: center;
-    height: 2.45rem;
+    height: 2.3rem;
+    border-top: .01rem solid #efefef;
+    border-bottom: .01rem solid #efefef;
+    padding-bottom: .2rem;
 }
 .gooods-message .goods-img img{
-    width: 90%;
-    border: .01rem solid #ccc;
+    width: 100%;
 }
 .gooods-message .goods-title{
     width: 93%;
-    margin: 0 auto;
+    margin: 0.1rem auto;
+    padding-left: .1rem;
+    height: .1rem;
     color: #242424;
 }
 .gooods-message .goods-price{
     width: 93%;
-    margin: .25rem auto;
+    margin: .2rem auto;
     font-size: .175rem;
+    padding-left: .05rem;
     color: #0288d1;
 }
 .gooods-message .goods-price span{
-    font-size: .16rem;
+    font-size: .15rem;
     display: inline;
     float: right;
+    padding-right: .1rem;
     color: #888888;
 }
 .service{
@@ -199,7 +163,7 @@ export default {
 }
 .service-message{
     position: absolute;
-    font-size: .175rem;
+    font-size: .17rem;
     height: .25rem;
     border-left:.1rem solid #207cd3;
     text-align: left;
@@ -213,7 +177,7 @@ export default {
     color: #4f4f4f;
     display: inline;
     margin-left: .3rem;
-    font-size: .16rem;
+    font-size: .15rem;
 }
 .specifications{
     background-color: #ffffff;
@@ -223,7 +187,7 @@ export default {
 }
 .specifications-message{
     position: absolute;
-    font-size: .175rem;
+    font-size: .17rem;
     height: .25rem;
     width: 90%;
     border-left:.1rem solid #207cd3;
@@ -238,7 +202,7 @@ export default {
     color: #4f4f4f;
     display: inline;
     margin-left: .3rem;
-    font-size: .16rem;
+    font-size: .15rem;
 }
 .specifications-message .choice{
     height: .25rem;
@@ -250,39 +214,40 @@ export default {
 .comment{
     background-color: #ffffff;
     margin-top: .15rem;
-    height: 1.45rem;
+    height: 1.2rem;
     position: relative;
 }
 .comment .comment-message{
     position: absolute;
-    font-size: .172rem;
+    font-size: .16rem;
+    line-height: .27rem;
     height: .25rem;
-    border-left:.1rem solid #207cd3;
+    border-left: .1rem solid #207cd3;
     text-align: left;
     padding-left: .05rem;
     color: #616161;
     margin: 0 auto;
-    top:.1rem; 
+    top: .1rem;
     left: .1rem;
     width: 90%;
 }
 .comment .comment-message span{
-    margin-top: 0.02rem;
+    margin-top: 0.01rem;
     color: #0288d1;
     display: inline;
     float: right;
-    font-size: .16rem;
+    font-size: .15rem;
 }
 .comment .comment-message span span{
-    margin-top:0; 
-    font-size: .21rem;
-    padding-left: .1rem;
+    font-size: .2rem;
+    padding-left: .05rem;
+    padding-right: .05rem;
     font-family: '黑体';
 }
 .comment .comment-user{
     position: absolute;
     left: .2rem;
-    top:.5rem;
+    top:.44rem;
     width: 89%;
     height: .3rem;
     border-top:.01rem solid #dddddd;
@@ -307,11 +272,11 @@ export default {
     margin-left: .4rem;
 }
 .comment .comment-user .comment-user-message{
-   font-size: .16rem;
+   font-size: .14rem;
    color: #757272;
    text-align: left;
-   text-indent: .01rem;
-   margin-top:0.2rem; 
+   text-indent: .1rem;
+   margin-top:0.1rem; 
 }
 .recommend{
     color: #a8a8a8;
@@ -349,7 +314,7 @@ export default {
     margin-top: .15rem;
     color: #242424;
     font-size: .16rem;
-    height: 3rem;
+    height: 2.3rem;
     position: relative;
     text-align: left;
 }
@@ -388,13 +353,13 @@ export default {
     float: right;
     color: #888888;
 }
-.recommend-goods .recommend-goods-price span .recommend-goods-car{
+/* .recommend-goods .recommend-goods-price span .recommend-goods-car{
     color: #ea1a33;
     float: right;
     border: .01rem solid #ea1a33;
     padding: 0 0.02rem 0 0.02rem;
     border-radius: 0.06rem;
-}
+} */
 .to-the-end{
     color: #a8a8a8;
     font-size: .16rem;
@@ -515,12 +480,14 @@ export default {
     position: relative;
     top: .2rem;
     left: .2rem;
-    height: 1.3rem;
+    height: 1.1rem;
     width: 1.3rem;
+    border: .01rem solid #ccc;
 }
 .express-message .express-message-img img{
+    position: relative;
+    top: .2rem;
     width: 100%;
-    border: .01rem solid #ccc;
 }
 .express-message .express-message-right{
     position: relative;
@@ -528,31 +495,31 @@ export default {
     left: .3rem;
 }
 .express-message .express-message-right .express-message-right-title{
-    margin-top: .2rem;
-    font-size: .18rem;
+    margin-top: .12rem;
+    font-size: .17rem;
     color: #242424;
 }
 .express-message .express-message-right .express-message-right-price{
-    margin-top: .05rem;
-    font-size: .2rem;
+    margin-top: .08rem;
+    font-size: .18rem;
     color: #0288d1;
 }
 .express-message .express-message-right .express-message-right-number{
     margin-top: .2rem;
-    font-size: .16rem;
+    font-size: .14rem;
     color: #888888;
 }
 .express-message form{
     position:relative;
-    top: .4rem;
+    top: .3rem;
     left: .2rem;
-    font-size: .16rem;
+    font-size: .15rem;
     color: #242424;
 }
 .express-message form p{
     width: 88%;
     border-bottom:.01rem #e8e8e8 solid;
-    padding: .08rem 0 .08rem 0;
+    padding: .1rem 0 .12rem 0;
 }
 .express-message form p input{
     font-size: .15rem;
@@ -562,7 +529,7 @@ export default {
     border-bottom:none;
 }
 .express-message form .choose-express{
-    line-height: .18rem;
+    line-height: .2rem;
     font-size: .15rem;
     margin-left: .2rem;
     float: right;
@@ -579,7 +546,7 @@ export default {
 .express-message form textarea{
     font-size: .16rem;
     position: relative;
-    top: -.47rem;
+    top: -.49rem;
     left: .5rem;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     border:none;

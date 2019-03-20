@@ -1,11 +1,11 @@
 <template>
     <div>
-        <header-general routerTo="/Home" headTitle="代取快递" headClass="style5"></header-general>       
+        <header-general routerTo="/Home" headTitle="代取药品" headClass="style5"></header-general>       
         <div class="gooods-message">
             <div class="goods-img">
-                <img src="../assets/details_wati_express.png" alt="">
+                <img src="../assets/details_wati_expressmedicines.png" alt="">
             </div>
-            <div class="goods-title">代取快递</div>
+            <div class="goods-title">代取药品</div>
             <div class="goods-price">￥1.00<span>月销量1222笔</span></div>
         </div>
         <div class="service">
@@ -30,14 +30,14 @@
         <div class="recommend-goods">
             <div class="recommend-message">推荐商品</div>
             <div class="recommend-goods-img">
+                <a href="express"><img src="../assets/details_wati_express.png" alt=""></a>
+                代取快递
+                <div class="recommend-goods-price">￥1.00<span>15人付款</span></div>
+            </div>
+            <div class="recommend-goods-img">
                 <a href="expressfood"><img src="../assets/details_wati_expressfood.png" alt=""></a>
                 代取外卖
                 <div class="recommend-goods-price">￥1.00<span>11人付款</span></div>
-            </div>
-            <div class="recommend-goods-img">
-                <a href="expressmedicines"><img src="../assets/details_wati_expressmedicines.png" alt=""></a>
-                代取药品
-                <div class="recommend-goods-price">￥1.00<span>15人付款</span></div>
             </div>
         </div>
         <div class="to-the-end">
@@ -74,70 +74,19 @@
         <div class="cover" id="cover" v-bind:style="{display: state}"></div>
         <div class="express-message"  v-bind:style="{display: state}">
             <div class="express-message-img">
-                <img src="../assets/details_wati_express.png" alt="">
+                <img src="../assets/details_wati_expressmedicines.png" alt="">
             </div>
             <div class="express-message-right">
-                <div class="express-message-right-title">代取快递</div>
+                <div class="express-message-right-title">代取药品</div>
                 <div class="express-message-right-price">￥1.00</div>
                 <div class="express-message-right-number">数量：1件</div>
             </div>
             <form>
-                <p>收件人姓名：<input type="text" name="name" placeholder="填写收件人名"></p>
-                <p>收件人电话：<input type="text" name="phone" placeholder="填写收件人手机号码"></p>
-                <p>快递名称：<span class="choose-express" @click="choose_express()">选择快递公司<span>></span></span></p>
-                <p>快递单号：<input type="text" name="express-number" placeholder="填写快递单号"></p>
+                <p>代取商品：<input type="text" name="name" placeholder="填写代取商品类别"></p>
+                <p>代取数量：<input type="text" name="phone" placeholder="填写代取商品数量"></p>
                 <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="选填"></textarea>
                 <div class="button">确 认</div>
             </form>
-        </div>
-        <div @click="expressback()" class="choose-express-message" v-bind:style="{display: choosestate}">
-           <div class="choose-express-title">
-               <div class="choose-express-back"><img src="../assets/arrow.png" alt="">返回</div>
-               <div class="no-find-express">找不到快递公司<img src="../assets/question_mark.png" alt=""></div>
-           </div>
-           <div class="all-express-list">
-                <div>
-                    <h1 class="all-express-letter">常用快递</h1>
-                    <ul class="all-express-content"><li>顺丰快递</li></ul>
-                    <ul class="all-express-content"><li>中通快递</li></ul>
-                    <ul class="all-express-content"><li>申通快递</li></ul>
-                    <ul class="all-express-content"><li>圆通快递</li></ul>
-                    <ul class="all-express-content"><li>韵达快递</li></ul>
-                </div>
-                <h1 class="all-express-letter">A</h1>
-                <ul class="all-express-content"><li>AAE快递</li></ul>
-                <ul class="all-express-content"><li>安能快递</li></ul>
-                <ul class="all-express-content"><li>安世通快递</li></ul>
-           </div>
-           <ul class="all-letter-list">
-               <li><a href="#*">*</a></li>
-               <li><a href="#A">A</a></li>
-               <li><a href="#B">B</a></li>
-               <li><a href="#C">C</a></li>
-               <li><a href="#D">D</a></li>
-               <li><a href="#E">E</a></li>
-               <li><a href="#F">F</a></li>
-               <li><a href="#G">G</a></li>
-               <li><a href="#H">H</a></li>
-               <li><a href="#I">I</a></li>
-               <li><a href="#J">J</a></li>
-               <li><a href="#K">K</a></li>
-               <li><a href="#L">L</a></li>
-               <li><a href="#M">M</a></li>
-               <li><a href="#N">N</a></li>
-               <li><a href="#O">O</a></li>
-               <li><a href="#P">P</a></li>
-               <li><a href="#Q">Q</a></li>
-               <li><a href="#R">R</a></li>
-               <li><a href="#S">S</a></li>
-               <li><a href="#T">T</a></li>
-               <li><a href="#U">U</a></li>
-               <li><a href="#V">V</a></li>
-               <li><a href="#W">W</a></li>
-               <li><a href="#X">X</a></li>
-               <li><a href="#Y">Y</a></li>
-               <li><a href="#Z">Z</a></li>
-           </ul>
         </div>
     </div>
 </template>
@@ -150,7 +99,6 @@ export default {
     data () {
         return {
             state: 'none',
-            choosestate: 'none',
 		}
     },
     mounted(){
@@ -163,20 +111,6 @@ export default {
                 document.querySelector('body').setAttribute('style', 'overflow-y: hidden;')
             }else{
                 this.state='none';
-            }
-        },
-        choose_express:function(){
-            if(this.choosestate=='none'){
-                this.choosestate='block';
-            }else{
-                this.choosestate='none';
-            }
-        },
-        expressback:function(){
-            if(this.choosestate=='block'){
-                this.choosestate='none';
-            }else{
-                this.choosestate='block';
             }
         },
     }
@@ -591,7 +525,7 @@ export default {
     font-size: .15rem;
     border: none;
 }
-.express-message form p:nth-child(5){
+.express-message form p:nth-child(3){
     border-bottom:none;
 }
 .express-message form .choose-express{
@@ -620,100 +554,13 @@ export default {
 }
 .express-message form .button{
     position: relative;
-    top: -.5rem;
+    top: .6rem;
     left: -.2rem;
     line-height: .5rem;
     font-size: .2rem;
     text-align: center;
     color: #fff;
     background: #0288d1
-}
-.choose-express-message{
-    position: fixed;
-    top: 2rem;
-    left: 0;
-    z-index: 11;
-    background-color: #ffffff;
-    font-size: .17rem;
-    text-align: left;
-    margin: 0 auto;
-    height: 5.5rem;
-    width: 100%;
-}
-.choose-express-title{
-    height: .25rem;
-}
-.choose-express-back{
-    margin-top: .11rem;
-    margin-left: .3rem;
-    font-size: .16rem;
-    line-height: .3rem;
-    color: #000000;
-}
-.choose-express-back img{
-    position: absolute;
-    left: .08rem;
-    top: .16rem;
-    width: .19rem;
-    height: .19rem;
-}
-.choose-express-message .no-find-express{
-    position: absolute;
-    top: .07rem;
-    right: .3rem;
-    font-size: .14rem;
-    color: #1d95d6;
-    line-height: .35rem;
-    float: right;
-}
-.choose-express-message .no-find-express img{
-    position: absolute;
-    top: .1rem;
-    left: 1.02rem;
-    width: .15rem;
-    height: .15rem;
-}
-.choose-express-message div .all-express-letter{
-    color: #777777;
-    font-size: .15rem;
-    background-color: #efefef;
-    line-height: .35rem;
-    padding-left: .08rem;
-}
-.choose-express-message .all-express-content{
-    color: #666666;
-    font-size: .15rem;
-    line-height: .25rem;
-    height: .34rem;
-    padding-left: .08rem;
-    border-bottom: #efefef solid 0.01rem;
-}
-.choose-express-message .all-express-content:nth-last-child(1){
-    border-bottom:none;
-    height: 0.2rem;
-}
-.choose-express-message .all-letter-list{
-    width: .3rem;
-    border-radius:.1rem 0 0 .1rem; 
-    text-align: center;
-    position: fixed;
-    float: right;
-    top: 2.4rem;
-    right: 0;
-    height: 4.65rem;
-    background-color: rgba(102,102,102,0.24);
-}
-.choose-express-message .all-letter-list li{
-    height: .17rem;
-}
-.choose-express-message .all-letter-list li a{
-    font-size: .15rem;
-    text-decoration: none;
-    color: #333333;
-    font-weight: bold;
-}
-.choose-express-message .all-letter-list li:nth-child(1) a{
-    font-size: .25rem;
 }
 </style>
 

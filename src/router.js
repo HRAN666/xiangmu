@@ -99,17 +99,16 @@ export default new Router({
       meta:{title:'代取快递'},
     },
     {
+      path: '/expressmedicines',
+      name: 'expressmedicines',
+      component: () => import( './views/expressmedicines.vue'),
+      meta:{title:'代取药品'},
+    },
+    {
       path: '/expressfood',
       name: 'expressfood',
       component: () => import( './views/expressfood.vue'),
-      meta:{title:'代取食堂'},
+      meta:{title:'代取外卖'},
     },
-    {
-      path: '/expresselse',
-      name: 'expresselse',
-      component: () => import( './views/expresselse.vue'),
-      meta:{title:'代取其他'},
-    },
-    
   ]
 })

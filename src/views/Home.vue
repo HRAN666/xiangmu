@@ -63,7 +63,7 @@
         <img src="../assets/Substitute.png" alt="" class="home-sub">
       <div class="home-substitute">
         <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
-        <a href="expresselse"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
+        <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
         <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
       </div>
       <div class="home-title">

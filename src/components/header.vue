@@ -157,6 +157,10 @@ export default {
         height: .22rem;
         margin-right: .1rem;
     }
+    .header_five .header_five_right img:nth-child(2){
+        position: relative;
+        top: .014rem;
+    }
    .header_five .header_five_right{
        float: right;
        margin-top: -.9rem
