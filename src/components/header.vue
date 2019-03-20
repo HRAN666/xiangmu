@@ -23,8 +23,18 @@
             <img src="../assets/msg_shop.png" alt="">
             </div>
         </div>
-          <div class="header_fourth" v-if="headClassfourthDisplay"><!--只有标题没有返回按钮 蓝色底 -->
+        <div class="header_fourth" v-if="headClassfourthDisplay"><!--只有标题没有返回按钮 蓝色底 -->
             <div class="title_style4">{{headTitle}}</div>
+        </div>
+         <div class="header_five" v-if="headClassFiveDisplay"><!--有标题，有返回按钮，顶部右侧有按钮(2)  白色底-->
+            <router-link :to="routerTo">
+                <img src="../assets/arrow.png" alt="" class="header_img">
+            </router-link>
+            <div class="title_style5">{{headTitle}}</div>
+            <div class="header_five_right">
+            <img src="../assets/share.png" alt="">
+            <img src="../assets/goodsmore.png" alt="">
+            </div>
         </div>
     </div>
 </template>
@@ -37,6 +47,7 @@ export default {
             headClassSecondDisplay:true,//第二种样式
             headClassThirdDisplay:false,//第三种样式
             headClassfourthDisplay:false,
+            headClassFiveDisplay:false
         }
     },
     methods: {
@@ -53,6 +64,10 @@ export default {
                  this.headClassSecondDisplay=false;
                  this.headClassfourthDisplay=true;
             } 
+            if (this.$props.headClass =='style5') {
+                 this.headClassSecondDisplay=false;
+                 this.headClassFiveDisplay=true;
+            }
         }
     },
     mounted() {
@@ -69,9 +84,20 @@ export default {
         height: .45rem;
         background: #fff;
     }
+    .header_third{
+        height: .45rem;
+        background: #fff;
+        padding-top: .10rem;
+        box-sizing: border-box;
+    }
     .header_fourth{
         height: .45rem;
         background:#0288D1;
+    }
+    .header_five{
+        height: .45rem;
+        background: #fff;
+        color: #000;
     }
     .header_img{
         position: absolute;
@@ -87,15 +113,6 @@ export default {
         margin-top: .4rem;
         margin-left: .16rem;
     }
-    .title_second{
-        font-size: .14rem;
-        position: absolute;
-        color: #fff;
-        top: .88rem;
-        margin-left: 4%;
-        left:.08rem;
-
-    }
     .title_style2{
         font-size: .16rem;
         float: left;
@@ -110,11 +127,17 @@ export default {
         font-size: .18rem;
         padding-top: .1rem;
     }
-    .header_third{
-         height: .45rem;
-        background: #fff;
-        padding-top: .10rem;
-        box-sizing: border-box;
+    .title_style5{
+        font-size: .16rem;
+        padding-top: .1rem;
+    }
+    .title_second{
+        font-size: .14rem;
+        position: absolute;
+        color: #fff;
+        top: .88rem;
+        margin-left: 4%;
+        left:.08rem;
     }
     .header_third .header_third_right{
         font-size: .16rem;
@@ -129,5 +152,14 @@ export default {
         top:.03rem;
         left: .08rem;
     }
+    .header_five .header_five_right img{
+        width: .22rem;
+        height: .22rem;
+        margin-right: .1rem;
+    }
+   .header_five .header_five_right{
+       float: right;
+       margin-top: -.9rem
+   }
 </style>
 

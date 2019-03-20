@@ -1,13 +1,6 @@
 <template>
     <div>
-        <div class="header">
-            <div routerTo='/home'><img src="../assets/arrow.png" alt="" class="header_img"></div>
-            <div class="header-text">代取食堂</div>
-            <div class="header-operation">
-                <div class="header-operation-share"></div>
-                <div class="header-operation-goodsmore"></div>
-            </div>
-        </div>
+        <header-general routerTo="/Home" headTitle="代取食堂" headClass="style5"></header-general>
         <div class="gooods-message">
             <div class="goods-img">
                 <img src="../assets/details_wati_expressfood.png" alt="">
@@ -98,7 +91,11 @@
     </div>
 </template>
 <script>
+import header from '../components/header.vue'
 export default {
+    components: {
+        'header-general':header,
+    },
     data () {
         return {
             state: 'none',
