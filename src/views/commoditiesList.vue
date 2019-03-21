@@ -1,9 +1,11 @@
 <template>
     <div>
         <div class="commodities-header">
-            <div class="commodities-headerLeft"><img src="../assets/goBack.png" height="20px" alt="返回"></div>
-            <div class="commodities-headerCenter"><el-input v-model="input" placeholder="请输入内容"></el-input></div>
-            <div class="commodities-headerRight"><img src="../assets/msg_shop.png" height="20px" alt="msg"></div>
+            <div class="commodities-headerLeft"><img src="../assets/goBack.png" alt="返回"></div>
+            <!-- <div class="commodities-headerCenter"><el-input v-model="input" placeholder="请输入内容"></el-input></div>
+             -->
+             <div class="commodities-headerCenter"><el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input"></el-input></div>
+            <div class="commodities-headerRight"><img src="../assets/msg_shop.png" alt="msg"></div>
         </div>
         <div class="menuNav">
             <el-menu
@@ -16,49 +18,49 @@
         </div>
         <div>
             <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/shopList.jpg" alt="商品"></div>
+                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
                 <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt="" height="35px"></div>
+                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">￥30.00</div>
                 <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
             </div>
             <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/shopList.jpg" alt="商品"></div>
+                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
                 <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt="" height="35px"></div>
+                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">￥30.00</div>
                 <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
             </div>
             <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/shopList.jpg" alt="商品"></div>
+                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
                 <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt="" height="35px"></div>
+                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">￥30.00</div>
                 <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
             </div>
             <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/shopList.jpg" alt="商品"></div>
+                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
                 <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt="" height="35px"></div>
+                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">￥30.00</div>
                 <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
             </div>
             <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/shopList.jpg" alt="商品"></div>
+                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
                 <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt="" height="35px"></div>
+                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">￥30.00</div>
                 <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
             </div>
-            <div class="arriveBottom"><img src="../assets/bottom.png" height="15px" alt="底部"></div>
+            <div class="arriveBottom"><img src="../assets/bottom.png" alt="底部"></div>
         </div>
         <div class="yourShoppingCar" v-if="this.shopCommodities==0">
-            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" height="50px" alt=""></div>
+            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLeft">未选购商品<br>另需配送费1元</div>
             <div class="shoppingRight">￥15元起</div>
         </div>
         <div class="yourShoppingCar" v-if="this.shopCommodities>0">
-            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" height="50px" alt=""></div>
+            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLength">{{shopCommodities}}</div>
             <div class="shoppingLeft">已选购{{shopCommodities}}件商品</div>
             <div class="shoppingRight">￥30.00</div>
@@ -102,20 +104,27 @@ export default {
         left: .1rem;
         margin-top: .06rem;
     }
+    .commodities-header .commodities-headerLeft img{
+        height: .2rem;
+    }
     .commodities-header .commodities-headerCenter{
         position: absolute;
-        left: 22.5%;
-        width: 55%;
+        left: 15%;
+        width: 2.3rem;
     }
     .commodities-header .commodities-headerCenter .el-input>>>.el-input__inner{
-        border-radius: 20px;
+        border-radius: .2rem;
         text-align: center;
         height: .35rem;
+        width: 2.5rem;
     }
     .commodities-header .commodities-headerRight{
         position: absolute;
         right: .1rem;
         margin-top: .06rem;
+    }
+    .commodities-header .commodities-headerRight img{
+        height: .2rem;
     }
     .menuNav .el-menu-demo {
         border-top: 1px solid #E0DFE3;
@@ -130,7 +139,7 @@ export default {
     }
     .commodities-list{
         height: 1.1rem;
-        font-size: .1rem;
+        font-size: .12rem;
         position: relative;
         border-bottom: 1px solid #E0DFE3;
         background: #ffffff;
@@ -145,9 +154,10 @@ export default {
     }
     .commodities-list .informationTop {
         position: absolute;
-        left: 1.4rem;
+        left: 1.2rem;
         margin-top: .15rem;
-        width: 1.6rem;
+        width: 1.8rem;
+        line-height: .2rem;
         text-align: left;
     }
     .commodities-list .informationIcon {
@@ -155,9 +165,12 @@ export default {
         left: 3.4rem;
         margin-top: .15rem;
     }
+    .commodities-list .informationIcon img{
+        height: .35rem;
+    }
     .commodities-list .price {
         position: absolute;
-        left: 1.4rem;
+        left: 1.2rem;
         margin-top: .8rem;
         font-size: .14rem;
         font-weight: bolder;
@@ -166,9 +179,10 @@ export default {
     .commodities-list .buy {
         margin-top: .75rem;
         float: right;
+        margin-right: .15rem;
     }
     .commodities-list .buy .el-button.is-round{
-        padding: 5px 22px;
+        padding: .04rem .14rem;
     }
     .commodities-list .buy .el-button--danger{
         color: #DB2828;
@@ -179,9 +193,12 @@ export default {
         font-size: .4rem;
         margin-bottom: 1.1rem;
     }
+    .arriveBottom{
+        height: .15rem;
+    }
     .yourShoppingCar{
         height: 1.1rem;
-        font-size: .1rem;
+        font-size: .12rem;
         position: fixed;
         bottom: 0;
     }
@@ -208,6 +225,9 @@ export default {
         border-radius: .6rem;
         z-index: 2;
     }
+    .yourShoppingCar .shoppingIcon img {
+        height: .5rem;
+    }
     .yourShoppingCar .shoppingLeft{
         position: absolute;
         bottom: .5rem;
@@ -217,7 +237,7 @@ export default {
         text-align: left;
         padding-left: 1rem;
         padding-top: .1rem;
-        font-size: .13rem;
+        font-size: .12rem;
         background: #626262;
         color: #c1c1c1;
     }
@@ -231,6 +251,7 @@ export default {
         line-height: .5rem;
         color: #ffffff;
         z-index: 2;
+        font-size: .13rem;
     }
 </style>
 
