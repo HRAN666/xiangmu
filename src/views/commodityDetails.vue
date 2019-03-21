@@ -1,10 +1,10 @@
 <template>
   <div>
         <div class="commodityDetails-header">
-            <div class="commodityDetails-headerLeftOne"><img src="../assets/goBack.png" height="20px" alt=""></div>
+            <div class="commodityDetails-headerLeftOne"><img src="../assets/goBack.png" alt=""></div>
             <div class="commodityDetails-headerLeftTwo">返回</div>
             <div class="commodityDetails-headerRightOne"><i class="el-icon-share"></i></div>
-            <div class="commodityDetails-headerRightTwo"><img src="../assets/consultation.png" height="25px" alt=""></div>
+            <div class="commodityDetails-headerRightTwo"><img src="../assets/consultation.png" alt=""></div>
         </div>
         <div>
             <el-carousel :interval="3000" arrow="always">
@@ -49,12 +49,12 @@
                 <div class="item-right"><i class="el-icon-arrow-right"></i></div>
                 <div class="item-content">查看全部</div>
             </div>
-            <div class="comment-user"><img src="../assets/user.png" height="20px" alt="人头">k**k</div>
+            <div class="comment-user"><img src="../assets/user.png" alt="人头">k**k</div>
             <div class="comment-userComment">好吃好吃好吃！！！买了第三次了哈哈哈哈</div>
         </div>
-        <div class="picture-details"><img src="../assets/userCommentBottom.png" height="15px" alt=""></div>
+        <div class="picture-details"><img src="../assets/userCommentBottom.png" alt=""></div>
         <div class="picture-All"><img src="../assets/详情1.png" alt=""><img src="../assets/详情2.jpg" alt=""></div>
-        <div class="recommendThing"><img src="../assets/recommend.png" height="15px" alt=""></div>
+        <div class="recommendThing"><img src="../assets/recommend.png" alt=""></div>
         <div class="recommend-details">
             <div class="comment-content">
                 <div class="item-left-border"></div>
@@ -63,23 +63,23 @@
         </div>
         <div class="recommend-details-main">
             <div class="recommend-details-left">
-                <img src="../assets/图1.jpg" width="150px" alt="">
+                <img src="../assets/图1.jpg" alt="">
                 <div class="name">卫龙辣条亲嘴烧300g</div>
                 <div class="price">￥15.50<span class="havePeople">11人付款</span></div>
             </div>
             <div class="recommend-details-right">
-                <img src="../assets/图1.jpg" width="150px" alt="">
+                <img src="../assets/图1.jpg" alt="">
                 <div class="name">卫龙辣条亲嘴烧300g</div>
                 <div class="price">￥15.50<span class="havePeople">11人付款</span></div>
             </div>
         </div>
-        <div class="arriveBottom"><img src="../assets/bottom.png" height="15px" alt="底部"></div>
+        <div class="arriveBottom"><img src="../assets/bottom.png" alt="底部"></div>
         <div class="addShop">
-            <div class="service"><img src="../assets/客服.png" height="25px" alt=""></div>
+            <div class="service"><img src="../assets/客服.png" alt=""></div>
             <div class="service-name">客服</div>
-            <div class="like"><img src="../assets/收藏.png" height="25px" alt=""></div>
+            <div class="like"><img src="../assets/收藏.png" alt=""></div>
             <div class="like-name">收藏</div>
-            <div class="shoppingCar"><img src="../assets/购物车.png" height="25px" alt=""></div>
+            <div class="shoppingCar"><img src="../assets/购物车.png" alt=""></div>
             <div class="shoppingCar-name">购物车</div>
             <div class="addShoppingCar">加入购物车</div>
             <div class="goPay">立即购买</div>
@@ -103,46 +103,56 @@ export default {
 <style scoped>
     .commodityDetails-header{
         width: 100%;
-        height: .5rem;
+        height: .4rem;
         font-size: .18rem;
         position: relative;
         background: #ffffff;
-        line-height: .5rem;
+        line-height: .4rem;
         color: black;
     }
     .commodityDetails-header .commodityDetails-headerLeftOne{
         position: absolute;
         left: .1rem;
-        height: .5rem;
-        line-height: .5rem;
-        margin-top: .05rem;
+        height: .4rem;
+        line-height: .4rem;
+        margin-top: .02rem;
+    }
+    .commodityDetails-header .commodityDetails-headerLeftOne img{
+        height: .15rem;
     }
     .commodityDetails-header .commodityDetails-headerLeftTwo{
         position: absolute;
         left: .32rem;
-        height: .5rem;
-        line-height: .5rem;
+        height: .4rem;
+        line-height: .4rem;
         margin-top: .02rem;
+        font-size: .16rem;
     }
     .commodityDetails-header .commodityDetails-headerRightOne{
         position: absolute;
         right: .5rem;
-        height: .5rem;
-        line-height: .5rem;
+        height: .4rem;
+        line-height: .4rem;
         margin-top: .02rem;
+    }
+    .commodityDetails-header .commodityDetails-headerRightOne .el-icon-share{
+        font-size: .2rem;
     }
     .commodityDetails-header .commodityDetails-headerRightTwo{
         position: absolute;
         right: .1rem;
-        height: .5rem;
-        line-height: .5rem;
-        margin-top: .06rem;
+        height: .4rem;
+        line-height: .4rem;
+        margin-top: .04rem;
+    }
+    .commodityDetails-header .commodityDetails-headerRightTwo img{
+        height: .2rem;
     }
     .el-carousel__item h3 {
         color: #475669;
-        font-size: 18px;
+        font-size: .18rem;
         opacity: 0.75;
-        line-height: 300px;
+        line-height: 3rem;
         margin: 0;
     }
     .el-carousel__item:nth-child(2n) {
@@ -173,7 +183,6 @@ export default {
     .commodityDetails-bottom{
         width: 100%;
         position: relative;
-        /* margin: 1px; */
         text-align: center;
         font-size: .12rem;
         color: #9F9A9A;
@@ -199,6 +208,7 @@ export default {
     .service-content .service-item{
         height: .4rem;
         border-bottom: 1px solid #EFEFEF;
+        color: #858585;
     }
     .service-content .service-item .item-left-border{
         height: .25rem;
@@ -215,6 +225,7 @@ export default {
     .service-content .service-item .item-content{
         float: left;
         padding: .1rem;
+        color: #727272;
     }
     .service-content .service-item .item-right{
         float: right;
@@ -229,6 +240,7 @@ export default {
         background: #ffffff;
         margin-top: .05rem;
         font-size: .14rem;
+        color: #858585;
     }
     .comment .comment-content{
         height: .4rem;
@@ -249,7 +261,7 @@ export default {
         float: right;
         padding: .1rem;
         padding-right: 0;
-        font-size: .1rem;
+        font-size: .11rem;
         color: #0288DE;
     }
     .comment .comment-content .item-right{
@@ -259,10 +271,14 @@ export default {
     }
     .comment .comment-content .item-right .el-icon-arrow-right{
         font-size: .14rem;
+        color: #0288DE;
     }
     .comment .comment-user{
         margin-left: .1rem;
         text-align: left;
+    }
+    .comment .comment-user img{
+        height: .2rem;
     }
     .comment .comment-userComment{
         margin: .1rem;
@@ -272,6 +288,9 @@ export default {
         height: .4rem;
         font-size: .4rem;
         margin-bottom: .1rem;
+    }
+    .picture-details img{
+        height: .15rem;
     }
     .picture-All,.picture-All img{
         width: 100%;
@@ -284,6 +303,9 @@ export default {
         height: .4rem;
         font-size: .4rem;
         margin-bottom: .1rem;
+    }
+    .recommendThing img{
+        height: .15rem;
     }
     .recommend-details{
         height: .4rem;
@@ -317,10 +339,16 @@ export default {
         left: .1rem;
         padding: .1rem;
     }
+    .recommend-details-main .recommend-details-left img{
+        width: 1.5rem;
+    }
     .recommend-details-main .recommend-details-right{
         position: absolute;
         left: 50%;
         padding: .1rem;
+    }
+    .recommend-details-main .recommend-details-right img{
+        width: 1.5rem;
     }
     .recommend-details-main .name{
         padding-top: .1rem;
@@ -337,25 +365,32 @@ export default {
         font-size: .4rem;
         margin-bottom: .6rem;
     }
+    .arriveBottom img{
+        height: .15rem;
+    }
     .addShop{
         height: .6rem;
-        font-size: .1rem;
+        font-size: .12rem;
         position: fixed;
         bottom: 0;
         background: #ffffff;
         z-index: 3;
         width: 100%;
         text-align: left;
+        color: #787878;
     }
     .addShop .service{
         position: absolute;
         left: .1rem;
         top: .1rem;
     }
+    .addShop img{
+        height: .25rem;
+    }
     .addShop .service-name{
         position: absolute;
         left: .1rem;
-        top: .35rem;
+        top: .38rem;
     }
     .addShop .like{
         position: absolute;
@@ -365,7 +400,7 @@ export default {
     .addShop .like-name{
         position: absolute;
         left: .7rem;
-        top: .35rem;
+        top: .38rem;
     }
     .addShop .shoppingCar{
         position: absolute;
@@ -375,7 +410,7 @@ export default {
     .addShop .shoppingCar-name{
         position: absolute;
         left: 1.26rem;
-        top: .35rem;
+        top: .38rem;
     }
     .addShop .addShoppingCar{
         position: absolute;
