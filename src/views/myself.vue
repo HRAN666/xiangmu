@@ -108,7 +108,7 @@ export default {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
             nickName:localStorage.getItem('nickname'),//名字
-            vip:true,//判断是否是会员
+            vip:false,//判断是否是会员
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -327,7 +327,6 @@ export default {
     margin: auto;
     top: .7rem;
     font-size: .14rem;
-    margin-bottom: 1.5rem;
 }
 .myself_list .myself_list_left img{
     width: .2rem;

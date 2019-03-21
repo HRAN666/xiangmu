@@ -129,6 +129,7 @@ export default {
     font-size: .14rem;
     text-align: left;
     margin-left: .2rem;
+    font-size:.15rem
 }
 .reg input{
     border:none;
@@ -136,6 +137,7 @@ export default {
     width: 90%;
     margin-top: .2rem;
     outline: none;
+    font-size:.14rem
 }
 .reg_content{
     height: .88rem;

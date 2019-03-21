@@ -291,7 +291,7 @@
           </div>
           </div>
       </div>
-      <img src="../assets/bottom.png" alt="" class="home-bottom">      
+      <div class="home-bottom">我是有底线的</div>      
       <footer-currency></footer-currency>
   </div>
 </template>
@@ -338,7 +338,7 @@ export default {
 
 <style scoped>
 .home{
-      overflow-x: hidden;
+      overflow: hidden;
 }
 .home-seach{
   background:#f8f8f8;
@@ -465,9 +465,28 @@ export default {
   padding:0;
 }
 .home-bottom{
-  width:50%;
-  position: relative;
-  top:-.45rem;
+    font-size: .12rem;
+    width: 100%;
+    position: relative;
+    margin-bottom: .89rem;
+    top: .2rem;
+    color:#a2a0a0;
+}
+.home-bottom::before{
+  content:'';
+  position: absolute;
+  border: .1px #e0dddd solid;
+  width: 27%;
+  left: .43rem;
+  bottom: .06rem;
+}
+.home-bottom::after{
+  content:'';
+  position: absolute;
+  border: .1px #e0dddd solid;
+  width: 27%;
+  right: .43rem;
+  bottom: .06rem;
 }
 .home-title span{
     font-size: 17px;

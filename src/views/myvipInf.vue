@@ -1,22 +1,22 @@
 <template>
     <div>
         <header-general routerTo="/myself" headClass='style1' headTitle='修改信息' titleSecod="带*号的信息表示不可修改"></header-general>
-        <div class="reg" :model="formLabelAlign">
-                <div class="reg_content">
+        <div class="vip" :model="formLabelAlign">
+                <div class="vip_content">
                     <div >*姓名
                     <br>
                     <input type="text"  v-model="formLabelAlign.name"  :disabled="true">
                     <span>姓名不能修改</span>
                     </div>
                 </div>
-                <div class="reg_content">
+                <div class="vip_content">
                     <div >*性别
                     <br>
                     <el-radio v-model="formLabelAlign.radio" label="1">男</el-radio>
                     <el-radio v-model="formLabelAlign.radio" label="2">女</el-radio>
                     </div>
                 </div>
-                 <div class="reg_content">
+                 <div class="vip_content">
                     <div>*出生日期
                     <br>
                     <div class="block">
@@ -25,7 +25,7 @@
                     <span>出生日期不能修改</span>
                     </div>
                 </div>
-                <div class="reg_content">
+                <div class="vip_content">
                     <div>*所在校区
                     <br>
                     <el-select v-model="formLabelAlign.school" placeholder="请选择">
@@ -34,13 +34,13 @@
                     </el-select>
                     </div>
                 </div>
-                <div class="reg_content">
+                <div class="vip_content">
                     <div>*手机绑定
                     <br>
                     <input type="text"  v-model="formLabelAlign.phone">
                     </div>
                 </div>
-                <div class="reg_content">
+                <div class="vip_content">
                     <div>*电子邮箱
                     <br>
                     <input type="text"  v-model="formLabelAlign.email">       
@@ -82,26 +82,26 @@ export default {
 }
 </script>
 <style>
-.reg .el-radio{
+.vip .el-radio{
     margin-top: .28rem;
 }
-.reg .el-input--prefix .el-input__inner{
+.vip .el-input--prefix .el-input__inner{
     border:none;
     border-bottom: .01rem solid #0288D1;
     width: 107%;
     padding-left: 40px;
     border-radius: 0;
 }
-.reg .el-date-editor.el-input, .el-date-editor.el-input__inner{
+.vip .el-date-editor.el-input, .el-date-editor.el-input__inner{
     width: 90%;
     margin-left: -.2rem;
 }
-.reg .el-input--suffix .el-input__inner{
+.vip .el-input--suffix .el-input__inner{
     border:none;
     border-bottom: .01rem solid #0288D1;
     border-radius: 0;
 }
-.reg .el-input{
+.vip .el-input{
     width: 2.9rem;
     margin-left: -18px;
 }
@@ -110,13 +110,13 @@ export default {
     position: relative;
     top: -.6rem;
 }
-.reg .el-input.is-disabled .el-input__inner{
+.vip .el-input.is-disabled .el-input__inner{
     background: #fff;
 }
 </style>
 
 <style scoped>
-.reg{
+.vip{
     height: 5.6rem;
     width: 3.59rem;
     position: relative;
@@ -127,24 +127,25 @@ export default {
     border-radius: .07rem;
     top: -.23rem;
 }
-.reg div{
-    font-size: .14rem;
+.vip div{
+    font-size: .15rem;
     text-align: left;
     margin-left: .2rem;
 }
-.reg input{
+.vip input{
     border:none;
     border-bottom: .01rem solid #0288D1;
     width: 90%;
     margin-top: .2rem;
     outline: none;
-    background: #fff;    
+    background: #fff;   
+    font-size:.14rem; 
 }
-.reg_content{
+.vip_content{
     height: .88rem;
     padding-top: .08rem;
 }
-.reg_content span{
+.vip_content span{
     font-size: .12rem;
     color: #E51C23;
     display: inline-block;

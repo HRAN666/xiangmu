@@ -63,7 +63,7 @@
             </div>
             </div>
          </div>
-         <img src="../assets/bottom.png" alt="" class="integral-bottom">  
+         <div class="integral-bottom">我是有底线的</div>  
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -124,9 +124,27 @@ export default {
     margin-top: -.08rem;
 }
 .integral-bottom{
-width:50%;
-  position: relative;
-  top:-.6rem;
+    font-size: .12rem;
+    width: 100%;
+    position: relative;
+    margin-bottom: .65rem;
+    color:#a2a0a0;
+}
+.integral-bottom::before{
+  content:'';
+  position: absolute;
+  border: .1px #e0dddd solid;
+  width: 27%;
+  left: .43rem;
+  bottom: .06rem;
+}
+.integral-bottom::after{
+  content:'';
+  position: absolute;
+  border: .1px #e0dddd solid;
+  width: 27%;
+  right: .43rem;
+  bottom: .06rem;
 }
 </style>
 

@@ -19,7 +19,7 @@
             </router-link>
             <div class="title_style3">{{headTitle}}</div>
             <div class="header_third_right">
-            <span>{{titleSecod}}</span>
+            <span  @click="toDelete">{{titleSecod}}</span>
             <img src="../assets/msg_shop.png" alt="">
             </div>
         </div>
@@ -68,6 +68,9 @@ export default {
                  this.headClassSecondDisplay=false;
                  this.headClassFiveDisplay=true;
             }
+        },
+        toDelete(){
+            
         }
     },
     mounted() {
