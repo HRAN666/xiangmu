@@ -62,9 +62,9 @@
     </div>
         <img src="../assets/Substitute.png" alt="" class="home-sub">
       <div class="home-substitute">
-        <img src="../assets/wati_express.png" alt="" class="home-watiexpress">
-        <img src="../assets/wait_serve.png" alt="" class="home-waitserve">
-        <img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen">      
+        <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
+        <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
+        <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
       </div>
       <div class="home-title">
           <img src="../assets/comm.png" alt="" class="home-sub">
@@ -403,11 +403,11 @@ export default {
 }
 .home-substitute img{
   background:#fff;
-  height: 1.4rem;
-  margin-left:.1rem;
+  margin-left:.09rem;
 }
 .home-watiexpress{
     width:37%;
+    height: 1.15rem;
 }
 .home-waitserve{
   width:27%;

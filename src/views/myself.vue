@@ -34,8 +34,10 @@
             <div class="myorder_top">
                 <span>我的订单</span>
                 <div class="myorder_go">
-                查看全部
-                <img src="../assets/more.png" alt="">
+                    <a href="/order" style="text-decoration: none;color: #B3B3B3;">
+                        查看全部
+                        <img src="../assets/more.png" alt="">
+                    </a>
                 </div>
             </div>
             <div class="myorder_list">
@@ -105,8 +107,8 @@ export default {
     data () {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
-            nickName:localStorage.getItem('nickName'),//名字
-            vip:false,//判断是否是会员
+            nickName:localStorage.getItem('nickname'),//名字
+            vip:true,//判断是否是会员
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -240,8 +242,8 @@ export default {
     font-size: .14rem;
 }
 .myorder_top img{
-    width: .2rem;
-    height: .2rem;
+    width: .15rem;
+    height: .15rem;
     position: relative;
     top: .03rem;
 }
@@ -325,14 +327,17 @@ export default {
     margin: auto;
     top: .7rem;
     font-size: .14rem;
+    margin-bottom: 1.5rem;
 }
-.myself_list img{
+.myself_list .myself_list_left img{
     width: .2rem;
     height: .2rem;
-
 }
 .myself_list_left{
     float: left;
+    margin-left: .12rem;
+    position: relative;
+    top:.05rem;
 }
 .myself_list ul li{
     display: table;
@@ -347,18 +352,12 @@ export default {
     margin-left: .12rem;
 }
 .myself_list_solid{
-    height: .012
-    、
-    
-    
-    
-    
-    rem;
+    height: .01rem;
     width: 94%;
     background: #dad9d9;
     position: relative;
     left:.09rem;
-    top: .1rem;
+    top: .16rem;
 }
 .header_float_reg_vip{
     color: #0288D1 ;
@@ -370,17 +369,22 @@ export default {
 }
 .myself_list_right{
     position: relative;
-    left: 218%;
-    top: 5px;
+    left: 200%;
+    top: .12rem;
+    width: .15rem;
+    height: .15rem;
 }
 .myself_list_rights{
     position: relative;
-    left: 180%;
-    top: 5px;
+    left: 168%;
+    width: .15rem;
+    height: .15rem;
+    top: .12rem;
 }
 .myself_list_offer{
     position: relative;
-    left: 1.78rem;
+    left: 1.85rem;
+    top: .1rem;
 }
 </style>
 

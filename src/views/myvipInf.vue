@@ -1,21 +1,55 @@
 <template>
     <div>
-        <header-general routerTo='/myself' headTitle='我的会员'></header-general>
-        <div class="modify_phone">
-            <span class="to_modifyTitle">修改手机号码</span>
-            <div class="to_modify">
-                <span>1345***4551</span>
-                <img src="../assets/more.png" alt="">
-            </div>
+        <header-general routerTo="/myself" headClass='style1' headTitle='修改信息' titleSecod="带*号的信息表示不可修改"></header-general>
+        <div class="reg" :model="formLabelAlign">
+                <div class="reg_content">
+                    <div >*姓名
+                    <br>
+                    <input type="text"  v-model="formLabelAlign.name"  :disabled="true">
+                    <span>姓名不能修改</span>
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div >*性别
+                    <br>
+                    <el-radio v-model="formLabelAlign.radio" label="1">男</el-radio>
+                    <el-radio v-model="formLabelAlign.radio" label="2">女</el-radio>
+                    </div>
+                </div>
+                 <div class="reg_content">
+                    <div>*出生日期
+                    <br>
+                    <div class="block">
+                    <el-date-picker type="date" v-model="formLabelAlign.birthday" format="yyyy 年 MM 月 dd 日" placeholder="选择你的生日" :disabled="true"></el-date-picker>
+                    </div>
+                    <span>出生日期不能修改</span>
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div>*所在校区
+                    <br>
+                    <el-select v-model="formLabelAlign.school" placeholder="请选择">
+                        <el-option value="shanghai"></el-option>
+                        <el-option value="shanghai"></el-option>
+                    </el-select>
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div>*手机绑定
+                    <br>
+                    <input type="text"  v-model="formLabelAlign.phone">
+                    </div>
+                </div>
+                <div class="reg_content">
+                    <div>*电子邮箱
+                    <br>
+                    <input type="text"  v-model="formLabelAlign.email">       
+                    </div>
+                </div>
         </div>
-        <div class="modify_sex">
-            <span class="to_modifyTitle">性别</span>
-            <div class="to_modify">
-                <span>男</span>
-                <img src="../assets/more.png" alt="">
-            </div>
+        <div class="add">
+          <el-button type="primary" @click="joinVip">确认修改</el-button>
         </div>
-        <div></div>
     </div>
 </template>
 <script>
@@ -23,40 +57,97 @@ import header from '../components/header.vue'
 export default {
     components: {
         'header-general':header
-    }
+    },
+    data () {
+        return {
+            labelPosition: 'top',
+            formLabelAlign: {
+                name: 'asdd',//姓名
+                birthday: '215212',//生日
+                phone:'',
+                email:'',
+                school:'',
+                radio: '1',
+            }
+        }
+    },
+    methods: {
+        joinVip(){
+           
+        }
+    },
+    mounted() {
+
+    },
 }
 </script>
-<style scoped>
-.modify_phone{
-    height: .5rem;
-    background: #fff;
-    margin-top: .01rem;
-    font-size: .15rem;
+<style>
+.reg .el-radio{
+    margin-top: .28rem;
 }
- .to_modifyTitle{
-    float: left;
-    margin-left: .2rem;
-    margin-top: .15rem;
+.reg .el-input--prefix .el-input__inner{
+    border:none;
+    border-bottom: .01rem solid #0288D1;
+    width: 107%;
+    padding-left: 40px;
+    border-radius: 0;
 }
- .to_modify{
-    float: right;
-    margin-top: .1rem;
-    margin-right: .1rem;
-    color: #888888;
+.reg .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: 90%;
+    margin-left: -.2rem;
 }
-
- .to_modify img{
-    width: .2rem;
-    height: .2rem;
+.reg .el-input--suffix .el-input__inner{
+    border:none;
+    border-bottom: .01rem solid #0288D1;
+    border-radius: 0;
+}
+.reg .el-input{
+    width: 2.9rem;
+    margin-left: -18px;
+}
+.add .el-button--primary{
+    width: 3.59rem;
     position: relative;
-    top: .04rem;
-    left: .04rem;
+    top: -.6rem;
 }
-.modify_sex{
-    height: .5rem;
+.reg .el-input.is-disabled .el-input__inner{
     background: #fff;
-    margin-top: .1rem;
-    font-size: .15rem;
+}
+</style>
+
+<style scoped>
+.reg{
+    height: 5.6rem;
+    width: 3.59rem;
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: #fff;
+    border-radius: .07rem;
+    top: -.23rem;
+}
+.reg div{
+    font-size: .14rem;
+    text-align: left;
+    margin-left: .2rem;
+}
+.reg input{
+    border:none;
+    border-bottom: .01rem solid #0288D1;
+    width: 90%;
+    margin-top: .2rem;
+    outline: none;
+    background: #fff;    
+}
+.reg_content{
+    height: .88rem;
+    padding-top: .08rem;
+}
+.reg_content span{
+    font-size: .12rem;
+    color: #E51C23;
+    display: inline-block;
 }
 </style>
 

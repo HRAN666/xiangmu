@@ -1,6 +1,6 @@
 <template>
     <div class="location">
-        <header-general routerTo='/' headTitle="位置" headClass="style4"></header-general>
+        <!-- <header-general routerTo='/' headTitle="位置" headClass="style4"></header-general> -->
         <div class="location_city">当前定位城市</div>
             <div class="location_current">
                 <span>深圳</span>
@@ -37,7 +37,7 @@ export default {
         return {
             city:'',
             selectCity:'',
-            indexListHeight:378
+            indexListHeight:396
         }
     },
     methods:{
@@ -50,7 +50,6 @@ export default {
     },
     mounted () {
        this.getCity()
-    //    this.thisCity()
     }
 }
 </script>
@@ -139,7 +138,7 @@ export default {
     margin-left: .25rem;
 }
 .location_school .location_school_more{
-     width: 47px;
+     width: .5rem;
 }
 .location_all{
     height: .35rem;

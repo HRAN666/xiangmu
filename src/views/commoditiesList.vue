@@ -65,7 +65,6 @@
             <div class="shoppingLeft">已选购{{shopCommodities}}件商品</div>
             <div class="shoppingRight">￥30.00</div>
         </div>
-        
         <footer-currency></footer-currency>
     </div>
 </template>

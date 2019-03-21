@@ -8,17 +8,29 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/order',
+      name: 'order',
+      component: () => import('./views/order.vue'),
+      meta: {title: '我的订单'}
+    },
+    {
       path: '/',
-      name: 'home',
+      name: 'Home',
       component: () => import( './views/Home.vue'),
       meta:{title:'首页'},
     },
     {
       path: '/Home',
-      name: 'home',
+      name: 'Home',
       redirect: '/',
       component: () => import( './views/Home.vue'),
       meta:{title:'首页'}
+    },
+    {
+      path: '/index.html',
+      name: 'index',
+      redirect: '/',
+      meta: {title:'首页'}
     },
     {
       path: '/author',
@@ -57,6 +69,12 @@ export default new Router({
       meta:{title:'我的信息'},
     },
     {
+      path: '/orderdetails',
+      name: 'orderdetails',
+      component: () => import('./views/orderdetails.vue'),
+      meta: {title: '订单详情'}
+    },
+    {
       path: '/location',
       name: 'location',
       component: () => import( './views/location.vue'),
@@ -79,6 +97,24 @@ export default new Router({
       name: 'addAddress',
       component: () => import( './views/addAddress.vue'),
       meta:{title:'添加地址'},
+    },
+    {
+      path: '/express',
+      name: 'express',
+      component: () => import( './views/express.vue'),
+      meta:{title:'代取快递'},
+    },
+    {
+      path: '/expressmedicines',
+      name: 'expressmedicines',
+      component: () => import( './views/expressmedicines.vue'),
+      meta:{title:'代取药品'},
+    },
+    {
+      path: '/expressfood',
+      name: 'expressfood',
+      component: () => import( './views/expressfood.vue'),
+      meta:{title:'代取外卖'},
     },
   ]
 })
