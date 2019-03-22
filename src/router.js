@@ -116,5 +116,11 @@ export default new Router({
       component: () => import( './views/expressfood.vue'),
       meta:{title:'代取外卖'},
     },
+    {
+      path: '/addAddress',
+      name: 'addAddress',
+      component: () => import( './views/addAddress.vue'),
+      meta:{title:'新增地址'},
+    },
   ]
 })

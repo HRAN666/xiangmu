@@ -8,10 +8,10 @@
         </div>
         <div class="shopCar_commodity">
             <div class="shopCar_commodity_list" v-for="(item,index) in list" :key="index">
-                <input  @change="select(item.id)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0" class="shopCar_commodity_list_checkbox">
+                <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
                    <img src="../assets/colo.jpg" alt="">
                     <div class="shopCar_commodity_listTitle">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                    <span class="shopCar_commodity_listPrice">￥30.00</span>
+                    <span class="shopCar_commodity_listPrice">{{'￥'+item.price}}</span>
                      <el-input-number size="mini" v-model="item.count" :min="1" :max="99"></el-input-number>
             </div>
             <!-- <div class="shopCar_commodity_list">
@@ -69,13 +69,13 @@
         <div class="shopCar_bottom">我是有底线的</div> 
         <div class="shopCar_totle">
             <div class="shopCar_totle_checkedAll">
-            <input v-model="checkAll" @change="tocheckAll" type="checkbox" class="shopCar_totle_checkbox">
+            <input v-model="checkAll"  type="checkbox" class="shopCar_totle_checkbox" @change="tocheckAll">
             <span>全选</span>
             </div>
             <span class="shopCar_totle_freight">不含运费</span>
             <div class="shopCar_totle_price">
                 总计：
-                <span>￥60.00</span>
+                <span>{{sumPrice}}</span>
             </div>
             <span class="shopCar_totle_discount">已优惠：￥10.00</span>
             <el-button type="primary">结算</el-button>
@@ -94,38 +94,40 @@ export default {
     data(){
         return{
             checkAll:true,//是否全选
-            shopListCheck:[],//选中商品
+            shopListCheck:[],//选中商品id
                     list:[
                     {
                         id:15645,
                         name:'iPhone 8',
-                        price:8888,
+                        price:1,
                         count:1
                     },
                     {
                         id:2456,
                         name:'Huwei Mate10',
-                        price:6666,
+                        price:2,
                         count:1
                     },
                     {
                         id:3546,
                         name:'Lenovo',
-                        price:6588,
+                        price:3,
                         count:1
                     }
                     ],
+            shopInf:[]
         }
     },
     methods:{
-        select(id){
+        select(id,item){
             let index=this.shopListCheck.indexOf(id)
         if(index>=0){//重复
-                this.shopListCheck.splice(index,1)
-                console.log(this.shopListCheck)
+                this.shopListCheck.splice(index,1);
+                this.shopInf.splice(index,1)
                 this.checkAll=false;
             }else{
                 this.shopListCheck.push(id)
+                this.shopInf.push(item)
                 if (this.list.length==this.shopListCheck.length) {//单选全满：全选打勾
                     this.checkAll=true
                 }
@@ -133,21 +135,34 @@ export default {
         },
         tocheckAll(e){
             if (this.checkAll) {//全选
-                this.shopListCheck=[]
+                this.shopListCheck=[]//特殊情况
                this.list.forEach(item => {
                    this.shopListCheck.push(item.id)
+                    this.shopInf.push(item)
                });
-                console.log(this.shopListCheck)
             }else{//反选
                 this.shopListCheck=[]
+                 this.shopInf=[]
             }
         },
     },
     created() {
-        this.tocheckAll()
+         this.tocheckAll()
     },
     computed: {
-
+        sumPrice(){
+            let totle=0;
+            if (this.checkAll) {
+                this.list.forEach(item=>{//计算总价格
+                totle+=item.price*item.count
+            })    
+            }else{
+                this.shopInf.forEach(item=>{//计算总价格
+                totle+=item.price*item.count
+            })    
+            }
+            return '￥'+totle
+        },
     }
 }
 </script>
@@ -340,7 +355,7 @@ export default {
     top:-.1rem;
     position: relative;
     font-size:.13rem;
-    left: -.03rem;
+    left: -.16rem;
 }
 .shopCar_totle .shopCar_totle_price span{
     font-size:.12rem;
