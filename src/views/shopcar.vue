@@ -1,5 +1,6 @@
 <template>
     <div class="shopCar">
+            <div class="shopCar_mark" v-show="showMark" @click="displayMark"></div><!--结算遮罩层-->
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑"></header-general>
         <div class="shopCar_address">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
@@ -78,18 +79,21 @@
                 <span>{{sumPrice}}</span>
             </div>
             <span class="shopCar_totle_discount">已优惠：￥10.00</span>
-            <el-button type="primary">结算</el-button>
+            <el-button type="primary" @click="topay">{{'结算('+shopInf.length+')'}}</el-button>
         </div>
+        <currency-Popup ref="popup"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
 <script>
+import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
 export default {
     components:{
         'header-general':header,
-        'footer-currency':footer
+        'footer-currency':footer,
+        'currency-Popup':currencyPopup
     },
     data(){
         return{
@@ -115,11 +119,12 @@ export default {
                         count:1
                     }
                     ],
-            shopInf:[]
+            shopInf:[],//商品所有信息（取价格&&数量)
+            showMark:false
         }
     },
     methods:{
-        select(id,item){
+        select(id,item){//单选商品
             let index=this.shopListCheck.indexOf(id)
         if(index>=0){//重复
                 this.shopListCheck.splice(index,1);
@@ -133,7 +138,7 @@ export default {
                 }
             }
         },
-        tocheckAll(e){
+        tocheckAll(e){//全选
             if (this.checkAll) {//全选
                 this.shopListCheck=[]//特殊情况
                this.list.forEach(item => {
@@ -145,6 +150,14 @@ export default {
                  this.shopInf=[]
             }
         },
+        topay(){//结算
+            this.showMark=true
+            this.$refs.popup.isPoup=true
+        },
+        displayMark(){
+            this.showMark=false
+            this.$refs.popup.isPoup=false
+        }
     },
     created() {
          this.tocheckAll()
@@ -404,6 +417,13 @@ input[type="checkbox"]:checked::after{
     left: .04rem;
     color: #a2a0a0;
 }
-
+.shopCar .shopCar_mark{
+    position: fixed;
+    background: #474747;
+    opacity: .6;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+}
 </style>
 
