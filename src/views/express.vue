@@ -175,6 +175,7 @@ export default {
         expressback:function(){
             if(this.choosestate=='block'){
                 this.choosestate='none';
+                
             }else{
                 this.choosestate='block';
             }
@@ -531,14 +532,14 @@ export default {
 }
 .express-message{
     position: fixed;
-    top: 2rem;
     left: 0;
+    bottom: 0;
     z-index: 11;
     background-color: #ffffff;
     font-size: .17rem;
     text-align: left;
     margin: 0 auto;
-    height: 5.5rem;
+    height: 5.1rem;
     width: 100%;
 }
 .express-message .express-message-img{
@@ -620,7 +621,7 @@ export default {
 }
 .express-message form .button{
     position: relative;
-    top: -.5rem;
+    top: -.59rem;
     left: -.2rem;
     line-height: .5rem;
     font-size: .2rem;
@@ -630,14 +631,13 @@ export default {
 }
 .choose-express-message{
     position: fixed;
-    top: 2rem;
+    bottom: 0rem;
     left: 0;
     z-index: 11;
     background-color: #ffffff;
     font-size: .17rem;
     text-align: left;
     margin: 0 auto;
-    height: 5.5rem;
     width: 100%;
 }
 .choose-express-title{
@@ -698,8 +698,8 @@ export default {
     text-align: center;
     position: fixed;
     float: right;
-    top: 2.4rem;
     right: 0;
+    bottom: -0.05rem;
     height: 4.65rem;
     background-color: rgba(102,102,102,0.24);
 }
