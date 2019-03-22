@@ -465,14 +465,14 @@ export default {
 }
 .express-message{
     position: fixed;
-    top: 2rem;
     left: 0;
+    bottom: 0;
     z-index: 11;
     background-color: #ffffff;
     font-size: .17rem;
     text-align: left;
     margin: 0 auto;
-    height: 5.5rem;
+    height: 5.1rem;
     width: 100%;
 }
 .express-message .express-message-img{
@@ -554,7 +554,7 @@ export default {
 }
 .express-message form .button{
     position: relative;
-    top: .6rem;
+    top: .57rem;
     left: -.2rem;
     line-height: .5rem;
     font-size: .2rem;
