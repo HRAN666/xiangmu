@@ -71,48 +71,35 @@
                 <div class="purchase" @click="purchase()">立即购买</div>
             </div>
         </div>
-        <div class="cover" id="cover" v-bind:style="{display: state}"></div>
-        <div class="express-message"  v-bind:style="{display: state}">
-            <div class="express-message-img">
-                <img src="../assets/details_wati_expressfood.png" alt="">
-            </div>
-            <div class="express-message-right">
-                <div class="express-message-right-title">代取外卖</div>
-                <div class="express-message-right-price">￥1.00</div>
-                <div class="express-message-right-number">数量：1件</div>
-            </div>
-            <form>
-                <p>饭堂名称：<input type="text" name="name" placeholder="填写饭堂名称"></p>
-                <p>菜名：<input type="text" name="phone" placeholder="填写要下单的菜名"></p>
-                <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="忌口、佐料、餐具要求"></textarea>
-                <div class="button">确 认</div>
-            </form>
-        </div>
+        <div class="cover" v-show="markshow" @click="displayCover"></div>
+        <currency-Popup popup="style3" ref="popup" title="代取药品"></currency-Popup>
     </div>
 </template>
 <script>
 import header from '../components/header.vue'
+import currencyPopup from '../components/currencyPopup.vue'//弹出层
 export default {
     components: {
         'header-general':header,
+        'currency-Popup':currencyPopup
     },
     data () {
         return {
-            state: 'none',
+            markshow:false
 		}
     },
     mounted(){
        
     },
     methods:{
-        purchase:function(){
-            if(this.state=='none'){
-                this.state='block';
-                document.querySelector('body').setAttribute('style', 'overflow-y: hidden;')
-            }else{
-                this.state='none';
-            }
+        purchase(){
+            this.markshow=true;
+            this.$refs.popup.isPoup=true            
         },
+        displayCover(){
+            this.markshow=false;
+            this.$refs.popup.isPoup=false     
+        }
     }
 }
 </script>
@@ -509,58 +496,6 @@ export default {
     font-size: .14rem;
     color: #888888;
 }
-.express-message form{
-    position:relative;
-    top: .3rem;
-    left: .2rem;
-    font-size: .15rem;
-    color: #242424;
-}
-.express-message form p{
-    width: 88%;
-    border-bottom:.01rem #e8e8e8 solid;
-    padding: .1rem 0 .12rem 0;
-}
-.express-message form p input{
-    font-size: .15rem;
-    border: none;
-}
-.express-message form p:nth-child(3){
-    border-bottom:none;
-}
-.express-message form .choose-express{
-    line-height: .2rem;
-    font-size: .15rem;
-    margin-left: .2rem;
-    float: right;
-    margin-right: .2rem;
-    color: #888;
-}
-.express-message form .choose-express span{
-    position: relative;
-    top: .01rem;
-    font-size: .18rem;
-    padding-left: .08rem;
-    font-family: '黑体';
-}
-.express-message form textarea{
-    font-size: .16rem;
-    position: relative;
-    top: -.49rem;
-    left: .5rem;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    border:none;
-    resize : none;
-}
-.express-message form .button{
-    position: relative;
-    top: .57rem;
-    left: -.2rem;
-    line-height: .5rem;
-    font-size: .2rem;
-    text-align: center;
-    color: #fff;
-    background: #0288d1
-}
+
 </style>
 

@@ -81,7 +81,7 @@
             <span class="shopCar_totle_discount">已优惠：￥10.00</span>
             <el-button type="primary" @click="topay">{{'结算('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -114,6 +114,12 @@ export default {
                     },
                     {
                         id:3546,
+                        name:'Lenovo',
+                        price:3,
+                        count:1
+                    },
+                    {
+                        id:354655,
                         name:'Lenovo',
                         price:3,
                         count:1

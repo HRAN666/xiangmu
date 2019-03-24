@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div  :class="{'popup':displayPopup,'ispopup':isPoup}">
+        <div  :class="{'popup':displayPopup,'ispopup':isPoup}" v-if="popup=='style1'">
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
@@ -49,23 +49,113 @@
             </div>
              <el-button type="primary" >提交订单</el-button>
         </div>
-    </div>
+
+            <div class="express-message" :class="{'express-message':displayPopup,'express-message_second':isPoup}" v-if="popup!='style1'
+            ">
+            <div class="express-message-img">
+                <img src="../assets/details_wati_express.png" v-if="popup=='style2'">
+                <img src="../assets/details_wati_expressfood.png" v-if="popup=='style3'"><!--代取食堂-->
+                <img src="../assets/details_wati_expressmedicines.png" v-if="popup=='style4'"><!--代取药-->
+            </div>
+            <div class="express-message-right">
+                <div class="express-message-right-title">{{title}}</div>
+                <div class="express-message-right-price">￥1.00</div>
+                <div class="express-message-right-number">数量：1件</div>
+            </div>
+            <form v-if="popup=='style2'">
+                <p>收件人姓名：<input type="text" name="name" placeholder="填写收件人名"></p>
+                <p>收件人电话：<input type="text" name="phone" placeholder="填写收件人手机号码"></p>
+                <p>快递名称：<span class="choose-express" @click="express">选择快递公司<span>></span></span></p>
+                <p>快递单号：<input type="text" name="express-number" placeholder="填写快递单号"></p>
+                <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="选填"></textarea>
+            </form>
+            <form v-if="popup=='style3'">
+                <p>饭堂名称：<input type="text" name="name" placeholder="填写饭堂名称"></p>
+                <p>菜名：<input type="text" name="phone" placeholder="填写要下单的菜名"></p>
+                <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="忌口、佐料、餐具要求"></textarea>
+            </form>
+             <form  v-if="popup=='style4'">
+                <p>代取商品：<input type="text" name="name" placeholder="填写代取商品类别"></p>
+                <p>代取数量：<input type="text" name="phone" placeholder="填写代取商品数量"></p>
+                <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="选填"></textarea>
+            </form>
+            <div class="button">确 认</div>
+        </div>
+
+        <div class="choose-express-message" v-show="expressShow"><!--代取快递模块-->
+           <div class="choose-express-title">
+               <div class="choose-express-back"><img src="../assets/arrow.png" alt="">返回</div>
+               <div class="no-find-express">找不到快递公司<img src="../assets/question_mark.png" alt=""></div>
+           </div>
+           <div class="all-express-list">
+                <div>
+                    <h1 class="all-express-letter">常用快递</h1>
+                    <ul class="all-express-content"><li>顺丰快递</li></ul>
+                    <ul class="all-express-content"><li>中通快递</li></ul>
+                    <ul class="all-express-content"><li>申通快递</li></ul>
+                    <ul class="all-express-content"><li>圆通快递</li></ul>
+                    <ul class="all-express-content"><li>韵达快递</li></ul>
+                </div>
+                <h1 class="all-express-letter">A</h1>
+                <ul class="all-express-content"><li>AAE快递</li></ul>
+                <ul class="all-express-content"><li>安能快递</li></ul>
+                <ul class="all-express-content"><li>安世通快递</li></ul>
+           </div>
+           <ul class="all-letter-list">
+               <li><a href="#*">*</a></li>
+               <li><a href="#A">A</a></li>
+               <li><a href="#B">B</a></li>
+               <li><a href="#C">C</a></li>
+               <li><a href="#D">D</a></li>
+               <li><a href="#E">E</a></li>
+               <li><a href="#F">F</a></li>
+               <li><a href="#G">G</a></li>
+               <li><a href="#H">H</a></li>
+               <li><a href="#I">I</a></li>
+               <li><a href="#J">J</a></li>
+               <li><a href="#K">K</a></li>
+               <li><a href="#L">L</a></li>
+               <li><a href="#M">M</a></li>
+               <li><a href="#N">N</a></li>
+               <li><a href="#O">O</a></li>
+               <li><a href="#P">P</a></li>
+               <li><a href="#Q">Q</a></li>
+               <li><a href="#R">R</a></li>
+               <li><a href="#S">S</a></li>
+               <li><a href="#T">T</a></li>
+               <li><a href="#U">U</a></li>
+               <li><a href="#V">V</a></li>
+               <li><a href="#W">W</a></li>
+               <li><a href="#X">X</a></li>
+               <li><a href="#Y">Y</a></li>
+               <li><a href="#Z">Z</a></li>
+           </ul>
+        </div>
+        </div>
 </template>
 <script>
 export default {
+    props:['popup','title'],//title:模块名字 popup 弹窗类型
     data () {
         return {
-            displayPopup:true,//初始样式
-            isPoup:false,
+            displayPopup:true,//初始样式默认不弹窗
+            isPoup:false,//弹窗
+            expressShow:false,//选择快递的控件
         }
     },
     methods: {
         router(){
             this.$router.push('/addAddress')
+        },
+        express(){
+            this.expressShow=true
         }
     },
     mounted () {
-        
+  
+    },
+    computed: {
+
     }
 }
 </script>
@@ -144,6 +234,207 @@ export default {
 }
 .popup_bottom .popup_bottom_first{
     color:#949494;
+}
+/**********代取************/
+.express-message{
+    position: fixed;
+    left: 0;
+    bottom: -5.1rem;
+    z-index: 11;
+    background-color: #ffffff;
+    font-size: .17rem;
+    text-align: left;
+    margin: 0 auto;
+    height: 5.1rem;
+    width: 100%;
+    transition:.5s all;
+}
+.express-message_second{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 11;
+    background-color: #ffffff;
+    font-size: .17rem;
+    text-align: left;
+    margin: 0 auto;
+    height: 5.1rem;
+    width: 100%;
+    transition:.5s all;
+}
+.express-message .express-message-img{
+    float: left;
+    position: relative;
+    top: .2rem;
+    left: .2rem;
+    height: 1.1rem;
+    width: 1.3rem;
+    border: .01rem solid #ccc;
+}
+.express-message .express-message-img img{
+    position: relative;
+    top: .2rem;
+    width: 100%;
+}
+.express-message .express-message-right{
+    position: relative;
+    top: .2rem;
+    left: .3rem;
+}
+.express-message .express-message-right .express-message-right-title{
+    margin-top: .12rem;
+    font-size: .17rem;
+    color: #242424;
+}
+.express-message .express-message-right .express-message-right-price{
+    margin-top: .08rem;
+    font-size: .18rem;
+    color: #0288d1;
+}
+.express-message .express-message-right .express-message-right-number{
+    margin-top: .2rem;
+    font-size: .14rem;
+    color: #888888;
+}
+.express-message form{
+    position:relative;
+    top: .3rem;
+    left: .2rem;
+    font-size: .15rem;
+    color: #242424;
+}
+.express-message form p{
+    width: 88%;
+    border-bottom:.01rem #e8e8e8 solid;
+    padding: .1rem 0 .12rem 0;
+}
+.express-message form p input{
+    font-size: .15rem;
+    border: none;
+}
+.express-message form p:nth-child(5){
+    border-bottom:none;
+}
+.express-message form .choose-express{
+    line-height: .2rem;
+    font-size: .15rem;
+    margin-left: .2rem;
+    float: right;
+    margin-right: .2rem;
+    color: #888;
+}
+.express-message form .choose-express span{
+    position: relative;
+    top: .01rem;
+    font-size: .18rem;
+    padding-left: .08rem;
+    font-family: '黑体';
+}
+.express-message form textarea{
+    font-size: .16rem;
+    position: relative;
+    top: -.49rem;
+    left: .5rem;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    border:none;
+    resize : none;
+}
+.button{
+    position: absolute;
+    line-height: .5rem;
+    font-size: .2rem;
+    text-align: center;
+    color: #fff;
+    background: #0288d1;
+    bottom: 0;
+    width: 100%;
+    height: .5rem;
+}
+.choose-express-message{
+    position: fixed;
+    bottom: 0rem;
+    left: 0;
+    z-index: 11;
+    background-color: #ffffff;
+    font-size: .17rem;
+    text-align: left;
+    margin: 0 auto;
+    width: 100%;
+}
+.choose-express-title{
+    height: .25rem;
+}
+.choose-express-back{
+    margin-top: .11rem;
+    margin-left: .3rem;
+    font-size: .16rem;
+    line-height: .3rem;
+    color: #000000;
+}
+.choose-express-back img{
+    position: absolute;
+    left: .08rem;
+    top: .16rem;
+    width: .19rem;
+    height: .19rem;
+}
+.choose-express-message .no-find-express{
+    position: absolute;
+    top: .07rem;
+    right: .3rem;
+    font-size: .14rem;
+    color: #1d95d6;
+    line-height: .35rem;
+    float: right;
+}
+.choose-express-message .no-find-express img{
+    position: absolute;
+    top: .1rem;
+    left: 1.02rem;
+    width: .15rem;
+    height: .15rem;
+}
+.choose-express-message div .all-express-letter{
+    color: #777777;
+    font-size: .15rem;
+    background-color: #efefef;
+    line-height: .35rem;
+    padding-left: .08rem;
+}
+.choose-express-message .all-express-content{
+    color: #666666;
+    font-size: .15rem;
+    line-height: .25rem;
+    height: .34rem;
+    padding-left: .08rem;
+    border-bottom: #efefef solid 0.01rem;
+}
+.choose-express-message .all-express-content:nth-last-child(1){
+    border-bottom:none;
+    height: 0.2rem;
+}
+.choose-express-message .all-letter-list{
+    width: .3rem;
+    border-radius:.1rem 0 0 .1rem; 
+    text-align: center;
+    position: fixed;
+    float: right;
+    right: 0;
+    bottom: -0.05rem;
+    height: 4.65rem;
+    background-color: rgba(102,102,102,0.24);
+}
+.choose-express-message .all-letter-list li{
+    height: .17rem;
+}
+.choose-express-message .all-letter-list li a{
+    font-size: .15rem;
+    text-decoration: none;
+    color: #333333;
+    font-weight: bold;
+}
+.choose-express-message .all-letter-list li:nth-child(1) a{
+    font-size: .25rem;
 }
 </style>
 

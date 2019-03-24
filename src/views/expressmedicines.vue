@@ -71,48 +71,35 @@
                 <div class="purchase" @click="purchase()">立即购买</div>
             </div>
         </div>
-        <div class="cover" id="cover" v-bind:style="{display: state}"></div>
-        <div class="express-message"  v-bind:style="{display: state}">
-            <div class="express-message-img">
-                <img src="../assets/details_wati_expressmedicines.png" alt="">
-            </div>
-            <div class="express-message-right">
-                <div class="express-message-right-title">代取药品</div>
-                <div class="express-message-right-price">￥1.00</div>
-                <div class="express-message-right-number">数量：1件</div>
-            </div>
-            <form>
-                <p>代取商品：<input type="text" name="name" placeholder="填写代取商品类别"></p>
-                <p>代取数量：<input type="text" name="phone" placeholder="填写代取商品数量"></p>
-                <p>备注：</p><textarea name="message" rows="4" cols="30" placeholder="选填"></textarea>
-                <div class="button">确 认</div>
-            </form>
-        </div>
+       <div class="cover" v-show="markshow" @click="displayCover"></div>
+        <currency-Popup popup="style4" ref="popup" title="代取药品"></currency-Popup>
     </div>
 </template>
 <script>
 import header from '../components/header.vue'
+import currencyPopup from '../components/currencyPopup.vue'//弹出层
 export default {
     components: {
-        'header-general':header
+        'header-general':header,
+        'currency-Popup':currencyPopup
     },
     data () {
         return {
-            state: 'none',
+           markshow:false
 		}
     },
     mounted(){
        
     },
     methods:{
-        purchase:function(){
-            if(this.state=='none'){
-                this.state='block';
-                document.querySelector('body').setAttribute('style', 'overflow-y: hidden;')
-            }else{
-                this.state='none';
-            }
+        purchase(){
+            this.markshow=true;
+            this.$refs.popup.isPoup=true            
         },
+        displayCover(){
+            this.markshow=false;
+            this.$refs.popup.isPoup=false     
+        }
     }
 }
 </script>
