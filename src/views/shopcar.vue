@@ -15,13 +15,6 @@
                     <span class="shopCar_commodity_listPrice">{{'￥'+item.price}}</span>
                      <el-input-number size="mini" v-model="item.count" :min="1" :max="99"></el-input-number>
             </div>
-            <!-- <div class="shopCar_commodity_list">
-               <el-checkbox  :checked='false' @change="selectShop($event)"></el-checkbox>
-                   <img src="../assets/colo.jpg" alt="">
-                    <div class="shopCar_commodity_listTitle">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                    <span class="shopCar_commodity_listPrice">￥30.00</span>
-                     <el-input-number size="mini" v-model="shopValue" :min="1" :max="99"></el-input-number>
-            </div> -->
         </div>
         <div class="shopCar_recommend">
             <span class="shopCar_recommendWord">商品推荐</span>
@@ -81,7 +74,7 @@
             <span class="shopCar_totle_discount">已优惠：￥10.00</span>
             <el-button type="primary" @click="topay">{{'结算('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :totle="totlePrice" :shopLength="shopInf.length"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -126,7 +119,8 @@ export default {
                     }
                     ],
             shopInf:[],//商品所有信息（取价格&&数量)
-            showMark:false
+            showMark:false,
+            totlePrice:''//总价格
         }
     },
     methods:{
@@ -158,7 +152,7 @@ export default {
         },
         topay(){//结算
             this.showMark=true
-            this.$refs.popup.isPoup=true
+            this.$refs.popup.isPoup=true;
         },
         displayMark(){
             this.showMark=false
@@ -174,11 +168,14 @@ export default {
             if (this.checkAll) {
                 this.list.forEach(item=>{//计算总价格
                 totle+=item.price*item.count
+                 this.totlePrice=totle
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格
                 totle+=item.price*item.count
+                 this.totlePrice=totle
             })    
+               
             }
             return '￥'+totle
         },
