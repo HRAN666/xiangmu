@@ -5,7 +5,7 @@
             <img src="../assets/gps.png" alt="">
             <p>深圳技师学院</p>
           </div>
-          <div class="home-seach-shop">
+          <div class="home-seach-shop"> 
             <img src="../assets/seach.png" alt="">
             <el-input  placeholder="请输入内容" v-model="seachContent"></el-input>
           </div>
