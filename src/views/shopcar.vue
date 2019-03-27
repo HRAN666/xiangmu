@@ -2,7 +2,7 @@
     <div class="shopCar">
             <div class="shopCar_mark" v-show="showMark" @click="displayMark"></div><!--结算遮罩层-->
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑"></header-general>
-        <div class="shopCar_address">
+        <div class="shopCar_address" v-if="list.length != ''">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
             送至：广东龙岗区
             <img src="../assets/shopCar_more.png" alt="" class="shopCar_address_iconMore">
@@ -15,6 +15,18 @@
                     <span class="shopCar_commodity_listPrice">{{'￥'+item.price}}</span>
                      <el-input-number size="mini" v-model="item.count" :min="1" :max="99"></el-input-number>
             </div>
+            <div class="shopCar_empty" v-if="list.length == ''">
+                <img src="../assets/shopCar_second.png">
+                <span>购物车是空的</span>
+                <div class="shopCar_empty_spike">逛逛秒杀></div>
+            </div>
+            <!-- <div class="shopCar_commodity_list">
+               <el-checkbox  :checked='false' @change="selectShop($event)"></el-checkbox>
+                   <img src="../assets/colo.jpg" alt="">
+                    <div class="shopCar_commodity_listTitle">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
+                    <span class="shopCar_commodity_listPrice">￥30.00</span>
+                     <el-input-number size="mini" v-model="shopValue" :min="1" :max="99"></el-input-number>
+            </div> -->
         </div>
         <div class="shopCar_recommend">
             <span class="shopCar_recommendWord">商品推荐</span>
@@ -74,7 +86,7 @@
             <span class="shopCar_totle_discount">已优惠：￥10.00</span>
             <el-button type="primary" @click="topay">{{'结算('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :totle="totlePrice" :shopLength="shopInf.length"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :totle="totlePrice.toFixed(2)" :shopLength="shopInf.length"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -120,8 +132,8 @@ export default {
                     ],
             shopInf:[],//商品所有信息（取价格&&数量)
             showMark:false,
-            totlePrice:''//总价格
-        }
+            totlePrice:0
+    }
     },
     methods:{
         select(id,item){//单选商品
@@ -152,7 +164,7 @@ export default {
         },
         topay(){//结算
             this.showMark=true
-            this.$refs.popup.isPoup=true;
+            this.$refs.popup.isPoup=true
         },
         displayMark(){
             this.showMark=false
@@ -167,17 +179,16 @@ export default {
             let totle=0;
             if (this.checkAll) {
                 this.list.forEach(item=>{//计算总价格
-                totle+=item.price*item.count
-                 this.totlePrice=totle
+                totle+=item.price*item.count;
+                this.totlePrice=totle
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格
                 totle+=item.price*item.count
-                 this.totlePrice=totle
+                this.totlePrice=totle
             })    
-               
             }
-            return '￥'+totle
+            return '￥'+totle.toFixed(2)
         },
     }
 }
@@ -211,7 +222,32 @@ export default {
     position: relative;
     top: -.06rem;
 }
-
+.shopCar_empty{
+    width: 100%;
+    height: 1.15rem;
+    background: #fff;
+    margin-top: -0.22rem;
+}
+.shopCar_empty img{
+    width: .5rem;
+    margin-left: 1rem;
+    margin-bottom: 0.1rem;
+}
+.shopCar_empty span{
+    color: #8B8B8B;
+    font-size: .14rem;
+    margin-right: 1.24rem;
+    margin-top: 0.5rem;
+    float: right;
+}
+.shopCar_empty_spike{
+    color: #0288D1;
+    font-size: .13rem;
+    float: right;
+    position: relative;
+    margin-top: -0.2rem;
+    margin-right: 0.15rem;
+}
 .shopCar_totle .el-button--primary{
     float: right;
     height: .5rem;

@@ -32,7 +32,7 @@
              <div class="popup_list">
                 <span>应付总额</span>
                 <div class="popup_list_color">
-                    <span> {{'￥'+totle.toFixed(2)}}</span>
+                    <span> {{'￥'+totle}}</span>
                     <span class="popup_list_length">{{'(x'+shopLength+')'}}</span>
                     <img src="../assets/down.png" alt="">
                 </div>
@@ -154,7 +154,7 @@ export default {
         }
     },
     mounted () {
-        console.log(this.$props.totle)
+        
     },
     computed: {
 
