@@ -11,7 +11,7 @@
           </div>
     </div>
     <div class="home-banner">
-      <el-carousel :interval="5000" arrow="never">
+      <el-carousel :interval="5000" arrow="never">   
         <el-carousel-item v-for="(item,index) in bannerImg" :key="index">
         <img src="../assets/Bannner.jpg" alt="">
       </el-carousel-item>
