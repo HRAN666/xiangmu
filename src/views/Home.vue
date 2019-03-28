@@ -5,13 +5,13 @@
             <img src="../assets/gps.png" alt="">
             <p>深圳技师学院</p>
           </div>
-          <div class="home-seach-shop">
+          <div class="home-seach-shop"> 
             <img src="../assets/seach.png" alt="">
             <el-input  placeholder="请输入内容" v-model="seachContent" @click.native="goSeach"></el-input>
           </div>
     </div>
     <div class="home-banner">
-      <el-carousel :interval="5000" arrow="never">
+      <el-carousel :interval="5000" arrow="never">   
         <el-carousel-item v-for="(item,index) in bannerImg" :key="index">
         <img src="../assets/Bannner.jpg" alt="">
       </el-carousel-item>
