@@ -52,7 +52,7 @@
                 <div class="price">￥30.00</div>
                 <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
             </div>
-            <div class="arriveBottom"><img src="../assets/bottom.png" alt="底部"></div>
+            <div class="commodities-bottom">我是有底线的</div> 
         </div>
         <div class="yourShoppingCar" v-if="this.shopCommodities==0">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
@@ -252,5 +252,29 @@ export default {
         z-index: 2;
         font-size: .13rem;
     }
+    .commodities-bottom{
+    font-size: .12rem;
+    width: 100%;
+    position: relative;
+    margin-bottom: 1.26rem;
+    top: .3rem;
+    color:#a2a0a0;
+    }
+    .commodities-bottom::before{
+    content:'';
+    position: absolute;
+    border: .1px #e0dddd solid;
+    width: 27%;
+    left: .43rem;
+    bottom: .06rem;
+    }
+    .commodities-bottom::after{
+    content:'';
+    position: absolute;
+    border: .1px #e0dddd solid;
+    width: 27%;
+    right: .43rem;
+    bottom: .06rem;
+}
 </style>
 
