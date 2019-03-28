@@ -7,7 +7,7 @@
           </div>
           <div class="home-seach-shop"> 
             <img src="../assets/seach.png" alt="">
-            <el-input  placeholder="请输入内容" v-model="seachContent"></el-input>
+            <el-input  placeholder="请输入内容" v-model="seachContent" @click.native="goSeach"></el-input>
           </div>
     </div>
     <div class="home-banner">
@@ -18,7 +18,7 @@
       </el-carousel>
         <!-- <img src="../assets/Bannner.jpg" alt=""> -->
     </div>
-    <div class="home-shop"  @click="handleClick($event)">
+    <div class="home-shop">
       <div class="home-shop-list">
         <el-row :gutter="10">
             <el-col :span="6">
@@ -309,15 +309,13 @@ export default {
     }
   },
   methods: {
-      handleClick(){
-        if (event.target.nodeName.toLowerCase()==='img' ||event.target.nodeName.toLowerCase()==='p') {//事件代理
-              console.log('事件代理')
-        }
+    selectSchool(){
+      this.$router.push('/location')
       },
-      selectSchool(){
-        this.$router.push('/location')
+      goSeach(){
+        this.$router.push('/commoditiesList')
       }
-  },
+      },
   mounted () {
     
   }
