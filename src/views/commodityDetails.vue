@@ -6,6 +6,7 @@
             <div class="commodityDetails-headerRightOne"><i class="el-icon-share"></i></div>
             <div class="commodityDetails-headerRightTwo"><img src="../assets/consultation.png" alt=""></div>
         </div>
+        <!-- <header-currency routerTo='/' headClass="style5"></header-currency> -->
         <div>
             <el-carousel :interval="3000" arrow="always">
                 <el-carousel-item v-for="item in 4" :key="item">
@@ -73,7 +74,7 @@
                 <div class="price">￥15.50<span class="havePeople">11人付款</span></div>
             </div>
         </div>
-        <div class="arriveBottom"><img src="../assets/bottom.png" alt="底部"></div>
+         <div class="commodities-bottom">我是有底线的</div> 
         <div class="addShop">
             <div class="service"><img src="../assets/客服.png" alt=""></div>
             <div class="service-name">客服</div>
@@ -88,7 +89,11 @@
 </template>
 
 <script type="text/ecmascript-6">
+import header from '../components/header.vue'
 export default {
+    components:{
+        'header-currency':header
+    },
   data() {
     return {
 
@@ -434,4 +439,28 @@ export default {
         font-size: .16rem;
         text-align: center;
     }
+    .commodities-bottom{
+    font-size: .12rem;
+    width: 100%;
+    position: relative;
+    margin-bottom: .82rem;
+    top: .3rem;
+    color:#a2a0a0;
+    }
+    .commodities-bottom::before{
+    content:'';
+    position: absolute;
+    border: .1px #e0dddd solid;
+    width: 27%;
+    left: .43rem;
+    bottom: .06rem;
+    }
+    .commodities-bottom::after{
+    content:'';
+    position: absolute;
+    border: .1px #e0dddd solid;
+    width: 27%;
+    right: .43rem;
+    bottom: .06rem;
+}
 </style>

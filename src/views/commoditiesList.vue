@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="commodities-header">
-            <div class="commodities-headerLeft"><img src="../assets/goBack.png" alt="返回"></div>
+            <div class="commodities-headerLeft" @click="goHome"><img src="../assets/goBack.png" alt="返回"></div>
             <!-- <div class="commodities-headerCenter"><el-input v-model="input" placeholder="请输入内容"></el-input></div>
              -->
              <div class="commodities-headerCenter"><el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input"></el-input></div>
@@ -84,7 +84,10 @@ export default {
      methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
-      }
+      },
+      goHome(){
+          this.$router.go(-1)
+     }
     }
 }
 </script>

@@ -7,7 +7,7 @@
           </div>
           <div class="home-seach-shop">
             <img src="../assets/seach.png" alt="">
-            <el-input  placeholder="请输入内容" v-model="seachContent"></el-input>
+            <el-input  placeholder="请输入内容" v-model="seachContent" @click.native="goSeach"></el-input>
           </div>
     </div>
     <div class="home-banner">
@@ -311,7 +311,10 @@ export default {
   methods: {
     selectSchool(){
       this.$router.push('/location')
-    } 
+      },
+      goSeach(){
+        this.$router.push('/commoditiesList')
+      }
       },
   mounted () {
     
