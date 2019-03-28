@@ -1,15 +1,14 @@
 <template>
 <div>
-    <div class="header" style="color：#fff;">
-        <div style="color:#0288d1;border-bottom: 2px solid #0288d1;">全部</div>
-        <div>待付款</div>
-        <div>待发货</div>
-        <div>待收货</div>
-        <div>待评价</div>
-    </div>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
+        <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
+        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+        <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+    </el-tabs>
     <div class="bigbox" style="display:block;" v-for="(item,index) in 5" :key="index">
         <div class="box">
-                <div class="box_long">
+                <div class="box_long"> 
                     <p class="box_right">
                         已发货
                     </p>
