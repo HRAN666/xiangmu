@@ -38,7 +38,7 @@
 
     <div class="integral_content" style="display:none;">
         <div class="integral_tops">
-            没有更多订单数据了~ 
+            没有更多订单数据了~
         </div>
         <div class="product">
             <div class="integral_tops" style="font-size:0.18rem;color:#0288d1;background-color:#efefef;">
