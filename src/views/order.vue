@@ -19,7 +19,7 @@
                         <div class="box_righttext">
                             <span>￥30.00</span>
                             <p>x 2</p>
-                        </div>
+                        </div> 
                     </div>
                 </div>
         </div>
