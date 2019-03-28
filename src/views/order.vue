@@ -11,7 +11,7 @@
                 <div class="box_long"> 
                     <p class="box_right">
                         已发货
-                    </p>
+                    </p> 
                     <div>
                         <img class="box_left" src="../assets/list.jpg"/>
                         <div class="box_text">{{box_text}}
