@@ -10,22 +10,21 @@
         <div class="box">
                 <div class="box_long"> 
                     <p class="box_right">
-                        已发货
+                        已发货 
                     </p> 
-                    <div> 
+                    <div>  
                         <img class="box_left" src="../assets/list.jpg"/>
                         <div class="box_text">{{box_text}}
                         </div>
-                        <div class="box_righttext">
+                        <div class="box_righttext"> 
                             <span>￥30.00</span>
-                            <p>x 2</p>
-                        </div> 
-                    </div>
-                </div>
+                            <p>x 2</p> 
+                        </div>   
+                    </div> 
+                </div>   
         </div>
         <div class="box_bottom">
             <span>
-                合计：￥60.00
             </span>
             <span>
                 共2件商品
