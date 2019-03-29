@@ -1,10 +1,11 @@
 <template>
-<div>
+<div class="orderd">
     <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="用户管理s" name="first">用户管理s</el-tab-pane>
-        <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
+        <el-tab-pane label="全部" name="first"></el-tab-pane>
+        <el-tab-pane label="待付款" name="second"></el-tab-pane>
+        <el-tab-pane label="待发货" name="third"></el-tab-pane>
+        <el-tab-pane label="待收货" name="fourth"></el-tab-pane>
+        <el-tab-pane label="待评价" name="five"></el-tab-pane>
     </el-tabs>
     <div class="bigbox" style="display:block;" v-for="(item,index) in 5" :key="index">
         <div class="box">
@@ -108,181 +109,180 @@
 
 </template>
 <script>
-import footer from '../components/footer'
+import footer from "../components/footer";
 export default {
-    components: {
-      'footer-currency':footer
-    },
-    data(){
-      return{
-          box_text:'可口可乐摩登罐 330*24 整箱装 可口可乐出品'
-      }
-    
-    },
-    methods: {
-    },
-    mounted () {
-    
-    }
-}
+  components: {
+    "footer-currency": footer
+  },
+  data() {
+    return {
+      box_text: "可口可乐摩登罐 330*24 整箱装 可口可乐出品"
+    };
+  },
+  methods: {},
+  mounted() {}
+};
 </script>
 <style scoped>
-div{
-    font-size: 0.11rem;
-    background-color: #ffffff;
+div {
+  font-size: 0.11rem;
+  background-color: #ffffff;
 }
-.header{
-    width: 85%;
-    margin: 0 auto;
-    font-size: 0.135rem;
-    overflow: hidden;
-    background-color: #ffffff;
+.header {
+  width: 85%;
+  margin: 0 auto;
+  font-size: 0.135rem;
+  overflow: hidden;
+  background-color: #ffffff;
 }
-.header div{
-    width: 18%;
-    padding:0rem 1%;
-    line-height: 0.27rem;
-    text-align: center;
-    float: left;
-    font-size: 0.14rem;
+.header div {
+  width: 18%;
+  padding: 0rem 1%;
+  line-height: 0.27rem;
+  text-align: center;
+  float: left;
+  font-size: 0.14rem;
 }
-.box{
-    width: 100%;
-    float: left;
-    font-size: 0.11rem;
+.box {
+  width: 100%;
+  float: left;
+  font-size: 0.11rem;
 }
-.box_long{
+.box_long {
     width: 95%;
     margin: 0 auto;
     overflow: hidden;
 }
-.box_long>div{
-    float: left;
-    width: 100%;
+.box_long > div {
+  float: left;
+  width: 100%;
 }
-.box_right{
-    text-align: right;
-    color: #db2828;
-    font-size: 0.115rem;
-    margin: 0.1rem 0rem;
+.box_right {
+  text-align: right;
+  color: #db2828;
+  font-size: 0.115rem;
+  margin: 0.1rem 0rem;
 }
-.box_left{
-    float: left;
-    width: 0.6rem;
-    height: 0.6rem;
-    padding:0px 0.2rem;
+.box_left {
+  float: left;
+  width: 0.6rem;
+  height: 0.6rem;
+  padding: 0px 0.2rem;
 }
-.box_text{
-    width: 1.75rem;
-    font-size: 0.11rem;
-    float: left;
-    text-align: left;
+.box_text {
+  width: 1.75rem;
+  font-size: 0.11rem;
+  float: left;
+  text-align: left;
 }
-.box_righttext{
-    float: right;
-    font-size: 0.135rem;
+.box_righttext {
+  float: right;
+  font-size: 0.135rem;
 }
 /* .box_right p:first-child{
 
 } */
-.box_righttext p:last-child{
-    font-size: 0.1rem;
-    color: #888181;
-    line-height: 0.01rem;
+.box_righttext p:last-child {
+  font-size: 0.1rem;
+  color: #888181;
+  line-height: 0.01rem;
 }
-.box_state{
-    font-size: 0.115rem;
-    float: right;
-    width: 60%;
-    text-align: right;
-    color: #e18601;
+.box_state {
+  font-size: 0.115rem;
+  float: right;
+  width: 60%;
+  text-align: right;
+  color: #e18601;
 }
-.box_state_blue{
-    color: #0288d1;
+.box_state_blue {
+  color: #0288d1;
 }
-.box_bottom{
-    width: 100%;
-    padding: 0.01rem 0px;
-    border-bottom: 2px solid #e0dfe3;
-    float: left;
+.box_bottom {
+  width: 100%;
+  padding: 0.01rem 0px;
+  border-bottom: 2px solid #e0dfe3;
+  float: left;
 }
-.box_bottom>span{
-    float: right;
-    padding: 0rem 2.5%;
+.box_bottom > span {
+  float: right;
+  padding: 0rem 2.5%;
 }
-.box_bottom_button{
-    width: 100%;
-    float: left;
-    border-bottom: 5px solid #e0dfe3;
+.box_bottom_button {
+  width: 100%;
+  float: left;
+  border-bottom: 5px solid #e0dfe3;
 }
-.box_bottom_button>div{
-    float: right;
-    border-radius:0.19rem;
-    border:0.01rem solid #6d6c6c;
-    padding: 0.02rem 0.15rem;
-    color: #db2828;
-    font-size: 0.115rem;
-    margin:0.07rem 0.08rem;
-    cursor: pointer;
+.box_bottom_button > div {
+  float: right;
+  border-radius: 0.19rem;
+  border: 0.01rem solid #6d6c6c;
+  padding: 0.02rem 0.15rem;
+  color: #db2828;
+  font-size: 0.115rem;
+  margin: 0.07rem 0.08rem;
+  cursor: pointer;
 }
 
-
-.integral_tops{
-    width: 100%;
-    height: 0.635rem;
-    text-align: center;
-    line-height: 0.635rem;
-    font-size: 0.135rem;
-    color: #a2a0a0;
+.integral_tops {
+  width: 100%;
+  height: 0.635rem;
+  text-align: center;
+  line-height: 0.635rem;
+  font-size: 0.135rem;
+  color: #a2a0a0;
 }
-.product{
-    margin-top: .12rem;
+.product {
+  margin-top: 0.12rem;
 }
-.productBlock{
-    width: 1.71rem;
-    height: 1.83rem;
-    float: left;
-    margin-left: .13rem;
-    background: #fff;
-    border-radius:.15rem;
-    margin-bottom: .2rem;
-    
+.productBlock {
+  width: 1.71rem;
+  height: 1.83rem;
+  float: left;
+  margin-left: 0.13rem;
+  background: #fff;
+  border-radius: 0.15rem;
+  margin-bottom: 0.2rem;
 }
-.productBlock span{
-    border-radius: 0.08rem;
-    display: inline-block;
-    width: .3rem;
-    margin-left: .13rem;
-    float: left;
-    border: 0.01rem solid #bbbbbb;
-    color: #888888;
-    font-size: 0.09rem;
-    line-height: 0.175rem;
+.productBlock span {
+  border-radius: 0.08rem;
+  display: inline-block;
+  width: 0.3rem;
+  margin-left: 0.13rem;
+  float: left;
+  border: 0.01rem solid #bbbbbb;
+  color: #888888;
+  font-size: 0.09rem;
+  line-height: 0.175rem;
 }
-.productBlock>img{
-    width: 1.5rem;
-    height: 1.2rem;
+.productBlock > img {
+  width: 1.5rem;
+  height: 1.2rem;
 }
-.productBlock p{
-    font-size: .14rem;
-    margin-top: 0;
-    margin-left: .13rem;
-    float: left;
-    text-align: left;
+.productBlock p {
+  font-size: 0.14rem;
+  margin-top: 0;
+  margin-left: 0.13rem;
+  float: left;
+  text-align: left;
 }
-.productBlock div{
-    font-size: .135rem;
-    float: left;
-    margin-left: .06rem;
-    color: #0288d1;
+.productBlock div {
+  font-size: 0.135rem;
+  float: left;
+  margin-left: 0.06rem;
+  color: #0288d1;
 }
-.productBlock .productBlock_specification{
-    color: #888888;
-    font-size: 0.09rem;
-    line-height: 0.2rem;
-    margin-left: 0.13rem;
+.productBlock .productBlock_specification {
+  color: #888888;
+  font-size: 0.09rem;
+  line-height: 0.2rem;
+  margin-left: 0.13rem;
 }
-.productBlock_bottom{
-    margin-top: -.08rem;
+.productBlock_bottom {
+  margin-top: -0.08rem;
+}
+</style>
+<style>
+.orderd .el-tabs__nav{
+    margin:0rem .11rem;
 }
 </style>
