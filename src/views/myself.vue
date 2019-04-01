@@ -70,16 +70,18 @@
                 </li>
                 <div class="myself_list_solid"></div>
                 <li>
-                     <div class="myself_list_left">
-                    <img src="../assets/Offer.png" alt="">
-                    <span>优惠卡券</span>
-                    </div>
-                    <img src="../assets/more.png" alt="" class="myself_list_rights">
-                    <span class="myself_list_offer">1张</span>
+                    <a href="/coupon" style="text-decoration: none;color: #2c3e50;">
+                        <div class="myself_list_left">
+                        <img src="../assets/Offer.png" alt="">
+                        <span>优惠卡券</span>
+                        </div>
+                        <img src="../assets/more.png" alt="" class="myself_list_rights">
+                        <span class="myself_list_offer">1张</span>
+                    </a>
                 </li>
                 <div  class="myself_list_solid"></div>
                 <li>
-                     <div class="myself_list_left">
+                    <div class="myself_list_left">
                     <img src="../assets/address.png" alt="">
                     <span>收货地址</span>
                     </div>
@@ -87,7 +89,7 @@
                 </li>
                 <div class="myself_list_solid"></div>               
                 <li>
-                     <div class="myself_list_left">
+                    <div class="myself_list_left">
                     <img src="../assets/before.png" alt="">
                     <span>浏览记录</span>
                     </div>
