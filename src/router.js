@@ -122,5 +122,17 @@ export default new Router({
       component: () => import( './views/addAddress.vue'),
       meta:{title:'新增地址'},
     },
+    {
+      path: '/coupon',
+      name: 'coupon',
+      component: () => import( './views/coupon.vue'),
+      meta:{title:'我的卡券'},
+    },
+    {
+      path: '/businessOrder',
+      name: 'businessOrder',
+      component: () => import( './views/businessOrder.vue'),
+      meta:{title:'商家订单'},
+    },
   ]
 })

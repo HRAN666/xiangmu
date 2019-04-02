@@ -26,7 +26,7 @@
         <div class="header_fourth" v-if="headClassfourthDisplay"><!--只有标题没有返回按钮 蓝色底 -->
             <div class="title_style4">{{headTitle}}</div>
         </div>
-         <div class="header_five" v-if="headClassFiveDisplay"><!--有标题，有返回按钮，顶部右侧有按钮(2)  白色底-->
+        <div class="header_five" v-if="headClassFiveDisplay"><!--有标题，有返回按钮，顶部右侧有按钮(2)  白色底-->
             <router-link :to="routerTo">
                 <img src="../assets/arrow.png" alt="" class="header_img">
             </router-link>
@@ -35,6 +35,12 @@
             <img src="../assets/share.png" alt="">
             <img src="../assets/goodsmore.png" alt="">
             </div>
+        </div>
+        <div class="header_six" v-if="headClassSixDisplay"><!--有标题，有返回按钮 蓝色底 -->
+            <router-link :to="routerTo" class="header_six_back">
+                <img src="../assets/arrow_second.png" alt="" class="header_img"><span>返回</span>
+            </router-link>
+            <div class="title_style6">{{headTitle}}</div>
         </div>
     </div>
 </template>
@@ -47,7 +53,8 @@ export default {
             headClassSecondDisplay:true,//第二种样式
             headClassThirdDisplay:false,//第三种样式
             headClassfourthDisplay:false,
-            headClassFiveDisplay:false
+            headClassFiveDisplay:false,
+            headClassSixDisplay:false
         }
     },
     methods: {
@@ -57,16 +64,20 @@ export default {
                 this.headClassSecondDisplay=false;
             }
             if (this.$props.headClass =='style3') {
-                 this.headClassSecondDisplay=false;
-                 this.headClassThirdDisplay=true;
+                this.headClassSecondDisplay=false;
+                this.headClassThirdDisplay=true;
             } 
             if (this.$props.headClass =='style4') {
-                 this.headClassSecondDisplay=false;
-                 this.headClassfourthDisplay=true;
+                this.headClassSecondDisplay=false;
+                this.headClassfourthDisplay=true;
             } 
             if (this.$props.headClass =='style5') {
-                 this.headClassSecondDisplay=false;
-                 this.headClassFiveDisplay=true;
+                this.headClassSecondDisplay=false;
+                this.headClassFiveDisplay=true;
+            }
+            if (this.$props.headClass =='style6') {
+                this.headClassSecondDisplay=false;
+                this.headClassSixDisplay=true;
             }
         },
         toDelete(){
@@ -102,6 +113,10 @@ export default {
         background: #fff;
         color: #000;
     }
+    .header_six{
+        height: .45rem;
+        background:#0288D1;
+    }
     .header_img{
         position: absolute;
         left: .06rem;
@@ -134,6 +149,11 @@ export default {
         font-size: .16rem;
         padding-top: .1rem;
     }
+    .title_style6{
+        color: #fff;
+        font-size: .18rem;
+        padding-top: .09rem;
+    }
     .title_second{
         font-size: .14rem;
         position: absolute;
@@ -160,9 +180,23 @@ export default {
         height: .22rem;
         margin-right: .1rem;
     }
-   .header_five .header_five_right{
+    .header_five .header_five_right{
        float: right;
        margin-top: -.9rem
-   }
+    }
+    .header_six .header_six_back{
+        height: .45rem;
+        font-size: .18rem;
+        text-decoration: none;
+        color: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .header_six .header_six_back span{
+        position: relative;
+        top: .09rem;
+        left: .3rem;
+    }
 </style>
 

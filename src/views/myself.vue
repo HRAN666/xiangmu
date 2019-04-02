@@ -59,27 +59,43 @@
                 </div>
             </div>
         </div>
-        <div class="my">
-            <div class="my_list">
-               <img src="../assets/collect.png" alt="">
-                <span>我的收藏</span>
-                <img src="../assets/more.png" alt="" class="my_list_go">
-            </div>
-            <div class="my_list">
-                 <img src="../assets/Offer.png" alt="">
-                <span>优惠卡券</span>
-                <img src="../assets/more.png" alt="" class="my_list_go">
-            </div>
-            <div class="my_list">
-                <img src="../assets/address.png" alt="">
-                <span>收货地址</span>
-                <img src="../assets/more.png" alt="" class="my_list_go">
-            </div>
-             <div class="my_list">
-                <img src="../assets/before.png" alt="">
-                <span>浏览记录</span>
-                <img src="../assets/more.png" alt="" class="my_list_go">
-            </div>
+        <div class="myself_list">
+            <ul>
+                <li>
+                    <div class="myself_list_left">
+                    <img src="../assets/collect.png" alt="">
+                    <span>我的收藏</span>
+                    </div>
+                    <img src="../assets/more.png" alt="" class="myself_list_right">
+                </li>
+                <div class="myself_list_solid"></div>
+                <li>
+                    <a href="/coupon" style="text-decoration: none;color: #2c3e50;">
+                        <div class="myself_list_left">
+                        <img src="../assets/Offer.png" alt="">
+                        <span>优惠卡券</span>
+                        </div>
+                        <img src="../assets/more.png" alt="" class="myself_list_rights">
+                        <span class="myself_list_offer">1张</span>
+                    </a>
+                </li>
+                <div  class="myself_list_solid"></div>
+                <li>
+                    <div class="myself_list_left">
+                    <img src="../assets/address.png" alt="">
+                    <span>收货地址</span>
+                    </div>
+                    <img src="../assets/more.png" alt="" class="myself_list_right">                    
+                </li>
+                <div class="myself_list_solid"></div>               
+                <li>
+                    <div class="myself_list_left">
+                    <img src="../assets/before.png" alt="">
+                    <span>浏览记录</span>
+                    </div>
+                    <img src="../assets/more.png" alt="" class="myself_list_right">                    
+                </li>
+            </ul>
         </div>
     <footer-currency></footer-currency>
     </div>
