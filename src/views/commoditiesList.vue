@@ -4,7 +4,7 @@
             <div class="commodities-headerLeft" @click="goHome"><img src="../assets/goBack.png" alt="返回"></div>
             <!-- <div class="commodities-headerCenter"><el-input v-model="input" placeholder="请输入内容"></el-input></div>
              -->
-             <div class="commodities-headerCenter"><el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input"></el-input></div>
+             <div class="commodities-headerCenter"><el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input" @input="toseachShop"></el-input></div>
             <div class="commodities-headerRight"><img src="../assets/msg_shop.png" alt="msg"></div>
         </div>
         <div class="menuNav">
@@ -16,60 +16,38 @@
                 <el-menu-item index="4">筛选<i class="el-icon-menu"></i></el-menu-item>
             </el-menu>
         </div>
-        <div>
-            <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
-                <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
+        <div class="list">
+            <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index">
+                <div class="imgLeft"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
+                <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">￥30.00</div>
-                <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
-            </div>
-            <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
-                <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">￥30.00</div>
-                <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
-            </div>
-            <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
-                <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">￥30.00</div>
-                <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
-            </div>
-            <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
-                <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">￥30.00</div>
-                <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
-            </div>
-            <div class="commodities-list">
-                <div class="imgLeft"><img src="../assets/goods.jpg" alt="商品"></div>
-                <div class="informationTop">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">￥30.00</div>
-                <div class="buy"><el-button type="danger" round>立即购买</el-button></div>
+                <div class="price">{{'￥'+item.price}}</div>
+                <div class="buy"><el-button type="danger" round @click="addShop(item.storeId,item.id,item.price)">立即购买</el-button></div>
             </div>
             <div class="commodities-bottom">我是有底线的</div> 
         </div>
         <div class="yourShoppingCar" v-if="this.shopCommodities==0">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLeft">未选购商品<br>另需配送费1元</div>
-            <div class="shoppingRight">￥15元起</div>
+            <router-link to="/shopcar">
+            <div class="shoppingRight">结算</div>
+            </router-link>
         </div>
         <div class="yourShoppingCar" v-if="this.shopCommodities>0">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLength">{{shopCommodities}}</div>
             <div class="shoppingLeft">已选购{{shopCommodities}}件商品</div>
-            <div class="shoppingRight">￥30.00</div>
+            <router-link to="/shopcar">
+            <div class="shoppingRight">{{'￥'+totlePrice.toFixed(2)}}</div>
+            </router-link>
         </div>
         <footer-currency></footer-currency>
     </div>
 </template>
 <script>
 import footer from '../components/footer.vue'
+import { Toast } from 'mint-ui';
+import {seachShop,loadingShop,addShop} from '../api/api.js'
 export default {
     components:{
         'footer-currency':footer
@@ -79,20 +57,66 @@ export default {
             input: '',
             activeIndex: '1',
             shopCommodities: '0',
+            seachShopList:'',//搜索出来的商品List
+            totlePrice:0
         }
     },
-     methods: {
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      goHome(){
-          this.$router.go(-1)
-     }
+
+    methods: {
+        handleSelect(key, keyPath) {
+            console.log(key, keyPath);
+        },
+        toseachShop(){
+            let params={
+                "name":this.input
+            }
+            this.seachShopList='';
+            if (this.input=='') {
+                this.loadingAllShop()
+            }
+            seachShop(params).then((result) => {
+                    this.seachShopList=result.data.list;
+            }).catch((err) => {
+                console.log(err)              
+            });
+        },
+        loadingAllShop(){
+            let params={}
+            loadingShop(params).then((result) => {
+                this.seachShopList=result.data.list
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
+        goHome(){
+            this.$router.push('/')
+        },
+        addShop(storeId,id,price){
+            let params={
+                "productId":id,
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":storeId
+            }
+            addShop(params).then((result) => {
+                Toast('成功加入购物车');
+                this.shopCommodities++;
+                this.totlePrice+=price;
+            }).catch((err) => {
+                
+            });
+        }
+    },
+
+    mounted () {
+       this.loadingAllShop()
     }
 }
 </script>
 
 <style scoped>
+    .list{
+        margin-bottom: 1.33rem;
+    }
     .commodities-header{
         width: 100%;
         height: .5rem;
@@ -153,6 +177,7 @@ export default {
     }
     .commodities-list .imgLeft img{
         height: .8rem;
+        width: .8rem;
     }
     .commodities-list .informationTop {
         position: absolute;
@@ -258,10 +283,10 @@ export default {
     .commodities-bottom{
     font-size: .12rem;
     width: 100%;
-    position: relative;
+    position: absolute;
     margin-bottom: 1.26rem;
-    top: .3rem;
     color:#a2a0a0;
+    margin-top: .05rem;
     }
     .commodities-bottom::before{
     content:'';

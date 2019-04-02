@@ -59,41 +59,27 @@
                 </div>
             </div>
         </div>
-        <div class="myself_list">
-            <ul>
-                <li>
-                    <div class="myself_list_left">
-                    <img src="../assets/collect.png" alt="">
-                    <span>我的收藏</span>
-                    </div>
-                    <img src="../assets/more.png" alt="" class="myself_list_right">
-                </li>
-                <div class="myself_list_solid"></div>
-                <li>
-                     <div class="myself_list_left">
-                    <img src="../assets/Offer.png" alt="">
-                    <span>优惠卡券</span>
-                    </div>
-                    <img src="../assets/more.png" alt="" class="myself_list_rights">
-                    <span class="myself_list_offer">1张</span>
-                </li>
-                <div  class="myself_list_solid"></div>
-                <li>
-                     <div class="myself_list_left">
-                    <img src="../assets/address.png" alt="">
-                    <span>收货地址</span>
-                    </div>
-                    <img src="../assets/more.png" alt="" class="myself_list_right">                    
-                </li>
-                <div class="myself_list_solid"></div>               
-                <li>
-                     <div class="myself_list_left">
-                    <img src="../assets/before.png" alt="">
-                    <span>浏览记录</span>
-                    </div>
-                    <img src="../assets/more.png" alt="" class="myself_list_right">                    
-                </li>
-            </ul>
+        <div class="my">
+            <div class="my_list">
+               <img src="../assets/collect.png" alt="">
+                <span>我的收藏</span>
+                <img src="../assets/more.png" alt="" class="my_list_go">
+            </div>
+            <div class="my_list">
+                 <img src="../assets/Offer.png" alt="">
+                <span>优惠卡券</span>
+                <img src="../assets/more.png" alt="" class="my_list_go">
+            </div>
+            <div class="my_list">
+                <img src="../assets/address.png" alt="">
+                <span>收货地址</span>
+                <img src="../assets/more.png" alt="" class="my_list_go">
+            </div>
+             <div class="my_list">
+                <img src="../assets/before.png" alt="">
+                <span>浏览记录</span>
+                <img src="../assets/more.png" alt="" class="my_list_go">
+            </div>
         </div>
     <footer-currency></footer-currency>
     </div>
@@ -107,7 +93,7 @@ export default {
     data () {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
-            nickName:localStorage.getItem('nickname'),//名字
+            nickName:localStorage.getItem('nickName'),//名字
             vip:false,//判断是否是会员
             color:'header_float_reg_vip',//会员样式
         }
@@ -316,48 +302,6 @@ export default {
     left: 75%;
     top: .52rem;
 }
-.myself_list {
-    height: 1.65rem;
-    background: #fff;
-    width: 3.59rem;
-    border-radius: .05rem;
-    position: relative;
-    left: 0;
-    right: 0;
-    margin: auto;
-    top: .7rem;
-    font-size: .14rem;
-}
-.myself_list .myself_list_left img{
-    width: .2rem;
-    height: .2rem;
-}
-.myself_list_left{
-    float: left;
-    margin-left: .12rem;
-    position: relative;
-    top:.05rem;
-}
-.myself_list ul li{
-    display: table;
-    margin-top: .18rem;
-}
-.myself_list_left img{
-    position: relative;
-    top: .05rem;
-    left: .05rem;
-}
-.myself_list_left span{
-    margin-left: .12rem;
-}
-.myself_list_solid{
-    height: .01rem;
-    width: 94%;
-    background: #dad9d9;
-    position: relative;
-    left:.09rem;
-    top: .16rem;
-}
 .header_float_reg_vip{
     color: #0288D1 ;
 }
@@ -384,6 +328,59 @@ export default {
     position: relative;
     left: 1.85rem;
     top: .1rem;
+}
+.my{
+    position: relative;
+    top: .9rem;
+    width: 3.59rem;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.my .my_list{
+    background: #fff;
+    font-size:.14rem;
+    text-align: left;
+    height: .35rem;
+    padding-top: .05rem;
+    box-sizing: border-box;
+    padding-left: .1rem;
+    position: relative;
+}
+.my .my_list::before{
+    content: '';
+    position: absolute;
+    background: #dad9d9;
+    height: .01rem;
+    width: 96%;
+    left: 2%;
+    top: .34rem;
+    z-index: 999;
+}
+.my .my_list:last-of-type{
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+
+}
+.my .my_list:first-of-type{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.my .my_list:last-of-type::before{
+    display: none;
+
+}
+.my .my_list img{
+    width: .18rem;
+    height: .18rem;
+    position: relative;
+    top: .04rem;
+    margin-right: .1rem;
+}
+.my .my_list .my_list_go{
+    float: right;
+    width: .14rem;
+    height: .14rem;
 }
 </style>
 
