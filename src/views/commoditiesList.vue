@@ -21,7 +21,7 @@
                 <div class="imgLeft"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
                 <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">{{'￥'+item.price}}</div>
+                <div class="price">{{'￥'+item.price.toFixed(2)}}</div>
                 <div class="buy"><el-button type="danger" round @click="addShop(item.storeId,item.id,item.price)">立即购买</el-button></div>
             </div>
             <div class="commodities-bottom">我是有底线的</div> 

@@ -137,12 +137,10 @@
         components: {
         'footer-currency':footer
         },
-        el:'.bigbox',
         data(){
-        return{
-            box_text:'可口可乐摩登罐 330*24 整箱装 可口可乐出品'
-        }
-        
+            return{
+                box_text:'可口可乐摩登罐 330*24 整箱装 可口可乐出品'
+            }
         },
         methods: {
         },
@@ -156,6 +154,7 @@
     width: 100%;
     float: left;
     background-color: #ffffff;
+    overflow-x: hidden;
 }
 .orderdetails_box{
     font-size: .13rem;

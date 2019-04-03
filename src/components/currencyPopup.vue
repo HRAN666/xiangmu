@@ -39,8 +39,16 @@
             <div class="popup_list">
                 <span>支付方式</span>
                 <div>
-                    微信支付
-                    <img src="../assets/down.png" alt="">
+                <el-dropdown  @command="handleCommand" trigger="click">
+                <span class="el-dropdown-link">
+                  <img src="../assets/wechatPay.png" alt="" v-if="selectCommand=='wechat'" class="popup_list_wechat">{{selectpay}}
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command='wechat'>微信支付</el-dropdown-item>
+                    <el-dropdown-item command='wait'>到店支付</el-dropdown-item>
+                </el-dropdown-menu>
+                <img src="../assets/down.png" alt=""> 
+                </el-dropdown>
                 </div>
             </div>
             <div class="popup_bottom">
@@ -135,12 +143,13 @@
 </template>
 <script>
 export default {
-    props:['popup','title'],//title:模块名字 popup 弹窗类型
+    props:['popup','title',"selectpay"],//title:模块名字 popup 弹窗类型
     data () {
         return {
             displayPopup:true,//初始样式默认不弹窗
             isPoup:false,//弹窗
             expressShow:false,//选择快递的控件
+            selectCommand:'wechat',
         }
     },
     methods: {
@@ -149,7 +158,11 @@ export default {
         },
         express(){
             this.expressShow=true
-        }
+        },
+        handleCommand(command) {
+           this.selectCommand=command
+           this.$emit('changePay',this.selectCommand)
+      }
     },
     mounted () {
   
@@ -167,6 +180,9 @@ export default {
     left: 0;
     border-radius: 0;
     }
+.popup_list .el-dropdown{
+    right: -.18rem;
+}
 </style>
 <style scoped>
 .popup{
@@ -192,6 +208,11 @@ export default {
     height: .5rem;
     line-height: 3.5; 
     position: relative;  
+}
+.popup_list .popup_list_wechat{
+    left: -.1rem;
+    width:.2rem;
+    height: .2rem;
 }
 .popup_list::before{
     content:'';

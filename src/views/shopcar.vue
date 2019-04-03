@@ -86,7 +86,7 @@
             <span class="shopCar_totle_discount">已优惠：￥10.00</span>
             <el-button type="primary" @click="topay">{{'结算('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :totle="totlePrice.toFixed(2)" :shopLength="shopInf.length"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :totle="totlePrice.toFixed(2)" :shopLength="shopInf.length" :selectpay="selectpay" @changePay="paymethod"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -132,7 +132,8 @@ export default {
                     ],
             shopInf:[],//商品所有信息（取价格&&数量)
             showMark:false,
-            totlePrice:0
+            totlePrice:0,
+            selectpay:'微信支付',
     }
     },
     methods:{
@@ -169,7 +170,20 @@ export default {
         displayMark(){
             this.showMark=false
             this.$refs.popup.isPoup=false
+        },
+        paymethod(e){
+            switch (e) {
+                case 'wechat':
+                    this.selectpay='微信支付'
+                    break;
+                case 'wait':
+                    this.selectpay='到店支付'                    
+                    break;
+                default:
+                    break;
+            }
         }
+
     },
     created() {
          this.tocheckAll()

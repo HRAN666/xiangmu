@@ -2,62 +2,13 @@
     <div>
     <header-general  headTitle="积分商城" headClass="style4" routerTo='/'></header-general>
         <div class="integral_content">
-            <div class="product">
+            <div class="product" v-for="(item,index) in integralList" :key="index">
             <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
+                <img :src="'http://img.cmhg.shop/'+item.icon" class="">
+                <p>{{item.name}}</p>
                 <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            </div>
-            <div class="product">
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            </div>
-            <div class="product">
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
+                    <div class="productBlock_price">{{item.integral+'积分'}}</div>
+                    <div class="productBlock_specification">{{item.saleVolume}}人已兑</div>
                     <span>兑换</span>
                 </div>
             </div>
@@ -70,11 +21,30 @@
 <script>
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
+import {integral} from '../api/api.js'
 export default {
     components:{
         'header-general':header,
         'footer-currency':footer
-    }
+    },
+    data() {
+        return {
+            integralList:''
+        }
+    },
+    methods: {
+        loadingIntegral(){
+            let params={}
+            integral(params).then((result) => {
+                this.integralList=result.data.list
+            }).catch((err) => {
+                
+            });
+        }
+    },
+    mounted() {
+        this.loadingIntegral()
+    },
 }
 </script>
 <style scoped>
@@ -87,7 +57,7 @@ export default {
     float: left;
     margin-left: .13rem;
     background: #fff;
-    border-radius:.15rem;
+    border-radius:.1rem;
     margin-bottom: .2rem;
     
 }
@@ -97,7 +67,7 @@ export default {
     border-radius: .05rem;
     display: inline-block;
     width: .3rem;
-    margin-left: .12rem;
+    margin-left: .2rem;
     color: #fff;
     float: left;
 }
@@ -110,15 +80,23 @@ export default {
     margin-top: -.24rem;
     margin-left:.13rem;
     text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .productBlock div{
     font-size: .12rem;
     float: left;
-    margin-left: .06rem;
+    margin-left: .1rem;
     color: #0288d1;
+}
+.productBlock .productBlock_price{
+    font-size: .14rem;
 }
 .productBlock .productBlock_specification{
     color: #888888;
+    margin-top: .03rem;
+    font-size: .1rem;
 }
 .productBlock_bottom{
     margin-top: -.08rem;
