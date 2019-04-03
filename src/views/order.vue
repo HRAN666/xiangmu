@@ -1,12 +1,7 @@
 <template>
 <div class="orderd">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="全部" name="first"></el-tab-pane>
-        <el-tab-pane label="待付款" name="second"></el-tab-pane>
-        <el-tab-pane label="待发货" name="third"></el-tab-pane>
-        <el-tab-pane label="待收货" name="fourth"></el-tab-pane>
-        <el-tab-pane label="待评价" name="five"></el-tab-pane>
-    </el-tabs>
+    <el-tabs v-model="activeName" >
+        <el-tab-pane label="全部" name="first">
     <div class="bigbox" style="display:block;" v-for="(item,index) in 5" :key="index">
         <div class="box">
                 <div class="box_long"> 
@@ -36,75 +31,84 @@
             <div>查看物流</div>
         </div>
     </div>
+        </el-tab-pane>
+        <el-tab-pane label="待付款" name="second">
+            <div class="integral_content">
+                <div class="integral_tops">
+                    没有更多订单数据了~ 
+                </div>
+                <div class="product">
+                    <div class="integral_tops" style="font-size:0.18rem;color:#0288d1;background-color:#efefef;">
+                        商品推荐
+                    </div>
+                    <div class="productBlock">
+                        <img src="../assets/shopList.jpg" class="">
+                        <p>众合盐焗鸡蛋一盒</p>
+                        <div class="productBlock_bottom"> 
+                            <div class="productBlock_price">￥25.50</div>
+                            <div class="productBlock_specification">11人已兑</div>
+                            <span>兑换</span>
+                        </div>
+                    </div>
+                    <div class="productBlock">
+                        <img src="../assets/shopList.jpg" class="">
+                        <p>众合盐焗鸡蛋一盒</p>
+                        <div class="productBlock_bottom"> 
+                            <div class="productBlock_price">￥25.50</div>
+                            <div class="productBlock_specification">11人已兑</div>
+                            <span>兑换</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="productBlock">
+                        <img src="../assets/shopList.jpg" class="">
+                        <p>众合盐焗鸡蛋一盒</p>
+                        <div class="productBlock_bottom"> 
+                            <div class="productBlock_price">￥25.50</div>
+                            <div class="productBlock_specification">11人已兑</div>
+                            <span>兑换</span>
+                        </div>
+                    </div>
+                    <div class="productBlock">
+                        <img src="../assets/shopList.jpg" class="">
+                        <p>众合盐焗鸡蛋一盒</p>
+                        <div class="productBlock_bottom"> 
+                            <div class="productBlock_price">￥25.50</div>
+                            <div class="productBlock_specification">11人已兑</div>
+                            <span>兑换</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="product">
+                    <div class="productBlock">
+                        <img src="../assets/shopList.jpg" class="">
+                        <p>众合盐焗鸡蛋一盒</p>
+                        <div class="productBlock_bottom"> 
+                            <div class="productBlock_price">100积分</div>
+                            <div class="productBlock_specification">11人已兑</div>
+                            <span>兑换</span>
+                        </div>
+                    </div>
+                    <div class="productBlock">
+                        <img src="../assets/shopList.jpg" class="">
+                        <p>众合盐焗鸡蛋一盒</p>
+                        <div class="productBlock_bottom"> 
+                            <div class="productBlock_price">100积分</div>
+                            <div class="productBlock_specification">11人已兑</div>
+                            <span>兑换</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </el-tab-pane>
+        <el-tab-pane label="待发货" name="third"></el-tab-pane>
+        <el-tab-pane label="待收货" name="fourth"></el-tab-pane>
+        <el-tab-pane label="待评价" name="five"></el-tab-pane>
+    </el-tabs>
 
-    <div class="integral_content" style="display:none;">
-        <div class="integral_tops">
-            没有更多订单数据了~ 
-        </div>
-        <div class="product">
-            <div class="integral_tops" style="font-size:0.18rem;color:#0288d1;background-color:#efefef;">
-                商品推荐
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">￥25.50</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">￥25.50</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">￥25.50</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">￥25.50</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-        </div>
-        <div class="product">
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-            <div class="productBlock">
-                <img src="../assets/shopList.jpg" class="">
-                <p>众合盐焗鸡蛋一盒</p>
-                <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">100积分</div>
-                    <div class="productBlock_specification">11人已兑</div>
-                    <span>兑换</span>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
 </div>
 
 </template>
@@ -116,7 +120,8 @@ export default {
   },
   data() {
     return {
-      box_text: "可口可乐摩登罐 330*24 整箱装 可口可乐出品"
+      box_text: "可口可乐摩登罐 330*24 整箱装 可口可乐出品",
+      activeName:"first"
     };
   },
   methods: {},
