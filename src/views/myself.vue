@@ -93,7 +93,7 @@ export default {
     data () {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
-            nickName:localStorage.getItem('nickName'),//名字
+            nickName:localStorage.getItem('nickname'),//名字
             vip:false,//判断是否是会员
             color:'header_float_reg_vip',//会员样式
         }

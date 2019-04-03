@@ -13,10 +13,9 @@
     <div class="home-banner">
       <el-carousel :interval="5000" arrow="never">   
         <el-carousel-item v-for="(item,index) in bannerImg" :key="index">
-        <img src="../assets/Bannner.jpg" alt="">
+        <img :src="'http://'+item" alt="">
       </el-carousel-item>
       </el-carousel>
-        <!-- <img src="../assets/Bannner.jpg" alt=""> -->
     </div>
     <div class="home-shop">
       <div class="home-shop-list">
@@ -214,7 +213,7 @@
           </div>
           </div>
       </div>
-        <div class="home-title">
+      <div class="home-title">
           <img src="../assets/comm.png" alt="" class="home-sub">
           <span>优惠到底</span>
       </div>
@@ -266,7 +265,7 @@
 
 <script>
 import footer from '../components/footer'
-import {selectCatalogParentWithoutToken} from '../api/api.js'
+import {selectCatalogParentWithoutToken,shopmodel,homeBanner} from '../api/api.js'
 export default {
   components: {
     'footer-currency':footer
@@ -295,10 +294,31 @@ export default {
           }).catch((err) => {
               console.log(err)
           });
+      },
+      loadingShopModel(){
+        let params={}
+        shopmodel(params).then((result) => {
+            
+        }).catch((err) => {
+          
+        });
+      },
+      loadingBanner(){
+        let params={}
+          homeBanner(params).then((result) => {
+            for (let index = 0; index < result.data.list.length; index++) {
+                this.bannerImg.push(JSON.parse(result.data.list[index].banner)[index].url)
+            }  
+            console.log(this.bannerImg)
+          }).catch((err) => {
+            
+          });
       }
       },
   mounted () {
-      this.loadingShopList()
+      this.loadingShopList();
+      this.loadingShopModel();
+      this.loadingBanner();
   }
 }
 </script>
@@ -312,6 +332,9 @@ export default {
 }
 .home .el-carousel__container{
   height: 1.72rem;
+}
+.home .el-carousel{
+  overflow-x: inherit
 }
 </style>
 
@@ -394,7 +417,7 @@ export default {
   width:27%;
 }
 .home-discount{
-  margin-top:-.5rem;
+  margin-top:-.65rem;
 }
 .home-discount-shoplist{
   height: 2.4rem;
@@ -426,7 +449,7 @@ export default {
 }
 .home-title{
     height: 0;
-    margin-top: -25px;
+    margin-top: -.25rem;
     position: relative;
 }
 .home-to{

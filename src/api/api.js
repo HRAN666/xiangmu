@@ -26,6 +26,18 @@ export const addShop =params =>{
 export const loadingShop =params =>{
     return axios.post('api/biz/v01/listBizProduct.do',params);
 }
+/***********商品模块 */
+export const shopmodel =params =>{
+    return axios.post('api/biz/v01/selectProductByCatalogId.do',params);
+}
+/************积分商城 */
+export const integral =params =>{
+    return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
+}
+/************首页banner */
+export const homeBanner =params =>{
+    return axios.post('/api/portal/v01/listPortalBanner.do',params);
+}
 axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {
