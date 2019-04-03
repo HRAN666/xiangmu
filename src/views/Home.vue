@@ -21,42 +21,10 @@
     <div class="home-shop">
       <div class="home-shop-list">
         <el-row :gutter="10">
-            <el-col :span="6">
+            <el-col :span="6" v-for="(item,index) in shopList" :key="index">
               <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
+              <p>{{item.nodeName}}</p>
             </el-col>
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-            </el-col>
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-            </el-col>
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-          </el-col>
-        </el-row>
-      </div>
-       <div class="home-shop-list">
-        <el-row :gutter="10">
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-            </el-col>
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-            </el-col>
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-            </el-col>
-            <el-col :span="6">
-              <img src="../assets/shopCar.png" alt="">
-              <p>休闲食品</p>
-          </el-col>
         </el-row>
       </div>
     </div>
@@ -298,6 +266,7 @@
 
 <script>
 import footer from '../components/footer'
+import {selectCatalogParentWithoutToken} from '../api/api.js'
 export default {
   components: {
     'footer-currency':footer
@@ -306,6 +275,9 @@ export default {
     return {
       seachContent:'',//seach的值
       bannerImg:[],//bannerImg
+      shopList:'',
+      resultShopListLength:8,//配置list显示个数
+
     }
   },
   methods: {
@@ -314,10 +286,19 @@ export default {
       },
       goSeach(){
         this.$router.push('/commoditiesList')
+      },
+      loadingShopList(){
+        let params={};
+          selectCatalogParentWithoutToken(params).then((result) => {
+              this.shopList=result.data.list;
+              this.shopList.splice(this.resultShopListLength, this.shopList.length-this.resultShopListLength)
+          }).catch((err) => {
+              console.log(err)
+          });
       }
       },
   mounted () {
-    
+      this.loadingShopList()
   }
 }
 </script>
@@ -377,7 +358,6 @@ export default {
   height: 100%;;
 }
 .home-shop{
-  height:2rem ;
   background:#fff;
   margin-top:.15rem;
 }
@@ -453,7 +433,7 @@ export default {
     position: relative;
     width: .2rem;
     right: -40%;
-    top: -.45rem;
+    top: -.48rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
   width:.21rem;

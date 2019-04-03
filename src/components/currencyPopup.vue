@@ -32,8 +32,7 @@
              <div class="popup_list">
                 <span>应付总额</span>
                 <div class="popup_list_color">
-                    <span> {{'￥'+totle}}</span>
-                    <span class="popup_list_length">{{'(x'+shopLength+')'}}</span>
+                    ¥30.00(x1)
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
@@ -41,7 +40,6 @@
                 <span>支付方式</span>
                 <div>
                     微信支付
-                    <img src="../assets/wechatPay.png" alt="" class="popup_list_wechatPay">
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
@@ -137,7 +135,7 @@
 </template>
 <script>
 export default {
-    props:['popup','title','totle','shopLength'],//title:模块名字 popup 弹窗类型
+    props:['popup','title'],//title:模块名字 popup 弹窗类型
     data () {
         return {
             displayPopup:true,//初始样式默认不弹窗
@@ -154,7 +152,7 @@ export default {
         }
     },
     mounted () {
-        
+  
     },
     computed: {
 
@@ -222,10 +220,6 @@ export default {
 .popup_list .popup_list_color{
     color: #0288d1;
 }
-.popup_list .popup_list_color .popup_list_length{
-    margin-left:.05rem;
-    color:#818181;
-}
 .popup_bottom {
     font-size:.12rem;
 }
@@ -241,14 +235,6 @@ export default {
 .popup_bottom .popup_bottom_first{
     color:#949494;
 }
-.popup_list .popup_list_wechatPay{
-    width: .23rem;
-    height: .23rem;
-    float: left;
-    margin-right: .2rem;
-    margin-top: .1rem
-}
-;
 /**********代取************/
 .express-message{
     position: fixed;

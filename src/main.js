@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import store from './store/store'
 import mint from 'mint-ui'
 import elmentUi from 'element-ui'
 import VueAMap from 'vue-amap';
@@ -17,7 +17,7 @@ router.beforeEach((to, from, next) => {
     let userOpenId=localStorage.getItem('userOpenId');
     let code = localStorage.getItem('code');
     if (!userOpenId && to.path!='/author') {
-      localStorage.setItem('LoginUrl',window.location.href)
+      localStorage.setItem('beforeUrl',window.location.href)
         if (!code) {
             next({
               path:'/author'
