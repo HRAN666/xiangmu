@@ -86,7 +86,49 @@
         <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .16rem .11rem;">
             <span class="orderdetails_box_no">备注：</span>
             <span>无</span>
-        </div>        
+        </div>     
+        <div class="orderdetails_box" style="border-bottom: .1rem solid #f7f7f7;padding: .16rem .11rem;">
+            <span>配送</span>
+            <span class="orderdetails_delivery">送货上门</span>
+        </div>   
+        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .16rem .11rem;">
+            <div class="orderdetails_money">
+                <span>运费</span>
+                <span>￥0.00</span>
+            </div>
+            <div class="orderdetails_moneybottom">
+                <span>实付款（含运费）</span>
+                <span>￥115.73</span>
+            </div>
+        </div>     
+        <div class="orderdetails_box" style="border-bottom: .1rem solid #f7f7f7;padding: .135rem .11rem;">
+            <div class="orderdetails_integration">
+                <span>确认收货后可获得：</span>
+                <span>2积分</span>
+            </div>
+        </div>
+        <div class="orderdetails_box" style="padding: .135rem .11rem;">
+            <div class="orderdetails_number">
+                <div>订单编号：11523546265138451</div>
+                <div>支付方式：线上支付</div>
+                <div>下单时间：2018-10-1 18:42:07</div>
+                <div>成交时间：2018-10-3 15:28:03</div>
+                <div>成交时间：2018-10-3 15:28:03</div>
+            </div>
+        </div>
+        <div class="orderdetails_box" style="padding: .135rem .11rem;background-Color: #f7f7f7">
+            <div class="orderdetails_phone">
+                <span>如有疑问，请致电聪明惠购客服18038054405</span>
+                <img src="../assets/电话.png">
+            </div>
+        </div>
+        <div class="orderdetails_box" style="padding: .105rem .11rem;">
+            <div class="orderdetails_button">
+                <span>确认收货</span>
+                <span>查看物流</span>
+
+            </div>
+        </div>
     </div>
 </template> 
 <script>
@@ -130,7 +172,7 @@
 .orderdetails_boxname>span:first-child{
     float: left;
 }
-.orderdetails_boxname>span:last-child{
+.orderdetails_boxname>span:nth-child(2){
     float: right;
 }
 .orderdetails_boxname>div{
@@ -245,6 +287,76 @@ font-size: 30px;
 .orderdetails_box_no+span{
     font-size: .14px;
     color:#a39e9e;
+}
+.orderdetails_delivery{
+    float: right;
+    font-size: .14rem;
+}
+.orderdetails_delivery_span{
+    font-size: .14rem;
+}
+.orderdetails_money{
+    float: left;
+    width: 100%;
+    font-Size: .12rem;
+    color: #606060;
+}
+.orderdetails_money>span:last-child{
+    float: right;
+}
+.orderdetails_moneybottom{
+    float: left;
+    width: 100%;
+    margin-top: .25rem;
+    font-Size: .14rem;
+    color: #606060;
+}
+.orderdetails_moneybottom>span:last-child{
+    color: #0288d1;
+    float: right;
+}
+.orderdetails_integration{
+    font-Size: .12rem;
+    color: #6f6f6f;
+}
+.orderdetails_integration>span:last-child{
+    color: #0288d1;
+}
+.orderdetails_number{
+    font-Size: .12;
+    color: #6f6f6f;
+}
+.orderdetails_number>div{
+    margin-top: .11rem;
+}
+.orderdetails_number>div:first-child{
+    margin-top: auto;
+}
+.orderdetails_phone{
+    font-Size: .12rem;
+    color: #6f6f6f;
+}
+.orderdetails_phone>img{
+    width: .14rem;
+    height: .14rem;
+    margin-left: .06rem;
+    vertical-align: bottom;
+}
+.orderdetails_button span{
+    float: right;
+	width: .81rem;
+	height: .28rem;
+    line-height: .28rem;
+    text-align: center;
+    border-radius: .14rem;
+    border: .01rem solid #6f6f6f;
+    color: #6f6f6f;
+    cursor: pointer;
+}
+.orderdetails_button span:first-child{
+    color: #ff0000;
+    border: .01rem solid #ff0000;
+    margin-left: .125rem;
 }
 </style>
 
