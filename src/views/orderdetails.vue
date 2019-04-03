@@ -306,7 +306,7 @@ font-size: 30px;
 .orderdetails_moneybottom{
     float: left;
     width: 100%;
-    margin-top: .25rem;
+    margin-top: .15rem;
     font-Size: .14rem;
     color: #606060;
 }
