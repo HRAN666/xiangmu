@@ -276,6 +276,7 @@ export default {
       bannerImg:[],//bannerImg
       shopList:'',
       resultShopListLength:8,//配置list显示个数
+      shopModel:''
 
     }
   },
@@ -298,7 +299,7 @@ export default {
       loadingShopModel(){
         let params={}
         shopmodel(params).then((result) => {
-            
+              
         }).catch((err) => {
           
         });
@@ -309,16 +310,15 @@ export default {
             for (let index = 0; index < result.data.list.length; index++) {
                 this.bannerImg.push(JSON.parse(result.data.list[index].banner)[index].url)
             }  
-            console.log(this.bannerImg)
           }).catch((err) => {
             
           });
       }
       },
   mounted () {
+    this.loadingBanner();
       this.loadingShopList();
       this.loadingShopModel();
-      this.loadingBanner();
   }
 }
 </script>
@@ -418,9 +418,10 @@ export default {
 }
 .home-discount{
   margin-top:-.65rem;
+  height: 2.85rem;
 }
 .home-discount-shoplist{
-  height: 2.4rem;
+  height: 2.3rem;
   width: 47%;
   background: #fff;
   float: left;

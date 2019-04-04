@@ -22,7 +22,12 @@
                 <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">{{'￥'+item.price.toFixed(2)}}</div>
-                <div class="buy"><el-button type="danger" round @click="addShop(item.storeId,item.id,item.price)">立即购买</el-button></div>
+                <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+                <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index]" class="list_shopDrop" :key="index" v-bind:css="false">
+                </transition>
+                <div class="buy">
+                    <el-button type="danger" round @click="addShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
+                </div>
             </div>
             <div class="commodities-bottom">我是有底线的</div> 
         </div>
@@ -58,7 +63,9 @@ export default {
             activeIndex: '1',
             shopCommodities: '0',
             seachShopList:'',//搜索出来的商品List
-            totlePrice:0
+            totlePrice:0,
+            showShop:[],
+            indexes:''
         }
     },
 
@@ -67,23 +74,32 @@ export default {
             console.log(key, keyPath);
         },
         toseachShop(){
-            let params={
-                "name":this.input
-            }
-            this.seachShopList='';
+            this.seachShopList='';//清空初始list
+            this.indexes='';
+            this.showShop=[];
             if (this.input=='') {
                 this.loadingAllShop()
             }
+            let params={
+                "name":this.input
+            }
             seachShop(params).then((result) => {
-                    this.seachShopList=result.data.list;
+                this.seachShopList=result.data.list;
+                for (let i = 0; i < result.data.list.length; i++) {
+                    this.showShop.push(false)                
+                }
             }).catch((err) => {
                 console.log(err)              
             });
         },
         loadingAllShop(){
             let params={}
+            this.seachShopList='';//清空初始list
             loadingShop(params).then((result) => {
-                this.seachShopList=result.data.list
+                this.seachShopList=result.data.list;
+                for (let i = 0; i < result.data.list.length; i++) {
+                    this.showShop.push(false)   
+                }
             }).catch((err) => {
                 console.log(err)
             });
@@ -91,19 +107,45 @@ export default {
         goHome(){
             this.$router.push('/')
         },
-        addShop(storeId,id,price){
+        addShop(storeId,id,price,index){
+            this.showShop[index]=true
+            this.indexes=index
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
                 "storeId":storeId
             }
             addShop(params).then((result) => {
-                Toast('成功加入购物车');
-                this.shopCommodities++;
+                Toast({
+                    message: '成功加入购物车',
+                    duration: 1000
+                    });
+                this.shopCommodities++;//数量++
                 this.totlePrice+=price;
             }).catch((err) => {
                 
             });
+        },
+        beforeEnter(el){
+            el.style.transform="translate(0,0)";
+        },
+        enter(el,done){
+            el.offsetWidth//触发网页重排
+            this.$nextTick(()=>{//异步更新
+                let ClientRect=el.getBoundingClientRect()
+                let y=(window.innerHeight-ClientRect.bottom-130)//130是底部的高度
+                el.style.transform="translate(-218px,"+y+"px)"
+                el.style.transition="all 0.4s cubic-bezier(0.49,-0.29,0.75, 0.14)"
+                el.addEventListener('transitionend', done);//立即调用afterEnter
+            })
+        },
+        afterEnter(el){  
+            let that=this
+            setTimeout(function  () {
+                that.showShop[that.indexes]=false;
+                el.style.display="none"
+                //el.style.transform="translate(0,0)"
+            },100)
         }
     },
 
@@ -116,6 +158,18 @@ export default {
 <style scoped>
     .list{
         margin-bottom: 1.33rem;
+    }
+    .list .list_shopDrop{
+        float: left;
+    }
+    .list .list_shopDrop {
+        border-radius: .3rem;
+        width: .2rem;
+        height: .2rem;
+        position: absolute;
+        z-index: 99;
+        right: .98rem;
+        top: .77rem;
     }
     .commodities-header{
         width: 100%;
@@ -206,7 +260,7 @@ export default {
     .commodities-list .buy {
         margin-top: .75rem;
         float: right;
-        margin-right: .15rem;
+        margin-right: .08rem;
     }
     .commodities-list .buy .el-button.is-round{
         padding: .04rem .14rem;

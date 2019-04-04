@@ -39,7 +39,7 @@
             <div class="popup_list">
                 <span>支付方式</span>
                 <div>
-                <el-dropdown  @command="handleCommand" trigger="click">
+                <el-dropdown  @command="handleCommand" trigger="click" >
                 <span class="el-dropdown-link">
                   <img src="../assets/wechatPay.png" alt="" v-if="selectCommand=='wechat'" class="popup_list_wechat">{{selectpay}}
                 </span>
