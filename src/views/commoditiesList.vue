@@ -95,6 +95,8 @@ export default {
         loadingAllShop(){
             let params={}
             this.seachShopList='';//清空初始list
+            this.indexes='';
+            this.showShop=[];
             loadingShop(params).then((result) => {
                 this.seachShopList=result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {
