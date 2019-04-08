@@ -38,6 +38,10 @@ export const integral =params =>{
 export const homeBanner =params =>{
     return axios.post('/api/portal/v01/listPortalBanner.do',params);
 }
+/************查询购物车商品 */
+export const loadingshopCar =params =>{
+    return axios.post('/api/biz/v01/listBizUserTrolleyAndProductWithoutToken.do',params);
+}
 axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {

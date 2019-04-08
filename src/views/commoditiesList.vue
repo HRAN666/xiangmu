@@ -22,11 +22,11 @@
                 <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">{{'￥'+item.price.toFixed(2)}}</div>
-                <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
-                <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index]" class="list_shopDrop" :key="index" v-bind:css="false">
-                </transition>
+                <transition-group @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+                <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index]" class="list_shopDrop" :key="index">
+                </transition-group>
                 <div class="buy">
-                    <el-button type="danger" round @click="addShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
+                    <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
                 </div>
             </div>
             <div class="commodities-bottom">我是有底线的</div> 
@@ -59,13 +59,15 @@ export default {
     },
     data() {
         return {
-            input: '',
+            input: '',//搜索框的值
             activeIndex: '1',
             shopCommodities: '0',
             seachShopList:'',//搜索出来的商品List
-            totlePrice:0,
-            showShop:[],
-            indexes:''
+            totlePrice:0,//总价格
+            showShop:[{
+                
+            }],//控制显示的动画的数组
+            indexes:0,//选中的img索引位置
         }
     },
 
@@ -95,7 +97,6 @@ export default {
         loadingAllShop(){
             let params={}
             this.seachShopList='';//清空初始list
-            this.indexes='';
             this.showShop=[];
             loadingShop(params).then((result) => {
                 this.seachShopList=result.data.list;
@@ -109,9 +110,10 @@ export default {
         goHome(){
             this.$router.push('/')
         },
-        addShop(storeId,id,price,index){
-            this.showShop[index]=true
+        addToShop(storeId,id,price,index){
             this.indexes=index
+            this.showShop[this.indexes]=true
+            console.log(this.showShop)
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -129,11 +131,11 @@ export default {
             });
         },
         beforeEnter(el){
-            el.style.transform="translate(0,0)";
+            el.style.transform="translate(0,0)";    
         },
         enter(el,done){
-            el.offsetWidth//触发网页重排
-            this.$nextTick(()=>{//异步更新
+            this.$nextTick(()=>{//异步更新DOM
+                el.offsetWidth//触发网页重排
                 let ClientRect=el.getBoundingClientRect()
                 let y=(window.innerHeight-ClientRect.bottom-130)//130是底部的高度
                 el.style.transform="translate(-218px,"+y+"px)"
@@ -141,16 +143,11 @@ export default {
                 el.addEventListener('transitionend', done);//立即调用afterEnter
             })
         },
-        afterEnter(el){  
-            let that=this
-            setTimeout(function  () {
-                that.showShop[that.indexes]=false;
-                el.style.display="none"
-                //el.style.transform="translate(0,0)"
-            },100)
-        }
+        afterEnter(el){
+            this.showShop[this.indexes]=false;
+        },
+    
     },
-
     mounted () {
        this.loadingAllShop()
     }
@@ -161,11 +158,10 @@ export default {
     .list{
         margin-bottom: 1.33rem;
     }
-    .list .list_shopDrop{
-        float: left;
-    }
+
     .list .list_shopDrop {
         border-radius: .3rem;
+        float: left;
         width: .2rem;
         height: .2rem;
         position: absolute;

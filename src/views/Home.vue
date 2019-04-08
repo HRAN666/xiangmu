@@ -21,7 +21,7 @@
       <div class="home-shop-list">
         <el-row :gutter="10">
             <el-col :span="6" v-for="(item,index) in shopList" :key="index">
-              <img src="../assets/shopCar.png" alt="">
+              <img :src="'http://'+item.icon" alt="">
               <p>{{item.nodeName}}</p>
             </el-col>
         </el-row>
