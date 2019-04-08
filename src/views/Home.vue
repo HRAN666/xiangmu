@@ -27,64 +27,78 @@
         </el-row>
       </div>
     </div>
-        <img src="../assets/Substitute.png" alt="" class="home-sub">
+    <!-- <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">
+      <div class="home-title">
+          <img src="../assets/comm.png" alt="" class="home-sub">
+          <span>{{item.nodeName}}</span>
+      </div>
       <div class="home-substitute">
         <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
         <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
         <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
       </div>
-      <div class="home-title">
-          <img src="../assets/comm.png" alt="" class="home-sub">
-          <span>优惠到底</span>
+    </div> -->
+      <img src="../assets/Substitute.png" alt="" class="home-sub">
+      <div class="home-substitute">
+        <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
+        <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
+        <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
       </div>
-          <img src="../assets/go.png" alt="" class="home-to">
-      <div class="home-discount">
-          <div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
+      <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">
+        <div class="home-title">
+            <img src="../assets/comm.png" alt="" class="home-sub">
+            <span>{{item.nodeName}}</span>
+        </div>
+          <!-- <img src="../assets/go.png" alt="" class="home-to"> -->
+          <div class="home-discount">          
             <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
+                <img src="../assets/shopList.jpg" alt="">
+                <p>黑人茶倍健牙膏140g</p>
+                <div>
+                  <span class="home-discount-shoplist-price">￥22.50</span>
+                  <span>999人付款</span>
+                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
+                </div>
+            </div>
+            <div class="home-discount-shoplist">
+                <img src="../assets/shopList.jpg" alt="">
+                <p>黑人茶倍健牙膏140g</p>
+                <div>
+                  <span class="home-discount-shoplist-price">￥22.50</span>
+                  <span>999人付款</span>
+                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
+                </div>
+            </div>
+            <div class="home-discount-shoplist">
+                <img src="../assets/shopList.jpg" alt="">
+                <p>黑人茶倍健牙膏140g</p>
+                <div>
+                  <span class="home-discount-shoplist-price">￥22.50</span>
+                  <span>999人付款</span>
+                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
+                </div>
+            </div>
+            <div class="home-discount-shoplist">
+                <img src="../assets/shopList.jpg" alt="">
+                <p>黑人茶倍健牙膏140g</p>
+                <div>
+                  <span class="home-discount-shoplist-price">￥22.50</span>
+                  <span>999人付款</span>
+                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
+                </div>
+            </div>
           </div>
       </div>
+    <div>
+
+    </div>
       <div class="home-title">
           <img src="../assets/comm.png" alt="" class="home-sub">
           <span>优惠到底</span>
       </div>
           <img src="../assets/go.png" alt="" class="home-to">
       <div class="home-discount">
-          <div>
+      <div>
           <div class="home-discount-shoplist">
               <img src="../assets/shopList.jpg" alt="">
               <p>黑人茶倍健牙膏140g</p>
@@ -276,7 +290,7 @@ export default {
       bannerImg:[],//bannerImg
       shopList:'',
       resultShopListLength:8,//配置list显示个数
-      shopModel:''
+      shopModels:''// 存放商品模块
 
     }
   },
@@ -299,9 +313,21 @@ export default {
       loadingShopModel(){
         let params={}
         shopmodel(params).then((result) => {
-
+            for (let index = 0; index < result.data.list.length; index++) {
+              if(result.data.list[index].nodeName !== '代取服务'){
+                var day = [];
+                day.push(result.data.list[index]);//带每日折扣数组
+                // console.log(day);
+              }else{
+                var get = [];
+                get.push(result.data.list[index]);//带代取数组
+              }
+              this.shopModels=day;
+            }  
+            // this.shopModels=result.data.list;
+            console.log(this.shopModels)
         }).catch((err) => {
-          
+            console.log(err)
         });
       },
       loadingBanner(){
@@ -449,8 +475,8 @@ export default {
   color:#888888;
 }
 .home-title{
-    height: 0;
-    margin-top: -.25rem;
+    /* height: 0;
+    margin-top: -.25rem; */
     position: relative;
 }
 .home-to{
