@@ -27,249 +27,29 @@
         </el-row>
       </div>
     </div>
-    <!-- <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">
-      <div class="home-title">
-          <img src="../assets/comm.png" alt="" class="home-sub">
-          <span>{{item.nodeName}}</span>
-      </div>
+          <img src="../assets/Substitute.png" alt="" class="home-sub">  
       <div class="home-substitute">
         <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
         <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
         <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
       </div>
-    </div> -->
-      <img src="../assets/Substitute.png" alt="" class="home-sub">
-      <div class="home-substitute">
-        <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
-        <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
-        <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
-      </div>
-      <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">
+    <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
+
         <div class="home-title">
             <img src="../assets/comm.png" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
+            <img src="../assets/go.png" alt="" class="home-to">
         </div>
-          <!-- <img src="../assets/go.png" alt="" class="home-to"> -->
           <div class="home-discount">          
-            <div class="home-discount-shoplist">
+            <div class="home-discount-shoplist"  v-for="(value,indexes) in item.bizProduct" :key="indexes">
                 <img src="../assets/shopList.jpg" alt="">
-                <p>黑人茶倍健牙膏140g</p>
+                <p>{{value.name}}</p>
                 <div>
                   <span class="home-discount-shoplist-price">￥22.50</span>
                   <span>999人付款</span>
                   <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
                 </div>
             </div>
-            <div class="home-discount-shoplist">
-                <img src="../assets/shopList.jpg" alt="">
-                <p>黑人茶倍健牙膏140g</p>
-                <div>
-                  <span class="home-discount-shoplist-price">￥22.50</span>
-                  <span>999人付款</span>
-                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-                </div>
-            </div>
-            <div class="home-discount-shoplist">
-                <img src="../assets/shopList.jpg" alt="">
-                <p>黑人茶倍健牙膏140g</p>
-                <div>
-                  <span class="home-discount-shoplist-price">￥22.50</span>
-                  <span>999人付款</span>
-                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-                </div>
-            </div>
-            <div class="home-discount-shoplist">
-                <img src="../assets/shopList.jpg" alt="">
-                <p>黑人茶倍健牙膏140g</p>
-                <div>
-                  <span class="home-discount-shoplist-price">￥22.50</span>
-                  <span>999人付款</span>
-                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-                </div>
-            </div>
-          </div>
-      </div>
-    <div>
-
-    </div>
-      <div class="home-title">
-          <img src="../assets/comm.png" alt="" class="home-sub">
-          <span>优惠到底</span>
-      </div>
-          <img src="../assets/go.png" alt="" class="home-to">
-      <div class="home-discount">
-      <div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          </div>
-      </div>
-            <div class="home-title">
-          <img src="../assets/comm.png" alt="" class="home-sub">
-          <span>优惠到底</span>
-      </div>
-          <img src="../assets/go.png" alt="" class="home-to">
-      <div class="home-discount">
-          <div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          </div>
-      </div>
-            <div class="home-title">
-          <img src="../assets/comm.png" alt="" class="home-sub">
-          <span>优惠到底</span>
-      </div>
-          <img src="../assets/go.png" alt="" class="home-to">
-      <div class="home-discount">
-          <div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          </div>
-      </div>
-      <div class="home-title">
-          <img src="../assets/comm.png" alt="" class="home-sub">
-          <span>优惠到底</span>
-      </div>
-          <img src="../assets/go.png" alt="" class="home-to">
-      <div class="home-discount">
-          <div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-          <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
-           <div class="home-discount-shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="home-discount-shoplist-price">￥22.50</span>
-                <span>999人付款</span>
-                <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
-              </div>
-          </div>
           </div>
       </div>
       <div class="home-bottom">我是有底线的</div>      
@@ -290,8 +70,8 @@ export default {
       bannerImg:[],//bannerImg
       shopList:'',
       resultShopListLength:8,//配置list显示个数
-      shopModels:''// 存放商品模块
-
+      shopModels:'',// 存放商品模块
+      shopget:'' //代取服务
     }
   },
   methods: {
@@ -313,9 +93,9 @@ export default {
       loadingShopModel(){
         let params={}
         shopmodel(params).then((result) => {
+                let day = [];
             for (let index = 0; index < result.data.list.length; index++) {
               if(result.data.list[index].nodeName !== '代取服务'){
-                var day = [];
                 day.push(result.data.list[index]);//带每日折扣数组
                 // console.log(day);
               }else{
@@ -325,7 +105,7 @@ export default {
               this.shopModels=day;
             }  
             // this.shopModels=result.data.list;
-            console.log(this.shopModels)
+            // console.log(this.shopModels)
         }).catch((err) => {
             console.log(err)
         });
@@ -480,10 +260,10 @@ export default {
     position: relative;
 }
 .home-to{
-    position: relative;
+    position: absolute;
     width: .2rem;
-    right: -40%;
-    top: -.48rem;
+    right: .28rem;
+    top: .23rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
   width:.21rem;
