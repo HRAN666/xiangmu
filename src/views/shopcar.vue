@@ -2,31 +2,24 @@
     <div class="shopCar">
             <div class="shopCar_mark" v-show="showMark" @click="displayMark"></div><!--结算遮罩层-->
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑"></header-general>
-        <div class="shopCar_address" v-if="list.length != ''">
+        <div class="shopCar_address" v-if="ShopList.length != ''">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
             送至：广东龙岗区
             <img src="../assets/shopCar_more.png" alt="" class="shopCar_address_iconMore">
         </div>
         <div class="shopCar_commodity">
-            <div class="shopCar_commodity_list" v-for="(item,index) in list" :key="index">
+            <div class="shopCar_commodity_list" v-for="(item,index) in ShopList" :key="index">
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
-                   <img src="../assets/colo.jpg" alt="">
-                    <div class="shopCar_commodity_listTitle">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                    <span class="shopCar_commodity_listPrice">{{'￥'+item.price}}</span>
-                     <el-input-number size="mini" v-model="item.count" :min="1" :max="99"></el-input-number>
+                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+                    <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
+                    <span class="shopCar_commodity_listPrice">{{'￥'+item.bizProductVo.price.toFixed(2)}}</span>
+                     <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
             </div>
-            <div class="shopCar_empty" v-if="list.length == ''">
+            <div class="shopCar_empty" v-if="ShopList.length == ''">
                 <img src="../assets/shopCar_second.png">
                 <span>购物车是空的</span>
                 <div class="shopCar_empty_spike">逛逛秒杀></div>
             </div>
-            <!-- <div class="shopCar_commodity_list">
-               <el-checkbox  :checked='false' @change="selectShop($event)"></el-checkbox>
-                   <img src="../assets/colo.jpg" alt="">
-                    <div class="shopCar_commodity_listTitle">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-                    <span class="shopCar_commodity_listPrice">￥30.00</span>
-                     <el-input-number size="mini" v-model="shopValue" :min="1" :max="99"></el-input-number>
-            </div> -->
         </div>
         <div class="shopCar_recommend">
             <span class="shopCar_recommendWord">商品推荐</span>
@@ -91,6 +84,7 @@
     </div>
 </template>
 <script>
+import {loadingshopCar} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
@@ -104,40 +98,15 @@ export default {
         return{
             checkAll:true,//是否全选
             shopListCheck:[],//选中商品id
-                    list:[
-                    {
-                        id:15645,
-                        name:'iPhone 8',
-                        price:1,
-                        count:1
-                    },
-                    {
-                        id:2456,
-                        name:'Huwei Mate10',
-                        price:2,
-                        count:1
-                    },
-                    {
-                        id:3546,
-                        name:'Lenovo',
-                        price:3,
-                        count:1
-                    },
-                    {
-                        id:354655,
-                        name:'Lenovo',
-                        price:3,
-                        count:1
-                    }
-                    ],
+            ShopList:'',
             shopInf:[],//商品所有信息（取价格&&数量)
             showMark:false,
             totlePrice:0,
-            selectpay:'微信支付',
+            selectpay:'微信支付',//初始支付方式
     }
     },
     methods:{
-        select(id,item){//单选商品
+        select(id,item){//单选商品 id:商品id  item:商品信息
             let index=this.shopListCheck.indexOf(id)
         if(index>=0){//重复
                 this.shopListCheck.splice(index,1);
@@ -146,7 +115,7 @@ export default {
             }else{
                 this.shopListCheck.push(id)
                 this.shopInf.push(item)
-                if (this.list.length==this.shopListCheck.length) {//单选全满：全选打勾
+                if (this.ShopList.length==this.shopListCheck.length) {//单选全满：全选打勾
                     this.checkAll=true
                 }
             }
@@ -154,13 +123,13 @@ export default {
         tocheckAll(e){//全选
             if (this.checkAll) {//全选
                 this.shopListCheck=[]//特殊情况
-               this.list.forEach(item => {
+               this.ShopList.forEach(item => {
                    this.shopListCheck.push(item.id)
                     this.shopInf.push(item)
                });
             }else{//反选
                 this.shopListCheck=[]
-                 this.shopInf=[]
+                this.shopInf=[]
             }
         },
         topay(){//结算
@@ -171,7 +140,7 @@ export default {
             this.showMark=false
             this.$refs.popup.isPoup=false
         },
-        paymethod(e){
+        paymethod(e){//切换支付方式
             switch (e) {
                 case 'wechat':
                     this.selectpay='微信支付'
@@ -182,23 +151,35 @@ export default {
                 default:
                     break;
             }
+        },
+        loadingShop(){
+            let params={
+               "userOpenId":localStorage.getItem('userOpenId'),
+               "storeId":"0"//暂时写0
+            }
+            loadingshopCar(params).then((result) => {
+                this.ShopList=result.data.list;
+                this.tocheckAll()//全选
+            }).catch((err) => {
+                
+            });
         }
 
     },
     created() {
-         this.tocheckAll()
+        this.loadingShop()//渲染购物车商品
     },
     computed: {
         sumPrice(){
             let totle=0;
             if (this.checkAll) {
-                this.list.forEach(item=>{//计算总价格
-                totle+=item.price*item.count;
+                this.ShopList.forEach(item=>{//计算总价格
+                totle+=item.bizProductVo.price*item.theNum;
                 this.totlePrice=totle
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格
-                totle+=item.price*item.count
+                totle+=item.theNum*item.bizProductVo.price
                 this.totlePrice=totle
             })    
             }
@@ -409,7 +390,8 @@ export default {
      position: fixed;
     bottom: .5rem;
     width: 100%;
-    font-size:.12rem
+    font-size:.12rem;
+    z-index: 999;
 }
 .shopCar_totle .shopCar_totle_freight{
     position: relative;
@@ -421,7 +403,7 @@ export default {
     top:-.1rem;
     position: relative;
     font-size:.13rem;
-    left: -.16rem;
+    left: -.1rem;
 }
 .shopCar_totle .shopCar_totle_price span{
     font-size:.12rem;
