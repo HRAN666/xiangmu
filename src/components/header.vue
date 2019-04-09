@@ -19,7 +19,8 @@
             </router-link>
             <div class="title_style3">{{headTitle}}</div>
             <div class="header_third_right">
-            <span  @click="toDelete">{{titleSecod}}</span>
+            <span  @click="toDelete" v-if="!deletShop">{{titleSecod}}</span>
+            <span  @click="toDelete" v-if="deletShop">完成</span>
             <img src="../assets/msg_shop.png" alt="">
             </div>
         </div>
@@ -54,7 +55,8 @@ export default {
             headClassThirdDisplay:false,//第三种样式
             headClassfourthDisplay:false,
             headClassFiveDisplay:false,
-            headClassSixDisplay:false
+            headClassSixDisplay:false,
+            deletShop:false,//删除商品
         }
     },
     methods: {
@@ -81,7 +83,12 @@ export default {
             }
         },
         toDelete(){
-            
+            if (this.deletShop==false) {
+                this.deletShop=true;
+            }else{
+                this.deletShop=false;                
+            }
+            this.$emit('toDelete')
         }
     },
     mounted() {

@@ -42,6 +42,14 @@ export const homeBanner =params =>{
 export const loadingshopCar =params =>{
     return axios.post('/api/biz/v01/listBizUserTrolleyAndProductWithoutToken.do',params);
 }
+/***********删除购物车 */
+export const removeShopCar =params =>{
+    return axios.post('/api/biz/v01/forceRemoveBizUserTrolleyBatchWithoutToken.do',params);
+}
+/**********货到付款 */
+export const payNext =params =>{
+    return axios.post('/api/biz/v01/payNextBizOrderAndClearTrollyWithoutToken.do',params);
+}
 axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {
@@ -53,3 +61,4 @@ axios.interceptors.request.use(//拦截器
         return Promise.reject(err);
     }
 )
+

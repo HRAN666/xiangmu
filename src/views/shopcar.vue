@@ -1,7 +1,7 @@
 <template>
     <div class="shopCar">
             <div class="shopCar_mark" v-show="showMark" @click="displayMark"></div><!--结算遮罩层-->
-        <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑"></header-general>
+        <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑" ref="shop" @toDelete='toDelete'></header-general>
         <div class="shopCar_address" v-if="ShopList.length != ''">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
             送至：广东龙岗区
@@ -71,23 +71,25 @@
             <input v-model="checkAll"  type="checkbox" class="shopCar_totle_checkbox" @change="tocheckAll">
             <span>全选</span>
             </div>
-            <span class="shopCar_totle_freight">不含运费</span>
-            <div class="shopCar_totle_price">
+            <span class="shopCar_totle_freight" v-if="!deletShop">不含运费</span>
+            <div class="shopCar_totle_price" v-if="!deletShop">
                 总计：
                 <span>{{sumPrice}}</span>
             </div>
-            <span class="shopCar_totle_discount">已优惠：￥10.00</span>
-            <el-button type="primary" @click="topay">{{'结算('+shopInf.length+')'}}</el-button>
+            <span class="shopCar_totle_discount" v-if="!deletShop">已优惠：￥10.00</span>
+            <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+shopInf.length+')'}}</el-button>
+            <el-button type="danger" @click="removeShop" v-if="deletShop">{{'删除('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :totle="totlePrice.toFixed(2)" :shopLength="shopInf.length" :selectpay="selectpay" @changePay="paymethod"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :totle="totlePrice.toFixed(2)" :shopLength="shopInf.length" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
 <script>
-import {loadingshopCar} from '../api/api.js'
+import {loadingshopCar,removeShopCar,payNext} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
+import { Toast } from 'mint-ui';
 export default {
     components:{
         'header-general':header,
@@ -98,11 +100,13 @@ export default {
         return{
             checkAll:true,//是否全选
             shopListCheck:[],//选中商品id
-            ShopList:'',
+            ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)
             showMark:false,
-            totlePrice:0,
+            totlePrice:0,//总价格
             selectpay:'微信支付',//初始支付方式
+            deletShop:false,
+
     }
     },
     methods:{
@@ -123,7 +127,7 @@ export default {
         tocheckAll(e){//全选
             if (this.checkAll) {//全选
                 this.shopListCheck=[]//特殊情况
-               this.ShopList.forEach(item => {
+                this.ShopList.forEach(item => {
                    this.shopListCheck.push(item.id)
                     this.shopInf.push(item)
                });
@@ -146,7 +150,7 @@ export default {
                     this.selectpay='微信支付'
                     break;
                 case 'wait':
-                    this.selectpay='到店支付'                    
+                    this.selectpay='货到付款'                    
                     break;
                 default:
                     break;
@@ -163,11 +167,68 @@ export default {
             }).catch((err) => {
                 
             });
+        },
+        removeShop(){
+            if (this.shopListCheck=='') {
+                Toast({
+                    message: '请选择要删除的商品',
+                    duration: 1000
+                    });
+            }
+            let params={
+                "id":this.shopListCheck.toString()
+            }
+            removeShopCar(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    Toast({
+                        message: '删除成功',
+                        duration: 1000
+                        });
+                    this.loadingShop()
+                }
+            }).catch((err) => {
+                
+            });
+        },
+        toDelete(){//获取子组件data
+            this.$nextTick(()=>{
+                this.deletShop=this.$refs.shop.deletShop
+            })
+        },
+        todoWechatPay(e){//微信支付||货到付款
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'deliverFee':'0',//暂时写0(运费)
+                'deliverName':'测试',//收货人
+                'deliverPhone':'13715363223',//收货电话
+                'deliverAddress':'测试',//收货地址
+                'productDetailJson':JSON.stringify(this.shopInf),//商品信息
+                'storeId':'0',//
+                'totalFee':this.totlePrice,//总价格
+                'ext1':'测试',
+                'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
+            }
+           switch (e) {
+                case 'wechat'://微信支付
+                   
+                    break;
+                case 'wait'://货到付款
+                    payNext(params).then((result) => {
+                        if (result.data.resultCode==200) {
+                            Toast({
+                                message: '提交订单成功',
+                                duration: 1000
+                            });
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    });
+                    break;
+                default:
+                    break;
+            }
         }
 
-    },
-    created() {
-        this.loadingShop()//渲染购物车商品
     },
     computed: {
         sumPrice(){
@@ -178,14 +239,17 @@ export default {
                 this.totlePrice=totle
             })    
             }else{
-                this.shopInf.forEach(item=>{//计算总价格
+                this.shopInf.forEach(item=>{//计算总价格取消反选之后计算的价格
                 totle+=item.theNum*item.bizProductVo.price
                 this.totlePrice=totle
             })    
             }
             return '￥'+totle.toFixed(2)
         },
-    }
+    },
+    created() {
+        this.loadingShop()//渲染购物车商品
+    },
 }
 </script>
 <style>
@@ -248,6 +312,12 @@ export default {
     height: .5rem;
     width: 1rem;
     margin-top: -.32rem;
+    border-radius: 0;
+}
+.shopCar_totle .el-button--danger{
+    float: right;
+    height: .5rem;
+    width: 1rem;
     border-radius: 0;
 }
 </style>
