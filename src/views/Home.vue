@@ -45,9 +45,9 @@
                 <img src="../assets/shopList.jpg" alt="">
                 <p>{{value.name}}</p>
                 <div>
-                  <span class="home-discount-shoplist-price">￥22.50</span>
+                  <span class="home-discount-shoplist-price">{{'￥'+value.price}}</span>
                   <span>999人付款</span>
-                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar">
+                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price,indexes)">
                 </div>
             </div>
           </div>
@@ -59,7 +59,9 @@
 
 <script>
 import footer from '../components/footer'
-import {selectCatalogParentWithoutToken,shopmodel,homeBanner} from '../api/api.js'
+import { Toast } from 'mint-ui';
+import {selectCatalogParentWithoutToken,shopmodel,homeBanner,addShop} from '../api/api.js'
+// import { debug } from 'util';
 export default {
   components: {
     'footer-currency':footer
@@ -71,7 +73,11 @@ export default {
       shopList:'',
       resultShopListLength:8,//配置list显示个数
       shopModels:'',// 存放商品模块
-      shopget:'' //代取服务
+      shopget:'', //代取服务
+      showShop:[{
+          
+      }],//控制显示的动画的数组
+      indexes:0,//选中的img索引位置
     }
   },
   methods: {
@@ -88,6 +94,25 @@ export default {
               this.shopList.splice(this.resultShopListLength, this.shopList.length-this.resultShopListLength)
           }).catch((err) => {
               console.log(err)
+          });
+
+
+      },
+      addShop(storeId,id,price,indexes){
+          //         debugger;
+          // this.indexes=index
+          let params={
+              "productId":id,
+              "userOpenId":localStorage.getItem('userOpenId'),
+              "storeId":storeId
+          }
+          addShop(params).then((result) => {
+              Toast({
+                  message: '成功加入购物车',
+                  duration: 1000
+                  });
+          }).catch((err) => {
+              
           });
       },
       loadingShopModel(){
