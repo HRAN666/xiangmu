@@ -70,7 +70,7 @@
                 <span>优惠卡券</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
             </div>
-            <div class="my_list">
+            <div class="my_list" @click="address">
                 <img src="../assets/address.png" alt="">
                 <span>收货地址</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
@@ -107,6 +107,9 @@ export default {
         },
         toCoupon(){
             this.$router.push('/coupon')
+        },
+        address(){
+            this.$router.push('/addAddress')
         }
     },
     mounted () {

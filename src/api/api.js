@@ -50,6 +50,15 @@ export const removeShopCar =params =>{
 export const payNext =params =>{
     return axios.post('/api/biz/v01/payNextBizOrderAndClearTrollyWithoutToken.do',params);
 }
+/**********添加收货地址 */
+export const addAddress =params =>{
+    return axios.post('api/portal/v01/insertPortalUserAddress.do ',params);
+}
+/***********商品详情 */
+export const productDetails =params =>{
+    return axios.post('/api/biz/v01/getBizProductWithoutToken.do ',params);
+}
+
 axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {

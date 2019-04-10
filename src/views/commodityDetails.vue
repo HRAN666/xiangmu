@@ -2,26 +2,28 @@
   <div>
         <div class="commodityDetails-header">
             <div class="commodityDetails-headerLeftOne"><img src="../assets/goBack.png" alt=""></div>
-            <div class="commodityDetails-headerLeftTwo">返回</div>
+            <div class="commodityDetails-headerLeftTwo" @click="goback">返回</div>
             <div class="commodityDetails-headerRightOne"><i class="el-icon-share"></i></div>
             <div class="commodityDetails-headerRightTwo"><img src="../assets/consultation.png" alt=""></div>
         </div>
         <!-- <header-currency routerTo='/' headClass="style5"></header-currency> -->
-        <div>
+        <div v-for="(item,index) in shopDetails" :key="index">
+            <div class="commodityDetails-img">
             <el-carousel :interval="3000" arrow="always">
-                <el-carousel-item v-for="item in 4" :key="item">
-                <h3>{{ item }}</h3>
+                <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
+                     <img :src="'http://img.cmhg.shop/'+value" alt=""> 
                 </el-carousel-item>
             </el-carousel>
-        </div>
+            </div>
         <div class="commodityDetails-information">
-            <div class="commodityDetails-title">卫龙亲嘴烧100片盒装辣条大礼包麻辣儿时怀旧小吃小面筋零食辣片</div>
-            <div class="commodityDetails-price">￥30.00</div>
+            <div class="commodityDetails-title">{{item.name}}</div>
+            <div class="commodityDetails-price">￥{{item.price.toFixed(2)}}</div>
             <div class="commodityDetails-bottom">
                 <div class="bottomPrice">快递：0.00</div>
                 <div class="bottomSales">月销1222笔</div>
                 <div class="bottomArea">广东深圳</div>
             </div>
+        </div>
         </div>
         <div class="service-content">
             <div class="service-item">
@@ -81,8 +83,8 @@
             <div class="like"><img src="../assets/收藏.png" alt=""></div>
             <div class="like-name">收藏</div>
             <div class="shoppingCar"><img src="../assets/购物车.png" alt=""></div>
-            <div class="shoppingCar-name">购物车</div>
-            <div class="addShoppingCar">加入购物车</div>
+            <div class="shoppingCar-name" @click="gotoShopCar">购物车</div>
+            <div class="addShoppingCar" @click="addtoShop">加入购物车</div>
             <div class="goPay">立即购买</div>
         </div>
   </div>
@@ -90,21 +92,62 @@
 
 <script type="text/ecmascript-6">
 import header from '../components/header.vue'
+import {productDetails,addShop} from '../api/api.js'
+import { Toast } from 'mint-ui';
 export default {
     components:{
         'header-currency':header
     },
   data() {
     return {
-
+         shopDetails:[],//商品详情信息
+         bannerImg:[],//单独抽离出来的moreicon
     }
   },
-  components: {
-
+  methods: {
+    goback(){
+        this.$router.push('/commoditiesList')
+      },
+    loadingDetails(id){
+        let params={
+            'id':id
+        }
+        productDetails(params).then((result) => {
+            this.shopDetails.push(result.data);
+            let imgArr=result.data.morePics.split(',')
+            for (let i = 0; i < imgArr.length; i++) {
+                this.bannerImg.push(imgArr[i])
+            }
+        }).catch((err) => {
+            console.log(err)
+        });
+    },
+    addtoShop(){
+        let params={
+            "productId":this.shopDetails[0].id,
+            "userOpenId":localStorage.getItem('userOpenId'),
+            "storeId":'0'//暂时0
+        }
+        addShop(params).then((result) => {
+            if(result.data.resultCode==200){
+                Toast({
+                    message: '成功加入购物车',
+                    duration: 1000
+                });
+            }
+        }).catch((err) => {
+            
+        });
+    },
+    gotoShopCar(){
+        this.$router.push('/shopcar')
+    }
+  },
+  created() {
+      this.loadingDetails(this.$route.query.id)
   }
 }
 </script>
-
 <style scoped>
     .commodityDetails-header{
         width: 100%;
@@ -165,6 +208,10 @@ export default {
     }
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
+    }
+    .commodityDetails-img img{
+        width: 100%;
+        height: 3rem;
     }
     .commodityDetails-information{
         width: 100%;

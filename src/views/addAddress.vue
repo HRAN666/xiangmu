@@ -5,6 +5,7 @@
             <el-amap-marker vid="marker" :position="center"></el-amap-marker>
             </el-amap>
         </div>
+        <header-general routerTo='/myself' headClass='style6' headTitle='添加地址'></header-general>
         <!-- <div class="toolbar">
             <span v-if="loaded">
             location: lng = {{ lng }} lat = {{ lat }}
@@ -12,8 +13,8 @@
             <span v-else>正在定位</span>
         </div> -->
         <div class="card">
-            <div class="name">收件人姓名：<input type="text" class="inputBottom" placeholder="请输入真实名字"></div>
-            <div class="phone">手机号码：<input type="text" class="inputBottom" placeholder="请输入11位手机号码"></div>
+            <div class="name">收件人姓名：<input type="text" class="inputBottom" placeholder="请输入真实名字" v-model="name"></div>
+            <div class="phone">手机号码：<input type="text" class="inputBottom" placeholder="请输入11位手机号码" v-model="phone"></div>
             <div class="selectAddress">
                 <el-select v-model="value" placeholder="请选择">
                     <el-option
@@ -49,26 +50,29 @@
                         :value="item.value">
                         </el-option>
                     </el-select>
-                    <el-select class="school-build" v-model="value5" placeholder="请选择">
-                        <el-option
-                        v-for="item in options5"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
+                  <el-input class="school-build-number" v-model="floorBuild" placeholder="宿舍楼"></el-input>
                     <el-input class="school-build-number" v-model="floorNumber" placeholder="宿舍号"></el-input>
             </div>
             <div class="address-all"><el-input  v-model="fullAddress" placeholder="详细地址"></el-input></div>
         </div>
+          <el-button type="primary" @click.native="address">确认</el-button>
     </div>
 </template>
 
 <script>
+import {addAddress} from '../api/api.js'
+import header from '../components/header.vue'
+import { Toast } from 'mint-ui';
 export default {
+    components: {
+        'header-general':header
+    },
   data() {
     let self = this;
     return {
+        name:'',
+        phone:'',
+        floorBuild:'',
         options: [{
           value: '选项1',
           label: '广东省'
@@ -89,22 +93,8 @@ export default {
           label: '深圳技师学院'
         }],
         value4: '深圳技师学院',
-        options5: [
-        {
-            value: '选项1',
-            label: 'K5'
-        },{
-            value: '选项2',
-            label: 'h1'
-        },{
-            value: '选项3',
-            label: 'h2'
-        },{
-            value: '选项4',
-            label: 'h3'
-        }
-        ],
-        value5: 'K5',
+
+        value5: '',
         floorNumber: '',
         fullAddress: '',
         province: '',
@@ -144,7 +134,6 @@ export default {
                         self.province = result.addressComponent.province;
                         self.city = result.addressComponent.city;
                         self.district = result.addressComponent.district;
-                        self.lastName = result.aois[0].name;
                         }
                     })
                 }
@@ -158,15 +147,6 @@ export default {
                 }
             }
         },
-        // {
-        //     pName: 'MapType',  //地图类型
-        //     defaultType: 0,
-        //     events: {
-        //         init(instance) {
-        //             // console.log(instance);
-        //         }
-        //     }
-        // }
       ]
     }
   },
@@ -186,8 +166,41 @@ export default {
             this.options4[0].label = this.lastName;
             this.value4 = this.lastName;
             this.fullAddress = this.value + this.value2 + this.value3 + this.value4;
+        },
+        address(){
+            if (this.name=='') {
+                Toast({
+                    message: '请输入收货人姓名',
+                    duration: 1500
+                });
+                return
+            }else if (this.phone==''||!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.phone)){          
+                    Toast({
+                        message: '请输入正确收货人联系电话',
+                        duration: 1500
+                    }); 
+            }else{
+                let params={
+                    'consignee':this.name,
+                    'phone':this.phone,
+                    'province':this.province,//省
+                    'city':this.city,//城市
+                    'county':this.district,//区
+                    'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
+                    'detailed_address':this.fullAddress,//详情地址
+                    'campus':'深圳技师',//院校
+                    'userOpenId':localStorage.getItem('userOpenId')
+                }
+                addAddress(params).then((result) => {
+                    
+                }).catch((err) => {
+                    
+                });
+
+            }    
         }
-  },watch: {
+  }
+  ,watch: {
         lng(newVal,oldVal){
             console.log(newVal,oldVal);
             console.log('定位成功');
@@ -203,8 +216,26 @@ export default {
     }
 }
 </script>
+<style>
+.amap-page-container .el-button--primary{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    z-index: 999;
+
+}
+</style>
 
 <style>
+.amap-page-container .header_six{
+    position: absolute;
+    top: 0;
+    width:100%
+}
+.amap-page-container .header_six .header_six_back span{
+    display: none
+}
 .amap-page-container .amap-all{
     width: 100%;
     height: 6.05rem;
@@ -239,6 +270,7 @@ export default {
     margin-right: .55rem;
     border:none;
     border-bottom: 1px solid #e8e8e8;
+    outline: none;
 }
 .amap-page-container .card .selectAddress .el-select{
     padding: .04rem;

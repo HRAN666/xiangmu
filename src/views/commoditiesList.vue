@@ -17,7 +17,7 @@
             </el-menu>
         </div>
         <div class="list">
-            <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index">
+            <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index" @click="gotoDetails(item.id)">
                 <div class="imgLeft"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
                 <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
@@ -144,6 +144,9 @@ export default {
         afterEnter(el){
             this.showShop[this.indexes]=false;
         },
+        gotoDetails(id){//go商品详情
+            this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
+        }
     
     },
     mounted () {
