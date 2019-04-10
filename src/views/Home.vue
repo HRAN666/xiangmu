@@ -148,8 +148,8 @@ export default {
       },
   mounted () {
     this.loadingBanner();
-      this.loadingShopList();
-      this.loadingShopModel();
+    this.loadingShopList();
+    this.loadingShopModel();
   }
 }
 </script>
@@ -232,6 +232,7 @@ export default {
 .home-substitute{
   text-align: left;
   margin-top:-.5rem;
+  margin-bottom:.1rem
 }
 .home-substitute img{
   background:#fff;
@@ -248,7 +249,7 @@ export default {
   width:27%;
 }
 .home-discount{
-  margin-top:-.65rem;
+  margin-top:-.85rem;
   height: 2.85rem;
 }
 .home-discount-shoplist{
@@ -280,9 +281,8 @@ export default {
   color:#888888;
 }
 .home-title{
-    /* height: 0;
-    margin-top: -.25rem; */
     position: relative;
+    top:-.25rem;
 }
 .home-to{
     position: absolute;

@@ -22,9 +22,9 @@
                 <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">{{'￥'+item.price.toFixed(2)}}</div>
-                <transition-group @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+                <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" >
                 <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index]" class="list_shopDrop" :key="index">
-                </transition-group>
+                </transition>
                 <div class="buy">
                     <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
                 </div>
@@ -64,9 +64,7 @@ export default {
             shopCommodities: '0',
             seachShopList:'',//搜索出来的商品List
             totlePrice:0,//总价格
-            showShop:[{
-                
-            }],//控制显示的动画的数组
+            showShop:[],//控制显示的动画的数组
             indexes:0,//选中的img索引位置
         }
     },
@@ -113,7 +111,6 @@ export default {
         addToShop(storeId,id,price,index){
             this.indexes=index
             this.showShop[this.indexes]=true
-            console.log(this.showShop)
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -131,14 +128,15 @@ export default {
             });
         },
         beforeEnter(el){
-            el.style.transform="translate(0,0)";    
+            el.style.transform="translate(0,0)";  
         },
         enter(el,done){
             this.$nextTick(()=>{//异步更新DOM
                 el.offsetWidth//触发网页重排
                 let ClientRect=el.getBoundingClientRect()
                 let y=(window.innerHeight-ClientRect.bottom-130)//130是底部的高度
-                el.style.transform="translate(-218px,"+y+"px)"
+                let x=(ClientRect.right-60)//60图片width以及边距
+                el.style.transform=`translate(${-x}px,${y}px)`
                 el.style.transition="all 0.4s cubic-bezier(0.49,-0.29,0.75, 0.14)"
                 el.addEventListener('transitionend', done);//立即调用afterEnter
             })
@@ -192,7 +190,7 @@ export default {
     }
     .commodities-header .commodities-headerCenter .el-input>>>.el-input__inner{
         border-radius: .2rem;
-        text-align: center;
+        text-align: left;
         height: .35rem;
         width: 2.5rem;
     }

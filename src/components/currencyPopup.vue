@@ -45,7 +45,7 @@
                 </span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command='wechat'>微信支付</el-dropdown-item>
-                    <el-dropdown-item command='wait'>到店支付</el-dropdown-item>
+                    <el-dropdown-item command='wait'>货到付款</el-dropdown-item>
                 </el-dropdown-menu>
                 <img src="../assets/down.png" alt=""> 
                 </el-dropdown>
@@ -55,7 +55,7 @@
                 <span class="popup_bottom_first">购买可得14.8积分</span>
                 <span class="popup_bottom_second">积分</span>
             </div>
-             <el-button type="primary" >提交订单</el-button>
+             <el-button type="primary" @click="toPay">提交订单</el-button>
         </div>
 
             <div class="express-message" :class="{'express-message':displayPopup,'express-message_second':isPoup}" v-if="popup!='style1'
@@ -162,6 +162,9 @@ export default {
         handleCommand(command) {
            this.selectCommand=command
            this.$emit('changePay',this.selectCommand)
+      },
+      toPay(){//支付写在父组件里
+            this.$emit('toPay',this.selectCommand)
       }
     },
     mounted () {
