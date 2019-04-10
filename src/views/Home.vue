@@ -42,7 +42,7 @@
         </div>
           <div class="home-discount">          
             <div class="home-discount-shoplist"  v-for="(value,indexes) in item.bizProduct" :key="indexes">
-                <img src="../assets/shopList.jpg" alt="">
+                <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
                 <p>{{value.name}}</p>
                 <div>
                   <span class="home-discount-shoplist-price">{{'￥'+value.price}}</span>
