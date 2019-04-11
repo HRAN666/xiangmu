@@ -261,7 +261,6 @@ div {
 }
 .productBlock > img {
   width: 1.5rem;
-  height: 1.2rem;
 }
 .productBlock p {
   font-size: 0.14rem;

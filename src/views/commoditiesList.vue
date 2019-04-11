@@ -27,7 +27,7 @@
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">{{item.price|filtertoMoney}}</div>
                 <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" >
-                <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index]" class="list_shopDrop" :key="index">
+                <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index].show" class="list_shopDrop" :key="index">
                 </transition>
                 <div class="buy">
                     <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
@@ -50,6 +50,7 @@
             <div class="shoppingRight">{{totlePrice|filtertoMoney}}</div>
             </router-link>
         </div>
+        <img src="../assets/top.png" alt="" class="list-top" v-show="listTop" @click="goTop">
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -72,6 +73,7 @@ export default {
             showShop:[],//控制显示的动画的数组
             indexes:0,//选中的img索引位置
             priceOrderBy:false,//默认升序
+            listTop:false,//是否显示返回顶部
         }
     },
 
@@ -109,7 +111,7 @@ export default {
             seachShop(params).then((result) => {
                 this.seachShopList=result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {
-                    this.showShop.push(false)                
+                    this.showShop.push({show:false})                
                 }
             }).catch((err) => {
                 console.log(err)              
@@ -120,7 +122,7 @@ export default {
         },
         addToShop(storeId,id,price,index){
             this.indexes=index
-            this.showShop[this.indexes]=true
+            this.showShop[index].show=true
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -152,15 +154,25 @@ export default {
             })
         },
         afterEnter(el){
-            this.showShop[this.indexes]=false;
+            this.showShop[this.indexes].show=false;
         },
         gotoDetails(id){//go商品详情
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id query传参为了防止页面刷新参数重置
+        },
+        scroll(){//监听滚动事件
+            if (window.scrollY>=200) {
+                this.listTop=true
+            }else{
+                this.listTop=false
+            }
+        },
+        goTop(){//返回顶部
+            window.scrollTo(0,0)   
         }
-    
     },
     mounted () {
        this.loadingAllShop();
+       window.addEventListener('scroll',this.scroll)
     }
 }
 </script>
@@ -168,6 +180,13 @@ export default {
 <style scoped>
     .list{
         margin-bottom: 1.33rem;
+    }
+    .list-top{
+        position: fixed;
+        bottom: 1.12rem;
+        right:.1rem;
+        width: .25rem;
+        z-index: 1000;
     }
     .list_empty img{
         width: .62rem;
