@@ -10,18 +10,22 @@
         <div class="menuNav">
             <el-menu
             :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" text-color="#444444" active-text-color="#0288D1">
-                <el-menu-item index="1">全部</el-menu-item>
-                <el-menu-item index="2">销量</el-menu-item>
-                <el-menu-item index="3">价格<i class="el-icon-d-caret"></i></el-menu-item>
-                <el-menu-item index="4">筛选<i class="el-icon-menu"></i></el-menu-item>
+                <el-menu-item index="all">全部</el-menu-item>
+                <el-menu-item index="sales_volume desc">销量</el-menu-item>
+                <el-menu-item index="price asc" @click.native="priceBy">价格<i class="el-icon-d-caret"></i></el-menu-item>
+                <el-menu-item index="filter">筛选<i class="el-icon-menu"></i></el-menu-item>
             </el-menu>
         </div>
-        <div class="list">
-            <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index" @click="gotoDetails(item.id)">
-                <div class="imgLeft"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
+        <div class="list_empty" v-if="seachShopList==''">
+            <img src="../assets/empty_shopList.png" alt="">
+            <p>没有更多商品数据了~</p>
+        </div>
+        <div class="list" v-if="seachShopList!=''">
+            <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index">
+                <div class="imgLeft"  @click="gotoDetails(item.id)"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
                 <div class="informationTop">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
-                <div class="price">{{'￥'+item.price.toFixed(2)}}</div>
+                <div class="price">{{item.price|filtertoMoney}}</div>
                 <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" >
                 <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index]" class="list_shopDrop" :key="index">
                 </transition>
@@ -43,7 +47,7 @@
             <div class="shoppingLength">{{shopCommodities}}</div>
             <div class="shoppingLeft">已选购{{shopCommodities}}件商品</div>
             <router-link to="/shopcar">
-            <div class="shoppingRight">{{'￥'+totlePrice.toFixed(2)}}</div>
+            <div class="shoppingRight">{{totlePrice|filtertoMoney}}</div>
             </router-link>
         </div>
         <footer-currency></footer-currency>
@@ -52,7 +56,8 @@
 <script>
 import footer from '../components/footer.vue'
 import { Toast } from 'mint-ui';
-import {seachShop,loadingShop,addShop} from '../api/api.js'
+import {seachShop,addShop} from '../api/api.js'
+import {filtertoMoney} from '../../filter/filter.js'
 export default {
     components:{
         'footer-currency':footer
@@ -60,29 +65,47 @@ export default {
     data() {
         return {
             input: '',//搜索框的值
-            activeIndex: '1',
+            activeIndex: 'all',//开始索引
             shopCommodities: '0',
             seachShopList:'',//搜索出来的商品List
             totlePrice:0,//总价格
             showShop:[],//控制显示的动画的数组
             indexes:0,//选中的img索引位置
+            priceOrderBy:false,//默认升序
         }
     },
 
     methods: {
-        handleSelect(key, keyPath) {
-            console.log(key, keyPath);
+        handleSelect(key,keyPath) {
+            if (key!='price asc') {
+                this.loadingAllShop(this.input,key)
+            }
+        },
+        priceBy(){
+            if (!this.priceOrderBy) {
+                this.priceOrderBy=true;
+                this.loadingAllShop(this.input,'price asc')//升序
+           }else{
+                this.priceOrderBy=false;
+                this.loadingAllShop(this.input,'price desc')//降序
+           }
         },
         toseachShop(){
             this.seachShopList='';//清空初始list
             this.indexes='';
             this.showShop=[];
-            if (this.input=='') {
+            if (this.input=='') {//input值
                 this.loadingAllShop()
+            }else{
+                this.loadingAllShop(this.input)
             }
+        },
+        loadingAllShop(nodeName,orderBy){//nodeName:搜索名字
             let params={
-                "name":this.input
+                'name':nodeName,
+                'orderByClause':orderBy=='all'?'':orderBy
             }
+            this.showShop=[];
             seachShop(params).then((result) => {
                 this.seachShopList=result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {
@@ -90,19 +113,6 @@ export default {
                 }
             }).catch((err) => {
                 console.log(err)              
-            });
-        },
-        loadingAllShop(){
-            let params={}
-            this.seachShopList='';//清空初始list
-            this.showShop=[];
-            loadingShop(params).then((result) => {
-                this.seachShopList=result.data.list;
-                for (let i = 0; i < result.data.list.length; i++) {
-                    this.showShop.push(false)   
-                }
-            }).catch((err) => {
-                console.log(err)
             });
         },
         goHome(){
@@ -145,12 +155,12 @@ export default {
             this.showShop[this.indexes]=false;
         },
         gotoDetails(id){//go商品详情
-            this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
+            this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id query传参为了防止页面刷新参数重置
         }
     
     },
     mounted () {
-       this.loadingAllShop()
+       this.loadingAllShop();
     }
 }
 </script>
@@ -159,7 +169,15 @@ export default {
     .list{
         margin-bottom: 1.33rem;
     }
-
+    .list_empty img{
+        width: .62rem;
+        height: .62rem;
+    }
+    .list_empty p{
+        font-size: .14rem;
+        color:#797878;
+        margin-top: -.15rem;
+    }
     .list .list_shopDrop {
         border-radius: .3rem;
         float: left;
@@ -260,6 +278,8 @@ export default {
         margin-top: .75rem;
         float: right;
         margin-right: .08rem;
+        position: relative;
+        z-index: 999;
     }
     .commodities-list .buy .el-button.is-round{
         padding: .04rem .14rem;
@@ -281,6 +301,7 @@ export default {
         font-size: .12rem;
         position: fixed;
         bottom: 0;
+        z-index: 1000
     }
     .yourShoppingCar .shoppingLength{
         position: absolute;

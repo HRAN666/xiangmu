@@ -8,6 +8,8 @@ import VueAMap from 'vue-amap';
 import 'mint-ui/lib/style.css'
 import './assets/icon/iconfont'
 import 'element-ui/lib/theme-chalk/index.css';
+import * as filter from '../filter/filter'
+Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(mint)
 Vue.use(elmentUi)
 Vue.use(VueAMap);
