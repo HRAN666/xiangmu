@@ -45,7 +45,7 @@
                 <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
                 <p>{{value.name}}</p>
                 <div>
-                  <span class="home-discount-shoplist-price">{{'￥'+value.price}}</span>
+                  <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
                   <span>999人付款</span>
                   <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price,indexes)">
                 </div>
@@ -61,7 +61,7 @@
 import footer from '../components/footer'
 import { Toast } from 'mint-ui';
 import {selectCatalogParentWithoutToken,shopmodel,homeBanner,addShop} from '../api/api.js'
-// import { debug } from 'util';
+import {filtertoMoney} from '../../filter/filter.js'
 export default {
   components: {
     'footer-currency':footer
@@ -99,8 +99,6 @@ export default {
 
       },
       addShop(storeId,id,price,indexes){
-          //         debugger;
-          // this.indexes=index
           let params={
               "productId":id,
               "userOpenId":localStorage.getItem('userOpenId'),
@@ -122,15 +120,12 @@ export default {
             for (let index = 0; index < result.data.list.length; index++) {
               if(result.data.list[index].nodeName !== '代取服务'){
                 day.push(result.data.list[index]);//带每日折扣数组
-                // console.log(day);
               }else{
                 var get = [];
                 get.push(result.data.list[index]);//带代取数组
               }
               this.shopModels=day;
             }  
-            // this.shopModels=result.data.list;
-            // console.log(this.shopModels)
         }).catch((err) => {
             console.log(err)
         });
@@ -279,7 +274,7 @@ export default {
   font-size:.14rem;
 }
 .home-discount-shoplist  span{
-  margin-right:.15rem;
+  margin-right:.12rem;
   font-size:.12rem;
   color:#888888;
 }
@@ -297,7 +292,6 @@ export default {
   width:.21rem;
   position: relative;
   top: .05rem;
-  left: -.05rem;
   padding:0;
 }
 .home-bottom{

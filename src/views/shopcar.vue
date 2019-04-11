@@ -12,7 +12,7 @@
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
                    <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
-                    <span class="shopCar_commodity_listPrice">{{'￥'+item.bizProductVo.price.toFixed(2)}}</span>
+                    <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
                      <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
             </div>
             <div class="shopCar_empty" v-if="ShopList.length == ''">
@@ -89,6 +89,7 @@ import {loadingshopCar,removeShopCar,payNext} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
+import {filtertoMoney} from '../../filter/filter.js'
 import { Toast } from 'mint-ui';
 export default {
     components:{
@@ -216,7 +217,7 @@ export default {
                     payNext(params).then((result) => {
                         if (result.data.resultCode==200) {
                             Toast({
-                                message: '提交订单成功',
+                                message: '提交订单成功，请尽快支付',
                                 duration: 1000
                             });
                         }

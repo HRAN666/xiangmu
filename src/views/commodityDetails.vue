@@ -17,7 +17,7 @@
             </div>
         <div class="commodityDetails-information">
             <div class="commodityDetails-title">{{item.name}}</div>
-            <div class="commodityDetails-price">￥{{item.price.toFixed(2)}}</div>
+            <div class="commodityDetails-price">￥{{item.price|filtertoMoney}}</div>
             <div class="commodityDetails-bottom">
                 <div class="bottomPrice">快递：0.00</div>
                 <div class="bottomSales">月销1222笔</div>
@@ -94,6 +94,7 @@
 import header from '../components/header.vue'
 import {productDetails,addShop} from '../api/api.js'
 import { Toast } from 'mint-ui';
+import {filtertoMoney} from '../../filter/filter.js'
 export default {
     components:{
         'header-currency':header
