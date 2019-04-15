@@ -1,36 +1,37 @@
 <template>
 <div class="orderd">
+    <div class="orderd_goback" @click="goBack"><img src="../assets/goBack.png"></div>
     <el-tabs v-model="activeName" >
         <el-tab-pane label="全部" name="first">
-    <div class="bigbox" style="display:block;" v-for="(item,index) in 5" :key="index">
-        <div class="box">
-                <div class="box_long"> 
-                    <p class="box_right">
-                        已发货 
-                    </p> 
-                    <div>  
-                        <img class="box_left" src="../assets/list.jpg"/>
-                        <div class="box_text">{{box_text}}
-                        </div>
-                        <div class="box_righttext"> 
-                            <span>￥30.00</span>
-                            <p>x 2</p> 
+            <div class="bigbox" style="display:block;" v-for="(item,index) in 5" :key="index">
+                <div class="box">
+                        <div class="box_long"> 
+                            <p class="box_right">
+                                已发货 
+                            </p> 
+                            <div>  
+                                <img class="box_left" src="../assets/list.jpg"/>
+                                <div class="box_text">{{box_text}}
+                                </div>
+                                <div class="box_righttext"> 
+                                    <span>￥30.00</span>
+                                    <p>x 2</p> 
+                                </div>   
+                            </div> 
                         </div>   
-                    </div> 
-                </div>   
-        </div>
-        <div class="box_bottom">
-            <span>
-            </span>
-            <span>
-                共2件商品
-            </span>
-        </div>
-        <div class="box_bottom_button">
-            <div>确认收货</div>
-            <div>查看物流</div>
-        </div>
-    </div>
+                </div>
+                <div class="box_bottom">
+                    <span>
+                    </span>
+                    <span>
+                        共2件商品
+                    </span>
+                </div>
+                <div class="box_bottom_button">
+                    <div>确认收货</div>
+                    <div>查看物流</div>
+                </div>
+            </div>
         </el-tab-pane>
         <el-tab-pane label="待付款" name="second">
             <div class="integral_content">
@@ -124,7 +125,11 @@ export default {
       activeName:"first"
     };
   },
-  methods: {},
+  methods: {
+      goBack(){
+            this.$router.push('/myself')
+      },
+  },
   mounted() {}
 };
 </script>
@@ -284,9 +289,23 @@ div {
 .productBlock_bottom {
   margin-top: -0.08rem;
 }
+.orderd_goback{
+    position: absolute;
+    height: .4rem;
+    left: .1rem;
+    z-index: 99;
+}
+.orderd_goback img{
+    height: .2rem;
+    position: absolute;
+    top: 0.09rem;
+}
 </style>
 <style>
 .orderd .el-tabs__nav{
-    margin:0rem .11rem;
+    margin:0rem .54rem;
+}
+.orderd .el-tabs__item{
+    padding:0rem .09rem;
 }
 </style>

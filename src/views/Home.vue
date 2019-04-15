@@ -27,14 +27,21 @@
         </el-row>
       </div>
     </div>
-          <img src="../assets/Substitute.png" alt="" class="home-sub">  
+        <!-- <img src="../assets/Substitute.png" alt="" class="home-sub">   -->
+    <div class="home-subfor" v-for="(item,index) in shopget" :key="index">  
+      <div class="home-title" style="top:0rem">
+          <img src="../assets/get.png" alt="" class="home-sub">
+          <span>{{item.nodeName}}</span>
+          <img src="../assets/go.png" alt="" class="home-to">
+      </div>
       <div class="home-substitute">
         <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
         <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
         <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
       </div>
-    <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
+    </div>
 
+    <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
         <div class="home-title">
             <img src="../assets/comm.png" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
@@ -116,16 +123,17 @@ export default {
       loadingShopModel(){
         let params={}
         shopmodel(params).then((result) => {
-                let day = [];
+            let day = [];
+            let get = [];
             for (let index = 0; index < result.data.list.length; index++) {
               if(result.data.list[index].nodeName !== '代取服务'){
                 day.push(result.data.list[index]);//带每日折扣数组
               }else{
-                var get = [];
                 get.push(result.data.list[index]);//带代取数组
               }
-              this.shopModels=day;
             }  
+            this.shopget=get;
+            this.shopModels=day;
         }).catch((err) => {
             console.log(err)
         });
