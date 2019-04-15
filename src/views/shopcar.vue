@@ -107,7 +107,6 @@ export default {
             totlePrice:0,//总价格
             selectpay:'微信支付',//初始支付方式
             deletShop:false,
-
     }
     },
     methods:{
@@ -250,6 +249,7 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
+        console.log(this.$store.state.shopLength)
     },
 }
 </script>

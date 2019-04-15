@@ -40,7 +40,7 @@ var system_config={
     "dictionary_cannot_delete_but_edit":6,
     "empty_config":"",
     };
-function getParaValueFromUrl(theName) {
+export const getParaValueFromUrl=(theName)=> {
     var reg = new RegExp("(^|&)" + theName + "=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);
     if (r != null) {
@@ -50,7 +50,7 @@ function getParaValueFromUrl(theName) {
     }
 }
 
-function isUndefined(tmp) {
+export const isUndefined=(tmp)=> {
     if (typeof (tmp) == "undefined") {
         return true;
     } else {
@@ -58,7 +58,7 @@ function isUndefined(tmp) {
     }
 }
 
-function isEmpty(tmp) {
+export const isEmpty=(tmp)=> {
     if ($.trim(tmp) == "") {
         return true;
     } else {
@@ -66,24 +66,38 @@ function isEmpty(tmp) {
     }
 }
 
-function isNull(arg1) {
+export const isNull=(arg1)=> {
     return !arg1 && arg1 !== 0 && typeof arg1 !== "boolean" ? true : false;
 }
 
-function isCanNotAccess(tmp) {
-    // if (isUndefined(tmp) || isEmpty(tmp) || isNull(tmp)) {
+export const isCanNotAccess=(tmp)=> {
     if (isUndefined(tmp) || isNull(tmp)) {
         return true;
     } else {
         return false;
     }
 }
+export const throttling = (fn,value) =>{//节流函数  argument[0]:毫秒数 arguments[1]:fn
+    let timer1='';
+    let timer2='';//timer1:定时器名字  timer2： timer3:执行间隔ms
+    let timer3=value||300;
+    return function(){
+        let that=this
+        let args=arguments;
+        let timeNow= +new Date();// + == valueOf()
+        if (timer2&&timeNow-timer2<timer3) {
+            clearTimeout(timer1)
+            timer1 = setTimeout(() => {
+                timer2=timeNow;
+                fn.apply(that,args);
+            }, timer3);
+        }else{ 
+            timer2=timeNow;
+            fn.apply(this,args);
+        }
+    }
+}
 export{
     project_name,
     system_config,
-    getParaValueFromUrl,
-    isCanNotAccess,
-    isNull,
-    isEmpty,
-    isUndefined
 }

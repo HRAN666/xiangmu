@@ -35,17 +35,17 @@
             </div>
             <div class="commodities-bottom">我是有底线的</div> 
         </div>
-        <div class="yourShoppingCar" v-if="this.shopCommodities==0">
+        <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength==0">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLeft">未选购商品<br>另需配送费1元</div>
             <router-link to="/shopcar">
             <div class="shoppingRight">结算</div>
             </router-link>
         </div>
-        <div class="yourShoppingCar" v-if="this.shopCommodities>0">
+        <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength>0">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
-            <div class="shoppingLength">{{shopCommodities}}</div>
-            <div class="shoppingLeft">已选购{{shopCommodities}}件商品</div>
+            <div class="shoppingLength">{{$store.state.shop_store.shopLength}}</div>
+            <div class="shoppingLeft">已选购{{$store.state.shop_store.shopLength}}件商品</div>
             <router-link to="/shopcar">
             <div class="shoppingRight">{{totlePrice|filtertoMoney}}</div>
             </router-link>
@@ -59,6 +59,7 @@ import footer from '../components/footer.vue'
 import { Toast } from 'mint-ui';
 import {seachShop,addShop} from '../api/api.js'
 import {filtertoMoney} from '../../filter/filter.js'
+import {throttling,_debounce} from '../common/common.js'
 export default {
     components:{
         'footer-currency':footer
@@ -67,13 +68,13 @@ export default {
         return {
             input: '',//搜索框的值
             activeIndex: 'all',//开始索引
-            shopCommodities: '0',
             seachShopList:'',//搜索出来的商品List
             totlePrice:0,//总价格
             showShop:[],//控制显示的动画的数组
             indexes:0,//选中的img索引位置
             priceOrderBy:false,//默认升序
             listTop:false,//是否显示返回顶部
+            toAjax:true,
         }
     },
 
@@ -93,21 +94,24 @@ export default {
            }
         },
         toseachShop(){
-            this.seachShopList='';//清空初始list
-            this.indexes='';
-            this.showShop=[];
-            if (this.input=='') {//input值
-                this.loadingAllShop()
-            }else{
-                this.loadingAllShop(this.input)
-            }
+            throttling(()=>{
+                this.seachShopList='';//清空初始list
+                this.indexes='';
+                this.showShop=[];
+                    if (this.input=='') {//input值
+                        this.loadingAllShop()
+                    }else{
+                        this.loadingAllShop(this.input)
+                    }
+
+            })
         },
         loadingAllShop(nodeName,orderBy){//nodeName:搜索名字
+            this.showShop=[];
             let params={
                 'name':nodeName,
                 'orderByClause':orderBy=='all'?'':orderBy
             }
-            this.showShop=[];
             seachShop(params).then((result) => {
                 this.seachShopList=result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {
@@ -128,18 +132,19 @@ export default {
                 "userOpenId":localStorage.getItem('userOpenId'),
                 "storeId":storeId
             }
-            addShop(params).then((result) => {
-                Toast({
+            this.$store.dispatch('addtoShop',params).then((result) => {
+                 Toast({
                     message: '成功加入购物车',
                     duration: 1000
                     });
-                this.shopCommodities++;//数量++
                 this.totlePrice+=price;
+                localStorage.setItem('totlePrice',this.totlePrice)
             }).catch((err) => {
-                
+                console.log(err)
             });
         },
         beforeEnter(el){
+            el.style.opacity='1'
             el.style.transform="translate(0,0)";  
         },
         enter(el,done){
@@ -150,10 +155,12 @@ export default {
                 let x=(ClientRect.right-60)//60图片width以及边距
                 el.style.transform=`translate(${-x}px,${y}px)`
                 el.style.transition="all 0.4s cubic-bezier(0.49,-0.29,0.75, 0.14)"
+                el.style.opacity='.2'
                 el.addEventListener('transitionend', done);//立即调用afterEnter
             })
         },
         afterEnter(el){
+            el.style.opacity='0'
             this.showShop[this.indexes].show=false;
         },
         gotoDetails(id){//go商品详情
@@ -168,11 +175,27 @@ export default {
         },
         goTop(){//返回顶部
             window.scrollTo(0,0)   
+        },
+        loadingShopCarLength(){//加载购物车有多少商品
+             let params={
+               "userOpenId":localStorage.getItem('userOpenId'),
+               "storeId":"0"//暂时写0
+            }
+             this.$store.dispatch('loadingShop',params).then((result) => {
+                 this.$store.state.shop_store.shopLength=0
+                    for (let i = 0; i < result.length; i++) {
+                        this.totlePrice+=result[i].bizProductVo.price*result[i].theNum
+                        this.$store.state.shop_store.shopLength+=result[i].theNum
+                    }
+            }).catch((err) => {
+                console.log(err)
+            });
         }
     },
-    mounted () {
+    created () {
        this.loadingAllShop();
-       window.addEventListener('scroll',this.scroll)
+       window.addEventListener('scroll',this.scroll);
+       this.loadingShopCarLength()
     }
 }
 </script>
