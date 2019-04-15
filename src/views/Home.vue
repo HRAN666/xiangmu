@@ -41,8 +41,8 @@
             <img src="../assets/go.png" alt="" class="home-to">
         </div>
           <div class="home-discount">          
-            <div class="home-discount-shoplist"  v-for="(value,indexes) in item.bizProduct" :key="indexes">
-                <img :src="'http://img.cmhg.shop/'+ value.icon" alt="">
+            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes">
+                <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
                 <p>{{value.name}}</p>
                 <div>
                   <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
@@ -130,18 +130,21 @@ export default {
             console.log(err)
         });
       },
-      loadingBanner(){
-        let params={}
-          homeBanner(params).then((result) => {
-            for (let index = 0; index < result.data.list.length; index++) {
-                this.bannerImg.push(JSON.parse(result.data.list[index].banner)[index].url)
-            }  
-          }).catch((err) => {
-            
-          });
-      }
-      },
-  created () {
+        loadingBanner(){
+          let params={}
+            homeBanner(params).then((result) => {
+              for (let index = 0; index < result.data.list.length; index++) {
+                  this.bannerImg.push(JSON.parse(result.data.list[index].banner)[index].url)
+              }  
+            }).catch((err) => {
+              
+            });
+        },
+        gotoDetails(id){//go商品详情
+            this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
+        }
+  },
+  mounted () {
     this.loadingBanner();
     this.loadingShopList();
     this.loadingShopModel();
