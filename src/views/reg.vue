@@ -93,8 +93,8 @@ export default {
     border-radius: 0;
 }
 .reg .el-date-editor.el-input, .el-date-editor.el-input__inner{
-    width: 90%;
-    margin-left: -.2rem;
+    width: 95%;
+    margin-left: -.15rem;
 }
 .reg .el-input--suffix .el-input__inner{
     border:none;
@@ -102,7 +102,7 @@ export default {
     border-radius: 0;
 }
 .reg .el-input{
-    width: 2.9rem;
+    width: 171%;
     margin-left: -18px;
 }
 .add .el-button--primary{
@@ -128,13 +128,13 @@ export default {
 .reg div{
     font-size: .14rem;
     text-align: left;
-    margin-left: .2rem;
+    margin-left: .1rem;
     font-size:.15rem
 }
 .reg input{
     border:none;
     border-bottom: .01rem solid #0288D1;
-    width: 90%;
+    width: 97%;
     margin-top: .2rem;
     outline: none;
     font-size:.14rem
