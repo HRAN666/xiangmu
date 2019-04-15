@@ -48,8 +48,8 @@
             <img src="../assets/go.png" alt="" class="home-to">
         </div>
           <div class="home-discount">          
-            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes">
-                <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
+            <div class="home-discount-shoplist" v-for="(value,indexes) in item.bizProduct" :key="indexes">
+                <img :src= "'http://img.cmhg.shop/'+ value.icon"  @click="gotoDetails(value.id)" alt="">
                 <p>{{value.name}}</p>
                 <div>
                   <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
@@ -69,6 +69,7 @@ import footer from '../components/footer'
 import { Toast } from 'mint-ui';
 import {selectCatalogParentWithoutToken,shopmodel,homeBanner,addShop} from '../api/api.js'
 import {filtertoMoney} from '../../filter/filter.js'
+import { all } from 'q';
 export default {
   components: {
     'footer-currency':footer
@@ -102,8 +103,6 @@ export default {
           }).catch((err) => {
               console.log(err)
           });
-
-
       },
       addShop(storeId,id,price,indexes){
           let params={
@@ -111,14 +110,16 @@ export default {
               "userOpenId":localStorage.getItem('userOpenId'),
               "storeId":storeId
           }
-          addShop(params).then((result) => {
-              Toast({
-                  message: '成功加入购物车',
-                  duration: 1000
-                  });
-          }).catch((err) => {
-              
-          });
+            this.$store.dispatch('addtoShop',params).then((result) => {
+                 Toast({
+                    message: '成功加入购物车', 
+                    duration: 1000
+                    });
+                this.totlePrice+=price;
+                localStorage.setItem('totlePrice',this.totlePrice)
+            }).catch((err) => {
+                console.log(err)
+            });
       },
       loadingShopModel(){
         let params={}
