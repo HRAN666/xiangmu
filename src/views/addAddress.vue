@@ -195,7 +195,7 @@ export default {
                     Toast({
                         message: '添加地址成功', 
                         duration: 1000
-                    });
+                    });   
                 }).catch((err) => {
                     
                 });
