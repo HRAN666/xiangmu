@@ -1,10 +1,10 @@
 // vue.config.js
 module.exports = {
-    assetsDir:'mp',
+    assetsDir:'mp2',
     devServer: {
         proxy: {
             '/api': {
-                target: 'http://14.29.248.178:9301/api',
+                target: 'http://igo.vrdete.com/api',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {

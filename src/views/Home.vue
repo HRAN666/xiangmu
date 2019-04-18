@@ -48,8 +48,8 @@
             <img src="../assets/go.png" alt="" class="home-to">
         </div>
           <div class="home-discount">          
-            <div class="home-discount-shoplist" v-for="(value,indexes) in item.bizProduct" :key="indexes">
-                <img :src= "'http://img.cmhg.shop/'+ value.icon"  @click="gotoDetails(value.id)" alt="">
+            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes">
+                <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
                 <p>{{value.name}}</p>
                 <div>
                   <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
@@ -110,6 +110,7 @@ export default {
               "userOpenId":localStorage.getItem('userOpenId'),
               "storeId":storeId
           }
+          event.stopPropagation();
             this.$store.dispatch('addtoShop',params).then((result) => {
                  Toast({
                     message: '成功加入购物车', 

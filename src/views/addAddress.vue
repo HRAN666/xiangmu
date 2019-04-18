@@ -181,8 +181,8 @@ export default {
                     }); 
             }else{
                 let params={
-                    'consignee':this.name,
-                    'phone':this.phone,
+                    'consignee':this.name,//收获人
+                    'phone':this.phone,//手机号
                     'province':this.province,//省
                     'city':this.city,//城市
                     'county':this.district,//区
@@ -192,11 +192,13 @@ export default {
                     'userOpenId':localStorage.getItem('userOpenId')
                 }
                 addAddress(params).then((result) => {
-                    
+                    Toast({
+                        message: '添加地址成功', 
+                        duration: 1000
+                    });
                 }).catch((err) => {
                     
                 });
-
             }    
         }
   }
