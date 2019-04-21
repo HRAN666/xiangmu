@@ -52,7 +52,7 @@ export const payNext =params =>{
 }
 /**********添加收货地址 */
 export const addAddress =params =>{
-    return axios.post('/api/portal/v01/insertPortalUserAddress.do',params);
+    return axios.post('api/portal/v01/insertPortalUserAddress.do ',params);
 }
 /***********商品详情 */
 export const productDetails =params =>{

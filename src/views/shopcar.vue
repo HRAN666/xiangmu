@@ -65,7 +65,11 @@
           </div>
       </div>
         </div>
-        <div class="shopCar_bottom">我是有底线的</div> 
+        <div class="shopCar-to-the-end">
+            <div class="shopCar-to-the-end-line"></div>
+            <div class="shopCar-to-the-end-text">已经到底了</div>
+            <div class="shopCar-to-the-end-line"></div>
+        </div>
         <div class="shopCar_totle">
             <div class="shopCar_totle_checkedAll">
             <input v-model="checkAll"  type="checkbox" class="shopCar_totle_checkbox" @change="tocheckAll">
@@ -345,7 +349,7 @@ export default {
     width: .19rem;
     height: .19rem;
     position: relative;
-    top: .01rem;
+    top: .04rem;
 }
 .shopCar_address .shopCar_address_iconMore{
     width: .15rem;
@@ -368,14 +372,14 @@ export default {
     margin-top:.19rem;
 }
 .shopCar_commodity .shopCar_commodity_list .shopCar_commodity_listTitle{
-    font-size:.12rem;
+    font-size:.14rem;
     padding-top: .19rem;
-    padding-left: .12rem;
+    padding-left: .14rem;
     width: 1.69rem;
     float: left;
 }
 .shopCar_commodity .shopCar_commodity_list .shopCar_commodity_listPrice{
-    font-size:.12rem;
+    font-size:.14rem;
     color:#0288d1;
     margin:.19rem .19rem 0 0;
     float: right;
@@ -396,9 +400,10 @@ export default {
 }
 .shopCar_discount{
   margin-top:-1.08rem;
+  height: 5rem;
 }
 .shopCar_shoplist{
-  height: 2.2rem;
+  height: 2.3rem;
   width: 47%;
   background: #fff;
   float: left;
@@ -429,61 +434,66 @@ export default {
     border: 1px solid #bbbbbb;
     border-radius: .08rem;
     width: .2rem;
-    padding: .02rem;
+    padding: .02rem .04rem .02rem .04rem;
 }
-.shopCar_bottom{
-    font-size: .12rem;
-    width: 100%;
-    position: relative;
-    margin-bottom: 1.3rem;
-    top: .2rem;
-    color:#a2a0a0;
+.shopCar-to-the-end{
+  position: relative;
+  color: #a8a8a8;
+  font-size: .16rem;
+  height: 1.7rem;
 }
-.shopCar_bottom::before{
-  content:'';
-  position: absolute;
-  border: .1px #e0dddd solid;
-  width: 27%;
-  left: .43rem;
-  bottom: .06rem;
+.shopCar-to-the-end .shopCar-to-the-end-line{
+  border-top: #d8d8d8 solid .01rem;
+  width: 1rem;
+  position: relative;
+  top:.23rem;
+  height: .1rem;
 }
-.shopCar_bottom::after{
-  content:'';
-  position: absolute;
-  border: .1px #e0dddd solid;
-  width: 27%;
-  right: .43rem;
-  bottom: .06rem;
+.shopCar-to-the-end .shopCar-to-the-end-line:nth-child(1){
+  float: left;
+  margin-left: .3rem;
 }
- .shopCar .shopCar_totle{
-     background:#fff;
-     height: .5rem;
-     position: fixed;
+.shopCar-to-the-end .shopCar-to-the-end-line:nth-child(3){
+  float: right;
+  margin-right: .3rem;
+}
+.shopCar-to-the-end .shopCar-to-the-end-text{
+  margin: 0 auto;
+  line-height: .45rem;
+  width: 100%;
+  position:absolute;
+  top: .02rem;
+}
+.shopCar .shopCar_totle{
+    background:#fff;
+    height: .6rem;
+    position: fixed;
     bottom: .5rem;
     width: 100%;
-    font-size:.12rem;
+    font-size:.125rem;
     z-index: 999;
 }
 .shopCar_totle .shopCar_totle_freight{
     position: relative;
-    left: -.8rem;
-    top:.06rem;
+    left: -.9rem;
+    top: .12rem;
     color:#a2a0a0;
 }
 .shopCar_totle .shopCar_totle_price{
     top:-.1rem;
     position: relative;
-    font-size:.13rem;
-    left: -.1rem;
+    font-size:.15rem;
+    left: -0.04rem;
 }
 .shopCar_totle .shopCar_totle_price span{
-    font-size:.12rem;
+    font-size:.15rem;
     color:#0288d1;
 }
  .shopCar_totle .shopCar_totle_discount{
-     position: relative;
-     left: .44rem;
-     color:#a2a0a0;
+    position: relative;
+    left: .8rem;
+    color:#a2a0a0;
+    top: -0.05rem;
  }
  .shopCar_commodity_list_checkbox{
     float: left;
@@ -492,7 +502,6 @@ export default {
     margin-top: .35rem;
     margin-left: .1rem;
     margin-right: .12rem;
-
  }
 input[type="checkbox"]:checked::before{
     background-color: #0288d1;
@@ -502,8 +511,9 @@ input[type="checkbox"]:checked::before{
     height: .2rem;
 }
 input[type="checkbox"]:checked::after{
-    content: "✓";
-    font-size: .16rem;
+    content: "  √";
+    font-family: '华文琥珀';
+    font-size: .17rem;
     position: absolute;
     color: #fff;
     left: .18rem;

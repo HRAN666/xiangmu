@@ -5,7 +5,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: '/mp/',
+  base: '/mp2/',
   routes: [
     {
       path: '/order',

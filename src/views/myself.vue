@@ -31,13 +31,10 @@
             </div>     
         </div>
         <div class="myorder">
-            <div class="myorder_top">
+            <div class="myorder_top" @click="toOrder">
                 <span>我的订单</span>
                 <div class="myorder_go">
-                    <a href="/order" style="text-decoration: none;color: #B3B3B3;">
-                        查看全部
-                        <img src="../assets/more.png" alt="">
-                    </a>
+                    查看全部<img src="../assets/more.png" alt="">
                 </div>
             </div>
             <div class="myorder_list">
@@ -61,7 +58,7 @@
         </div>
         <div class="my">
             <div class="my_list">
-                 <img src="../assets/collect.png" alt="">
+                <img src="../assets/collect.png" alt="">
                 <span>我的收藏</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
             </div>
@@ -99,6 +96,9 @@ export default {
         }
     },
     methods: {
+        toOrder(){
+            this.$router.push('/order')
+        },
         toreg(){
             this.$router.push('/reg')
         },
@@ -197,7 +197,7 @@ export default {
     margin: auto;
     border-radius: 4px 5px 8px 7px;
     top: .82rem;
-    border-top: 1px dashed;
+    border-top: 1px dashed #dad9d9;
 }
 .header_sencond_float div{
     width: 50%;
@@ -263,7 +263,6 @@ export default {
     float: right;
     color: #B3B3B3;
     margin-right: .08rem;
-    margin-top: -.03rem;
 }
 .myorder_list{
     margin-top: .1rem;
@@ -314,7 +313,7 @@ export default {
 .header_float_nickname_vip{
     position: relative;
     left: .35rem;
-    top: .03rem;
+    top: .02rem;
 }
 
 .my{
