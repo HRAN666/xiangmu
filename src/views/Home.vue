@@ -122,6 +122,7 @@ export default {
               "userOpenId":localStorage.getItem('userOpenId'),
               "storeId":storeId
           }
+          event.stopPropagation(); 
           addShop(params).then((result) => {
               Toast({
                   message: '成功加入购物车',
@@ -146,6 +147,7 @@ export default {
             this.shopget=get;
             this.shopModels=day;
         }).catch((err) => {
+            console.log(err)
             console.log(err)
         });
       },

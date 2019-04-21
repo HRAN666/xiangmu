@@ -9,7 +9,7 @@
                 <div class="productBlock_bottom"> 
                     <div class="productBlock_price">{{item.integral+'积分'}}</div>
                     <div class="productBlock_specification">{{item.saleVolume}}人已兑</div>
-                    <span @click="integrals(item.id,item.saleVolume,item.integral)">兑换</span>
+                    <span @click="conversion(item.id,item.saleVolume,item.integral)">兑换</span>
                 </div>
             </div>
             </div>
@@ -27,7 +27,7 @@
 <script>
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
-import {integral} from '../api/api.js'
+import {integral,conversionIntegral} from '../api/api.js'
 export default {
     components:{
         'header-general':header,
@@ -47,7 +47,7 @@ export default {
                 
             });
         },
-        integrals(id,saleVolume,integral){
+        conversion(id,saleVolume,integral){
             let params={
                 "userOpenId":localStorage.getItem('userOpenId'),
                 "scoreProductId":id,
@@ -55,8 +55,12 @@ export default {
                 "scorePrice":integral,
                 "scoreUse":integral,                                
             }
-            integral(params).then((result) => {
-                alert("兑换成功");
+            conversionIntegral(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    alert("兑换成功");   
+                }else if(result.data.resultCode==500){
+                    alert("积分不足");   
+                }
             }).catch((err) => {
                 
             });
