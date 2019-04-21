@@ -27,6 +27,7 @@
 <script>
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
+import { Toast } from 'mint-ui';
 import {integral,conversionIntegral} from '../api/api.js'
 export default {
     components:{
@@ -57,9 +58,15 @@ export default {
             }
             conversionIntegral(params).then((result) => {
                 if (result.data.resultCode==200) {
-                    alert("兑换成功");   
+                    Toast({
+                        message: '兑换成功',
+                        duration: 1000
+                    });
                 }else if(result.data.resultCode==500){
-                    alert("积分不足");   
+                    Toast({
+                        message: '积分不足',
+                        duration: 1000
+                    });
                 }
             }).catch((err) => {
                 
