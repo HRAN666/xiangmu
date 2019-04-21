@@ -1,6 +1,5 @@
 <template>
     <div>
-        <header-general routerTo="/myself" headTitle="优惠卡劵" headClass="style2"></header-general>
         <el-row class="usestate">
             <nav>
                 <li v-for="item in usestate" :key="item.name":class="{active : active == item.name}" @click="selected(item.name);onshow(item.tabId);" >{{item.name}}(3)</li>
@@ -128,10 +127,9 @@
     </div>
 </template>
 <script>
-import header from '../components/header.vue'
 export default {
     components: {
-        'header-general':header
+        // 'header-general':header
     },
     data () {
         return {

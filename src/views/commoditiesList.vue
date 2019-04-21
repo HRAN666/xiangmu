@@ -33,7 +33,11 @@
                     <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
                 </div>
             </div>
-            <div class="commodities-bottom">我是有底线的</div> 
+            <div class="commoditiesList-to-the-end">
+                <div class="to-the-end-line"></div>
+                <div class="to-the-end-text">已经到底了</div>
+                <div class="to-the-end-line"></div>
+            </div>
         </div>
         <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength==0">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
@@ -278,24 +282,28 @@ export default {
     }
     .commodities-list{
         height: 1.1rem;
-        font-size: .12rem;
+        font-size: .15rem;
         position: relative;
         border-bottom: 1px solid #E0DFE3;
         background: #ffffff;
     }
     .commodities-list .imgLeft {
-        position: absolute;
+        position: relative;;
         left: .15rem;
-        margin-top: .15rem;
+        width: 1rem;
+        height: 1.1rem;
     }
     .commodities-list .imgLeft img{
-        height: .8rem;
-        width: .8rem;
+        width: 100%;
+        position: absolute;
+        top:50%; 
+        left:50%;
+        transform: translate(-50%,-50%);
     }
     .commodities-list .informationTop {
-        position: absolute;
-        left: 1.2rem;
-        margin-top: .15rem;
+        position: relative;
+        left: 1.4rem;
+        top:-.9rem;
         width: 1.8rem;
         line-height: .2rem;
         text-align: left;
@@ -303,24 +311,24 @@ export default {
     .commodities-list .informationIcon {
         position: absolute;
         left: 3.4rem;
-        margin-top: .15rem;
+        top: 0.2rem;
     }
     .commodities-list .informationIcon img{
         height: .35rem;
     }
     .commodities-list .price {
         position: absolute;
-        left: 1.2rem;
-        margin-top: .8rem;
-        font-size: .14rem;
+        left: 1.4rem;
+        top: .7rem;
+        font-size: .17rem;
         font-weight: bolder;
         color: #0288DE;
     }
     .commodities-list .buy {
-        margin-top: .75rem;
-        float: right;
         margin-right: .08rem;
-        position: relative;
+        position: absolute;
+        top: .7rem;
+        right: .1rem;
         z-index: 999;
     }
     .commodities-list .buy .el-button.is-round{
@@ -376,11 +384,11 @@ export default {
         bottom: .5rem;
         left: 0;
         width: 3rem;
-        height: .4rem;
+        height: .45rem;
         text-align: left;
         padding-left: 1rem;
-        padding-top: .1rem;
-        font-size: .12rem;
+        padding-top: .05rem;
+        font-size: .13rem;
         background: #626262;
         color: #c1c1c1;
     }
@@ -394,31 +402,35 @@ export default {
         line-height: .5rem;
         color: #ffffff;
         z-index: 2;
-        font-size: .13rem;
+        font-size: .18rem;
     }
-    .commodities-bottom{
-    font-size: .12rem;
-    width: 100%;
-    position: absolute;
-    margin-bottom: 1.26rem;
-    color:#a2a0a0;
-    margin-top: .05rem;
+    .commoditiesList-to-the-end{
+        position: relative;
+        color: #a8a8a8;
+        font-size: .16rem;
+        height: .2rem;
     }
-    .commodities-bottom::before{
-    content:'';
-    position: absolute;
-    border: .1px #e0dddd solid;
-    width: 27%;
-    left: .43rem;
-    bottom: .06rem;
+    .commoditiesList-to-the-end .to-the-end-line{
+        border-top: #d8d8d8 solid .01rem;
+        width: 1rem;
+        position: relative;
+        top:.23rem;
+        height: .1rem;
     }
-    .commodities-bottom::after{
-    content:'';
-    position: absolute;
-    border: .1px #e0dddd solid;
-    width: 27%;
-    right: .43rem;
-    bottom: .06rem;
-}
+    .commoditiesList-to-the-end .to-the-end-line:nth-child(1){
+        float: left;
+        margin-left: .3rem;
+    }
+    .commoditiesList-to-the-end .to-the-end-line:nth-child(3){
+        float: right;
+        margin-right: .3rem;
+    }
+    .commoditiesList-to-the-end .to-the-end-text{
+        margin: 0 auto;
+        line-height: .45rem;
+        width: 100%;
+        position:absolute;
+        top: .02rem;
+    }
 </style>
 

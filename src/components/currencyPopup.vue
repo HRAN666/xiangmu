@@ -52,8 +52,8 @@
                 </div>
             </div>
             <div class="popup_bottom">
-                <span class="popup_bottom_first">购买可得14.8积分</span>
-                <span class="popup_bottom_second">积分</span>
+                <span class="popup_bottom_first">积分</span>
+                <span class="popup_bottom_second">购买可得14.8积分</span>
             </div>
              <el-button type="primary" @click="toPay">提交订单</el-button>
         </div>
@@ -176,7 +176,7 @@ export default {
 }
 </script>
 <style>
- .ispopup .el-button--primary{
+.ispopup .el-button--primary{
     position: relative;
     bottom: .63rem;
     width: 100%;
@@ -245,18 +245,23 @@ export default {
     color: #0288d1;
 }
 .popup_bottom {
-    font-size:.12rem;
+    font-size: .12rem;
+    position: relative;
+    height: .2rem;
+    line-height: .3rem;
+    width: 100%;
+    top: 0;
+    text-align: right;
 }
 .popup_bottom span{
-    float: right;
     padding-top:.11rem;
     margin-right:.1rem
 }
-.popup_bottom .popup_bottom_second{
+.popup_bottom .popup_bottom_first{
     border:1px soild #d23d3d;
     color:#d23d3d;
 }
-.popup_bottom .popup_bottom_first{
+.popup_bottom .popup_bottom_second{
     color:#949494;
 }
 /**********代取************/
@@ -322,22 +327,25 @@ export default {
 }
 .express-message form{
     position:relative;
-    top: .3rem;
+    top: .25rem;
     left: .2rem;
     font-size: .15rem;
     color: #242424;
 }
 .express-message form p{
     width: 88%;
-    border-bottom:.01rem #e8e8e8 solid;
-    padding: .1rem 0 .12rem 0;
+    border-bottom: .01rem #e8e8e8 solid;
+    padding-bottom: .1rem;
+    margin-top: .2rem;
+}
+.express-message form p:nth-last-child(2){
+    border-bottom:none;
 }
 .express-message form p input{
     font-size: .15rem;
     border: none;
-}
-.express-message form p:nth-child(5){
-    border-bottom:none;
+    position: relative;
+    top: -0.02rem;
 }
 .express-message form .choose-express{
     line-height: .2rem;
@@ -355,10 +363,10 @@ export default {
     font-family: '黑体';
 }
 .express-message form textarea{
-    font-size: .16rem;
+    font-size: .15rem;
     position: relative;
-    top: -.49rem;
-    left: .5rem;
+    top: -.5rem;
+    left: .45rem;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     border:none;
     resize : none;
