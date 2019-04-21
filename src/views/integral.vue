@@ -9,7 +9,7 @@
                 <div class="productBlock_bottom"> 
                     <div class="productBlock_price">{{item.integral+'积分'}}</div>
                     <div class="productBlock_specification">{{item.saleVolume}}人已兑</div>
-                    <span>兑换</span>
+                    <span @click="integrals(item.id,item.saleVolume,item.integral)">兑换</span>
                 </div>
             </div>
             </div>
@@ -37,6 +37,20 @@ export default {
             let params={}
             integral(params).then((result) => {
                 this.integralList=result.data.list
+            }).catch((err) => {
+                
+            });
+        },
+        integrals(id,saleVolume,integral){
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "scoreProductId":id,
+                "buyAmount":saleVolume,
+                "scorePrice":integral,
+                "scoreUse":integral,                                
+            }
+            integral(params).then((result) => {
+                alert("兑换成功");
             }).catch((err) => {
                 
             });
