@@ -108,86 +108,86 @@ export default {
         'header-general':header,
         'currency-Popup':currencyPopup
     },
-  data() {
-    return {
-         shopDetails:[],//商品详情信息
-         bannerImg:[],//单独抽离出来的moreicon
-    }
-  },
-  methods: {
-    goback(){
-        this.$router.go(-1)
-      },
-    loadingDetails(id){
-        let params={
-            'id':id
+    data() {
+        return {
+            shopDetails:[],//商品详情信息
+            bannerImg:[],//单独抽离出来的moreicon
+            markshow:false,
         }
-        productDetails(params).then((result) => {
-            this.shopDetails.push(result.data);
-            let imgArr=result.data.morePics.split(',')
-            for (let i = 0; i < imgArr.length; i++) {
-                this.bannerImg.push(imgArr[i])
+    },
+    methods: {
+            goback(){
+                this.$router.go(-1)
+            },
+            loadingDetails(id){
+                let params={
+                    'id':id
+                }
+                productDetails(params).then((result) => {
+                    this.shopDetails.push(result.data);
+                    let imgArr=result.data.morePics.split(',')
+                    for (let i = 0; i < imgArr.length; i++) {
+                        this.bannerImg.push(imgArr[i])
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+            },
+                displayCover(){
+                this.markshow=false
+                this.$refs.popup.isPoup=false
+                this.$refs.popup.expressShow=false
+            },
+            Cover(){//显示
+                this.markshow=true
+                this.$refs.popup.isPoup=true
+            },
+            toexpressfood(){
+                this.$router.push('/expressfood')
+            },
+            toexpressmedicines(){
+                this.$router.push('/expressmedicines')
+            },
+            goback(){
+                this.$router.push('/commoditiesList')
+            },
+            loadingDetails(id){
+                let params={
+                    'id':id
+                }
+                productDetails(params).then((result) => {
+                    this.shopDetails.push(result.data);
+                    let imgArr=result.data.morePics.split(',')
+                    for (let i = 0; i < imgArr.length; i++) {
+                        this.bannerImg.push(imgArr[i])
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+            },
+            addtoShop(){
+                let params={
+                    "productId":this.shopDetails[0].id,
+                    "userOpenId":localStorage.getItem('userOpenId'),
+                    "storeId":'0'//暂时0
+                }
+                addShop(params).then((result) => {
+                    if(result.data.resultCode==200){
+                        Toast({
+                            message: '成功加入购物车',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            gotoShopCar(){
+                this.$router.push('/shopcar')
             }
-        }).catch((err) => {
-            console.log(err)
-        });
     },
     mounted(){
        
-    },
-    methods:{
-        displayCover(){
-            this.markshow=false
-            this.$refs.popup.isPoup=false
-            this.$refs.popup.expressShow=false
-        },
-        Cover(){//显示
-            this.markshow=true
-            this.$refs.popup.isPoup=true
-        },
-        toexpressfood(){
-            this.$router.push('/expressfood')
-        },
-        toexpressmedicines(){
-            this.$router.push('/expressmedicines')
-        },
-        goback(){
-            this.$router.push('/commoditiesList')
-        },
-        loadingDetails(id){
-            let params={
-                'id':id
-            }
-            productDetails(params).then((result) => {
-                this.shopDetails.push(result.data);
-                let imgArr=result.data.morePics.split(',')
-                for (let i = 0; i < imgArr.length; i++) {
-                    this.bannerImg.push(imgArr[i])
-                }
-            }).catch((err) => {
-                console.log(err)
-            });
-        },
-        addtoShop(){
-            let params={
-                "productId":this.shopDetails[0].id,
-                "userOpenId":localStorage.getItem('userOpenId'),
-                "storeId":'0'//暂时0
-            }
-            addShop(params).then((result) => {
-                if(result.data.resultCode==200){
-                    Toast({
-                        message: '成功加入购物车',
-                        duration: 1000
-                    });
-                }
-            }).catch((err) => {
-                
-            });
-        },
-        gotoShopCar(){
-            this.$router.push('/shopcar')
-        }
     },
     created() {
         this.loadingDetails(this.$route.query.id)
@@ -195,21 +195,24 @@ export default {
 }
 </script>
 <style>
+.commodityDetails-gooods-message .el-carousel{
+    width: 100%;
+}
+.commodityDetails-gooods-message .el-carousel__container{
+    height: 2.4rem;
+}
+.commodityDetails-gooods-message .el-carousel__button{
+    background-color:#ccc;
+}
+</style>
+
+<style scoped>
 .commodityDetails-gooods-message{
     background-color: #ffffff;
     font-size: .19rem;
     text-align: left;
     margin: 0 auto;
     height: 3.6rem;
-}
-.el-carousel{
-    width: 100%;
-}
-.el-carousel__container{
-    height: 2.4rem;
-}
-.el-carousel__button{
-    background-color:#ccc;
 }
 .commodityDetails-gooods-message .goods-img{
     text-align: center;
