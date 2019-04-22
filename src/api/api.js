@@ -34,6 +34,10 @@ export const shopmodel =params =>{
 export const integral =params =>{
     return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
 }
+/************兑换积分 */
+export const  conversionIntegral =params =>{
+    return axios.post('/api/biz/v01/insertBizIntegralOrder.do',params);
+}
 /************首页banner */
 export const homeBanner =params =>{
     return axios.post('/api/portal/v01/listPortalBanner.do',params);

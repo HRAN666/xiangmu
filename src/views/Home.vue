@@ -28,22 +28,22 @@
       </div>
     </div>
         <!-- <img src="../assets/Substitute.png" alt="" class="home-sub">   -->
-    <div class="home-subfor" v-for="(item,index) in shopget" :key="index">  
+    <div class="home-subfor express" v-for="(item,index) in shopget" :key="index">  
       <div class="home-title" style="top:0rem">
           <img src="../assets/get.png" alt="" class="home-sub">
           <span>{{item.nodeName}}</span>
           <img src="../assets/go.png" alt="" class="home-to">
       </div>
       <div class="home-substitute">
-        <a href="express"><img src="../assets/wati_express.png" alt="" class="home-watiexpress"></a>
-        <a href="expressmedicines"><img src="../assets/wait_serve.png" alt="" class="home-waitserve"></a>
-        <a href="expressfood"><img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen"></a>    
+        <img src="../assets/wati_express.png" alt="" class="home-watiexpress" @click="toexpress">
+        <img src="../assets/wait_canteen.png" alt="" class="home-waitcanteen" @click="toexpressfood"> 
+        <img src="../assets/wait_serve.png" alt="" class="home-waitserve" @click="toexpressmedicines">
       </div>
     </div>
 
     <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
         <div class="home-title">
-            <img src="../assets/comm.png" alt="" class="home-sub">
+            <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
             <img src="../assets/go.png" alt="" class="home-to">
         </div>
@@ -59,7 +59,11 @@
             </div>
           </div>
       </div>
-      <div class="home-bottom">我是有底线的</div>      
+      <div class="to-the-end">
+        <div class="to-the-end-line"></div>
+        <div class="to-the-end-text">已经到底了</div>
+        <div class="to-the-end-line"></div>
+      </div>  
       <footer-currency></footer-currency>
   </div>
 </template>
@@ -88,22 +92,29 @@ export default {
     }
   },
   methods: {
+    toexpress(){
+      this.$router.push('/express')
+    },
+    toexpressfood(){
+      this.$router.push('/expressfood')
+    },
+    toexpressmedicines(){
+      this.$router.push('/expressmedicines')
+    },
     selectSchool(){
       this.$router.push('/location')
-      },
-      goSeach(){
-        this.$router.push('/commoditiesList')
-      },
-      loadingShopList(){
-        let params={};
-          selectCatalogParentWithoutToken(params).then((result) => {
-              this.shopList=result.data.list;
-              this.shopList.splice(this.resultShopListLength, this.shopList.length-this.resultShopListLength)
-          }).catch((err) => {
-              console.log(err)
-          });
-
-
+    },
+    goSeach(){
+      this.$router.push('/commoditiesList')
+    },
+    loadingShopList(){
+      let params={};
+        selectCatalogParentWithoutToken(params).then((result) => {
+          this.shopList=result.data.list;
+          this.shopList.splice(this.resultShopListLength, this.shopList.length-this.resultShopListLength)
+        }).catch((err) => {
+          console.log(err)
+        });
       },
       addShop(storeId,id,price,indexes){
           let params={
@@ -111,6 +122,7 @@ export default {
               "userOpenId":localStorage.getItem('userOpenId'),
               "storeId":storeId
           }
+          event.stopPropagation(); 
           addShop(params).then((result) => {
               Toast({
                   message: '成功加入购物车',
@@ -135,6 +147,7 @@ export default {
             this.shopget=get;
             this.shopModels=day;
         }).catch((err) => {
+            console.log(err)
             console.log(err)
         });
       },
@@ -197,6 +210,11 @@ export default {
   float: left;
   margin-top: .07rem;
 }
+.home-seach .home-seach-gps p{
+  position: absolute;
+  top: .05rem;
+  left: .4rem;
+}
 .home-seach-shop{
   margin-top: -.5rem;
   float: left;
@@ -222,14 +240,14 @@ export default {
   margin-top:.15rem;
 }
 .home-shop-list{
-    font-size:.12rem;
-    padding-top:.15rem;
-    color:#bbb7b7;
-    font-weight: bold;
+  font-size:.13rem;
+  padding-top:.15rem;
+  color:#bbb7b7;
+  font-weight: bold;
 }
 .home-shop-list img{
-  width:.42rem;
-  height: .42rem;
+  width:.6rem;
+  height: .6rem;
 }
 .home-sub{
   width:1.55rem;
@@ -259,31 +277,47 @@ export default {
   height: 2.85rem;
 }
 .home-discount-shoplist{
-  height: 2.3rem;
+  height: 2.5rem;
   width: 47%;
   background: #fff;
   float: left;
-  text-align:left;
+  text-align:center;
   margin-left:.08rem;
-  padding-left: .15rem;
+  padding-left: .1rem;
   box-sizing: border-box;
   margin-top:.1rem;
   border-radius: .05rem;
 }
 .home-discount-shoplist img{
   width:85%;
-  padding:.05rem;
+  padding-top:.2rem;
 }
 .home-discount-shoplist {
-  font-size:.14rem;
+  font-size:.15rem;
+}
+.home-discount-shoplist div{
+  position: relative;
+  text-align: left;
+  margin-left: -.02rem;
+  margin-top: -.06rem;
 }
 .home-discount-shoplist .home-discount-shoplist-price{
   color:#0489D1;
-  font-size:.14rem;
+  font-size:.16rem;
 }
-.home-discount-shoplist  span{
-  margin-right:.12rem;
-  font-size:.12rem;
+.home-discount-shoplist p{
+  display: inline-block;
+  width: 1.65rem;
+  margin-left: -.02rem;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.home-discount-shoplist span:nth-child(2){
+  display: inline-block;
+  text-indent: 0.05rem;
+  font-size:.13rem;
   color:#888888;
 }
 .home-title{
@@ -297,43 +331,51 @@ export default {
     top: .23rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
-  width:.21rem;
+    width: 0.24rem;
+    position: absolute;
+    top: 0.05rem;
+    right: 0.07rem;
+    padding: 0;
+}
+.to-the-end{
   position: relative;
-  top: .05rem;
-  padding:0;
+  color: #a8a8a8;
+  font-size: .16rem;
+  height: 1rem;
 }
-.home-bottom{
-    font-size: .12rem;
-    width: 100%;
-    position: relative;
-    margin-bottom: .89rem;
-    top: .2rem;
-    color:#a2a0a0;
+.to-the-end .to-the-end-line{
+  border-top: #d8d8d8 solid .01rem;
+  width: 1rem;
+  position: relative;
+  top:.23rem;
+  height: .1rem;
 }
-.home-bottom::before{
-  content:'';
-  position: absolute;
-  border: .1px #e0dddd solid;
-  width: 27%;
-  left: .43rem;
-  bottom: .06rem;
+.to-the-end .to-the-end-line:nth-child(1){
+  float: left;
+  margin-left: .3rem;
 }
-.home-bottom::after{
-  content:'';
-  position: absolute;
-  border: .1px #e0dddd solid;
-  width: 27%;
-  right: .43rem;
-  bottom: .06rem;
+.to-the-end .to-the-end-line:nth-child(3){
+  float: right;
+  margin-right: .3rem;
+}
+.to-the-end .to-the-end-text{
+  margin: 0 auto;
+  line-height: .45rem;
+  width: 100%;
+  position:absolute;
+  top: .02rem;
 }
 .home-title span{
-    font-size: 17px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin: auto;
-    color: #0288D1;
-    font-weight: bold;
-    margin-top:.2rem;
+  font-size: 0.18rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  color: #0288D1;
+  font-weight: bold;
+  margin-top:.2rem;
+}
+.express .home-title span{
+  color: #943c1e;
 }
 </style>

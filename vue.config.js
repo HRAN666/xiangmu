@@ -1,6 +1,6 @@
 // vue.config.js
 module.exports = {
-    assetsDir:'mp',
+    assetsDir:'mp2',
     devServer: {
         proxy: {
             '/api': {
@@ -9,7 +9,7 @@ module.exports = {
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''
-                  }
+                }
             },
         }
     }
