@@ -10,7 +10,7 @@
         <div class="shopCar_commodity">
             <div class="shopCar_commodity_list" v-for="(item,index) in ShopList" :key="index">
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
-                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="gotoDetail(item.productId)">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
                      <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
@@ -227,6 +227,9 @@ export default {
                 default:
                     break;
             }
+        },
+        gotoDetail(id){
+            this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
         }
 
     },
@@ -249,7 +252,6 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
-        console.log(this.$store.state.shopLength)
     },
 }
 </script>

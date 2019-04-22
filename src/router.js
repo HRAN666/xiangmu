@@ -5,7 +5,7 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
+  base: '/mp/',
   routes: [
     {
       path: '/order',
@@ -14,7 +14,7 @@ export default new Router({
       meta: {title: '我的订单'}
     },
     {
-      path: '/',
+      path: '/', 
       name: 'Home',
       component: () => import( './views/Home.vue'),
       meta:{title:'首页'},

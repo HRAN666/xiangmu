@@ -3,19 +3,19 @@
     <div class="orderd_goback" @click="goBack"><img src="../assets/goBack.png"></div>
     <el-tabs v-model="activeName" >
         <el-tab-pane label="全部" name="first">
-            <div class="bigbox" style="display:block;" v-for="(item,index) in 5" :key="index">
+          <div v-for="(item,index) in orderList" :key="index">
+            <div class="bigbox" style="display:block;"  v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
                 <div class="box">
                         <div class="box_long"> 
                             <p class="box_right">
-                                已发货 
+                                {{item.deliverStatus}} 
                             </p> 
                             <div>  
-                                <img class="box_left" src="../assets/list.jpg"/>
-                                <div class="box_text">{{box_text}}
-                                </div>
+                                <img class="box_left" :src="'http://img.cmhg.shop/'+ value.bizProductVo.icon"/>
+                                <div class="box_text">{{value.bizProductVo.name}}</div>
                                 <div class="box_righttext"> 
-                                    <span>￥30.00</span>
-                                    <p>x 2</p> 
+                                    <span>{{value.bizProductVo.price|filtertoMoney}}</span>
+                                    <p>x{{value.theNum}}</p> 
                                 </div>   
                             </div> 
                         </div>   
@@ -24,13 +24,14 @@
                     <span>
                     </span>
                     <span>
-                        共2件商品
+                      {{'共'+value.theNum+'件商品'}}
                     </span>
                 </div>
                 <div class="box_bottom_button">
                     <div>确认收货</div>
                     <div>查看物流</div>
                 </div>
+            </div>
             </div>
         </el-tab-pane>
         <el-tab-pane label="待付款" name="second">
@@ -115,22 +116,36 @@
 </template>
 <script>
 import footer from "../components/footer";
+import {historyOrder} from '../api/api.js';
+import {filtertoMoney} from '../../filter/filter.js'
 export default {
   components: {
     "footer-currency": footer
   },
   data() {
     return {
-      box_text: "可口可乐摩登罐 330*24 整箱装 可口可乐出品",
-      activeName:"first"
+      activeName:"first",
+      orderList:''
     };
   },
   methods: {
       goBack(){
             this.$router.push('/myself')
       },
+      loadingOrder(){
+        let params={
+          'userOpenId':localStorage.getItem('userOpenId')
+        }
+        historyOrder(params).then((result) => {
+              this.orderList=result.data.list
+        }).catch((err) => {
+          
+        });
+      }
   },
-  mounted() {}
+  created() {
+        this.loadingOrder()
+  }
 };
 </script>
 <style scoped>

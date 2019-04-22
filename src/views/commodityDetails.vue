@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     goback(){
-        this.$router.push('/commoditiesList')
+        this.$router.go(-1)
       },
     loadingDetails(id){
         let params={
