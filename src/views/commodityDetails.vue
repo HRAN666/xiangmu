@@ -234,7 +234,7 @@ export default {
         this.loadingDetails(this.$route.query.id)
     }
 }
-}
+
 </script>
 <style scoped>
 .commodityDetails-gooods-message{
