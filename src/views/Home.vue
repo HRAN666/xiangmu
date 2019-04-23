@@ -43,7 +43,7 @@
 
     <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
         <div class="home-title">
-            <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
+            <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct.nodeType+'.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
             <img src="../assets/go.png" alt="" class="home-to">
         </div>
@@ -54,7 +54,7 @@
                 <div>
                   <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
                   <span>999人付款</span>
-                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price,indexes)">
+                  <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price)">
                 </div>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default {
       showShop:[{
           
       }],//控制显示的动画的数组
-      indexes:0,//选中的img索引位置
+      //indexes:0,//选中的img索引位置
     }
   },
   methods: {
@@ -116,14 +116,14 @@ export default {
           console.log(err)
         });
       },
-      addShop(storeId,id,price,indexes){
+      addShop(storeId,id,price){
           let params={
               "productId":id,
               "userOpenId":localStorage.getItem('userOpenId'),
               "storeId":storeId
           }
           event.stopPropagation(); 
-          addShop(params).then((result) => {
+          this.$store.dispatch('addtoShop',params).then((result) => {
               Toast({
                   message: '成功加入购物车',
                   duration: 1000
