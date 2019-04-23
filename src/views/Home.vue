@@ -48,7 +48,7 @@
             <img src="../assets/go.png" alt="" class="home-to">
         </div>
           <div class="home-discount">          
-            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes">
+            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes" v-if="indexes< 4"><!--限制渲染条数-->
                 <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
                 <p>{{value.name}}</p>
                 <div>
@@ -273,6 +273,7 @@ export default {
 .home-discount{
   margin-top:-.85rem;
   height: 2.85rem;
+  margin-bottom: 2.63rem;
 }
 .home-discount-shoplist{
   height: 2.5rem;
@@ -321,11 +322,12 @@ export default {
 .home-title{
     position: relative;
     top:-.25rem;
+    display: inline-block;
 }
 .home-to{
     position: absolute;
     width: .2rem;
-    right: .28rem;
+    right: -.78rem;
     top: .23rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
