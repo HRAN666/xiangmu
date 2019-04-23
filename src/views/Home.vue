@@ -122,12 +122,8 @@ export default {
               "userOpenId":localStorage.getItem('userOpenId'),
               "storeId":storeId
           }
-<<<<<<< HEAD
           event.stopPropagation(); 
           this.$store.dispatch('addtoShop',params).then((result) => {
-=======
-          addShop(params).then((result) => {
->>>>>>> 8ab488a5afaa0214cd4dde79c2b211184dd5c02b
               Toast({
                   message: '成功加入购物车',
                   duration: 1000
