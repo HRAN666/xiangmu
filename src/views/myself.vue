@@ -20,12 +20,12 @@
                 </div>
             </div>
             <div class="header_sencond_float">
-                <div class="header_sencond_float_Details">
+                <div class="header_sencond_float_Details" @click="tointegraldetails">
                     <img src="../assets/integral_details.png" alt="">
                     <span>积分明细</span>
                 </div>
-                <div class="header_sencond_float_exchange">
-                    <img src="../assets//exchange.png" alt="">                    
+                <div class="header_sencond_float_exchange" @click="toexchange">
+                    <img src="../assets/exchange.png" alt="">                    
                     <span>兑换记录</span>
                 </div>
             </div>     
@@ -107,6 +107,12 @@ export default {
         },
         toCoupon(){
             this.$router.push('/coupon')
+        },
+        tointegraldetails(){
+            this.$router.push('/integral-details')
+        },
+        toexchange(){
+            this.$router.push('/integral-exchange')
         },
         address(){
             this.$router.push('/addAddress')

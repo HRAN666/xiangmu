@@ -10,7 +10,7 @@
         <div class="shopCar_commodity">
             <div class="shopCar_commodity_list" v-for="(item,index) in ShopList" :key="index">
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
-                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="gotoDetail(item.productId)">
+                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
                      <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
@@ -89,13 +89,14 @@
     </div>
 </template>
 <script>
-import {loadingshopCar,removeShopCar,payNext} from '../api/api.js'
+import {loadingshopCar,removeShopCar,payNow,payNext} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
 import {filtertoMoney} from '../../filter/filter.js'
 import { Toast } from 'mint-ui';
 export default {
+    inject:['reload'],
     components:{
         'header-general':header,
         'footer-currency':footer,
@@ -111,7 +112,7 @@ export default {
             totlePrice:0,//总价格
             selectpay:'微信支付',//初始支付方式
             deletShop:false,
-    }
+        }
     },
     methods:{
         select(id,item){//单选商品 id:商品id  item:商品信息
@@ -188,7 +189,7 @@ export default {
                         message: '删除成功',
                         duration: 1000
                         });
-                    this.loadingShop()
+                    this.reload()
                 }
             }).catch((err) => {
                 
@@ -235,7 +236,6 @@ export default {
         gotoDetail(id){
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
         }
-
     },
     computed: {
         sumPrice(){
@@ -256,6 +256,7 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
+        console.log(this.$store.state.shopLength)
     },
 }
 </script>
@@ -493,7 +494,7 @@ export default {
 }
  .shopCar_totle .shopCar_totle_discount{
     position: relative;
-    left: .8rem;
+    left: .5rem;
     color:#a2a0a0;
     top: -0.05rem;
  }

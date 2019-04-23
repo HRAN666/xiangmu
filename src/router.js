@@ -14,7 +14,7 @@ export default new Router({
       meta: {title: '我的订单'}
     },
     {
-      path: '/', 
+      path: '/',
       name: 'Home',
       component: () => import( './views/Home.vue'),
       meta:{title:'首页'},
@@ -49,6 +49,18 @@ export default new Router({
       name: 'integral',
       component: () => import( './views/integral.vue'),
       meta:{title:'积分商城'},
+    },
+    {
+      path: '/integral-details',
+      name: 'integral-details',
+      component: () => import( './views/integral-details.vue'),
+      meta:{title:'积分明细'},
+    },
+    {
+      path: '/integral-exchange',
+      name: 'integral-exchange',
+      component: () => import( './views/integral-exchange.vue'),
+      meta:{title:'兑换记录'},
     },
     {
       path: '/shopcar',
