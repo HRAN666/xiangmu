@@ -50,6 +50,10 @@ export const loadingshopCar =params =>{
 export const removeShopCar =params =>{
     return axios.post('/api/biz/v01/forceRemoveBizUserTrolleyBatchWithoutToken.do',params);
 }
+/**********微信支付 */
+export const payNow =params =>{
+    return axios.post('/api/biz/v01/payNowBizOrderWithoutToken.do',params);
+}
 /**********货到付款 */
 export const payNext =params =>{
     return axios.post('/api/biz/v01/payNextBizOrderAndClearTrollyWithoutToken.do',params);
@@ -64,7 +68,7 @@ export const productDetails =params =>{
 }
 /************获取历史订单 */
 export const historyOrder =params =>{
-    return axios.post('/api/biz/v01/listBizOrderWithoutToken.do',params);
+    return axios.post('/api/biz/v01/listBizAllOrder.do',params);
 }
 axios.interceptors.request.use(//拦截器
     config=>{

@@ -94,100 +94,141 @@
             </div>
         </div>
         <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
-        <currency-Popup popup="style2" ref="popup" title="代取快递"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
     </div>
 </template>
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import {productDetails,addShop} from '../api/api.js'
+import { payNow,payNext } from '../api/api.js'
+import { productDetails,addShop } from '../api/api.js'
 import { Toast } from 'mint-ui';
-import {filtertoMoney} from '../../filter/filter.js'
+import { filtertoMoney } from '../../filter/filter.js'
 export default {
     components: {
         'header-general':header,
         'currency-Popup':currencyPopup
     },
-    data() {
+    data () {
         return {
+            markshow:false,
             shopDetails:[],//商品详情信息
             bannerImg:[],//单独抽离出来的moreicon
-            markshow:false,
-        }
-    },
-    methods: {
-            goback(){
-                this.$router.go(-1)
-            },
-            loadingDetails(id){
-                let params={
-                    'id':id
-                }
-                productDetails(params).then((result) => {
-                    this.shopDetails.push(result.data);
-                    let imgArr=result.data.morePics.split(',')
-                    for (let i = 0; i < imgArr.length; i++) {
-                        this.bannerImg.push(imgArr[i])
-                    }
-                }).catch((err) => {
-                    console.log(err)
-                });
-            },
-                displayCover(){
-                this.markshow=false
-                this.$refs.popup.isPoup=false
-                this.$refs.popup.expressShow=false
-            },
-            Cover(){//显示
-                this.markshow=true
-                this.$refs.popup.isPoup=true
-            },
-            toexpressfood(){
-                this.$router.push('/expressfood')
-            },
-            toexpressmedicines(){
-                this.$router.push('/expressmedicines')
-            },
-            goback(){
-                this.$router.push('/commoditiesList')
-            },
-            loadingDetails(id){
-                let params={
-                    'id':id
-                }
-                productDetails(params).then((result) => {
-                    this.shopDetails.push(result.data);
-                    let imgArr=result.data.morePics.split(',')
-                    for (let i = 0; i < imgArr.length; i++) {
-                        this.bannerImg.push(imgArr[i])
-                    }
-                }).catch((err) => {
-                    console.log(err)
-                });
-            },
-            addtoShop(){
-                let params={
-                    "productId":this.shopDetails[0].id,
-                    "userOpenId":localStorage.getItem('userOpenId'),
-                    "storeId":'0'//暂时0
-                }
-                addShop(params).then((result) => {
-                    if(result.data.resultCode==200){
-                        Toast({
-                            message: '成功加入购物车',
-                            duration: 1000
-                        });
-                    }
-                }).catch((err) => {
-                    
-                });
-            },
-            gotoShopCar(){
-                this.$router.push('/shopcar')
-            }
+            selectpay:'微信支付',//初始支付方式
+            quantity:'1',
+		}
     },
     mounted(){
        
+    },
+    methods:{
+        select(item){//单选商品 id:商品id  item:商品信息
+            
+        },
+        displayCover(){
+            this.markshow=false
+            this.$refs.popup.isPoup=false
+            this.$refs.popup.expressShow=false
+        },
+        Cover(){//显示
+            this.markshow=true
+            this.$refs.popup.isPoup=true
+        },
+        goback(){
+            this.$router.push('/commoditiesList')
+        },
+        loadingDetails(id){
+            let params={
+                'id':id
+            }
+            productDetails(params).then((result) => {
+                this.shopDetails.push(result.data);
+                this.shopDetails[0].quantity=this.quantity
+                let imgArr=result.data.morePics.split(',')
+                for (let i = 0; i < imgArr.length; i++) {
+                    this.bannerImg.push(imgArr[i])
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
+        addtoShop(){
+            let params={
+                "productId":this.shopDetails[0].id,
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":'0'//暂时0
+            }
+            addShop(params).then((result) => {
+                if(result.data.resultCode==200){
+                    Toast({
+                        message: '成功加入购物车',
+                        duration: 1000
+                    });
+                }
+            }).catch((err) => {
+            });
+        },
+        gotoShopCar(){
+            this.$router.push('/shopcar')
+        },
+        paymethod(e){//切换支付方式
+            switch (e) {
+                case 'wechat':
+                    this.selectpay='微信支付'
+                    break;
+                case 'wait':
+                    this.selectpay='货到付款'                    
+                    break;
+                default:
+                    break;
+            }
+        },
+        topay(){//结算
+            this.showMark=true
+            this.$refs.popup.isPoup=true
+        },
+        todoWechatPay(e){//微信支付||货到付款.
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'deliverFee':'0',//暂时写0(运费)
+                'deliverName':'测试',//收货人
+                'deliverPhone':'13715363223',//收货电话
+                'deliverAddress':'测试',//收货地址
+                'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
+                'storeId':'0',//
+                'totalFee':'1',//总价格
+                'ext1':'测试',
+                'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
+            }
+           switch (e) {
+                case 'wechat'://微信支付
+                    payNow(params).then((result) => {
+                        if (result.data.resultCode==200) {
+                            Toast({
+                                message: '提交订单成功',
+                                duration: 1000
+                            });
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    });
+                    break;
+                case 'wait'://货到付款
+                    payNext(params).then((result) => {
+                        if (result.data.resultCode==200) {
+                            Toast({
+                                message: '提交订单成功，请尽快支付',
+                                duration: 1000
+                            });
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
     },
     created() {
         this.loadingDetails(this.$route.query.id)
@@ -195,24 +236,21 @@ export default {
 }
 </script>
 <style>
-.commodityDetails-gooods-message .el-carousel{
-    width: 100%;
-}
-.commodityDetails-gooods-message .el-carousel__container{
-    height: 2.4rem;
-}
-.commodityDetails-gooods-message .el-carousel__button{
-    background-color:#ccc;
-}
-</style>
-
-<style scoped>
 .commodityDetails-gooods-message{
     background-color: #ffffff;
     font-size: .19rem;
     text-align: left;
     margin: 0 auto;
     height: 3.6rem;
+}
+.el-carousel{
+    width: 100%;
+}
+.el-carousel__container{
+    height: 2.4rem;
+}
+.el-carousel__button{
+    background-color:#ccc;
 }
 .commodityDetails-gooods-message .goods-img{
     text-align: center;
