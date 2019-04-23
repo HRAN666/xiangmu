@@ -1,10 +1,9 @@
 <template>
   <div id="app">
 
-    <router-view/>
+    <router-view v-if="isRouterAlive"/>
   </div>
 </template>
-
 <style>
 html body{
   margin: 0;
@@ -26,7 +25,24 @@ html body{
 <script>
 import './assets/icon/iconfont.css'
 export default {
-  
+   provide () {
+    return {
+      reload: this.reload
+    }
+   },
+    data() {
+      return {
+          isRouterAlive: true//是否显示
+      }
+    },
+    methods: {
+    reload () {//无白屏刷新
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
+  }
 }
 </script>
 

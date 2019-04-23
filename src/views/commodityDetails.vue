@@ -2,22 +2,22 @@
     <div>
         <header-general routerTo="/Home" headTitle="商品详情" headClass="style5"></header-general>    
         <div v-for="(item,index) in shopDetails" :key="index">
-        <div class="commodityDetails-gooods-message">
-            <div class="goods-img">
-            <el-carousel :interval="3000" arrow="always">
-                <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
-                    <img :src="'http://img.cmhg.shop/'+value" alt="">
-                </el-carousel-item>
-            </el-carousel>
+            <div class="commodityDetails-gooods-message">
+                <div class="goods-img">
+                <el-carousel :interval="3000" arrow="always">
+                    <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
+                        <img :src="'http://img.cmhg.shop/'+value" alt="">
+                    </el-carousel-item>
+                </el-carousel>
+                </div>
+                <div class="goods-title">{{item.name}}</div>
+                <div class="goods-price">{{item.price|filtertoMoney}}</div>
+                <div class="sales-volume">
+                    <span>快递：0.00</span>
+                    <span>月销1222笔</span>
+                    <span>广东深圳</span>
+                </div>
             </div>
-            <div class="goods-title">{{item.name}}</div>
-            <div class="goods-price">{{item.price|filtertoMoney}}</div>
-            <div class="sales-volume">
-                <span>快递：0.00</span>
-                <span>月销1222笔</span>
-                <span>广东深圳</span>
-            </div>
-        </div>
         <div class="service">
             <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
         </div>
@@ -254,8 +254,9 @@ export default {
         this.loadingDetails(this.$route.query.id)
     }
 }
+
 </script>
-<style>
+<style scoped>
 .commodityDetails-gooods-message{
     background-color: #ffffff;
     font-size: .19rem;

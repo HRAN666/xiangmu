@@ -63,7 +63,7 @@ import footer from '../components/footer.vue'
 import { Toast } from 'mint-ui';
 import {seachShop,addShop} from '../api/api.js'
 import {filtertoMoney} from '../../filter/filter.js'
-import {throttling,_debounce} from '../common/common.js'
+import {debounce} from '../common/common.js'
 export default {
     components:{
         'footer-currency':footer
@@ -98,17 +98,17 @@ export default {
            }
         },
         toseachShop(){
-            throttling(()=>{
-                this.seachShopList='';//清空初始list
+            debounce(1000,this.seachFn())       
+        },
+        seachFn(){
+            this.seachShopList='';//清空初始list
                 this.indexes='';
                 this.showShop=[];
                     if (this.input=='') {//input值
                         this.loadingAllShop()
                     }else{
                         this.loadingAllShop(this.input)
-                    }
-
-            })
+                    } 
         },
         loadingAllShop(nodeName,orderBy){//nodeName:搜索名字
             this.showShop=[];
