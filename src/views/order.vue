@@ -4,27 +4,41 @@
     <el-tabs v-model="activeName" >
         <el-tab-pane label="全部" name="first">
           <div v-for="(item,index) in orderList" :key="index">
-            <div class="bigbox" style="display:block;"  v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
                 <div class="box">
+                  <div class="bigbox" style="display:block;"  v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
                         <div class="box_long"> 
-                            <p class="box_right">
-                                {{item.deliverStatus}} 
-                            </p> 
-                            <div>  
+                            <p class="box_right" v-if="item.deliverStatus === 'ON_THE_WAY'">
+                                待发货 
+                            </p>
+                            <p class="box_right" v-if="item.deliverStatus === 'DELIVERED'">
+                                已发货
+                            </p>
+                            <p class="box_right" v-if="item.deliverStatus === 'CONFIRMED'">
+                                确认收货
+                            </p>
+                            <div v-if="value.bizProductVo == null">  
+                                <img class="box_left" :src="'http://img.cmhg.shop/'+ value.icon"/>
+                                <div class="box_text">{{value.name}}</div>
+                                <div class="box_righttext"> 
+                                    <span>{{value.price|filtertoMoney}}</span>
+                                    <p>x{{value.quantity}}</p> 
+                                </div>   
+                            </div> 
+                            <div v-if="value.bizProductVo != null">  
                                 <img class="box_left" :src="'http://img.cmhg.shop/'+ value.bizProductVo.icon"/>
                                 <div class="box_text">{{value.bizProductVo.name}}</div>
                                 <div class="box_righttext"> 
                                     <span>{{value.bizProductVo.price|filtertoMoney}}</span>
                                     <p>x{{value.theNum}}</p> 
                                 </div>   
-                            </div> 
+                            </div>
                         </div>   
                 </div>
                 <div class="box_bottom">
                     <span>
                     </span>
                     <span>
-                      {{'共'+value.theNum+'件商品'}}
+                      {{'共'+'1'+'件商品'}}
                     </span>
                 </div>
                 <div class="box_bottom_button">
@@ -125,16 +139,18 @@ export default {
   data() {
     return {
       activeName:"first",
-      orderList:''
+      orderList:'',
+      deliverStatus:'',
     };
   },
   methods: {
       goBack(){
-            this.$router.push('/myself')
+        this.$router.push('/myself')
       },
       loadingOrder(){
         let params={
           'userOpenId':localStorage.getItem('userOpenId')
+          // 'userOpenId':'ohVtsw5O5QrlJn9k3a_VS17PUNzE'
         }
         historyOrder(params).then((result) => {
               this.orderList=result.data.list
