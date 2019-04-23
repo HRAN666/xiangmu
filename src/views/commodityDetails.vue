@@ -193,8 +193,9 @@ export default {
         this.loadingDetails(this.$route.query.id)
     }
 }
+}
 </script>
-<style>
+<style scoped>
 .commodityDetails-gooods-message{
     background-color: #ffffff;
     font-size: .19rem;
