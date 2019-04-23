@@ -96,6 +96,7 @@ import footer from '../components/footer.vue'
 import {filtertoMoney} from '../../filter/filter.js'
 import { Toast } from 'mint-ui';
 export default {
+    inject:['reload'],
     components:{
         'header-general':header,
         'footer-currency':footer,
@@ -188,7 +189,7 @@ export default {
                         message: '删除成功',
                         duration: 1000
                         });
-                    this.loadingShop()
+                    this.reload()
                 }
             }).catch((err) => {
                 
@@ -493,7 +494,7 @@ export default {
 }
  .shopCar_totle .shopCar_totle_discount{
     position: relative;
-    left: .8rem;
+    left: .5rem;
     color:#a2a0a0;
     top: -0.05rem;
  }
