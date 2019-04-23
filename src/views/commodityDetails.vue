@@ -2,22 +2,22 @@
     <div>
         <header-general routerTo="/Home" headTitle="商品详情" headClass="style5"></header-general>    
         <div v-for="(item,index) in shopDetails" :key="index">
-        <div class="commodityDetails-gooods-message">
-            <div class="goods-img">
-            <el-carousel :interval="3000" arrow="always">
-                <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
-                    <img :src="'http://img.cmhg.shop/'+value" alt="">
-                </el-carousel-item>
-            </el-carousel>
+            <div class="commodityDetails-gooods-message">
+                <div class="goods-img">
+                <el-carousel :interval="3000" arrow="always">
+                    <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
+                        <img :src="'http://img.cmhg.shop/'+value" alt="">
+                    </el-carousel-item>
+                </el-carousel>
+                </div>
+                <div class="goods-title">{{item.name}}</div>
+                <div class="goods-price">{{item.price|filtertoMoney}}</div>
+                <div class="sales-volume">
+                    <span>快递：0.00</span>
+                    <span>月销1222笔</span>
+                    <span>广东深圳</span>
+                </div>
             </div>
-            <div class="goods-title">{{item.name}}</div>
-            <div class="goods-price">{{item.price|filtertoMoney}}</div>
-            <div class="sales-volume">
-                <span>快递：0.00</span>
-                <span>月销1222笔</span>
-                <span>广东深圳</span>
-            </div>
-        </div>
         <div class="service">
             <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
         </div>
@@ -228,7 +228,27 @@ export default {
                 default:
                     break;
             }
-        }
+        },
+        wechatpay(data){
+
+            
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId":"wx2421b1c4370ec43b",     //公众号名称，由商户传入     
+                    "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数     
+                    "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串     
+                    "package":"prepay_id=u802345jgfjsdfgsdg888",     
+                    "signType":"MD5",         //微信签名方式：     
+                    "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+                },
+                function(res){
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                // 使用以上方式判断前端返回,微信团队郑重提示：
+                        //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                } 
+            });
+        },
+
     },
     created() {
         this.loadingDetails(this.$route.query.id)
