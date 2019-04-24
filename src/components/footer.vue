@@ -1,5 +1,5 @@
 <template>
-    <div class="footer">
+    <div class="footer" v-show="showFooter">
        <div class="footer-img">
            <router-link to="/"  active-class="footer-active" exact>
            <i class="el-iconhome"></i>
@@ -28,17 +28,36 @@
 </template>
 <script>
 export default {
-    data () {
+        data () {
         return {
-            
+            showFooter:true,
+            screenHeight: document.documentElement.clientHeight,  //默认屏幕高度
+            originHeight: document.documentElement.clientHeight,   //实时屏幕高度
         }
     },
     methods: {
-     
+
     },
     mounted () {
-        
+        // window.onresize监听页面高度的变化
+        let self = this;
+        window.onresize = function() {
+            return (function(){
+                self.screenHeight = document.documentElement.clientHeight;
+            })()
+        }
+    },
+    watch: {
+        screenHeight(val) {
+        if(this.originHeight > val + 100){
+            this.showFooter=false
+            this.$emit('disPlay')
+        }else{
+            this.showFooter=true
+            this.$emit('disPlay')
+        }
     }
+    },
 }
 </script>
 <style scoped>
