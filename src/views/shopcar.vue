@@ -142,8 +142,15 @@ export default {
             }
         },
         topay(){//结算
+        if(this.shopListCheck==''){
+            Toast({
+                message: '请选择要购买的商品',
+                duration: 1000
+            });
+        }else{
             this.showMark=true
             this.$refs.popup.isPoup=true
+        }
         },
         displayMark(){
             this.showMark=false
@@ -231,7 +238,7 @@ export default {
                     break;
                 default:
                     break;
-            }
+            }               
         },
         gotoDetail(id){
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
