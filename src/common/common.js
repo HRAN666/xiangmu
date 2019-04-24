@@ -77,6 +77,12 @@ export const isCanNotAccess=(tmp)=> {
         return false;
     }
 }
+
+function DayTimes(theTime, num) {
+    num = parseInt(num, "10");
+    return theTime + 24 * 60 * 60 * 1000 * num;
+}
+
 function debounce(idle, func) {//接收两个参数, 间隔时间和实际调用函数
     let last;//保存异步调用实际函数, 通过闭包赋值不被销毁
     return function () {
@@ -91,5 +97,6 @@ function debounce(idle, func) {//接收两个参数, 间隔时间和实际调用
 export{
     project_name,
     system_config,
-    debounce
+    debounce,
+    DayTimes
 }

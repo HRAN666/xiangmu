@@ -96,6 +96,7 @@ export default {
                     localStorage.setItem('headimgurl',res.data.headimgurl);
                     localStorage.setItem('province',res.data.province);
                     localStorage.setItem('country',res.data.country);
+                    localStorage.setItem('accessTokenCreateTime',+new Date)
                     window.location.href=this.getCorrectPage(pageName);
                 }else{
                     if (res.data.resultCode==404) {//未关注

@@ -9,6 +9,7 @@ import 'mint-ui/lib/style.css'
 import './assets/icon/iconfont'
 import 'element-ui/lib/theme-chalk/index.css';
 import * as filter from '../filter/filter'
+import {DayTimes} from './common/common'
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(mint)
 Vue.use(elmentUi)
@@ -16,6 +17,10 @@ Vue.use(VueAMap);
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
+    let nexDayTime=DayTimes(+new Date,1)
+    if (nexDayTime-localStorage.getItem('accessTokenCreateTime')>172800000) {
+        localStorage.removeItem('userOpenId')
+    }
     let userOpenId=localStorage.getItem('userOpenId');
     let code = localStorage.getItem('code');
     if (!userOpenId && to.path!='/author') {
