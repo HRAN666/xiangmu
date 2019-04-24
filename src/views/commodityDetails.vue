@@ -204,10 +204,7 @@ export default {
                 case 'wechat'://微信支付
                     payNow(params).then((result) => {
                         if (result.data.resultCode==200) {
-                            Toast({
-                                message: '提交订单成功',
-                                duration: 1000
-                            });
+                            this.wechatpay(result.data);
                         }
                     }).catch((err) => {
                         console.log(err)
@@ -220,6 +217,7 @@ export default {
                                 message: '提交订单成功，请尽快支付',
                                 duration: 1000
                             });
+                           
                         }
                     }).catch((err) => {
                         console.log(err)
@@ -230,25 +228,34 @@ export default {
             }
         },
         wechatpay(data){
-
-            
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
-                    "appId":"wx2421b1c4370ec43b",     //公众号名称，由商户传入     
-                    "timeStamp":"1395712654",         //时间戳，自1970年以来的秒数     
-                    "nonceStr":"e61463f8efa94090b1f366cccfbbb444", //随机串     
-                    "package":"prepay_id=u802345jgfjsdfgsdg888",     
+                    "appId":data.wxId,     //公众号名称，由商户传入     
+                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
+                    "nonceStr":data.nonceStr, //随机串     
+                    "package":data.prepayId,     
                     "signType":"MD5",         //微信签名方式：     
-                    "paySign":"70EA570631E4BB79628FBCA90534C63FF7FADD89" //微信签名 
+                    "paySign":data.sign//微信签名 
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                // 使用以上方式判断前端返回,微信团队郑重提示：
-                        //res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
-                } 
+                    Toast({
+                        message: '支付成功，',
+                        duration: 1000
+                    });
+                }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
+                    Toast({
+                        message: '提交订单成功',
+                        duration: 1000
+                    });
+                }else{
+                    Toast({
+                        message: '支付失败！',
+                        duration: 1000
+                    });
+                }
             });
         },
-
     },
     created() {
         this.loadingDetails(this.$route.query.id)
