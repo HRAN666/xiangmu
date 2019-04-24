@@ -501,7 +501,7 @@ export default {
 }
  .shopCar_totle .shopCar_totle_discount{
     position: relative;
-    left: .5rem;
+    left: .8rem;
     color:#a2a0a0;
     top: -0.05rem;
  }

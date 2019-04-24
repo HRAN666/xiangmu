@@ -39,14 +39,14 @@
                 <div class="to-the-end-line"></div>
             </div>
         </div>
-        <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength==0">
+        <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength==0" v-show="todisPlayFooter">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLeft">未选购商品<br>另需配送费1元</div>
             <router-link to="/shopcar">
             <div class="shoppingRight">结算</div>
             </router-link>
         </div>
-        <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength>0">
+        <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength>0"  v-show="todisPlayFooter">
             <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
             <div class="shoppingLength">{{$store.state.shop_store.shopLength}}</div>
             <div class="shoppingLeft">已选购{{$store.state.shop_store.shopLength}}件商品</div>
@@ -55,7 +55,7 @@
             </router-link>
         </div>
         <img src="../assets/top.png" alt="" class="list-top" v-show="listTop" @click="goTop">
-        <footer-currency></footer-currency>
+        <footer-currency @disPlay="disPlayFooter" ref="showFooter"></footer-currency>
     </div>
 </template>
 <script>
@@ -78,7 +78,7 @@ export default {
             indexes:0,//选中的img索引位置
             priceOrderBy:false,//默认升序
             listTop:false,//是否显示返回顶部
-            toAjax:true,
+            todisPlayFooter:true,
         }
     },
 
@@ -194,6 +194,13 @@ export default {
             }).catch((err) => {
                 console.log(err)
             });
+        },
+        disPlayFooter(){
+        if (this.$refs.showFooter.showFooter) {
+            this.todisPlayFooter=true;
+            }else{
+            this.todisPlayFooter=false;
+            }
         }
     },
     created () {

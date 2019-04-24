@@ -252,6 +252,7 @@ export default {
     width: 100%;
     top: 0;
     text-align: right;
+    right: -1.42rem;
 }
 .popup_bottom span{
     padding-top:.11rem;
