@@ -45,7 +45,7 @@
         <div class="home-title">
             <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
-            <img src="../assets/go.png" alt="" class="home-to">
+            <img src="../assets/go.png" alt="" class="home-to" @click="modelSeach(item.catalogId)">
         </div>
           <div class="home-discount">          
             <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes" v-if="indexes< 4"><!--限制渲染条数-->
@@ -106,6 +106,9 @@ export default {
     },
     goSeach(){
       this.$router.push('/commoditiesList')
+    },
+    modelSeach(catalogId){
+      this.$router.push({path:'/commoditiesList',query:{'catalogId':catalogId}})
     },
     loadingShopList(){
       let params={};
