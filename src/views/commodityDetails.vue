@@ -197,7 +197,7 @@ export default {
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
                 'storeId':'0',//
-                'totalFee':'1',//总价格
+                'totalFee':'10',//总价格
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
@@ -234,19 +234,19 @@ export default {
                     "appId":data.wxId,     //公众号名称，由商户传入     
                     "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
                     "nonceStr":data.nonceStr, //随机串     
-                    "package":data.prepayId,     
+                    "package":"prepay_id="+data.prepayId,
                     "signType":"MD5",         //微信签名方式：     
                     "paySign":data.sign//微信签名 
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
                     Toast({
-                        message: '支付成功，',
+                        message: '支付成功!',
                         duration: 1000
                     });
                 }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
                     Toast({
-                        message: '提交订单成功',
+                        message: '取消支付',
                         duration: 1000
                     });
                 }else{

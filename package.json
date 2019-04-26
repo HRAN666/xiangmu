@@ -10,6 +10,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.6.1",
     "mint-ui": "^2.2.13",
+    "vconsole": "^3.3.0",
     "vue": "^2.6.6",
     "vue-amap": "^0.5.8",
     "vue-router": "^3.0.1",

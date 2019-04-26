@@ -186,17 +186,20 @@ export default {
                     'province':this.province,//省
                     'city':this.city,//城市
                     'county':this.district,//区
-                    'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
-                    'detailed_address':this.fullAddress,//详情地址
-                    'campus':'深圳技师',//院校
+                    // 'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
+                    'detailedAddress':this.fullAddress,//详情地址
+                    'mobile':'13213152',
+                    'town':this.value4,
                     'userOpenId':localStorage.getItem('userOpenId')
                 }
                 addAddress(params).then((result) => {
-                    
+                    Toast({
+                        message: '添加地址成功',
+                        duration: 1500
+                    }); 
                 }).catch((err) => {
                     
                 });
-
             }    
         }
   }
