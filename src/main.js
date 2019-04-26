@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
           }) 
         }
     }else{
-        next()
+      next()
     }
 })
 VueAMap.initAMapApiLoader({

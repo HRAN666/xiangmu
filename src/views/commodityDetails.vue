@@ -11,7 +11,7 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price|filtertoMoney}}</div>
+                <div class="goods-price">{{item.price==''?item.integral:item.price|filtertoMoney}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
@@ -116,6 +116,7 @@ export default {
             bannerImg:[],//单独抽离出来的moreicon
             selectpay:'微信支付',//初始支付方式
             quantity:'1',
+            page:false,
 		}
     },
     mounted(){
@@ -258,7 +259,21 @@ export default {
         },
     },
     created() {
-        this.loadingDetails(this.$route.query.id)
+        if (this.page) {
+            
+        }else{
+            this.loadingDetails(this.$route.query.id)
+        }
+    },
+    beforeRouteEnter(to, from, next){
+        next(vm=>{
+            if (from.name=='integral') {
+                vm.page=true
+            }else{
+                vm.page=false                
+            }
+        })
+
     }
 }
 
