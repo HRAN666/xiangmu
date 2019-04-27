@@ -139,7 +139,8 @@ export default {
         },
         loadingDetails(id){
             let params={
-                'id':id
+                'id':id,
+                'userOpenId':localStorage.getItem('userOpenId'),
             }
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);

@@ -53,7 +53,7 @@
                 <p>{{value.name}}</p>
                 <div>
                   <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
-                  <span>999人付款</span>
+                  <span>{{value.salesVolume}}人付款</span>
                   <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price)">
                 </div>
             </div>
