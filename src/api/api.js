@@ -38,6 +38,10 @@ export const integral =params =>{
 export const  conversionIntegral =params =>{
     return axios.post('/api/biz/v01/insertBizIntegralOrder.do',params);
 }
+/************积分详情 */
+export const  integralDeatil =params =>{
+    return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
+}
 /************首页banner */
 export const homeBanner =params =>{
     return axios.post('/api/portal/v01/listPortalBanner.do',params);

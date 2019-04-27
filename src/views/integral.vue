@@ -4,7 +4,7 @@
         <div class="integral_content">
             <div class="product" v-for="(item,index) in integralList" :key="index">
             <div class="productBlock">
-                <img :src="'http://img.cmhg.shop/'+item.icon" class="">
+                <img :src="'http://img.cmhg.shop/'+item.icon" class="" @click="goDetail(item.id)">
                 <p>{{item.name}}</p>
                 <div class="productBlock_bottom"> 
                     <div class="productBlock_price">{{item.integral+'积分'}}</div>
@@ -71,6 +71,9 @@ export default {
             }).catch((err) => {
                 
             });
+        },
+        goDetail(id){
+            this.$router.push({path:'/commodityDetails',query:{'integral':id}})//id:商品详情渲染的id
         }
     },
     mounted() {
