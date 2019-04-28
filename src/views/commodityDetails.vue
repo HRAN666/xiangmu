@@ -11,7 +11,7 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==''?item.integral:item.price|filtertoMoney}}</div>
+                <div class="goods-price">{{item.price='undefined'?item.integral+'积分':item.price}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
@@ -101,9 +101,11 @@
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
 import { payNow,payNext } from '../api/api.js'
-import { productDetails,addShop } from '../api/api.js'
+import { productDetails,addShop,integral } from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
+import { debug } from 'util';
+import { nextTick } from 'q';
 export default {
     components: {
         'header-general':header,
@@ -116,7 +118,7 @@ export default {
             bannerImg:[],//单独抽离出来的moreicon
             selectpay:'微信支付',//初始支付方式
             quantity:'1',
-            page:false,
+            page:true,
 		}
     },
     mounted(){
@@ -138,7 +140,25 @@ export default {
         goback(){
             this.$router.push('/commoditiesList')
         },
+        scoreloadingDetails(id){
+            this.shopDetails = []
+            let params={
+                'id':id,
+            }
+            integral(params).then((result) => {
+                this.shopDetails=result.data.list;
+                let imgArr=result.data.list[0].morePics.split(',')
+                for (let i = 0; i < imgArr.length; i++) {
+                    this.bannerImg.push(imgArr[i])
+                }
+
+            }).catch((err) => {
+                console.log(err)
+            });
+                console.log(this.shopDetails);
+        },
         loadingDetails(id){
+            this.shopDetails = []
             let params={
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
@@ -259,9 +279,10 @@ export default {
             });
         },
     },
-    created() {
-        if (this.page) {
-            
+
+    mounted() {
+        if (localStorage.getItem('FromIntegral')=='true') {
+            this.scoreloadingDetails(this.$route.query.id)
         }else{
             this.loadingDetails(this.$route.query.id)
         }
@@ -269,13 +290,17 @@ export default {
     beforeRouteEnter(to, from, next){
         next(vm=>{
             if (from.name=='integral') {
-                vm.page=true
+                this.nextTick(()=>{
+                    localStorage.setItem('FromIntegral',true)
+                })
             }else{
-                vm.page=false                
+                this.nextTick(()=>{
+                    localStorage.setItem('FromIntegral',false)   
+                })        
             }
         })
-
-    }
+        next()
+    },
 }
 
 </script>
