@@ -8,7 +8,7 @@ import VueAMap from 'vue-amap';
 import 'mint-ui/lib/style.css'
 import './assets/icon/iconfont'
 import 'element-ui/lib/theme-chalk/index.css';
-import * as filter from '../filter/filter';
+import * as filter from '../filter/filter'
 import {DayTimes} from './common/common'
 // let VConsole = require('../node_modules/vconsole/dist/vconsole.min');
 // let vConsole = new VConsole();
@@ -17,14 +17,13 @@ Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(mint)
 Vue.use(elmentUi)
 Vue.use(VueAMap);
-//Vue.use(vConsole);
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
-    let nexDayTime=DayTimes(+new Date,1)
-    if (nexDayTime-localStorage.getItem('accessTokenCreateTime')>172800000) {
-        localStorage.removeItem('userOpenId')
-    }
+    // let nexDayTime=DayTimes(+new Date,1)
+    // // if (nexDayTime-localStorage.getItem('accessTokenCreateTime')>7200000) {
+    // //     localStorage.removeItem('userOpenId')
+    // // }
     let userOpenId=localStorage.getItem('userOpenId');
     let code = localStorage.getItem('code');
     if (!userOpenId && to.path!='/author') {

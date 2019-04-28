@@ -11,7 +11,7 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price='undefined'?item.integral+'积分':item.price}}</div>
+                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
@@ -100,8 +100,8 @@
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext } from '../api/api.js'
-import { productDetails,addShop,integral } from '../api/api.js'
+import { payNow,payNext,integralDeatil} from '../api/api.js'
+import { productDetails,addShop,lookaddAddress } from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
 import { debug } from 'util';
@@ -114,11 +114,10 @@ export default {
     data () {
         return {
             markshow:false,
-            shopDetails:[],//商品详情信息
-            bannerImg:[],//单独抽离出来的moreicon
+            shopDetails:[],//商品详情信息 （和积分共用）
+            bannerImg:[],//单独抽离出来的moreicon （和积分共用）
             selectpay:'微信支付',//初始支付方式
-            quantity:'1',
-            page:true,
+            quantity:'1',//暂时默认1
 		}
     },
     mounted(){
@@ -155,7 +154,7 @@ export default {
             }).catch((err) => {
                 console.log(err)
             });
-                console.log(this.shopDetails);
+                // console.log(this.shopDetails);
         },
         loadingDetails(id){
             this.shopDetails = []
@@ -172,6 +171,35 @@ export default {
                 }
             }).catch((err) => {
                 console.log(err)
+            });
+        },
+        loadingItegral(id){
+            let params={
+                'id':id
+            }
+            integralDeatil(params).then((result) => {
+                this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
+                let imgArr=result.data.list[0].morePics.split(',')
+                for (let i = 0; i < imgArr.length; i++) {
+                    this.bannerImg.push(imgArr[i])
+                }
+            }).catch((err) => {
+                
+            });
+        },
+        getaddAddress(){//查询收货地址
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+            }
+            lookaddAddress(params).then((result) => {
+                this.shopDetails.push(result.data.list);//写死0因为只有一个商品
+                // let imgArr=result.data.list[0].morePics.split(',')
+                // for (let i = 0; i < imgArr.length; i++) {
+                //     this.bannerImg.push(imgArr[i])
+                // }
+                console.log(this.shopDetails)
+            }).catch((err) => {
+                
             });
         },
         addtoShop(){
@@ -238,8 +266,7 @@ export default {
                             Toast({
                                 message: '提交订单成功，请尽快支付',
                                 duration: 1000
-                            });
-                           
+                            }); 
                         }
                     }).catch((err) => {
                         console.log(err)
@@ -279,28 +306,16 @@ export default {
             });
         },
     },
-
-    mounted() {
-        if (localStorage.getItem('FromIntegral')=='true') {
-            this.scoreloadingDetails(this.$route.query.id)
-        }else{
+    created() {
+        if (this.$route.query.id) {//其他页面进入
             this.loadingDetails(this.$route.query.id)
+        }else{//积分商城进入
+            this.loadingItegral(this.$route.query.integral)
         }
     },
-    beforeRouteEnter(to, from, next){
-        next(vm=>{
-            if (from.name=='integral') {
-                this.nextTick(()=>{
-                    localStorage.setItem('FromIntegral',true)
-                })
-            }else{
-                this.nextTick(()=>{
-                    localStorage.setItem('FromIntegral',false)   
-                })        
-            }
-        })
-        next()
-    },
+    mounted () {
+        this.getaddAddress();
+    }
 }
 
 </script>

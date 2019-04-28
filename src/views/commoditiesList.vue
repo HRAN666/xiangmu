@@ -85,7 +85,7 @@ export default {
     methods: {
         handleSelect(key,keyPath) {
             if (key!='price asc') {
-                this.loadingAllShop(this.input,key)
+                this.loadingAllShop(this.input,key,this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
             }
         },
         priceBy(){
@@ -98,7 +98,7 @@ export default {
            }
         },
         toseachShop(){
-            debounce(1000,this.seachFn())       
+            debounce(this.seachFn(),2000)       
         },
         seachFn(){
             this.seachShopList='';//清空初始list
@@ -107,18 +107,19 @@ export default {
                     if (this.input=='') {//input值
                         this.loadingAllShop()
                     }else{
-                        this.loadingAllShop(this.input)
+                        this.loadingAllShop(this.input,'',this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
                     } 
         },
-        loadingAllShop(nodeName,orderBy){//nodeName:搜索名字
-            this.showShop=[];
+        loadingAllShop(nodeName,orderBy,catalogId){//nodeName:搜索名字
+            this.showShop=[];//重新刷新动画图片
             let params={
                 'name':nodeName,
-                'orderByClause':orderBy=='all'?'':orderBy
+                'orderByClause':orderBy=='all'?'':orderBy,
+                'catalogId':catalogId
             }
             seachShop(params).then((result) => {
                 this.seachShopList=result.data.list;
-                for (let i = 0; i < result.data.list.length; i++) {
+                for (let i = 0; i < result.data.list.length; i++) {//遍历有多少商品就添加多少动画
                     this.showShop.push({show:false})                
                 }
             }).catch((err) => {
@@ -204,7 +205,11 @@ export default {
         }
     },
     created () {
-       this.loadingAllShop();
+        if (this.$route.query.catalogId) {//判断是否从更多进来
+            this.loadingAllShop('','',this.$route.query.catalogId)
+        }else{
+            this.loadingAllShop();
+        }
        window.addEventListener('scroll',this.scroll);
        this.loadingShopCarLength()
     }

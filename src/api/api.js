@@ -38,6 +38,10 @@ export const integral =params =>{
 export const  conversionIntegral =params =>{
     return axios.post('/api/biz/v01/insertBizIntegralOrder.do',params);
 }
+/************积分详情 */
+export const  integralDeatil =params =>{
+    return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
+}
 /************首页banner */
 export const homeBanner =params =>{
     return axios.post('/api/portal/v01/listPortalBanner.do',params);
@@ -61,6 +65,10 @@ export const payNext =params =>{
 /**********添加收货地址 */
 export const addAddress =params =>{
     return axios.post('/api/portal/v01/insertPortalUserAddress.do',params);
+}
+/**********查询收货地址 */
+export const lookaddAddress =params =>{
+    return axios.post('/api/portal/v01/listPortalUserAddress.do',params);
 }
 /***********商品详情 */
 export const productDetails =params =>{
