@@ -11,56 +11,56 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
+                <div class="goods-price">{{item.price|filtertoMoney}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
                     <span>广东深圳</span>
                 </div>
             </div>
-        <div class="service">
-            <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
-        </div>
-        <div class="specifications">
-            <div class="specifications-message">规格<span>配送至龙岗区</span><div class="commodityDetails-choice"></div></div>
-        </div>
-         <div class="specifications">
-            <div class="specifications-message">运费<span>满50包邮</span><div class="commodityDetails-choice"></div></div>
-        </div>
-        <div class="comment">
-            <div class="comment-message">买家评论（50）<span>查看全部<span>></span></span></div>
-            <div class="comment-user">
-                <div class="comment-user-img"><img src="../assets/user.png" alt=""></div>
-                <div class="comment-user-name">k**k</div>
-                <div class="comment-user-message">好吃好吃好吃！！！买了第三次了哈哈哈哈</div>
+            <div class="service">
+                <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
             </div>
-        </div>
-        <div class="recommend">
-            <div class="recommend-line"></div>
-            <div class="recommend-img"><img src="../assets/img.png">详情</div>
-            <div class="recommend-line"></div>
-        </div>
-        <div class="details-goods">
-            <div class="details-goods-img"><img src="../assets/详情1.png"><img src="../assets/详情1.png"></div>
-        </div>
-        <div class="recommend">
-            <div class="recommend-line"></div>
-            <div class="recommend-img"><img src="../assets/like.png">推荐</div>
-            <div class="recommend-line"></div>
-        </div>
-        <div class="commodityDetails-recommend-goods">
-            <div class="recommend-message">推荐商品</div>
-            <div class="recommend-goods-img">
-                <img src="../assets/图1.jpg" alt="">
-                卫龙辣条亲嘴烧300g
-                <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+            <div class="specifications">
+                <div class="specifications-message">规格<span>配送至龙岗区</span><div class="commodityDetails-choice"></div></div>
             </div>
-            <div class="recommend-goods-img">
-                <img src="../assets/图1.jpg" alt="">
-                卫龙辣条亲嘴烧300g
-                <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+            <div class="specifications">
+                <div class="specifications-message">运费<span>满50包邮</span><div class="commodityDetails-choice"></div></div>
             </div>
-        </div>
+            <div class="comment">
+                <div class="comment-message">买家评论（50）<span>查看全部<span>></span></span></div>
+                <div class="comment-user">
+                    <div class="comment-user-img"><img src="../assets/user.png" alt=""></div>
+                    <div class="comment-user-name">k**k</div>
+                    <div class="comment-user-message">好吃好吃好吃！！！买了第三次了哈哈哈哈</div>
+                </div>
+            </div>
+            <div class="recommend">
+                <div class="recommend-line"></div>
+                <div class="recommend-img"><img src="../assets/img.png">详情</div>
+                <div class="recommend-line"></div>
+            </div>
+            <div class="details-goods">
+                <div class="details-goods-img"><img src="../assets/详情1.png"><img src="../assets/详情1.png"></div>
+            </div>
+            <div class="recommend">
+                <div class="recommend-line"></div>
+                <div class="recommend-img"><img src="../assets/like.png">推荐</div>
+                <div class="recommend-line"></div>
+            </div>
+            <div class="commodityDetails-recommend-goods">
+                <div class="recommend-message">推荐商品</div>
+                <div class="recommend-goods-img">
+                    <img src="../assets/图1.jpg" alt="">
+                    卫龙辣条亲嘴烧300g
+                    <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+                </div>
+                <div class="recommend-goods-img">
+                    <img src="../assets/图1.jpg" alt="">
+                    卫龙辣条亲嘴烧300g
+                    <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+                </div>
+            </div>
         </div>
         <div class="to-the-end">
             <div class="to-the-end-line"></div>
@@ -94,13 +94,13 @@
             </div>
         </div>
         <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
-        <currency-Popup ref="popup" popup="style1" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
+        <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="detailsprice.toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="total.toFixed(2)" @addquantity="addquantity"></currency-Popup>
     </div>
 </template>
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil} from '../api/api.js'
+import { payNow,payNext } from '../api/api.js'
 import { productDetails,addShop } from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
@@ -112,10 +112,15 @@ export default {
     data () {
         return {
             markshow:false,
-            shopDetails:[],//商品详情信息 （和积分共用）
-            bannerImg:[],//单独抽离出来的moreicon （和积分共用）
+            shopDetails:[],//商品详情信息
+            bannerImg:[],//单独抽离出来的moreicon
             selectpay:'微信支付',//初始支付方式
-            quantity:'1',//暂时默认1
+            detailstitle:' ',//商品名字
+            detailsprice:' ',//商品价格
+            detailsimg:' ',//商品图片
+            integral:'',//商品积分
+            quantity:'1',//商品数量
+            total:'',////商品总价
 		}
     },
     mounted(){
@@ -137,34 +142,28 @@ export default {
         goback(){
             this.$router.push('/commoditiesList')
         },
+        addquantity(e){
+            this.shopDetails[0].quantity=e;
+            this.total=e* this.shopDetails[0].price;
+        },
         loadingDetails(id){
             let params={
-                'id':id,
-                'userOpenId':localStorage.getItem('userOpenId'),
+                'id':id
             }
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
-                this.shopDetails[0].quantity=this.quantity
+                this.detailstitle=this.shopDetails[0].name;
+                this.detailsprice=this.shopDetails[0].price;
+                this.detailsimg=this.shopDetails[0].icon;
+                this.integral=this.shopDetails[0].price;
+                this.shopDetails[0].quantity= this.quantity;
+                this.total=this.shopDetails[0].price;
                 let imgArr=result.data.morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
                 }
             }).catch((err) => {
                 console.log(err)
-            });
-        },
-        loadingItegral(id){
-            let params={
-                'id':id
-            }
-            integralDeatil(params).then((result) => {
-                this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
-                let imgArr=result.data.list[0].morePics.split(',')
-                for (let i = 0; i < imgArr.length; i++) {
-                    this.bannerImg.push(imgArr[i])
-                }
-            }).catch((err) => {
-                
             });
         },
         addtoShop(){
@@ -211,7 +210,7 @@ export default {
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
                 'storeId':'0',//
-                'totalFee':'10',//总价格
+                'totalFee':this.total,//总价格
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
@@ -231,7 +230,8 @@ export default {
                             Toast({
                                 message: '提交订单成功，请尽快支付',
                                 duration: 1000
-                            }); 
+                            });
+                           
                         }
                     }).catch((err) => {
                         console.log(err)
@@ -269,17 +269,10 @@ export default {
                     });
                 }
             });
-        },
+        },  
     },
     created() {
-        if (this.$route.query.id) {//其他页面进入
-            this.loadingDetails(this.$route.query.id)
-        }else{//积分商城进入
-            this.loadingItegral(this.$route.query.integral)
-        }
-    },
-    mounted () {
-        
+        this.loadingDetails(this.$route.query.id)
     }
 }
 
@@ -290,7 +283,7 @@ export default {
     font-size: .19rem;
     text-align: left;
     margin: 0 auto;
-    height: 3.6rem;
+    height: 3.8rem;
 }
 .el-carousel{
     width: 100%;
@@ -315,7 +308,7 @@ export default {
     width: 93%;
     margin: 0.1rem auto;
     padding-left: .1rem;
-    height: .1rem;
+    height: .3rem;
     color: #242424;
 }
 .commodityDetails-gooods-message .goods-price{
