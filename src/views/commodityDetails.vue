@@ -101,7 +101,7 @@
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
 import { payNow,payNext,integralDeatil} from '../api/api.js'
-import { productDetails,addShop,lookaddAddress } from '../api/api.js'
+import { productDetails,addShop } from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
 import { debug } from 'util';
@@ -154,7 +154,7 @@ export default {
             }).catch((err) => {
                 console.log(err)
             });
-                // console.log(this.shopDetails);
+                console.log(this.shopDetails);
         },
         loadingDetails(id){
             this.shopDetails = []
@@ -192,12 +192,13 @@ export default {
                 'userOpenId':localStorage.getItem('userOpenId'),
             }
             lookaddAddress(params).then((result) => {
-                this.shopDetails.push(result.data.list);//写死0因为只有一个商品
+                this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
                 // let imgArr=result.data.list[0].morePics.split(',')
                 // for (let i = 0; i < imgArr.length; i++) {
                 //     this.bannerImg.push(imgArr[i])
                 // }
                 console.log(this.shopDetails)
+                console.log(userOpenId)
             }).catch((err) => {
                 
             });
