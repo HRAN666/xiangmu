@@ -118,7 +118,12 @@ export default {
             shopDetails:[],//商品详情信息 （和积分共用）
             bannerImg:[],//单独抽离出来的moreicon （和积分共用）
             selectpay:'微信支付',//初始支付方式
-            quantity:'1',//暂时默认1
+            detailstitle:'',//商品名字
+            detailsprice:'',//商品价格
+            detailsimg:'',//商品图片
+            total:'',//总价
+            integral:'',//购买所获得的积分 目前1块钱积分
+            quantity:'1',//购买数量，默认是1
 		}
     },
     mounted(){
