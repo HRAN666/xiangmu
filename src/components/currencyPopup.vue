@@ -307,7 +307,7 @@ export default {
     transition: .5s all;
 }
 .ispopup2{
-    height: 5rem;
+    height: 5.1rem;
     width: 100%;
     background: #fff;
     position: fixed;
@@ -396,14 +396,14 @@ export default {
     border: .01rem solid #ccc;
 }
 .details-message-img img{
-    height: 100%;
+    height: 70%;
 }
 .details-message-right{
     text-align: left;
     position: relative;
     top: .2rem;
     left: .3rem;
-    height: 1.3rem;
+    height: 1.4rem;
 }
 .details-message-right .details-message-right-title{
     font-size: .17rem;
