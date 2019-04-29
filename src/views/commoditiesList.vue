@@ -33,6 +33,10 @@
                     <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
                 </div>
             </div>
+
+            <div  v-show="display" @click="Exitfilter($event)"  class="commoditiesList-filter-mark" ></div> 
+            <div  ref="look" class="commoditiesList-filter-list"></div>
+            
             <div class="commoditiesList-to-the-end">
                 <div class="to-the-end-line"></div>
                 <div class="to-the-end-text">已经到底了</div>
@@ -64,6 +68,7 @@ import { Toast } from 'mint-ui';
 import {seachShop,addShop} from '../api/api.js'
 import {filtertoMoney} from '../../filter/filter.js'
 import {debounce} from '../common/common.js'
+import { debug } from 'util';
 export default {
     components:{
         'footer-currency':footer
@@ -79,13 +84,18 @@ export default {
             priceOrderBy:false,//默认升序
             listTop:false,//是否显示返回顶部
             todisPlayFooter:true,
+            display: false, //筛选框弹出
         }
     },
 
     methods: {
         handleSelect(key,keyPath) {
-            if (key!='price asc') {
-                this.loadingAllShop(this.input,key,this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
+            if (key!='price asc') {//除了价格排序
+                if(key == 'filter'){//点击筛选不加载商品
+                    this.Popupfilter()
+                }else{
+                     this.loadingAllShop(this.input,key,this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId);
+                }
             }
         },
         priceBy(){
@@ -202,7 +212,15 @@ export default {
             }else{
             this.todisPlayFooter=false;
             }
-        }
+        },
+    Popupfilter(){
+        this.$refs.look.style.right = 0 + "rem";
+        this.display = true;
+    },
+    Exitfilter(){
+        this.$refs.look.style.right = -2.7 + "rem";
+        this.display = false;
+    }
     },
     created () {
         if (this.$route.query.catalogId) {//判断是否从更多进来
@@ -212,7 +230,7 @@ export default {
         }
        window.addEventListener('scroll',this.scroll);
        this.loadingShopCarLength()
-    }
+    },
 }
 </script>
 
@@ -443,6 +461,39 @@ export default {
         width: 100%;
         position:absolute;
         top: .02rem;
+    }
+    .commoditiesList-filter{
+        width: 100%;
+        height: 4.61rem;
+        position: absolute;
+        top: 0;
+        margin-top: .92rem;
+        transition: all 1s;
+        z-index: 1001;
+    }
+     .commoditiesList-filter-mark{
+        width: 100%;
+        height: 4.62rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1002;
+        background-color: #000000;
+        margin-top: .91rem;
+        transition: all .8s;
+        opacity: 0.4;
+    }   
+    .commoditiesList-filter-list{
+        width: 70%;
+        height: 4.62rem;
+        position: fixed;
+        top: 0;
+        right: -2.7rem;
+        z-index: 1002;
+        margin-top: 1rem;
+        margin-top: .91rem;
+        background-color: #ffffff;
+        transition: all .8s;
     }
 </style>
 
