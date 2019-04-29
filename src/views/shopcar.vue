@@ -13,7 +13,7 @@
                    <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
-                     <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
+                    <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
             </div>
             <div class="shopCar_empty" v-if="ShopList.length == ''">
                 <img src="../assets/shopCar_second.png">

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div  :class="{'popup':displayPopup,'ispopup':isPoup}" v-if="popup=='style1'">
+        <div :class="{'popup':displayPopup,'ispopup':isPoup}" v-if="popup=='style1'">
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
@@ -8,7 +8,7 @@
                     <img src="../assets/down2.png" alt="">
                 </div>
             </div>
-             <div class="popup_list">
+            <div class="popup_list">
                 <span>配送</span>
                 <div>
                     平台推广期包邮
@@ -22,17 +22,10 @@
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
-             <div class="popup_list">
+            <div class="popup_list">
                 <span>发票</span>
                 <div >
                     不支持开发票
-                    <img src="../assets/down.png" alt="">
-                </div>
-            </div>
-             <div class="popup_list">
-                <span>应付总额</span>
-                <div class="popup_list_color">
-                    ¥30.00(x1)
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
@@ -51,15 +44,86 @@
                 </el-dropdown>
                 </div>
             </div>
+            <div class="popup_list">
+                <span>应付总额</span>
+                <div class="popup_list_color">
+                    ¥30.00(x1)
+                    <img src="../assets/down.png" alt="">
+                </div>
+            </div>
             <div class="popup_bottom">
                 <span class="popup_bottom_first">积分</span>
                 <span class="popup_bottom_second">购买可得14.8积分</span>
             </div>
-             <el-button type="primary" @click="toPay">提交订单</el-button>
+            <el-button type="primary" @click="toPay">提交订单</el-button>
         </div>
 
-            <div class="express-message" :class="{'express-message':displayPopup,'express-message_second':isPoup}" v-if="popup!='style1'
-            ">
+        <div :class="{'popup':displayPopup,'ispopup2':isPoup}" v-if="popup=='style5'">
+            <div class="details-message-img">
+                <img :src="'http://img.cmhg.shop/'+img" alt="">
+            </div>
+            <div class="details-message-right">
+                <div class="details-message-right-title">{{title}}</div>
+                <div class="details-message-right-price">￥{{price}}</div>
+                <div class="details-message-right-number">数量：<el-input-number @change="handleChange" size="mini" v-model="num" :min="1" :max="99"></el-input-number></div>
+            </div>
+            <div class="popup_list">
+                <span>收货地址</span>
+                <div class="popup_list_color" @click="router">
+                    请添加收货地址
+                    <img src="../assets/down2.png" alt="">
+                </div>
+            </div>
+            <div class="popup_list">
+                <span>配送</span>
+                <div>
+                    平台推广期包邮
+                    <img src="../assets/down.png" alt="">
+                </div>
+            </div>
+            <div class="popup_list">
+                <span>优惠券</span>
+                <div>
+                    暂无可用
+                    <img src="../assets/down.png" alt="">
+                </div>
+            </div>
+            <div class="popup_list">
+                <span>发票</span>
+                <div >
+                    不支持开发票
+                    <img src="../assets/down.png" alt="">
+                </div>
+            </div>
+            <div class="popup_list">
+                <span>支付方式</span>
+                <div>
+                <el-dropdown  @command="handleCommand" trigger="click" >
+                <span class="el-dropdown-link">
+                  <img src="../assets/wechatPay.png" alt="" v-if="selectCommand=='wechat'" class="popup_list_wechat">{{selectpay}}
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command='wechat'>微信支付</el-dropdown-item>
+                    <el-dropdown-item command='wait'>货到付款</el-dropdown-item>
+                </el-dropdown-menu>
+                <img src="../assets/down.png" alt=""> 
+                </el-dropdown>
+                </div>
+            </div>
+            <div class="popup_list">
+                <span>应付总额</span>
+                <div class="popup_list_color">
+                    ￥{{total}}<span>(x{{num}})</span>
+                </div>
+            </div>
+            <div class="popup_bottom">
+                <span class="popup_bottom_first">积分</span>
+                <span class="popup_bottom_second">购买可得{{integral}}积分</span>
+            </div>
+            <el-button type="primary" @click="toPay">提交订单</el-button>
+        </div>
+
+        <div class="express-message" :class="{'express-message':displayPopup,'express-message_second':isPoup}" v-if="popup!='style1'">
             <div class="express-message-img">
                 <img src="../assets/details_wati_express.png" v-if="popup=='style2'">
                 <img src="../assets/details_wati_expressfood.png" v-if="popup=='style3'"><!--代取食堂-->
@@ -143,13 +207,14 @@
 </template>
 <script>
 export default {
-    props:['popup','title',"selectpay"],//title:模块名字 popup 弹窗类型
+    props:['popup','title',"price","img","integral","quantity","total","selectpay"],//title:模块名字 popup 弹窗类型
     data () {
         return {
             displayPopup:true,//初始样式默认不弹窗
             isPoup:false,//弹窗
             expressShow:false,//选择快递的控件
             selectCommand:'wechat',
+            num:this.quantity,
         }
     },
     methods: {
@@ -162,10 +227,13 @@ export default {
         handleCommand(command) {
            this.selectCommand=command
            this.$emit('changePay',this.selectCommand)
-      },
-      toPay(){//支付写在父组件里
+        },
+        toPay(){//支付写在父组件里
             this.$emit('toPay',this.selectCommand)
-      }
+        },
+        handleChange() {
+            this.$emit('addquantity',this.num)
+        }
     },
     mounted () {
   
@@ -182,9 +250,41 @@ export default {
     width: 100%;
     left: 0;
     border-radius: 0;
-    }
+}
 .popup_list .el-dropdown{
     right: -.18rem;
+}
+.ispopup2 .el-button--primary{
+    position: relative;
+    bottom: .63rem;
+    width: 100%;
+    left: 0;
+    border-radius: 0;
+}
+.details-message-right-number .el-input-number--mini{
+    width: .75rem;
+    margin-right: .05rem;
+}
+.details-message-right-number .el-input-number--mini .el-input-number__decrease, .el-input-number--mini .el-input-number__increase{
+    width: .2rem;
+    top: .04rem;
+    height: .18rem;
+}
+.details-message-right-number .el-input-number--mini .el-input__inner{
+   padding: 0 .3rem;
+}
+.details-message-right-number .el-input--mini .el-input__inner{
+    height: .2rem;
+}
+.details-message-right-number .el-icon-minus:before{
+    font-size: .16rem;
+    position: relative;
+    top: -.06rem;
+}
+.details-message-right-number .el-icon-plus:before{
+    font-size: .16rem;
+    position: relative;
+    top: -.06rem;
 }
 </style>
 <style scoped>
@@ -199,6 +299,15 @@ export default {
 }
 .ispopup{
     height: 3.7rem;
+    width: 100%;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+    transition: .5s all;
+}
+.ispopup2{
+    height: 5.1rem;
     width: 100%;
     background: #fff;
     position: fixed;
@@ -241,8 +350,17 @@ export default {
     margin-right:.2rem;
     color: #555555;
 }
+.popup_list:nth-last-child(3) div{
+    float: right;
+    margin-right:-1.4rem;
+}
 .popup_list .popup_list_color{
     color: #0288d1;
+}
+.popup_list .popup_list_color span{
+    float: none;
+    margin-left: 0;
+    color: #555555;
 }
 .popup_bottom {
     font-size: .12rem;
@@ -252,7 +370,6 @@ export default {
     width: 100%;
     top: 0;
     text-align: right;
-    right: -1.42rem;
 }
 .popup_bottom span{
     padding-top:.11rem;
@@ -264,6 +381,49 @@ export default {
 }
 .popup_bottom .popup_bottom_second{
     color:#949494;
+}
+.details-message-img{
+    display: table-cell; 
+    vertical-align: middle;
+    text-align: center;
+    position: relative;
+    margin:0 auto;
+    float: left;
+    top: .2rem;
+    left: .2rem;
+    height: 1.1rem;
+    width: 1.3rem;
+    border: .01rem solid #ccc;
+}
+.details-message-img img{
+    height: 70%;
+}
+.details-message-right{
+    text-align: left;
+    position: relative;
+    top: .2rem;
+    left: .3rem;
+    height: 1.4rem;
+}
+.details-message-right .details-message-right-title{
+    font-size: .17rem;
+    width: 3.4rem;
+    color: #242424;
+}
+.details-message-right .details-message-right-price{
+    position: absolute;
+    top: .5rem;
+    left: 1.3rem;
+    font-size: .18rem;
+    color: #0288d1;
+}
+.details-message-right .details-message-right-number{
+    position: absolute;
+    top: .7rem;
+    left: 1.35rem;
+    margin-top: .2rem;
+    font-size: .14rem;
+    color: #888888;
 }
 /**********代取************/
 .express-message{
