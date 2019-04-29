@@ -49,10 +49,10 @@
         </div>
           <div class="home-discount">          
             <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes" v-if="indexes< 4"><!--限制渲染条数-->
-                <img :src= "'http://img.cmhg.shop/'+ value.icon" alt="">
+                <div class="home-discount-img"><img :src= "'http://img.cmhg.shop/'+ value.icon" alt=""></div>
                 <p>{{value.name}}</p>
                 <div>
-                  <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
+                  <span class="home-discount-shoplist-price">{{value.price/100|filtertoMoney}}</span>
                   <span>{{value.salesVolume}}人付款</span>
                   <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price)">
                 </div>
@@ -291,14 +291,10 @@ export default {
   margin-top:.1rem;
   border-radius: .05rem;
 }
-.home-discount-shoplist img{
-  width:85%;
-  padding-top:.2rem;
-}
 .home-discount-shoplist {
   font-size:.15rem;
 }
-.home-discount-shoplist div{
+.home-discount-shoplist div:nth-child(3){
   position: relative;
   text-align: left;
   margin-left: -.02rem;
@@ -309,10 +305,10 @@ export default {
   font-size:.16rem;
 }
 .home-discount-shoplist p{
+  text-align: left;
   display: inline-block;
   width: 1.65rem;
   margin-left: -.02rem;
-  text-align: left;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -323,11 +319,23 @@ export default {
   font-size:.13rem;
   color:#888888;
 }
+.home-discount-img{
+  display: table-cell; 
+  vertical-align: middle;
+  text-align: center;
+  width: 1.6rem;
+  height: 1.7rem;
+  position: relative;
+  margin:0 auto
+}
+.home-discount-img img{
+  width: 100%;
+}
 .home-title{
-    position: relative;
-    top:-.25rem;
-    width: 1.85rem;
-    display: inline-block;
+  position: relative;
+  top:-.25rem;
+  width: 1.85rem;
+  display: inline-block;
 }
 .home-to{
     position: absolute;

@@ -11,7 +11,8 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
+                <!-- <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div> -->
+                <div class="goods-price">{{item.price/100|filtertoMoney}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
@@ -94,7 +95,7 @@
             </div>
         </div>
         <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
-        <currency-Popup ref="popup" popup="style1" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
+        <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice).toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total).toFixed(2)" @addquantity="addquantity"></currency-Popup>
     </div>
 </template>
 <script>
@@ -139,22 +140,10 @@ export default {
         goback(){
             this.$router.push('/commoditiesList')
         },
-        scoreloadingDetails(id){
-            this.shopDetails = []
-            let params={
-                'id':id,
-            }
-            integral(params).then((result) => {
-                this.shopDetails=result.data.list;
-                let imgArr=result.data.list[0].morePics.split(',')
-                for (let i = 0; i < imgArr.length; i++) {
-                    this.bannerImg.push(imgArr[i])
-                }
-
-            }).catch((err) => {
-                console.log(err)
-            });
-                console.log(this.shopDetails);
+        addquantity(e){
+            this.shopDetails[0].quantity=e;
+            this.total=e* this.shopDetails[0].price/100;
+            this.integral=e* this.shopDetails[0].price/100;
         },
         loadingDetails(id){
             this.shopDetails = []
@@ -164,7 +153,12 @@ export default {
             }
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
-                this.shopDetails[0].quantity=this.quantity
+                this.detailstitle=this.shopDetails[0].name;
+                this.detailsprice=this.shopDetails[0].price/100;
+                this.detailsimg=this.shopDetails[0].icon;
+                this.integral=this.shopDetails[0].price/100;
+                this.shopDetails[0].quantity= this.quantity;
+                this.total=this.shopDetails[0].price/100;
                 let imgArr=result.data.morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
@@ -247,7 +241,7 @@ export default {
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
                 'storeId':'0',//
-                'totalFee':'10',//总价格
+                'totalFee':this.total*100,//总价格
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
