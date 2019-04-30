@@ -19,87 +19,87 @@
                     <span>广东深圳</span>
                 </div>
             </div>
-        <div class="service">
-            <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
-        </div>
-        <div class="specifications">
-            <div class="specifications-message">规格<span>配送至龙岗区</span><div class="commodityDetails-choice"></div></div>
-        </div>
-         <div class="specifications">
-            <div class="specifications-message">运费<span>满50包邮</span><div class="commodityDetails-choice"></div></div>
-        </div>
-        <div class="comment">
-            <div class="comment-message">买家评论（50）<span>查看全部<span>></span></span></div>
-            <div class="comment-user">
-                <div class="comment-user-img"><img src="../assets/user.png" alt=""></div>
-                <div class="comment-user-name">k**k</div>
-                <div class="comment-user-message">好吃好吃好吃！！！买了第三次了哈哈哈哈</div>
+            <div class="service">
+                <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
             </div>
-        </div>
-        <div class="recommend">
-            <div class="recommend-line"></div>
-            <div class="recommend-img"><img src="../assets/img.png">详情</div>
-            <div class="recommend-line"></div>
-        </div>
-        <div class="details-goods">
-            <div class="details-goods-img">
-                <img :src="'http://img.cmhg.shop/'+items" v-for="(items,i) in bannerImg" :key="i">
+            <div class="specifications">
+                <div class="specifications-message">规格<span>配送至龙岗区</span><div class="commodityDetails-choice"></div></div>
             </div>
-        </div>
-        <div class="recommend">
-            <div class="recommend-line"></div>
-            <div class="recommend-img"><img src="../assets/like.png">推荐</div>
-            <div class="recommend-line"></div>
-        </div>
-        <div class="commodityDetails-recommend-goods">
-            <div class="recommend-message">推荐商品</div>
-            <div class="recommend-goods-img">
-                <img src="../assets/图1.jpg" alt="">
-                卫龙辣条亲嘴烧300g
-                <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+            <div class="specifications">
+                <div class="specifications-message">运费<span>满50包邮</span><div class="commodityDetails-choice"></div></div>
             </div>
-            <div class="recommend-goods-img">
-                <img src="../assets/图1.jpg" alt="">
-                卫龙辣条亲嘴烧300g
-                <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
-            </div>
-        </div>
-        </div>
-        <div class="to-the-end">
-            <div class="to-the-end-line"></div>
-            <div class="to-the-end-text">已经到底了</div>
-            <div class="to-the-end-line"></div>
-        </div>
-        <div class="footer">
-            <div class="footer-address">
-                <div class="footer-img">
-                    <router-link to="/"  active-class="footer-active" exact>
-                    <div class="customer-service"></div>
-                    <span>客服</span>
-                    </router-link>
-                </div>
-                <div class="footer-img" @click="eventCollect" v-if="!collect">
-                    <div class="collection"></div>
-                    <span>收藏</span>
-                </div>
-                <div class="footer-img"  v-if="collect"  @click="eventDelCollect" >
-                    <div class="collected"></div>
-                    <span>取消收藏</span>
-                </div>
-                <div class="footer-img">
-                    <router-link to="/shopcar" active-class="footer-active">
-                    <div class="shopcar"></div>
-                    <span>购物车</span>
-                    </router-link>
+            <div class="comment">
+                <div class="comment-message">买家评论（50）<span>查看全部<span>></span></span></div>
+                <div class="comment-user">
+                    <div class="comment-user-img"><img src="../assets/user.png" alt=""></div>
+                    <div class="comment-user-name">k**k</div>
+                    <div class="comment-user-message">好吃好吃好吃！！！买了第三次了哈哈哈哈</div>
                 </div>
             </div>
-            <div class="footer-operation">
-                <div class="add-cart" @click="addtoShop">加入购物车</div>
-                <div class="purchase" @click="Cover">立即购买</div>
+            <div class="recommend">
+                <div class="recommend-line"></div>
+                <div class="recommend-img"><img src="../assets/img.png">详情</div>
+                <div class="recommend-line"></div>
             </div>
+            <div class="details-goods">
+                <div class="details-goods-img">
+                    <img  :src="'http://img.cmhg.shop/'+items" v-for="(items,i) in bannerImg" :key="i">
+            </div>
+            </div>
+            <div class="recommend">
+                <div class="recommend-line"></div>
+                <div class="recommend-img"><img src="../assets/like.png">推荐</div>
+                <div class="recommend-line"></div>
+            </div>
+            <div class="commodityDetails-recommend-goods">
+                <div class="recommend-message">推荐商品</div>
+                <div class="recommend-goods-img">
+                    <img src="../assets/图1.jpg" alt="">
+                    卫龙辣条亲嘴烧300g
+                    <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+                </div>
+                <div class="recommend-goods-img">
+                    <img src="../assets/图1.jpg" alt="">
+                    卫龙辣条亲嘴烧300g
+                    <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+                </div>
+            </div>
+            <div class="to-the-end">
+                <div class="to-the-end-line"></div>
+                <div class="to-the-end-text">已经到底了</div>
+                <div class="to-the-end-line"></div>
+            </div>
+            <div class="footer">
+                <div class="footer-address">
+                    <div class="footer-img">
+                        <router-link to="/"  active-class="footer-active" exact>
+                        <div class="customer-service"></div>
+                        <span>客服</span>
+                        </router-link>
+                    </div>
+                    <div class="footer-img" v-if="!collect" @click="eventCollect">
+                        <div class="collection"></div>
+                        <span>收藏</span>
+                    </div>
+                     <div class="footer-img" v-if="collect" @click="eventDelCollect">
+                        <div class="collected"></div>
+                        <span>取消收藏</span>
+                    </div>
+                    <div class="footer-img">
+                        <router-link to="/shopcar" active-class="footer-active">
+                        <div class="shopcar"></div>
+                        <span>购物车</span>
+                        </router-link>
+                    </div>
+                </div>
+                <div class="footer-operation">
+                    <div class="add-cart" @click="addShop(item.storeId,item.id,item.price)">加入购物车</div>
+                    <div class="purchase" @click="Cover">立即购买</div>
+                </div>
+            </div>
+            <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
         </div>
-        <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
-        <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice).toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total).toFixed(2)" @addquantity="addquantity"></currency-Popup>
+            <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice).toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total).toFixed(2)" @addquantity="addquantity"></currency-Popup>
     </div>
 </template>
 <script>
@@ -125,14 +125,13 @@ export default {
             detailsprice:'',//商品价格
             detailsimg:'',//商品图片
             total:'',//总价
-            addAddress:'',//获取收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:'1',//购买数量，默认是1
             collect:false,//默认未收藏
 		}
     },
-    mounted () {
-        this.getaddAddress();
+    mounted(){
+       
     },
     methods:{
         select(item){//单选商品 id:商品id  item:商品信息
@@ -192,32 +191,34 @@ export default {
                 
             });
         },
-        getaddAddress(){//查询收货地址
+        // getaddAddress(){//查询收货地址
+        //     let params={
+        //         'userOpenId':localStorage.getItem('userOpenId'),
+        //     }
+        //     lookaddAddress(params).then((result) => {
+        //         this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
+        //         console.log(this.shopDetails)
+        //         console.log(userOpenId)
+        //     }).catch((err) => {
+                
+        //     });
+        // },
+        addShop(storeId,id,price){
             let params={
-                'userOpenId':localStorage.getItem('userOpenId'),
+                "productId":id,
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":storeId
             }
-            lookaddAddress(params).then((result) => {
-                this.addAddress=result.data.list;
+            event.stopPropagation(); 
+            this.$store.dispatch('addtoShop',params).then((result) => {
+                Toast({
+                    message: '成功加入购物车',
+                    duration: 1000
+                    });
             }).catch((err) => {
-                console.log(err)
+                
             });
         },
-            addtoShop(){
-                let params={
-                        "productId":this.shopDetails[0].id,
-                        "userOpenId":localStorage.getItem('userOpenId'),
-                        "storeId":'0'//暂时0
-                    }
-                event.stopPropagation(); 
-                this.$store.dispatch('addtoShop',params).then((result) => {
-                    Toast({
-                        message: '成功加入购物车',
-                        duration: 1000
-                        });
-                }).catch((err) => {
-                    
-                });
-            },
         gotoShopCar(){
             this.$router.push('/shopcar')
         },
@@ -267,6 +268,11 @@ export default {
                                 message: '提交订单成功，请尽快支付',
                                 duration: 1000
                             }); 
+                        }else  if(result.data.resultCode==406) {
+                            Toast({
+                                message: '您还有订单未支付，请先支付再下单，谢谢！',
+                                duration: 1000
+                            });
                         }
                     }).catch((err) => {
                         console.log(err)
@@ -348,6 +354,9 @@ export default {
             this.loadingItegral(this.$route.query.integral)
         }
     },
+    mounted () {
+        //this.getaddAddress();
+    }
 }
 
 </script>
