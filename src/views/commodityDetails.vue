@@ -12,10 +12,10 @@
                 </div>
                 <div class="goods-title">{{item.name}}</div>
                 <!-- <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div> -->
-                <div class="goods-price">{{item.price/100|filtertoMoney}}</div>
+                <div class="goods-price">{{item.price|filtertoMoney}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
-                    <span>月销1222笔</span>
+                    <span>月销{{item.salesVolume}}笔</span>
                     <span>广东深圳</span>
                 </div>
             </div>
@@ -78,11 +78,13 @@
                     <span>客服</span>
                     </router-link>
                 </div>
-                <div class="footer-img">
-                    <router-link to='/' active-class="footer-active" exact>
+                <div class="footer-img" @click="eventCollect" v-if="!collect">
                     <div class="collection"></div>
                     <span>收藏</span>
-                    </router-link>
+                </div>
+                <div class="footer-img"  v-if="collect"  @click="eventDelCollect" >
+                    <div class="collected"></div>
+                    <span>取消收藏</span>
                 </div>
                 <div class="footer-img">
                     <router-link to="/shopcar" active-class="footer-active">
@@ -92,7 +94,7 @@
                 </div>
             </div>
             <div class="footer-operation">
-                <div class="add-cart" @click="addShop">加入购物车</div>
+                <div class="add-cart" @click="addtoShop">加入购物车</div>
                 <div class="purchase" @click="Cover">立即购买</div>
             </div>
         </div>
@@ -103,8 +105,7 @@
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil,lookaddAddress} from '../api/api.js'
-import { productDetails,addShop } from '../api/api.js'
+import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop} from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
 import { debug } from 'util';
@@ -127,6 +128,7 @@ export default {
             addAddress:'',//获取收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:'1',//购买数量，默认是1
+            collect:false,//默认未收藏
 		}
     },
     mounted () {
@@ -168,6 +170,7 @@ export default {
                 this.shopDetails[0].quantity= this.quantity;
                 this.total=this.shopDetails[0].price/100;
                 let imgArr=result.data.morePics.split(',')
+                this.collect=result.data.collectStatus==undefined?false:true
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
                 }
@@ -195,34 +198,26 @@ export default {
             }
             lookaddAddress(params).then((result) => {
                 this.addAddress=result.data.list;
-                // let imgArr=result.data.list[0].morePics.split(',')
-                // for (let i = 0; i < imgArr.length; i++) {
-                //     this.bannerImg.push(imgArr[i])
-                // }
-            debugger
-            console.log(this.addAddress)
-
-                // console.log(localStorage.getItem('userOpenId'))
             }).catch((err) => {
-                alert("666")
+                console.log(err)
             });
         },
-        addtoShop(){
-            let params={
-                "productId":this.shopDetails[0].id,
-                "userOpenId":localStorage.getItem('userOpenId'),
-                "storeId":'0'//暂时0
-            }
-            addShop(params).then((result) => {
-                if(result.data.resultCode==200){
+            addtoShop(){
+                let params={
+                        "productId":this.shopDetails[0].id,
+                        "userOpenId":localStorage.getItem('userOpenId'),
+                        "storeId":'0'//暂时0
+                    }
+                event.stopPropagation(); 
+                this.$store.dispatch('addtoShop',params).then((result) => {
                     Toast({
                         message: '成功加入购物车',
                         duration: 1000
-                    });
-                }
-            }).catch((err) => {
-            });
-        },
+                        });
+                }).catch((err) => {
+                    
+                });
+            },
         gotoShopCar(){
             this.$router.push('/shopcar')
         },
@@ -310,6 +305,41 @@ export default {
                 }
             });
         },
+        eventCollect(){
+             let params={
+                "productId":this.shopDetails[0].id,//写死0
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":'0'//暂时0
+            }
+            collectShop(params).then((result) => {
+                if (result.data.resultCode==200) {
+                     Toast({
+                        message: '收藏成功',
+                        duration: 1000
+                    });
+                    this.collect=true
+                }
+            }).catch((err) => {
+                console.log(err)                
+            });
+        },
+        eventDelCollect(){//取消收藏
+            let params={
+                "productId":this.shopDetails[0].id,
+                "userOpenId":localStorage.getItem('userOpenId'),
+            }
+            delcollectShop(params).then((result) => {
+                if (result.data.resultCode==200) {
+                     Toast({
+                        message: '取消收藏',
+                        duration: 1000
+                    });
+                    this.collect=false
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        }
     },
     created() {
         if (this.$route.query.id) {//其他页面进入
@@ -678,6 +708,10 @@ export default {
 }
 .footer-img .collection{
     background: url(../assets/collection.png) no-repeat 54% 50%;
+    background-size: auto 100%;
+}
+.footer-img .collected{
+     background: url(../assets/star.png) no-repeat 54% 50%;
     background-size: auto 100%;
 }
 .footer-img .shopcar{

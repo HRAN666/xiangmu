@@ -51,7 +51,7 @@
                 <div class="home-discount-img"><img :src= "'http://img.cmhg.shop/'+ value.icon" alt=""></div>
                 <p>{{value.name}}</p>
                 <div>
-                  <span class="home-discount-shoplist-price">{{value.price/100|filtertoMoney}}</span>
+                  <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
                   <span>{{value.salesVolume}}人付款</span>
                   <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price)">
                 </div>

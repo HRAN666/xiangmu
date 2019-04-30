@@ -213,14 +213,14 @@ export default {
             this.todisPlayFooter=false;
             }
         },
-    Popupfilter(){
-        this.$refs.look.style.right = 0 + "rem";
-        this.display = true;
-    },
-    Exitfilter(){
-        this.$refs.look.style.right = -2.7 + "rem";
-        this.display = false;
-    }
+        Popupfilter(){
+            this.$refs.look.style.right = 0 + "rem";
+            this.display = true;
+        },
+        Exitfilter(){
+            this.$refs.look.style.right = -2.7 + "rem";
+            this.display = false;
+        }
     },
     created () {
         if (this.$route.query.catalogId) {//判断是否从更多进来
