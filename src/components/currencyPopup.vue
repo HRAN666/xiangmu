@@ -252,7 +252,8 @@ export default {
     border-radius: 0;
 }
 .popup_list .el-dropdown{
-    right: -.18rem;
+    position: absolute;
+    right: 0rem;
 }
 .ispopup2 .el-button--primary{
     position: relative;
@@ -349,10 +350,6 @@ export default {
     float: right;
     margin-right:.2rem;
     color: #555555;
-}
-.popup_list:nth-last-child(3) div{
-    float: right;
-    margin-right:-1.4rem;
 }
 .popup_list .popup_list_color{
     color: #0288d1;
