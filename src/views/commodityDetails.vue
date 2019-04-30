@@ -11,7 +11,8 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
+                <!-- <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div> -->
+                <div class="goods-price">{{item.price/100|filtertoMoney}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
@@ -96,16 +97,18 @@
             </div>
         </div>
         <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
-        <currency-Popup ref="popup" popup="style1" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
+        <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice).toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total).toFixed(2)" @addquantity="addquantity"></currency-Popup>
     </div>
 </template>
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil} from '../api/api.js'
+import { payNow,payNext,integralDeatil,lookaddAddress} from '../api/api.js'
 import { productDetails,addShop } from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
+import { debug } from 'util';
+import { nextTick } from 'q';
 export default {
     components: {
         'header-general':header,
@@ -117,11 +120,17 @@ export default {
             shopDetails:[],//商品详情信息 （和积分共用）
             bannerImg:[],//单独抽离出来的moreicon （和积分共用）
             selectpay:'微信支付',//初始支付方式
-            quantity:'1',//暂时默认1
+            detailstitle:'',//商品名字
+            detailsprice:'',//商品价格
+            detailsimg:'',//商品图片
+            total:'',//总价
+            addAddress:'',//获取收获地址
+            integral:'',//购买所获得的积分 目前1块钱积分
+            quantity:'1',//购买数量，默认是1
 		}
     },
-    mounted(){
-       
+    mounted () {
+        this.getaddAddress();
     },
     methods:{
         select(item){//单选商品 id:商品id  item:商品信息
@@ -139,14 +148,25 @@ export default {
         goback(){
             this.$router.push('/commoditiesList')
         },
+        addquantity(e){
+            this.shopDetails[0].quantity=e;
+            this.total=e* this.shopDetails[0].price/100;
+            this.integral=e* this.shopDetails[0].price/100;
+        },
         loadingDetails(id){
+            this.shopDetails = []
             let params={
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
             }
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
-                this.shopDetails[0].quantity=this.quantity
+                this.detailstitle=this.shopDetails[0].name;
+                this.detailsprice=this.shopDetails[0].price/100;
+                this.detailsimg=this.shopDetails[0].icon;
+                this.integral=this.shopDetails[0].price/100;
+                this.shopDetails[0].quantity= this.quantity;
+                this.total=this.shopDetails[0].price/100;
                 let imgArr=result.data.morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
@@ -169,21 +189,40 @@ export default {
                 
             });
         },
-        addShop(){
-          let params={
-              "productId":this.shopDetails[0].id,
-              "userOpenId":localStorage.getItem('userOpenId'),
-              "storeId":0//暂时写死0
-          }
-          this.$store.dispatch('addtoShop',params).then((result) => {
-              Toast({
-                  message: '成功加入购物车',
-                  duration: 1000
-                  });
-          }).catch((err) => {
-              
-          });
-      },
+        getaddAddress(){//查询收货地址
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+            }
+            lookaddAddress(params).then((result) => {
+                this.addAddress=result.data.list;
+                // let imgArr=result.data.list[0].morePics.split(',')
+                // for (let i = 0; i < imgArr.length; i++) {
+                //     this.bannerImg.push(imgArr[i])
+                // }
+            debugger
+            console.log(this.addAddress)
+
+                // console.log(localStorage.getItem('userOpenId'))
+            }).catch((err) => {
+                alert("666")
+            });
+        },
+        addtoShop(){
+            let params={
+                "productId":this.shopDetails[0].id,
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":'0'//暂时0
+            }
+            addShop(params).then((result) => {
+                if(result.data.resultCode==200){
+                    Toast({
+                        message: '成功加入购物车',
+                        duration: 1000
+                    });
+                }
+            }).catch((err) => {
+            });
+        },
         gotoShopCar(){
             this.$router.push('/shopcar')
         },
@@ -212,7 +251,7 @@ export default {
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
                 'storeId':'0',//
-                'totalFee':'10',//总价格
+                'totalFee':this.total*100,//总价格
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
@@ -279,9 +318,6 @@ export default {
             this.loadingItegral(this.$route.query.integral)
         }
     },
-    mounted () {
-        
-    }
 }
 
 </script>

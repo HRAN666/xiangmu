@@ -93,8 +93,8 @@ export default {
     },
     methods:{
         displayCover(){
-           this.markshow=false
-           this.$refs.popup.isPoup=false
+            this.markshow=false
+            this.$refs.popup.isPoup=false
             this.$refs.popup.expressShow=false
         },
         Cover(){//显示

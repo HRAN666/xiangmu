@@ -10,6 +10,9 @@ import './assets/icon/iconfont'
 import 'element-ui/lib/theme-chalk/index.css';
 import * as filter from '../filter/filter'
 import {DayTimes} from './common/common'
+// let VConsole = require('../node_modules/vconsole/dist/vconsole.min');
+// let vConsole = new VConsole();
+
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(mint)
 Vue.use(elmentUi)

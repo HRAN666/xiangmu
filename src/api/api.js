@@ -66,6 +66,10 @@ export const payNext =params =>{
 export const addAddress =params =>{
     return axios.post('/api/portal/v01/insertPortalUserAddress.do',params);
 }
+/**********查询收货地址 */
+export const lookaddAddress =params =>{
+    return axios.post('/api/portal/v01/listPortalUserAddress.do',params);
+}
 /***********商品详情 */
 export const productDetails =params =>{
     return axios.post('/api/biz/v01/getBizProductWithoutToken.do ',params);
