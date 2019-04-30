@@ -72,7 +72,7 @@ export const productDetails =params =>{
 }
 /************获取历史订单 */
 export const historyOrder =params =>{
-    return axios.post('/api/biz/v01/listBizAllOrder.do',params);
+    return axios.post('/api/biz/v01/listBizOrderWithoutToken.do',params);
 }
 axios.interceptors.request.use(//拦截器
     config=>{

@@ -41,7 +41,9 @@
             <div class="recommend-line"></div>
         </div>
         <div class="details-goods">
-            <div class="details-goods-img"><img src="../assets/详情1.png"><img src="../assets/详情1.png"></div>
+            <div class="details-goods-img">
+                <img :src="'http://img.cmhg.shop/'+items" v-for="(items,i) in bannerImg" :key="i">
+            </div>
         </div>
         <div class="recommend">
             <div class="recommend-line"></div>
@@ -89,7 +91,7 @@
                 </div>
             </div>
             <div class="footer-operation">
-                <div class="add-cart">加入购物车</div>
+                <div class="add-cart" @click="addShop">加入购物车</div>
                 <div class="purchase" @click="Cover">立即购买</div>
             </div>
         </div>
@@ -167,22 +169,21 @@ export default {
                 
             });
         },
-        addtoShop(){
-            let params={
-                "productId":this.shopDetails[0].id,
-                "userOpenId":localStorage.getItem('userOpenId'),
-                "storeId":'0'//暂时0
-            }
-            addShop(params).then((result) => {
-                if(result.data.resultCode==200){
-                    Toast({
-                        message: '成功加入购物车',
-                        duration: 1000
-                    });
-                }
-            }).catch((err) => {
-            });
-        },
+        addShop(){
+          let params={
+              "productId":this.shopDetails[0].id,
+              "userOpenId":localStorage.getItem('userOpenId'),
+              "storeId":0//暂时写死0
+          }
+          this.$store.dispatch('addtoShop',params).then((result) => {
+              Toast({
+                  message: '成功加入购物车',
+                  duration: 1000
+                  });
+          }).catch((err) => {
+              
+          });
+      },
         gotoShopCar(){
             this.$router.push('/shopcar')
         },

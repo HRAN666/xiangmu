@@ -150,12 +150,11 @@ export default {
       loadingOrder(){
         let params={
           'userOpenId':localStorage.getItem('userOpenId')
-          // 'userOpenId':'ohVtsw5O5QrlJn9k3a_VS17PUNzE'
         }
         historyOrder(params).then((result) => {
               this.orderList=result.data.list
         }).catch((err) => {
-          
+            console.log(err)
         });
       }
   },

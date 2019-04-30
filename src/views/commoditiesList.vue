@@ -78,7 +78,7 @@ export default {
             indexes:0,//选中的img索引位置
             priceOrderBy:false,//默认升序
             listTop:false,//是否显示返回顶部
-            todisPlayFooter:true,
+            todisPlayFooter:true,//防止手机端点击搜索底部菜单弹起
         }
     },
 
@@ -110,7 +110,7 @@ export default {
                         this.loadingAllShop(this.input,'',this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
                     } 
         },
-        loadingAllShop(nodeName,orderBy,catalogId){//nodeName:搜索名字
+        loadingAllShop(nodeName,orderBy,catalogId){//nodeName:搜索名字 orderBy：排序方式 catalogId：其他模块搜索条件
             this.showShop=[];//重新刷新动画图片
             let params={
                 'name':nodeName,
@@ -120,7 +120,7 @@ export default {
             seachShop(params).then((result) => {
                 this.seachShopList=result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {//遍历有多少商品就添加多少动画
-                    this.showShop.push({show:false})                
+                    this.showShop.push({'show':false})                
                 }
             }).catch((err) => {
                 console.log(err)              
@@ -130,8 +130,8 @@ export default {
             this.$router.push('/')
         },
         addToShop(storeId,id,price,index){
-            this.indexes=index
-            this.showShop[index].show=true
+            this.indexes=index//获取点击商品list
+            this.showShop[index].show=true//开始动画
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
