@@ -47,7 +47,7 @@
             <div class="popup_list">
                 <span>应付总额</span>
                 <div class="popup_list_color">
-                    ¥30.00(x1)
+                   ￥{{total}}(x{{quantity}})
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
@@ -113,7 +113,7 @@
             <div class="popup_list">
                 <span>应付总额</span>
                 <div class="popup_list_color">
-                    ￥{{total}}<span>(x{{num}})</span>
+                    ￥{{total}}<span>(x{{quantity}})</span>
                 </div>
             </div>
             <div class="popup_bottom">
@@ -214,7 +214,7 @@ export default {
             isPoup:false,//弹窗
             expressShow:false,//选择快递的控件
             selectCommand:'wechat',
-            num:this.quantity,
+            num:this.$props.quantity,
         }
     },
     methods: {
@@ -236,7 +236,7 @@ export default {
         }
     },
     mounted () {
-  
+        
     },
     computed: {
 
@@ -252,7 +252,8 @@ export default {
     border-radius: 0;
 }
 .popup_list .el-dropdown{
-    right: -.18rem;
+    position: absolute;
+    right: 0rem;
 }
 .ispopup2 .el-button--primary{
     position: relative;
@@ -349,10 +350,6 @@ export default {
     float: right;
     margin-right:.2rem;
     color: #555555;
-}
-.popup_list:nth-last-child(3) div{
-    float: right;
-    margin-right:-1.4rem;
 }
 .popup_list .popup_list_color{
     color: #0288d1;

@@ -80,7 +80,19 @@ export const productDetails =params =>{
 }   
 /************获取历史订单 */
 export const historyOrder =params =>{
-    return axios.post('/api/biz/v01/listBizAllOrder.do',params);
+    return axios.post('/api/biz/v01/listBizOrderWithoutToken.do',params);
+}
+/************收藏商品 */
+export const collectShop =params =>{
+    return axios.post('/api/biz/v01/insertBizUserCollectWithoutToken.do',params);
+}
+/************取消收藏商品 */
+export const delcollectShop =params =>{
+    return axios.post('/api/biz/v01/deleteBizUserCollectWithoutToken.do',params);
+}
+/********查询是否会员 */
+export const checkVip =params =>{
+    return axios.post('/api/portal/v01/checkPortalUserMember.do',params);
 }
 axios.interceptors.request.use(//拦截器
     config=>{

@@ -120,7 +120,7 @@ export default {
                         this.loadingAllShop(this.input,'',this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
                     } 
         },
-        loadingAllShop(nodeName,orderBy,catalogId){//nodeName:搜索名字
+        loadingAllShop(nodeName,orderBy,catalogId){//nodeName:搜索名字 orderBy：排序方式 catalogId：其他模块搜索条件
             this.showShop=[];//重新刷新动画图片
             let params={
                 'name':nodeName,
@@ -130,7 +130,7 @@ export default {
             seachShop(params).then((result) => {
                 this.seachShopList=result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {//遍历有多少商品就添加多少动画
-                    this.showShop.push({show:false})                
+                    this.showShop.push({'show':false})                
                 }
             }).catch((err) => {
                 console.log(err)              
@@ -140,8 +140,8 @@ export default {
             this.$router.push('/')
         },
         addToShop(storeId,id,price,index){
-            this.indexes=index
-            this.showShop[index].show=true
+            this.indexes=index//获取点击商品list
+            this.showShop[index].show=true//开始动画
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -213,14 +213,14 @@ export default {
             this.todisPlayFooter=false;
             }
         },
-    Popupfilter(){
-        this.$refs.look.style.right = 0 + "rem";
-        this.display = true;
-    },
-    Exitfilter(){
-        this.$refs.look.style.right = -2.7 + "rem";
-        this.display = false;
-    }
+        Popupfilter(){
+            this.$refs.look.style.right = 0 + "rem";
+            this.display = true;
+        },
+        Exitfilter(){
+            this.$refs.look.style.right = -2.7 + "rem";
+            this.display = false;
+        }
     },
     created () {
         if (this.$route.query.catalogId) {//判断是否从更多进来

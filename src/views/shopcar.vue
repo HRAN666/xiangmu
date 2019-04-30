@@ -84,7 +84,7 @@
             <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+shopInf.length+')'}}</el-button>
             <el-button type="danger" @click="removeShop" v-if="deletShop">{{'删除('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :totle="totlePrice.toFixed(2)" :shopLength="shopInf.length" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="shopInf.length" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -134,7 +134,7 @@ export default {
                 this.shopListCheck=[]//特殊情况
                 this.ShopList.forEach(item => {
                    this.shopListCheck.push(item.id)
-                    this.shopInf.push(item)
+                    this.shopInf.push(item);
                });
             }else{//反选
                 this.shopListCheck=[]
@@ -231,6 +231,11 @@ export default {
                                 message: '提交订单成功，请尽快支付',
                                 duration: 1000
                             });
+                        }else if(result.data.resultCode==406){
+                            Toast({
+                                message: '你上次订单尚未支付',
+                                duration: 1000
+                            });
                         }
                     }).catch((err) => {
                         console.log(err)
@@ -250,20 +255,20 @@ export default {
             if (this.checkAll) {
                 this.ShopList.forEach(item=>{//计算总价格
                 totle+=item.bizProductVo.price*item.theNum;
-                this.totlePrice=totle
+                this.totlePrice=(totle/100)
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格取消反选之后计算的价格
                 totle+=item.theNum*item.bizProductVo.price
-                this.totlePrice=totle
+                this.totlePrice=(totle/100)
             })    
             }
-            return '￥'+totle.toFixed(2)
+            return '￥'+(totle/100).toFixed(2)
         },
     },
     created() {
         this.loadingShop()//渲染购物车商品
-        console.log(this.$store.state.shopLength)
+
     },
 }
 </script>

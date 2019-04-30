@@ -83,6 +83,7 @@
 </template>
 <script>
 import footer from '../components/footer.vue'
+import {checkVip} from '../api/api.js'
 export default {
     components: {
       'footer-currency':footer
@@ -116,10 +117,20 @@ export default {
         },
         address(){
             this.$router.push('/addAddress')
+        },
+        check(){//判断是否是会员
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId')
+            }
+            checkVip(params).then((result) => {
+                
+            }).catch((err) => {
+                
+            });
         }
     },
-    mounted () {
-        
+    created () {
+        this.check();
     }
 }
 </script>

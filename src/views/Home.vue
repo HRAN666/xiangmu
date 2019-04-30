@@ -21,13 +21,12 @@
       <div class="home-shop-list">
         <el-row :gutter="10">
             <el-col :span="6" v-for="(item,index) in shopList" :key="index">
-              <img :src="'http://'+item.icon" alt="">
+              <img :src="'http://'+item.icon" alt="" @click="modelSeach(item.catalogId)">
               <p>{{item.nodeName}}</p>
             </el-col>
         </el-row>
       </div>
     </div>
-        <!-- <img src="../assets/Substitute.png" alt="" class="home-sub">   -->
     <div class="home-subfor express" v-for="(item,index) in shopget" :key="index">  
       <div class="home-title" style="top:0rem">
           <img src="../assets/get.png" alt="" class="home-sub">
@@ -41,7 +40,7 @@
       </div>
     </div>
 
-    <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
+    <div class="home-subfor" v-for="(item,indexes) in shopModels" :key="indexes">  
         <div class="home-title">
             <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
@@ -52,7 +51,7 @@
                 <div class="home-discount-img"><img :src= "'http://img.cmhg.shop/'+ value.icon" alt=""></div>
                 <p>{{value.name}}</p>
                 <div>
-                  <span class="home-discount-shoplist-price">{{value.price/100|filtertoMoney}}</span>
+                  <span class="home-discount-shoplist-price">{{value.price|filtertoMoney}}</span>
                   <span>{{value.salesVolume}}人付款</span>
                   <img src="../assets/shopCar.png" alt="" class="home-discount-shopCar" @click="addShop(value.storeId,value.id,value.price)">
                 </div>
@@ -85,10 +84,6 @@ export default {
       resultShopListLength:8,//配置list显示个数
       shopModels:'',// 存放商品模块
       shopget:'', //代取服务
-      showShop:[{
-          
-      }],//控制显示的动画的数组
-      //indexes:0,//选中的img索引位置
     }
   },
   methods: {
@@ -160,7 +155,7 @@ export default {
                   this.bannerImg.push(JSON.parse(result.data.list[index].banner)[index].url)
               }  
             }).catch((err) => {
-              
+                console.log(err)
             });
         },
         gotoDetails(id){//go商品详情
