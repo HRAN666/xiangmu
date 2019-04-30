@@ -11,8 +11,8 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <!-- <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div> -->
-                <div class="goods-price">{{item.price/100|filtertoMoney}}</div>
+                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
+                <!-- <div class="goods-price">{{item.price/100|filtertoMoney}}</div> -->
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销1222笔</span>
@@ -101,7 +101,7 @@
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil,lookaddAddress} from '../api/api.js'
+import { payNow,payNext,integralDeatil,lookaddAddress,defaults} from '../api/api.js'
 import { productDetails,addShop } from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
@@ -123,12 +123,14 @@ export default {
             detailsimg:'',//商品图片
             total:'',//总价
             addAddress:'',//获取收获地址
+            defaultAddress:'',//默认收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:'1',//购买数量，默认是1
 		}
     },
     mounted () {
         this.getaddAddress();
+        this.defaultaddAddress();
     },
     methods:{
         select(item){//单选商品 id:商品id  item:商品信息
@@ -157,6 +159,7 @@ export default {
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
             }
+            debugger
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
                 this.detailstitle=this.shopDetails[0].name;
@@ -197,8 +200,25 @@ export default {
                 // for (let i = 0; i < imgArr.length; i++) {
                 //     this.bannerImg.push(imgArr[i])
                 // }
-            debugger
             console.log(this.addAddress)
+
+                // console.log(localStorage.getItem('userOpenId'))
+            }).catch((err) => {
+                alert("666")
+            });
+        },
+        defaultaddAddress(){//加默认收货地址
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'id':'5200475142A84F82A32AC42279824FDF'
+            }
+            defaults(params).then((result) => {
+                this.defaultAddress=result.data.id;
+                // let imgArr=result.data.list[0].morePics.split(',')
+                // for (let i = 0; i < imgArr.length; i++) {
+                //     this.bannerImg.push(imgArr[i])
+                // }
+            console.log(this.defaultAddress)
 
                 // console.log(localStorage.getItem('userOpenId'))
             }).catch((err) => {

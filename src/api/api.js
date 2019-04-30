@@ -66,6 +66,10 @@ export const payNext =params =>{
 export const addAddress =params =>{
     return axios.post('/api/portal/v01/insertPortalUserAddress.do',params);
 }
+/**********默认收货地址 */
+export const defaults =params =>{
+    return axios.post('/api/portal/v01/freezePortalUserAddress.do',params);
+}
 /**********查询收货地址 */
 export const lookaddAddress =params =>{
     return axios.post('/api/portal/v01/listPortalUserAddress.do',params);
@@ -73,7 +77,7 @@ export const lookaddAddress =params =>{
 /***********商品详情 */
 export const productDetails =params =>{
     return axios.post('/api/biz/v01/getBizProductWithoutToken.do ',params);
-}
+}   
 /************获取历史订单 */
 export const historyOrder =params =>{
     return axios.post('/api/biz/v01/listBizAllOrder.do',params);
