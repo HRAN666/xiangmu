@@ -122,12 +122,13 @@ export default {
             detailsprice:'',//商品价格
             detailsimg:'',//商品图片
             total:'',//总价
+            addAddress:'',//获取收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:'1',//购买数量，默认是1
 		}
     },
-    mounted(){
-       
+    mounted () {
+        this.getaddAddress();
     },
     methods:{
         select(item){//单选商品 id:商品id  item:商品信息
@@ -191,17 +192,18 @@ export default {
                 'userOpenId':localStorage.getItem('userOpenId'),
             }
             lookaddAddress(params).then((result) => {
-                this.shopDetails.push(result.data.list);//写死0因为只有一个商品
+                this.addAddress=result.data.list;
                 // let imgArr=result.data.list[0].morePics.split(',')
                 // for (let i = 0; i < imgArr.length; i++) {
                 //     this.bannerImg.push(imgArr[i])
                 // }
+            debugger
+            console.log(this.addAddress)
 
-                console.log(userOpenId)
+                // console.log(localStorage.getItem('userOpenId'))
             }).catch((err) => {
-                
+                alert("666")
             });
-            console.log(this.shopDetails)
         },
         addtoShop(){
             let params={
@@ -314,9 +316,6 @@ export default {
             this.loadingItegral(this.$route.query.integral)
         }
     },
-    mounted () {
-        this.getaddAddress();
-    }
 }
 
 </script>

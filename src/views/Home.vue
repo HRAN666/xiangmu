@@ -119,7 +119,7 @@ export default {
           console.log(err)
         });
       },
-      addShop(storeId,id,price){
+      addShop(storeId,id){
           let params={
               "productId":id,
               "userOpenId":localStorage.getItem('userOpenId'),
