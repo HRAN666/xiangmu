@@ -20,7 +20,7 @@
                                 <img class="box_left" :src="'http://img.cmhg.shop/'+ value.icon"/>
                                 <div class="box_text">{{value.name}}</div>
                                 <div class="box_righttext"> 
-                                    <span>{{value.price|filtertoMoney}}</span>
+                                    <span>{{item.totalFee|filtertoMoney}}</span>
                                     <p>x{{value.quantity}}</p> 
                                 </div>   
                             </div> 
@@ -28,7 +28,7 @@
                                 <img class="box_left" :src="'http://img.cmhg.shop/'+ value.bizProductVo.icon"/>
                                 <div class="box_text">{{value.bizProductVo.name}}</div>
                                 <div class="box_righttext"> 
-                                    <span>{{value.bizProductVo.price|filtertoMoney}}</span>
+                                    <span>{{item.totalFee|filtertoMoney}}</span>
                                     <p>x{{value.theNum}}</p> 
                                 </div>   
                             </div>
@@ -38,7 +38,7 @@
                     <span>
                     </span>
                     <span>
-                      {{'共'+'1'+'件商品'}}
+                      {{'共'+item.totalNum+'件商品'}}
                     </span>
                 </div>
                 <div class="box_bottom_button">
