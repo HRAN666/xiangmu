@@ -76,11 +76,31 @@ export const lookaddAddress =params =>{
 }
 /***********商品详情 */
 export const productDetails =params =>{
-    return axios.post('/api/biz/v01/getBizProductWithoutToken.do ',params);
+    return axios.post('/api/biz/v01/getBizProductWithoutToken.do',params);
 }   
 /************获取历史订单 */
 export const historyOrder =params =>{
     return axios.post('/api/biz/v01/listBizOrderWithoutToken.do',params);
+}
+/************订单调起支付 */
+export const Orderpay =params =>{
+    return axios.post('/api/biz/v01/payExistBizOrderWithoutToken.do',params);
+}
+/************申请取消订单 */
+export const applyCancel =params =>{
+    return axios.post('/api/biz/v01/applyCancelBizOrderWithoutToken.do',params);
+}
+/************用户删除订单 */
+export const deleteorder =params =>{
+    return axios.post('/api/biz/v01/deleteBizOrderWithoutToken.do',params);
+}
+/************用户申请退货 */
+export const applyDrawback =params =>{
+    return axios.post('/api/biz/v01/applyDrawbackBizOrderWithoutToken.do',params);
+}
+/************用户确认收货 */
+export const Confirmreceipt =params =>{
+    return axios.post('/api/biz/v01/confirmDeliveredBizOrderWithoutToken.do',params);
 }
 /************收藏商品 */
 export const collectShop =params =>{

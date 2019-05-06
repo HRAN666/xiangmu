@@ -225,7 +225,13 @@ export default {
             }
            switch (e) {
                 case 'wechat'://微信支付
-                   
+                    payNow(params).then((result) => {
+                        if (result.data.resultCode==200) {
+                            this.wechatpay(result.data);
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    });
                     break;
                 case 'wait'://货到付款
                     payNext(params).then((result) => {
@@ -248,6 +254,35 @@ export default {
                     break;
             }               
         },
+        wechatpay(data){
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId":data.wxId,     //公众号名称，由商户传入     
+                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
+                    "nonceStr":data.nonceStr, //随机串     
+                    "package":"prepay_id="+data.prepayId,
+                    "signType":"MD5",         //微信签名方式：     
+                    "paySign":data.sign//微信签名 
+                },
+                function(res){
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    Toast({
+                        message: '支付成功!',
+                        duration: 1000
+                    });
+                }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
+                    Toast({
+                        message: '取消支付',
+                        duration: 1000
+                    });
+                }else{
+                    Toast({
+                        message: '支付失败！',
+                        duration: 1000
+                    });
+                }
+            });
+        },
         gotoDetail(id){
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
         },
@@ -258,12 +293,7 @@ export default {
                 "storeId":storeId,
                 "theNum":theNum
             }
-            this.$store.dispatch('addtoShop',params).then((result) => {
-                Toast({
-                });
-            }).catch((err) => {
-            
-            });
+            this.$store.dispatch('addtoShop',params).then((result) => {});
         },
     },
     computed: {
@@ -292,7 +322,6 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
-
     },
 }
 </script>
@@ -302,7 +331,7 @@ export default {
     width: .75rem;
     margin-right: .05rem;
     float: right;
-    margin-top: .2rem;
+    margin-top: .5rem;
 }
 .shopCar .el-input-number--mini .el-input-number__decrease, .el-input-number--mini .el-input-number__increase{
     width: .2rem;
@@ -401,6 +430,7 @@ export default {
     height: .90rem;
     background: #fff;
     width: 98%;
+    position: relative;
     margin-left: 1%;
     margin-top:.12rem;
 }
@@ -420,8 +450,9 @@ export default {
 .shopCar_commodity .shopCar_commodity_list .shopCar_commodity_listPrice{
     font-size:.14rem;
     color:#0288d1;
-    margin:.19rem .19rem 0 0;
-    float: right;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
 }
 .shopCar_recommend{
     margin-top:.2rem;
