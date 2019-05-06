@@ -6,13 +6,13 @@
                 <div class="goods-img">
                 <el-carousel :interval="3000" arrow="always">
                     <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
-                        <img :src="'http://img.cmhg.shop/'+value" alt="">
+                        <img :src="'http://img.cmhg.shop/'+value" alt="" @click="toThumbnail('http://img.cmhg.shop/'+value)">
                     </el-carousel-item>
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <!-- <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div> -->
-                <div class="goods-price">{{item.price|filtertoMoney}}</div>
+                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
+                <!-- <div class="goods-price">{{item.price|filtertoMoney}}</div> -->
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销{{item.salesVolume}}笔</span>
@@ -99,6 +99,8 @@
             </div>
             <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
         </div>
+        <div class="detail_mark" v-show="imgMark" @click="displayMark"></div>
+        <img :src="imgSrc" v-show="imgMark" class="detail_img">
             <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice).toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total).toFixed(2)" @addquantity="addquantity"></currency-Popup>
     </div>
 </template>
@@ -128,6 +130,8 @@ export default {
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:'1',//购买数量，默认是1
             collect:false,//默认未收藏
+            imgMark:false,//图片缩略图遮罩
+            imgSrc:''//缩略图src
 		}
     },
     mounted(){
@@ -345,6 +349,14 @@ export default {
             }).catch((err) => {
                 console.log(err)
             });
+        },
+        toThumbnail(imgSrc){//查看图片
+            this.imgMark=true
+            this.imgSrc=imgSrc
+        },
+        displayMark(){
+            this.imgMark=false
+            this.imgSrc=''
         }
     },
     created() {
@@ -760,6 +772,24 @@ export default {
     background: #000000;
     opacity:0.4;
     filter:alpha(opacity=40);
+}
+.detail_mark{
+    background: #000;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+}
+.detail_img{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 </style>
 
