@@ -105,6 +105,12 @@ export default new Router({
       meta:{title:'商品详情'},
     },
     {
+      path: '/address',
+      name: 'address',
+      component: () => import( './views/address.vue'),
+      meta:{title:'收货地址'},
+    },
+    {
       path: '/addAddress',
       name: 'addAddress',
       component: () => import( './views/addAddress.vue'),
