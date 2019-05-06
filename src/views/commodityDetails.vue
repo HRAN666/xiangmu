@@ -107,7 +107,7 @@
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop} from '../api/api.js'
+import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults} from '../api/api.js'
 import { Toast } from 'mint-ui';
 import { filtertoMoney } from '../../filter/filter.js'
 import { debug } from 'util';
@@ -127,15 +127,18 @@ export default {
             detailsprice:'',//商品价格
             detailsimg:'',//商品图片
             total:'',//总价
+            addAddress:'',//获取收获地址
+            defaultAddress:'',//默认收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
-            quantity:'1',//购买数量，默认是1
+            quantity:1,//购买数量，默认是1
             collect:false,//默认未收藏
             imgMark:false,//图片缩略图遮罩
             imgSrc:''//缩略图src
 		}
     },
-    mounted(){
-       
+    mounted () {
+        this.getaddAddress();
+        this.defaultaddAddress();
     },
     methods:{
         select(item){//单选商品 id:商品id  item:商品信息
@@ -164,6 +167,7 @@ export default {
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
             }
+            // debugger
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
                 this.detailstitle=this.shopDetails[0].name;
@@ -195,19 +199,42 @@ export default {
                 
             });
         },
-        // getaddAddress(){//查询收货地址
-        //     let params={
-        //         'userOpenId':localStorage.getItem('userOpenId'),
-        //     }
-        //     lookaddAddress(params).then((result) => {
-        //         this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
-        //         console.log(this.shopDetails)
-        //         console.log(userOpenId)
-        //     }).catch((err) => {
-                
-        //     });
-        // },
-        addShop(storeId,id,price){
+        getaddAddress(){//查询收货地址
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+            }
+            lookaddAddress(params).then((result) => {
+                this.addAddress=result.data.list;
+                // let imgArr=result.data.list[0].morePics.split(',')
+                // for (let i = 0; i < imgArr.length; i++) {
+                //     this.bannerImg.push(imgArr[i])
+                // }
+            console.log(this.addAddress)
+
+                // console.log(localStorage.getItem('userOpenId'))
+            }).catch((err) => {
+                alert("666")
+            });
+        },
+        defaultaddAddress(){//加默认收货地址
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'id':'5200475142A84F82A32AC42279824FDF'
+            }
+            defaults(params).then((result) => {
+                this.defaultAddress=result.data.id;
+                // let imgArr=result.data.list[0].morePics.split(',')
+                // for (let i = 0; i < imgArr.length; i++) {
+                //     this.bannerImg.push(imgArr[i])
+                // }
+            console.log(this.defaultAddress)
+
+                // console.log(localStorage.getItem('userOpenId'))
+            }).catch((err) => {
+                alert("666")
+            });
+        },
+        addtoShop(){
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -252,6 +279,7 @@ export default {
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
                 'storeId':'0',//
                 'totalFee':this.total*100,//总价格
+                'totalNum':this.shopDetails[0].quantity,//商品购买总量
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
@@ -378,7 +406,7 @@ export default {
     font-size: .19rem;
     text-align: left;
     margin: 0 auto;
-    height: 3.6rem;
+    height: 3.7rem;
 }
 .el-carousel{
     width: 100%;
@@ -403,7 +431,7 @@ export default {
     width: 93%;
     margin: 0.1rem auto;
     padding-left: .1rem;
-    height: .1rem;
+    height: .25rem;
     color: #242424;
 }
 .commodityDetails-gooods-message .goods-price{

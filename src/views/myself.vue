@@ -116,7 +116,7 @@ export default {
             this.$router.push('/integral-exchange')
         },
         address(){
-            this.$router.push('/addAddress')
+            this.$router.push('/address')
         },
         check(){//判断是否是会员
             let params={

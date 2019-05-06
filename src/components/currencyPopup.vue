@@ -53,7 +53,7 @@
             </div>
             <div class="popup_bottom">
                 <span class="popup_bottom_first">积分</span>
-                <span class="popup_bottom_second">购买可得14.8积分</span>
+                <span class="popup_bottom_second">购买可得{{integral}}积分</span>
             </div>
             <el-button type="primary" @click="toPay">提交订单</el-button>
         </div>
@@ -203,7 +203,7 @@
                <li><a href="#Z">Z</a></li>
            </ul>
         </div>
-        </div>
+    </div>
 </template>
 <script>
 export default {

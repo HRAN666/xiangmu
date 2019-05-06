@@ -197,6 +197,7 @@ export default {
                         message: '添加地址成功',
                         duration: 1500
                     }); 
+                    this.$router.push('/address')            
                 }).catch((err) => {
                     
                 });
