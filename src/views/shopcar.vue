@@ -13,7 +13,7 @@
                    <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
-                    <el-input-number size="mini" v-model="item.theNum" :min="1" :max="99"></el-input-number>
+                    <el-input-number size="mini" @change="theNumChange(item.productId,item.storeId,item.theNum)" v-model="item.theNum" :min="1" :max="99"></el-input-number>
             </div>
             <div class="shopCar_empty" v-if="ShopList.length == ''">
                 <img src="../assets/shopCar_second.png">
@@ -81,15 +81,15 @@
                 <span>{{sumPrice}}</span>
             </div>
             <span class="shopCar_totle_discount" v-if="!deletShop">已优惠：￥10.00</span>
-            <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+shopInf.length+')'}}</el-button>
+            <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+totalNum+')'}}</el-button>
             <el-button type="danger" @click="removeShop" v-if="deletShop">{{'删除('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="shopInf.length" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum" :selectpay="selectpay" :integral="integral" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
 <script>
-import {loadingshopCar,removeShopCar,payNow,payNext} from '../api/api.js'
+import {loadingshopCar,removeShopCar,payNow,payNext,addShop} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
@@ -104,12 +104,14 @@ export default {
     },
     data(){
         return{
-            checkAll:true,//是否全选
+            checkAll:false,//是否全选
             shopListCheck:[],//选中商品id
             ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)
             showMark:false,
             totlePrice:0,//总价格
+            totalNum:0,//总价格
+            integral:'',//购买所获得的积分 目前1块钱积分
             selectpay:'微信支付',//初始支付方式
             deletShop:false,
         }
@@ -117,7 +119,7 @@ export default {
     methods:{
         select(id,item){//单选商品 id:商品id  item:商品信息
             let index=this.shopListCheck.indexOf(id)
-        if(index>=0){//重复
+            if(index>=0){//重复
                 this.shopListCheck.splice(index,1);
                 this.shopInf.splice(index,1)
                 this.checkAll=false;
@@ -133,7 +135,7 @@ export default {
             if (this.checkAll) {//全选
                 this.shopListCheck=[]//特殊情况
                 this.ShopList.forEach(item => {
-                   this.shopListCheck.push(item.id)
+                    this.shopListCheck.push(item.id)
                     this.shopInf.push(item);
                });
             }else{//反选
@@ -142,15 +144,15 @@ export default {
             }
         },
         topay(){//结算
-        if(this.shopListCheck==''){
-            Toast({
-                message: '请选择要购买的商品',
-                duration: 1000
-            });
-        }else{
-            this.showMark=true
-            this.$refs.popup.isPoup=true
-        }
+            if(this.shopListCheck==''){
+                Toast({
+                    message: '请选择要购买的商品',
+                    duration: 1000
+                });
+            }else{
+                this.showMark=true
+                this.$refs.popup.isPoup=true
+            }
         },
         displayMark(){
             this.showMark=false
@@ -217,6 +219,7 @@ export default {
                 'productDetailJson':JSON.stringify(this.shopInf),//商品信息
                 'storeId':'0',//
                 'totalFee':this.totlePrice,//总价格
+                'totalNum':this.totalNum,//商品购买总量
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
@@ -247,20 +250,41 @@ export default {
         },
         gotoDetail(id){
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
-        }
+        },
+        theNumChange(productId,storeId,theNum){
+            let params={
+                "productId":productId,
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":storeId,
+                "theNum":theNum
+            }
+            this.$store.dispatch('addtoShop',params).then((result) => {
+                Toast({
+                });
+            }).catch((err) => {
+            
+            });
+        },
     },
     computed: {
         sumPrice(){
             let totle=0;
+            let totalN=0;
             if (this.checkAll) {
                 this.ShopList.forEach(item=>{//计算总价格
                 totle+=item.bizProductVo.price*item.theNum;
-                this.totlePrice=(totle/100)
+                totalN+=item.bizProductVo.price*item.theNum;
+                this.totlePrice=(totle/100);
+                this.integral=this.totlePrice;
+                this.totalNum=totalN;
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格取消反选之后计算的价格
-                totle+=item.theNum*item.bizProductVo.price
-                this.totlePrice=(totle/100)
+                totle+=item.theNum*item.bizProductVo.price;
+                totalN+=item.bizProductVo.price*item.theNum;
+                this.totlePrice=(totle/100);
+                this.integral=this.totlePrice;
+                this.totalNum=totalN;
             })    
             }
             return '￥'+(totle/100).toFixed(2)

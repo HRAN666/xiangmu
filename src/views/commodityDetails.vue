@@ -128,7 +128,7 @@ export default {
             addAddress:'',//获取收获地址
             defaultAddress:'',//默认收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
-            quantity:'1',//购买数量，默认是1
+            quantity:1,//购买数量，默认是1
             collect:false,//默认未收藏
 		}
     },
@@ -163,7 +163,7 @@ export default {
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
             }
-            debugger
+            // debugger
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
                 this.detailstitle=this.shopDetails[0].name;
@@ -275,6 +275,7 @@ export default {
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
                 'storeId':'0',//
                 'totalFee':this.total*100,//总价格
+                'totalNum':this.shopDetails[0].quantity,//商品购买总量
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
@@ -393,7 +394,7 @@ export default {
     font-size: .19rem;
     text-align: left;
     margin: 0 auto;
-    height: 3.6rem;
+    height: 3.7rem;
 }
 .el-carousel{
     width: 100%;
@@ -418,7 +419,7 @@ export default {
     width: 93%;
     margin: 0.1rem auto;
     padding-left: .1rem;
-    height: .1rem;
+    height: .25rem;
     color: #242424;
 }
 .commodityDetails-gooods-message .goods-price{

@@ -56,21 +56,21 @@ export default {
                 "scorePrice":integral,
                 "scoreUse":integral,                                
             }
-            // conversionIntegral(params).then((result) => {
-            //     if (result.data.resultCode==200) {
-            //         Toast({
-            //             message: '兑换成功',
-            //             duration: 1000
-            //         });
-            //     }else if(result.data.resultCode==500){
-            //         Toast({
-            //             message: '积分不足',
-            //             duration: 1000
-            //         });
-            //     }
-            // }).catch((err) => {
+            conversionIntegral(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    Toast({
+                        message: '兑换成功',
+                        duration: 1000
+                    });
+                }else if(result.data.resultCode==500){
+                    Toast({
+                        message: '积分不足',
+                        duration: 1000
+                    });
+                }
+            }).catch((err) => {
                 
-            // });
+            });
         },
         goDetail(id){
             this.$router.push({path:'/commodityDetails',query:{'integral':id}})//id:商品详情渲染的id
