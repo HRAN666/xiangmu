@@ -218,7 +218,7 @@ export default {
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopInf),//商品信息
                 'storeId':'0',//
-                'totalFee':this.totlePrice,//总价格
+                'totalFee':this.totlePrice*100,//总价格
                 'totalNum':this.totalNum,//商品购买总量
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
