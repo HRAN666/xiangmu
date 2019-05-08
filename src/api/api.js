@@ -76,7 +76,7 @@ export const lookaddAddress =params =>{
 }
 /***********商品详情 */
 export const productDetails =params =>{
-    return axios.post('/api/biz/v01/getBizProductWithoutToken.do',params);
+    return axios.post('/api/biz/v01/getBizProductByStoreIdWithoutToken.do',params);
 }   
 /************获取历史订单 */
 export const historyOrder =params =>{
