@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="my">
-            <div class="my_list">
+            <div class="my_list" @click="goCollect">
                 <img src="../assets/collect.png" alt="">
                 <span>我的收藏</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
@@ -72,7 +72,7 @@
                 <span>收货地址</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
             </div>
-             <div class="my_list">
+             <div class="my_list" @click="goBrowser">
                 <img src="../assets/before.png" alt="">
                 <span>浏览记录</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
@@ -118,14 +118,22 @@ export default {
         address(){
             this.$router.push('/address')
         },
+        goBrowser(){
+            this.$router.push('/browserecord')
+        },
+        goCollect(){
+            this.$router.push('/collect')
+        },
         check(){//判断是否是会员
             let params={
                 "userOpenId":localStorage.getItem('userOpenId')
             }
             checkVip(params).then((result) => {
-                
+                if (result.data.resultCode==200) {
+                    this.vip=true
+                }
             }).catch((err) => {
-                
+                console.log(err)
             });
         }
     },
@@ -134,6 +142,7 @@ export default {
     }
 }
 </script>
+
 <style scoped>
 .header{
     height: 1.46rem;

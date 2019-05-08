@@ -54,7 +54,10 @@ export default {
                 "scoreProductId":spId,
                 "buyAmount":saleVolume,
                 "scorePrice":integral,
-                "scoreUse":integral,                                
+                "scoreUse":integral, 
+                "phone":"",//暂时空
+                "userName":"",
+                "orderAddress":""                                 
             }
             conversionIntegral(params).then((result) => {
                 if (result.data.resultCode==200) {
@@ -69,7 +72,7 @@ export default {
                     });
                 }
             }).catch((err) => {
-                
+                console.log(err)
             });
         },
         goDetail(id){

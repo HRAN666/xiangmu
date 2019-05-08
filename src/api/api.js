@@ -114,6 +114,18 @@ export const delcollectShop =params =>{
 export const checkVip =params =>{
     return axios.post('/api/portal/v01/checkPortalUserMember.do',params);
 }
+/********申请会员 */
+export const regVip =params =>{
+    return axios.post('/api/portal/v01/insertPortalUserMember.do',params);
+}
+/********查询收藏 */
+export const collect =params =>{
+    return axios.post('/api/biz/v01/listBizUserCollectAndProductWithoutToken.do',params);
+}
+/********查询预览记录 */
+export const browse =params =>{
+    return axios.post('/api/portal/v01/listPortalUserHistorical.do',params);
+}
 axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {

@@ -10,7 +10,7 @@
         <div class="shopCar_commodity">
             <div class="shopCar_commodity_list" v-for="(item,index) in ShopList" :key="index">
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
-                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="gotoDetail(item.productId)">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
                     <el-input-number size="mini" @change="theNumChange(item.productId,item.storeId,item.theNum)" v-model="item.theNum" :min="1" :max="99"></el-input-number>
@@ -89,7 +89,7 @@
     </div>
 </template>
 <script>
-import {loadingshopCar,removeShopCar,payNow,payNext,addShop} from '../api/api.js'
+import {loadingshopCar,removeShopCar,payNow,payNext,addShop,productDetails} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
@@ -104,7 +104,7 @@ export default {
     },
     data(){
         return{
-            checkAll:false,//是否全选
+            checkAll:true,//是否全选
             shopListCheck:[],//选中商品id
             ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)
@@ -561,7 +561,7 @@ export default {
 }
  .shopCar_totle .shopCar_totle_discount{
     position: relative;
-    left: .8rem;
+    left: .5rem;
     color:#a2a0a0;
     top: -0.05rem;
  }

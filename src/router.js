@@ -152,5 +152,17 @@ export default new Router({
       component: () => import( './views/businessOrder.vue'),
       meta:{title:'商家订单'},
     },
+    {
+      path: '/browserecord',
+      name: 'browserecord',
+      component: () => import( './views/browserecord.vue'),
+      meta:{title:'浏览记录'},
+    },
+    {
+      path: '/collect',
+      name: 'collect',
+      component: () => import( './views/collect.vue'),
+      meta:{title:'我的收藏'},
+    },
   ]
 })
