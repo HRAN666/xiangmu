@@ -138,7 +138,7 @@ export default {
     },
     data() {
         return {
-            orderList:'',
+            orderList:[],
             deliverStatus:'',
             usestate: [
                 {name: '全部',tabId: '0'},
@@ -153,9 +153,6 @@ export default {
     methods: {
         goBack(){
             this.$router.push('/myself')
-        },
-        selected(name){
-            this.active = name;
         },
         todoWechatPay(item){//微信支付||货到付款.
             let params={
@@ -278,12 +275,42 @@ export default {
                 
             });
         },
+        selected(name){
+            this.orderList=[];
+            this.active = name;
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId')
+            }
+            historyOrder(params).then((result) => {
+                for (let i = 0; i < result.data.list.length; i++) {
+                    if(this.active=='待付款' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待发货' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待发货' && result.data.list[i].payTime=='PAY_NEXT' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待收货' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='DELIVERED'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待收货' && result.data.list[i].payTime=='PAY_NEXT' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY' && result.data.list[i].deliverStatus=='DELIVERED'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待评价' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='CONFIRMED'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='全部'){
+                        this.orderList.push(result.data.list[i]);
+                    }
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
         loadingOrder(){
             let params={
                 'userOpenId':localStorage.getItem('userOpenId')
             }
             historyOrder(params).then((result) => {
-                this.orderList=result.data.list
+                for (let i = 0; i < result.data.list.length; i++) {
+                    this.orderList.push(result.data.list[i]);
+                }
                 }).catch((err) => {
                     console.log(err)
                 });

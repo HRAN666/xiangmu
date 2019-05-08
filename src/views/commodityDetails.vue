@@ -12,7 +12,6 @@
                 </div>
                 <div class="goods-title">{{item.name}}</div>
                 <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)/100}}</div>
-                <!-- <div class="goods-price">{{item.price|filtertoMoney}}</div> -->
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销{{item.salesVolume}}笔</span>
@@ -846,4 +845,3 @@ export default {
     margin: auto;
 }
 </style>
-

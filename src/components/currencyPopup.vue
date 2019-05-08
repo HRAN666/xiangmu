@@ -97,7 +97,7 @@
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
-            <div class="popup_list">
+            <div class="popup_list"  v-if="integral==0">
                 <span>支付方式</span>
                 <div >
                     积分消费
