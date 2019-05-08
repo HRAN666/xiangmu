@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="footer-operation">
-                    <div class="add-cart" @click="addShop(item.storeId,item.id,item.price)">加入购物车</div>
+                    <div class="add-cart" @click="addtoShop(item.storeId,item.id,item.price)">加入购物车</div>
                     <div class="purchase" @click="Cover">立即购买</div>
                 </div>
             </div>
@@ -231,7 +231,7 @@ export default {
                 
             });
         },
-        addtoShop(){
+        addtoShop(id,storeId){
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -425,6 +425,17 @@ export default {
 }
 
 </script>
+<style>
+.commodityDetails-gooods-message .el-carousel__container{
+    height: 2.38rem;
+}
+.commodityDetails-gooods-message .el-carousel{
+    width: 100%;
+}
+.commodityDetails-gooods-message .el-carousel__button{
+    background-color:#827a7a;
+}
+</style>
 <style scoped>
 .commodityDetails-gooods-message{
     background-color: #ffffff;
@@ -432,15 +443,6 @@ export default {
     text-align: left;
     margin: 0 auto;
     height: 3.7rem;
-}
-.el-carousel{
-    width: 100%;
-}
-.el-carousel__container{
-    height: 2.4rem;
-}
-.el-carousel__button{
-    background-color:#ccc;
 }
 .commodityDetails-gooods-message .goods-img{
     text-align: center;

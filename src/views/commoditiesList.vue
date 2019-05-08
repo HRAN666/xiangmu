@@ -111,7 +111,6 @@ export default {
             debounce(this.seachFn(),2000)       
         },
         seachFn(){
-            this.seachShopList='';//清空初始list
                 this.indexes='';
                 this.showShop=[];
                     if (this.input=='') {//input值
@@ -122,6 +121,7 @@ export default {
         },
         loadingAllShop(nodeName,orderBy,catalogId){//nodeName:搜索名字 orderBy：排序方式 catalogId：其他模块搜索条件
             this.showShop=[];//重新刷新动画图片
+            this.seachShopList='';//清空初始list
             let params={
                 'name':nodeName,
                 'orderByClause':orderBy=='all'?'':orderBy,
@@ -349,7 +349,7 @@ export default {
     .commodities-list .price {
         position: absolute;
         left: 1.4rem;
-        top: .7rem;
+        top: .75rem;
         font-size: .17rem;
         font-weight: bolder;
         color: #0288DE;

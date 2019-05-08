@@ -8,24 +8,12 @@
     <mt-button slot="right">编辑</mt-button>
     </mt-header>
     </div>
-    <div class="item">
-        <img src="../assets/goods.jpg" alt="">
-        <dd>942g辣条零食大礼包网红魔芋爽小面筋休闲一箱小吃</dd>
+    <div class="item" v-for="(item,index) in browseList" :key="index">
+        <img :src="'http://img.cmhg.shop/'" alt="">
+        <dd>{{item.bizIntegralProductVo}}</dd>
         <dt>12人收藏</dt>
         <span>￥ 0.1</span>
         
-    </div>
-    <div class="item">
-        <img src="../assets/goods.jpg" alt="">
-        <dd>942g辣条零食大礼包网红魔芋爽小面筋休闲一箱小吃</dd>
-        <dt>12人收藏</dt>
-        <span>￥ 0.1</span>
-    </div>
-    <div class="item">
-        <img src="../assets/goods.jpg" alt="">
-        <dd>942g辣条零食大礼包网红魔芋爽小面筋休闲一箱小吃</dd>
-        <dt>12人收藏</dt>
-        <span>￥ 0.1</span>
     </div>
 </div>
     
@@ -36,7 +24,7 @@ import {browse} from '../api/api.js';
 export default {
     data() {
         return {
-            
+            browseList:''
         }
     },
     methods: {
@@ -46,7 +34,7 @@ export default {
             };
             browse(params).then((jsonData) => {
               if (jsonData.data.resultCode==200) {
-                        
+                    this.browseList=jsonData.data.list
                 }
             }).catch((err) => {
                 console.log(err)

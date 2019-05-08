@@ -8,24 +8,12 @@
     <mt-button slot="right">编辑</mt-button>
     </mt-header>
     </div>
-    <div class="item">
-        <img src="../assets/goods.jpg" alt="">
-        <dd>942g辣条零食大礼包网红魔芋爽小面筋休闲一箱小吃</dd>
+    <div class="item" v-for="(item,index) in collectList" :key="index">
+        <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+        <dd>{{item.bizProductVo.name}}</dd>
         <dt>12人收藏</dt>
-        <span>￥ 0.1</span>
+        <span>{{item.bizProductVo.price|filtertoMoney}}</span>
         
-    </div>
-    <div class="item">
-        <img src="../assets/goods.jpg" alt="">
-        <dd>942g辣条零食大礼包网红魔芋爽小面筋休闲一箱小吃</dd>
-        <dt>12人收藏</dt>
-        <span>￥ 0.1</span>
-    </div>
-    <div class="item">
-        <img src="../assets/goods.jpg" alt="">
-        <dd>942g辣条零食大礼包网红魔芋爽小面筋休闲一箱小吃</dd>
-        <dt>12人收藏</dt>
-        <span>￥ 0.1</span>
     </div>
 </div>
     
@@ -33,10 +21,11 @@
 </template>
 <script>
 import {collect} from '../api/api.js'
+import {filtertoMoney} from '../../filter/filter.js'
 export default {
     data() {
         return {
-            collectList:[],
+            collectList:'',
         }
     },
     methods: {
@@ -46,8 +35,9 @@ export default {
             }
             collect(params).then((result) => {
                 if (result.data.resultCode==200) {
-                    
+                    this.collectList=result.data.list
                 }
+                console.log(this.collectList)
             }).catch((err) => {
                 
             });
@@ -91,6 +81,7 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: left;
 }
 .item dt{
     position: absolute;

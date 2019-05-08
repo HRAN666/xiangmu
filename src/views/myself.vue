@@ -92,7 +92,7 @@ export default {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
             nickName:localStorage.getItem('nickname'),//名字
-            vip:false,//判断是否是会员
+            vip:localStorage.getItem('vip'),
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -130,7 +130,10 @@ export default {
             }
             checkVip(params).then((result) => {
                 if (result.data.resultCode==200) {
-                    this.vip=true
+                    this.vip=true;
+                    localStorage.setItem('vip',true)
+                }else{
+                    localStorage.setItem('vip',false)
                 }
             }).catch((err) => {
                 console.log(err)
