@@ -34,6 +34,10 @@ export const shopmodel =params =>{
 export const integral =params =>{
     return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
 }
+/************兑换记录 */
+export const selectIntegral =params =>{
+    return axios.post('/api/biz/v01/selectIntegralOrder.do',params);
+}
 /************兑换积分 */
 export const  conversionIntegral =params =>{
     return axios.post('/api/biz/v01/insertBizIntegralOrder.do',params);
@@ -93,6 +97,10 @@ export const delcollectShop =params =>{
 /********查询是否会员 */
 export const checkVip =params =>{
     return axios.post('/api/portal/v01/checkPortalUserMember.do',params);
+}
+/**********用户积分明细 */
+export const IntegralDetail =params =>{
+    return axios.post('/api/biz/v01/selectUserIntegralDetail.do',params);
 }
 axios.interceptors.request.use(//拦截器
     config=>{

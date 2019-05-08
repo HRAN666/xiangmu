@@ -13,7 +13,7 @@
                 </div>
             </div>
         </div>
-        <div class="integralmain">
+        <!-- <div class="integralmain">
             <div class="integralmessage">
                 <div class="integralmessage-left">
                     <div class="integralmessage-left-title">老坛酸菜牛肉面/桶</div>
@@ -100,7 +100,7 @@
                     -100<img src="../assets/integralicon.png" alt="">
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="page">
             <div class="previous-page">上一页</div>
             <div class="next-page">下一页</div>
@@ -110,19 +110,36 @@
 </template>
 <script>
 import header from '../components/header.vue'
-import {integral} from '../api/api.js'
+import {integral,selectIntegral} from '../api/api.js'
 export default {
     components:{
         'header-general':header,
     },
     data() {
         return {
+            IntegralOrder:[]
         }
     },
     methods: {
-
+        Integral(){        
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId')
+            }
+            selectIntegral(params).then((result) => {
+                // let IntegralDetail = []
+                // this.integral = result.data.list
+                for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
+                    // var time = getDay(result.data.list[index].createTime)
+                    this.IntegralOrder.push(result.data.list[index])
+                    console.log(this.IntegralOrder)
+                }  
+            }).catch((err) => {
+                
+            });
+        }
     },
     mounted() {
+        this.Integral()
     },
 }
 </script>
