@@ -1,0 +1,14 @@
+<!--components/product-item/product-item.wxml-->
+<wxs  src="../../filter/format.wxs" module="format" />
+<view class="product-item">
+  <view class="item-img">
+    <image src="{{imgUrl}}{{Product.bizCommodityForSales.mainPhoto}}"></image>
+  </view>
+  <view class="item-detail">
+    <text class="item-name">{{Product.bizCommodityForSales.title}}</text>
+    <view class="item-price">
+      <text>{{format.price_format(Product.bizCommodityForSales.presentPrice)}}
+      </text>
+    </view>
+  </view>
+</view>

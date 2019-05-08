@@ -1,0 +1,10 @@
+<!--components/swiper.wxml-->
+<view class="page-section swiper">
+  <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" circular="{{circular}}">
+    <block wx:for="{{imgList}}" wx:key="*this.id">
+      <swiper-item>
+        <image class="swiper-item-img" src="{{imgUrl}}{{item.imageUrl}}" mode="widthFix"></image>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>

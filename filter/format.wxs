@@ -1,0 +1,11 @@
+var price_format = function (value) {
+  if (value === "" || value === null || value === undefined) {
+    return ""
+  }
+  value = "￥"+parseFloat(value / 100).toFixed(2)
+  return value
+}
+
+module.exports = {
+  price_format: price_format
+};
