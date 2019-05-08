@@ -1,5 +1,6 @@
 <template>
     <div>
+        <!--购物车模块-->
         <div :class="{'popup':displayPopup,'ispopup':isPoup}" v-if="popup=='style1'">
             <div class="popup_list">
                 <span>收货地址</span>
@@ -58,13 +59,14 @@
             <el-button type="primary" @click="toPay">提交订单</el-button>
         </div>
 
+        <!--商品详情和其他模块-->
         <div :class="{'popup':displayPopup,'ispopup2':isPoup}" v-if="popup=='style5'">
             <div class="details-message-img">
                 <img :src="'http://img.cmhg.shop/'+img" alt="">
             </div>
             <div class="details-message-right">
                 <div class="details-message-right-title">{{title}}</div>
-                <div class="details-message-right-price">￥{{price}}</div>
+                <div class="details-message-right-price">{{integral!=0?'￥'+price.toFixed(2):price+'积分'}}</div>
                 <div class="details-message-right-number">数量：<el-input-number @change="handleChange" size="mini" v-model="num" :min="1" :max="99"></el-input-number></div>
             </div>
             <div class="popup_list">
@@ -95,7 +97,14 @@
                     <img src="../assets/down.png" alt="">
                 </div>
             </div>
-            <div class="popup_list">
+            <div class="popup_list"  v-if="integral==0">
+                <span>支付方式</span>
+                <div >
+                    积分消费
+                    <img src="../assets/down.png" alt="">
+                </div>
+            </div>
+            <div class="popup_list" v-if="integral!=0">
                 <span>支付方式</span>
                 <div>
                 <el-dropdown  @command="handleCommand" trigger="click" >
@@ -113,14 +122,15 @@
             <div class="popup_list">
                 <span>应付总额</span>
                 <div class="popup_list_color">
-                    ￥{{total}}<span>(x{{quantity}})</span>
+                    {{integral!=0?'￥'+total.toFixed(2):total+'积分'}}<span>(x{{quantity}})</span>
                 </div>
             </div>
             <div class="popup_bottom">
                 <span class="popup_bottom_first">积分</span>
                 <span class="popup_bottom_second">购买可得{{integral}}积分</span>
             </div>
-            <el-button type="primary" @click="toPay">提交订单</el-button>
+            <el-button type="primary" @click="toPay" v-if="integral!=0">提交订单</el-button>
+            <el-button type="primary" @click="toExchange">立即兑换</el-button>
         </div>
 
         <div class="express-message" :class="{'express-message':displayPopup,'express-message_second':isPoup}" v-if="popup!='style1'">
@@ -233,10 +243,13 @@ export default {
         },
         handleChange() {
             this.$emit('addquantity',this.num)
+        },
+        toExchange(){
+            this.$emit('toExchange')
         }
     },
     mounted () {
-        
+       
     },
     computed: {
 
@@ -250,6 +263,7 @@ export default {
     width: 100%;
     left: 0;
     border-radius: 0;
+    top:-.57rem;
 }
 .popup_list .el-dropdown{
     position: absolute;
@@ -261,6 +275,7 @@ export default {
     width: 100%;
     left: 0;
     border-radius: 0;
+    top:-.57rem;
 }
 .details-message-right-number .el-input-number--mini{
     width: .75rem;
@@ -409,7 +424,7 @@ export default {
 }
 .details-message-right .details-message-right-price{
     position: absolute;
-    top: .5rem;
+    top: .6rem;
     left: 1.3rem;
     font-size: .18rem;
     color: #0288d1;

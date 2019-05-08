@@ -10,7 +10,7 @@
         <div class="shopCar_commodity">
             <div class="shopCar_commodity_list" v-for="(item,index) in ShopList" :key="index">
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
-                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+                   <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="gotoDetail(item.productId)">
                     <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
                     <el-input-number size="mini" @change="theNumChange(item.productId,item.storeId,item.theNum)" v-model="item.theNum" :min="1" :max="99"></el-input-number>
@@ -89,7 +89,7 @@
     </div>
 </template>
 <script>
-import {loadingshopCar,removeShopCar,payNow,payNext,addShop} from '../api/api.js'
+import {loadingshopCar,removeShopCar,payNow,payNext,addShop,productDetails} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
@@ -104,7 +104,7 @@ export default {
     },
     data(){
         return{
-            checkAll:false,//是否全选
+            checkAll:true,//是否全选
             shopListCheck:[],//选中商品id
             ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)
@@ -218,14 +218,20 @@ export default {
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopInf),//商品信息
                 'storeId':'0',//
-                'totalFee':this.totlePrice,//总价格
+                'totalFee':this.totlePrice*100,//总价格
                 'totalNum':this.totalNum,//商品购买总量
                 'ext1':'测试',
                 'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
             }
            switch (e) {
                 case 'wechat'://微信支付
-                   
+                    payNow(params).then((result) => {
+                        if (result.data.resultCode==200) {
+                            this.wechatpay(result.data);
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    });
                     break;
                 case 'wait'://货到付款
                     payNext(params).then((result) => {
@@ -248,6 +254,35 @@ export default {
                     break;
             }               
         },
+        wechatpay(data){
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId":data.wxId,     //公众号名称，由商户传入     
+                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
+                    "nonceStr":data.nonceStr, //随机串     
+                    "package":"prepay_id="+data.prepayId,
+                    "signType":"MD5",         //微信签名方式：     
+                    "paySign":data.sign//微信签名 
+                },
+                function(res){
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    Toast({
+                        message: '支付成功!',
+                        duration: 1000
+                    });
+                }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
+                    Toast({
+                        message: '取消支付',
+                        duration: 1000
+                    });
+                }else{
+                    Toast({
+                        message: '支付失败！',
+                        duration: 1000
+                    });
+                }
+            });
+        },
         gotoDetail(id){
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
         },
@@ -258,12 +293,7 @@ export default {
                 "storeId":storeId,
                 "theNum":theNum
             }
-            this.$store.dispatch('addtoShop',params).then((result) => {
-                Toast({
-                });
-            }).catch((err) => {
-            
-            });
+            this.$store.dispatch('addtoShop',params).then((result) => {});
         },
     },
     computed: {
@@ -292,7 +322,6 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
-
     },
 }
 </script>
@@ -302,7 +331,7 @@ export default {
     width: .75rem;
     margin-right: .05rem;
     float: right;
-    margin-top: .2rem;
+    margin-top: .5rem;
 }
 .shopCar .el-input-number--mini .el-input-number__decrease, .el-input-number--mini .el-input-number__increase{
     width: .2rem;
@@ -401,6 +430,7 @@ export default {
     height: .90rem;
     background: #fff;
     width: 98%;
+    position: relative;
     margin-left: 1%;
     margin-top:.12rem;
 }
@@ -420,8 +450,9 @@ export default {
 .shopCar_commodity .shopCar_commodity_list .shopCar_commodity_listPrice{
     font-size:.14rem;
     color:#0288d1;
-    margin:.19rem .19rem 0 0;
-    float: right;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.2rem;
 }
 .shopCar_recommend{
     margin-top:.2rem;
@@ -530,7 +561,7 @@ export default {
 }
  .shopCar_totle .shopCar_totle_discount{
     position: relative;
-    left: .8rem;
+    left: .5rem;
     color:#a2a0a0;
     top: -0.05rem;
  }

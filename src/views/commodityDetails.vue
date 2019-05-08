@@ -6,13 +6,12 @@
                 <div class="goods-img">
                 <el-carousel :interval="3000" arrow="always">
                     <el-carousel-item  v-for="(value,indexes) in bannerImg" :key="indexes">
-                        <img :src="'http://img.cmhg.shop/'+value" alt="">
+                        <img :src="'http://img.cmhg.shop/'+value" alt="" @click="toThumbnail('http://img.cmhg.shop/'+value)">
                     </el-carousel-item>
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)}}</div>
-                <!-- <div class="goods-price">{{item.price/100|filtertoMoney}}</div> -->
+                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)/100}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销{{item.salesVolume}}笔</span>
@@ -93,21 +92,22 @@
                     </div>
                 </div>
                 <div class="footer-operation">
-                    <div class="add-cart" @click="addShop(item.storeId,item.id,item.price)">加入购物车</div>
+                    <div class="add-cart" @click="addtoShop(item.storeId,item.id,item.price)">加入购物车</div>
                     <div class="purchase" @click="Cover">立即购买</div>
                 </div>
             </div>
             <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
         </div>
-            <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice).toFixed(2)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total).toFixed(2)" @addquantity="addquantity"></currency-Popup>
+        <div class="detail_mark" v-show="imgMark" @click="displayMark"></div>
+        <img :src="imgSrc" v-show="imgMark" class="detail_img">
+            <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
     </div>
 </template>
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults} from '../api/api.js'
+import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults,conversionIntegral} from '../api/api.js'
 import { Toast } from 'mint-ui';
-import { filtertoMoney } from '../../filter/filter.js'
 import { debug } from 'util';
 import { nextTick } from 'q';
 export default {
@@ -130,6 +130,9 @@ export default {
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:1,//购买数量，默认是1
             collect:false,//默认未收藏
+            imgMark:false,//图片缩略图遮罩
+            imgSrc:'',//缩略图src
+            fromIntegral:false,
 		}
     },
     mounted () {
@@ -153,27 +156,32 @@ export default {
             this.$router.push('/commoditiesList')
         },
         addquantity(e){
-            this.shopDetails[0].quantity=e;
-            this.total=e* this.shopDetails[0].price/100;
-            this.integral=e* this.shopDetails[0].price/100;
+            if (!this.fromIntegral) {
+                this.shopDetails[0].quantity=e;
+                this.total=e* this.shopDetails[0].price/100;
+                this.integral=e* this.shopDetails[0].price/100;
+            }else{//积分算法
+                this.shopDetails[0].quantity=e;
+                this.total=e
+            }
         },
         loadingDetails(id){
             this.shopDetails = []
             let params={
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
+                'storeId':'0'
             }
-            // debugger
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
-                this.detailstitle=this.shopDetails[0].name;
-                this.detailsprice=this.shopDetails[0].price/100;
-                this.detailsimg=this.shopDetails[0].icon;
-                this.integral=this.shopDetails[0].price/100;
-                this.shopDetails[0].quantity= this.quantity;
-                this.total=this.shopDetails[0].price/100;
+                this.detailstitle=this.shopDetails[0].name;//名字
+                this.detailsprice=this.shopDetails[0].price/100;//价格
+                this.detailsimg=this.shopDetails[0].icon;//缩略图
+                this.integral=this.shopDetails[0].price/100;//支付后获得的积分
+                this.shopDetails[0].quantity= this.quantity;//购买数量
+                this.total=this.shopDetails[0].price/100;//总价格
                 let imgArr=result.data.morePics.split(',')
-                this.collect=result.data.collectStatus==undefined?false:true
+                this.collect=result.data.collectStatus==undefined?false:true//判断是否收藏
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
                 }
@@ -187,6 +195,14 @@ export default {
             }
             integralDeatil(params).then((result) => {
                 this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
+                this.detailstitle=this.shopDetails[0].name;//名字
+                this.detailsprice=this.shopDetails[0].integral//积分
+                this.detailsimg=this.shopDetails[0].icon;//缩略图
+                this.integral=0//传入弹窗中判断是否是积分商品 因为积分商品不得积分
+                this.shopDetails[0].quantity= this.quantity;//数量
+                this.total=this.shopDetails[0].integral;//总价格
+                this.collect=result.data.collectStatus==undefined?false:true//判断是否收藏
+
                 let imgArr=result.data.list[0].morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
@@ -201,15 +217,8 @@ export default {
             }
             lookaddAddress(params).then((result) => {
                 this.addAddress=result.data.list;
-                // let imgArr=result.data.list[0].morePics.split(',')
-                // for (let i = 0; i < imgArr.length; i++) {
-                //     this.bannerImg.push(imgArr[i])
-                // }
-            console.log(this.addAddress)
-
-                // console.log(localStorage.getItem('userOpenId'))
             }).catch((err) => {
-                alert("666")
+                
             });
         },
         defaultaddAddress(){//加默认收货地址
@@ -219,18 +228,11 @@ export default {
             }
             defaults(params).then((result) => {
                 this.defaultAddress=result.data.id;
-                // let imgArr=result.data.list[0].morePics.split(',')
-                // for (let i = 0; i < imgArr.length; i++) {
-                //     this.bannerImg.push(imgArr[i])
-                // }
-            console.log(this.defaultAddress)
-
-                // console.log(localStorage.getItem('userOpenId'))
             }).catch((err) => {
-                alert("666")
+                
             });
         },
-        addtoShop(){
+        addtoShop(id,storeId){
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -373,6 +375,41 @@ export default {
             }).catch((err) => {
                 console.log(err)
             });
+        },
+        toThumbnail(imgSrc){//查看图片
+            this.imgMark=true
+            this.imgSrc=imgSrc
+        },
+        displayMark(){//隐藏缩略图
+            this.imgMark=false
+            this.imgSrc=''
+        },
+        toExchange(){//兑换商品
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "scoreProductId":this.$route.query.integral,//商品ID
+                "buyAmount":this.shopDetails[0].quantity,//购买数量
+                "scorePrice":this.shopDetails[0].integral,//积分价格
+                "scoreUse": this.total,//花费总积分  
+                "phone":"",//暂时空
+                "userName":"",
+                "orderAddress":""                              
+            }
+            conversionIntegral(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    Toast({
+                        message: '兑换成功',
+                        duration: 1000
+                    });
+                }else if(result.data.resultCode==500){
+                    Toast({
+                        message: '积分不足',
+                        duration: 1000
+                    });
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
         }
     },
     created() {
@@ -380,6 +417,7 @@ export default {
             this.loadingDetails(this.$route.query.id)
         }else{//积分商城进入
             this.loadingItegral(this.$route.query.integral)
+            this.fromIntegral=true
         }
     },
     mounted () {
@@ -388,6 +426,17 @@ export default {
 }
 
 </script>
+<style>
+.commodityDetails-gooods-message .el-carousel__container{
+    height: 2.38rem;
+}
+.commodityDetails-gooods-message .el-carousel{
+    width: 100%;
+}
+.commodityDetails-gooods-message .el-carousel__button{
+    background-color:#827a7a;
+}
+</style>
 <style scoped>
 .commodityDetails-gooods-message{
     background-color: #ffffff;
@@ -395,15 +444,6 @@ export default {
     text-align: left;
     margin: 0 auto;
     height: 3.7rem;
-}
-.el-carousel{
-    width: 100%;
-}
-.el-carousel__container{
-    height: 2.4rem;
-}
-.el-carousel__button{
-    background-color:#ccc;
 }
 .commodityDetails-gooods-message .goods-img{
     text-align: center;
@@ -789,5 +829,22 @@ export default {
     opacity:0.4;
     filter:alpha(opacity=40);
 }
+.detail_mark{
+    background: #000;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+}
+.detail_img{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
 </style>
-

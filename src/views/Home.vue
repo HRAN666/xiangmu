@@ -27,7 +27,7 @@
         </el-row>
       </div>
     </div>
-    <div class="home-subfor express" v-for="(item,index) in shopget" :key="index">  
+    <div class="home-subfor express" v-for="(item,indexes) in shopget" :key="indexes">  
       <div class="home-title" style="top:0rem">
           <img src="../assets/get.png" alt="" class="home-sub">
           <span>{{item.nodeName}}</span>
@@ -40,14 +40,14 @@
       </div>
     </div>
 
-    <div class="home-subfor" v-for="(item,indexes) in shopModels" :key="indexes">  
+    <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
         <div class="home-title">
             <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
             <img src="../assets/go.png" alt="" class="home-to" @click="modelSeach(item.catalogId)">
         </div>
           <div class="home-discount">          
-            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes" v-if="indexes< 4"><!--限制渲染条数-->
+            <div class="home-discount-shoplist" @click="gotoDetails(value.id)" v-for="(value,indexes) in item.bizProduct" :key="indexes" v-if="indexes<4"><!--限制渲染条数-->
                 <div class="home-discount-img"><img :src= "'http://img.cmhg.shop/'+ value.icon" alt=""></div>
                 <p>{{value.name}}</p>
                 <div>
@@ -59,9 +59,7 @@
           </div>
       </div>
       <div class="to-the-end">
-        <div class="to-the-end-line"></div>
         <div class="to-the-end-text">已经到底了</div>
-        <div class="to-the-end-line"></div>
       </div>  
       <footer-currency></footer-currency>
   </div>
@@ -131,7 +129,9 @@ export default {
           });
       },
       loadingShopModel(){
-        let params={}
+        let params={
+          'storeId':'0'
+        }
         shopmodel(params).then((result) => {
             let day = [];
             let get = [];
@@ -253,7 +253,7 @@ export default {
 .home-substitute{
   text-align: left;
   margin-top:-.5rem;
-  margin-bottom:.1rem
+  margin-bottom:.5rem
 }
 .home-substitute img{
   background:#fff;
@@ -270,9 +270,7 @@ export default {
   width:27%;
 }
 .home-discount{
-  margin-top:-.85rem;
-  height: 2.85rem;
-  margin-bottom: 2.63rem;
+  margin-top:-.5rem;
 }
 .home-discount-shoplist{
   height: 2.5rem;
@@ -283,8 +281,10 @@ export default {
   margin-left:.08rem;
   padding-left: .1rem;
   box-sizing: border-box;
-  margin-top:.1rem;
+  margin-bottom:.1rem;
   border-radius: .05rem;
+  position: relative;
+  top: -.8rem;
 }
 .home-discount-shoplist {
   font-size:.15rem;
@@ -328,8 +328,8 @@ export default {
 }
 .home-title{
   position: relative;
-  top:-.25rem;
-  width: 1.85rem;
+  top:-.72rem;
+  width: 100%;
   display: inline-block;
 }
 .home-to{
@@ -350,28 +350,34 @@ export default {
   color: #a8a8a8;
   font-size: .16rem;
   height: 1rem;
+  top: 4.32rem;
 }
-.to-the-end .to-the-end-line{
-  border-top: #d8d8d8 solid .01rem;
-  width: 1rem;
-  position: relative;
-  top:.23rem;
-  height: .1rem;
-}
-.to-the-end .to-the-end-line:nth-child(1){
-  float: left;
-  margin-left: .3rem;
-}
-.to-the-end .to-the-end-line:nth-child(3){
-  float: right;
-  margin-right: .3rem;
-}
+
 .to-the-end .to-the-end-text{
   margin: 0 auto;
   line-height: .45rem;
   width: 100%;
   position:absolute;
   top: .02rem;
+}
+.to-the-end .to-the-end-text:after{
+  content: '';
+  position: absolute;
+  top: .21rem;
+  left: .26rem;
+  width: 30%;
+  background: #cec9c9;
+  height: .01rem;
+
+}
+.to-the-end .to-the-end-text:before{
+  content: '';
+  position: absolute;
+  top: .21rem;
+  right: .26rem;
+  width: 30%;
+  background: #cec9c9;
+  height: .01rem;
 }
 .home-title span{
   font-size: 0.18rem;

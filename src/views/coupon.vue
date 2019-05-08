@@ -1,5 +1,12 @@
 <template>
     <div>
+    <div class="header">
+    <mt-header title="">
+    <router-link to="/myself" slot="left">
+        <mt-button icon="back">我的卡券</mt-button>
+    </router-link>
+    </mt-header>
+    </div>
         <el-row class="usestate">
             <nav>
                 <li v-for="item in usestate" :key="item.name":class="{active : active == item.name}" @click="selected(item.name);onshow(item.tabId);" >{{item.name}}(3)</li>
@@ -171,6 +178,15 @@ export default {
 }
 </script>
 <style>
+.header .mint-header{
+    height: .5rem;
+    background: #0288D1;
+}
+.header .mint-button-text{
+    font-size: .16rem;
+}
+</style>
+<style scoped>
 .usestate{
     background-color: #ffffff;
     height: .55rem;
