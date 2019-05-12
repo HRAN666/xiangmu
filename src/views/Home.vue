@@ -69,7 +69,7 @@
 import footer from '../components/footer'
 import { Toast } from 'mint-ui';
 import {selectCatalogParentWithoutToken,shopmodel,homeBanner,addShop} from '../api/api.js'
-import {filtertoMoney} from '../../filter/filter.js'
+import {filtertoMoney} from '../filter/filter.js'
 export default {
   components: {
     'footer-currency':footer

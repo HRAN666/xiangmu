@@ -130,7 +130,7 @@
 <script>
 import footer from "../components/footer";
 import {historyOrder,Orderpay,Confirmreceipt,applyCancel,deleteorder,applyDrawback} from '../api/api.js';
-import {filtertoMoney} from '../../filter/filter.js';
+import {filtertoMoney} from '../filter/filter.js';
 import { Toast } from 'mint-ui';
 export default {
     components: {

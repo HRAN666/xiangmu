@@ -21,7 +21,7 @@
 </template>
 <script>
 import {collect} from '../api/api.js'
-import {filtertoMoney} from '../../filter/filter.js'
+import {filtertoMoney} from '../filter/filter.js'
 export default {
     data() {
         return {

@@ -92,7 +92,7 @@
                     </div>
                 </div>
                 <div class="footer-operation">
-                    <div class="add-cart" @click="addtoShop(item.storeId,item.id,item.price)">加入购物车</div>
+                    <div class="add-cart" @click="addtoShop(item.storeId,item.id)">加入购物车</div>
                     <div class="purchase" @click="Cover">立即购买</div>
                 </div>
             </div>
@@ -231,7 +231,7 @@ export default {
                 
             });
         },
-        addtoShop(id,storeId){
+        addtoShop(storeId,id){
             let params={
                 "productId":id,
                 "userOpenId":localStorage.getItem('userOpenId'),
@@ -239,10 +239,12 @@ export default {
             }
             event.stopPropagation(); 
             this.$store.dispatch('addtoShop',params).then((result) => {
-                Toast({
-                    message: '成功加入购物车',
-                    duration: 1000
-                    });
+                if (result.data.resultCode==200) {
+                    Toast({
+                        message: '成功加入购物车',
+                        duration: 1000
+                        });
+                }
             }).catch((err) => {
                 
             });

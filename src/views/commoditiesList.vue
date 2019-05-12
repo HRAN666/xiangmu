@@ -66,7 +66,7 @@
 import footer from '../components/footer.vue'
 import { Toast } from 'mint-ui';
 import {seachShop,addShop} from '../api/api.js'
-import {filtertoMoney} from '../../filter/filter.js'
+import {filtertoMoney} from '../filter/filter.js'
 import {debounce} from '../common/common.js'
 import { debug } from 'util';
 export default {

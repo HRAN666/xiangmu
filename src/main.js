@@ -8,7 +8,7 @@ import VueAMap from 'vue-amap';
 import 'mint-ui/lib/style.css'
 import './assets/icon/iconfont'
 import 'element-ui/lib/theme-chalk/index.css';
-import * as filter from '../filter/filter'
+import * as filter from './filter/filter'
 import {DayTimes} from './common/common'
 // let VConsole = require('../node_modules/vconsole/dist/vconsole.min');
 // let vConsole = new VConsole();

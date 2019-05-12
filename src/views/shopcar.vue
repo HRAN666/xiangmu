@@ -93,7 +93,7 @@ import {loadingshopCar,removeShopCar,payNow,payNext,addShop,productDetails} from
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
-import {filtertoMoney} from '../../filter/filter.js'
+import {filtertoMoney} from '../filter/filter.js'
 import { Toast } from 'mint-ui';
 export default {
     inject:['reload'],
