@@ -82,6 +82,13 @@ function DayTimes(theTime, num) {
     num = parseInt(num, "10");
     return theTime + 24 * 60 * 60 * 1000 * num;
 }
+function getDay(timestamp) {
+    var date = new Date(timestamp),
+    Y = date.getFullYear() + '-',
+    M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-',
+    D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate());
+    return Y+M+D;
+}
 function debounce(func, wait) {
     let timeout;
     return function () {
@@ -99,5 +106,6 @@ export{
     project_name,
     system_config,
     debounce,
-    DayTimes
+    DayTimes,
+    getDay
 }

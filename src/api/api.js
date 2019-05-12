@@ -34,6 +34,10 @@ export const shopmodel =params =>{
 export const integral =params =>{
     return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
 }
+/************兑换记录 */
+export const selectIntegral =params =>{
+    return axios.post('/api/biz/v01/selectIntegralOrder.do',params);
+}
 /************兑换积分 */
 export const  conversionIntegral =params =>{
     return axios.post('/api/biz/v01/insertBizIntegralOrder.do',params);
@@ -76,7 +80,7 @@ export const lookaddAddress =params =>{
 }
 /***********商品详情 */
 export const productDetails =params =>{
-    return axios.post('/api/biz/v01/getBizProductWithoutToken.do',params);
+    return axios.post('/api/biz/v01/getBizProductByStoreIdWithoutToken.do',params);
 }   
 /************获取历史订单 */
 export const historyOrder =params =>{
@@ -113,6 +117,10 @@ export const delcollectShop =params =>{
 /********查询是否会员 */
 export const checkVip =params =>{
     return axios.post('/api/portal/v01/checkPortalUserMember.do',params);
+}
+/**********用户积分明细 */
+export const IntegralDetail =params =>{
+    return axios.post('/api/biz/v01/selectUserIntegralDetail.do',params);
 }
 /********申请会员 */
 export const regVip =params =>{

@@ -2,7 +2,29 @@
     <div>
     <header-general  headTitle="积分明细" headClass="style4" routerTo='/'></header-general>
     <div class="integralbox">
-        <div class="integralmain">
+        <div class="integralmain"  v-for="(item,index) in integral" :key="index">
+            <div class="integralmessage">
+                <div class="integralmessage-left">
+                    <div class="integralmessage-left-title">支付积分回馈</div>
+                    <div class="integralmessage-left-time">{{item.createTime}}</div>
+                </div>
+                <div class="integralmessage-right">
+                    {{item.integral}}<img src="../assets/integralicon.png" alt="">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="integralmain">
+            <div class="integralmessage">
+                <div class="integralmessage-left">
+                    <div class="integralmessage-left-title">支付积分回馈</div>
+                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
+                </div>
+                <div class="integralmessage-right">
+                    +1<img src="../assets/integralicon.png" alt="">
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="integralmain">
             <div class="integralmessage">
                 <div class="integralmessage-left">
                     <div class="integralmessage-left-title">支付积分回馈</div>
@@ -78,29 +100,7 @@
                     +1<img src="../assets/integralicon.png" alt="">
                 </div>
             </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
+        </div> -->
         <div class="page">
             <div class="previous-page">上一页</div>
             <div class="next-page">下一页</div>
@@ -110,20 +110,42 @@
 </template>
 <script>
 import header from '../components/header.vue'
-import {integral} from '../api/api.js'
+import {integral,IntegralDetail} from '../api/api.js'
+import {getDay} from '../common/common.js'
 export default {
     components:{
         'header-general':header,
-    },
+    },  
     data() {
         return {
+            integral:[]
         }
     },
     methods: {
+        selectIntegralDetail(){        
 
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId')
+            }
+            IntegralDetail(params).then((result) => {
+                // let IntegralDetail = []
+                // this.integral = result.data.list
+                for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
+                    debugger
+                    var time = getDay(result.data.list[index].createTime)
+                    this.integral.push(result.data.list[index])
+                    this.integral[index].createTime = time;
+                }  
+            }).catch((err) => {
+                
+            });
+
+        }
     },
-    mounted() {
-    },
+    mounted () {
+        this.selectIntegralDetail()
+
+    }
 }
 </script>
 <style scoped>
