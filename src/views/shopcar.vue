@@ -347,12 +347,12 @@ export default {
 .shopCar_commodity .el-icon-minus:before{
     font-size: .16rem;
     position: relative;
-    top: -.06rem;
+    top: -.04rem;
 }
 .shopCar_commodity .el-icon-plus:before{
     font-size: .16rem;
     position: relative;
-    top: -.06rem;
+    top: -.04rem;
 }
 .shopCar_empty{
     width: 100%;

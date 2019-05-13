@@ -309,6 +309,7 @@ export default {
     }
     .menuNav .el-menu-demo .el-menu-item{
         padding: 0 .256rem;
+        width: 25%;
     }
     .commodities-list{
         height: 1.1rem;
