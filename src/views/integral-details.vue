@@ -110,8 +110,8 @@
 </template>
 <script>
 import header from '../components/header.vue'
-import {integral,IntegralDetail} from '../api/api.js'
-import {getDay} from '../common/common.js'
+import { integral,IntegralDetail } from '../api/api.js'
+import { getDay } from '../common/common.js'
 export default {
     components:{
         'header-general':header,
@@ -123,9 +123,9 @@ export default {
     },
     methods: {
         selectIntegralDetail(){        
-
             let params={
-                "userOpenId":localStorage.getItem('userOpenId')
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "storeId":"0"
             }
             IntegralDetail(params).then((result) => {
                 // let IntegralDetail = []
@@ -139,12 +139,10 @@ export default {
             }).catch((err) => {
                 
             });
-
         }
     },
     mounted () {
         this.selectIntegralDetail()
-
     }
 }
 </script>
