@@ -6,8 +6,8 @@
   url('iconfont.ttf?t=1552010851953') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
   url('iconfont.svg?t=1552010851953#iconfont') format('svg'); /* iOS 4.1- */
 }
-[class^="el-icon"],
-[class*="el-icon"]
+[class^="el-icon_foot_"],
+[class*="el-icon_foot_"]
  {
   font-family: "iconfont" !important;
 
@@ -27,31 +27,31 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.el-iconhome:before {
+.el-icon_foot_home:before {
   content: "\eb1b";
   position: absolute;
   left: .39rem;
 }
 
-.el-iconcaidaniconshouyehui:before {
+.el-icon_foot_caidaniconshouyehui:before {
   content: "\e60b";
   position: absolute;
   left: .36rem;
 }
 
-.el-iconshop:before {
+.el-icon_foot_shop:before {
   content: "\e61c";
   position: absolute;
   left: .36rem;
 }
 
-.el-iconbell:before {
+.el-icon_foot_bell:before {
   content: "\e691";
   position: absolute;
   left: .37rem;
 }
 
-.el-iconmy:before {
+.el-icon_foot_my:before {
   content: "\e624";
   position: absolute;
   left: .39rem;

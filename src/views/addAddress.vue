@@ -231,7 +231,7 @@ export default {
 }
 </style>
 
-<style>
+<style scoped>
 .amap-page-container .header_six{
     position: absolute;
     top: 0;

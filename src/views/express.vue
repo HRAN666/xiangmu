@@ -110,7 +110,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 .gooods-message{
     background-color: #ffffff;
     font-size: .19rem;

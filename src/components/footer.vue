@@ -2,25 +2,25 @@
     <div class="footer" v-show="showFooter">
        <div class="footer-img">
            <router-link to="/"  active-class="footer-active" exact>
-           <i class="el-iconhome"></i>
+           <i class="el-icon_foot_home"></i>
            <span>首页</span>
            </router-link>
        </div>
        <div class="footer-img">
            <router-link to='/integral' active-class="footer-active">
-           <i class="el-iconbell"></i>
+           <i class="el-icon_foot_bell"></i>
            <span>积分商城</span>
            </router-link>
        </div>
        <div class="footer-img">
            <router-link to="/shopcar" active-class="footer-active">
-           <i class="el-iconshop"></i>
+           <i class="el-icon_foot_shop"></i>
            <span>购物车</span>
            </router-link>
        </div>
        <div class="footer-img">
            <router-link to='/myself' active-class="footer-active">
-           <i class="el-iconmy"></i>
+           <i class="el-icon_foot_my"></i>
            <span>我的</span>
            </router-link>
         </div>        

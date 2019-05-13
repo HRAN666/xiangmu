@@ -149,7 +149,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
 .bigbox{
     width: 100%;
     float: left;

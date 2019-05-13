@@ -64,7 +64,7 @@ export default {
     },
 }
 </script>
-<style>
+<style scoped>
 .date{
     position: relative;
     height: .5rem;

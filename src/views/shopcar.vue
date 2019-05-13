@@ -384,7 +384,7 @@ export default {
     float: right;
     height: .5rem;
     width: 1rem;
-    margin-top: -.32rem;
+    margin-top: -.36rem;
     border-radius: 0;
 }
 .shopCar_totle .el-button--danger{

@@ -238,7 +238,6 @@ export default {
                 "userOpenId":localStorage.getItem('userOpenId'),
                 "storeId":storeId
             }
-            event.stopPropagation(); 
             this.$store.dispatch('addtoShop',params).then((result) => {
                 if (result.data.resultCode==200) {
                     Toast({
