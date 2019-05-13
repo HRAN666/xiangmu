@@ -1,6 +1,6 @@
 <template>
     <div>
-    <header-general  headTitle="兑换记录" headClass="style6" routerTo='/'></header-general>
+    <header-general  headTitle="兑换记录" headClass="style6" routerTo='/myself'></header-general>
     <div class="integralbox">
         <div class="integralmain">
             <div class="integralmessage">

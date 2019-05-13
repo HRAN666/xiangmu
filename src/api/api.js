@@ -138,6 +138,7 @@ axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {
             config.headers.userToken=localStorage.getItem('accessToken')//请求头加上token
+            config.data.storeId=0//由于多店模式在每个请求params加上storeId  #TODO 暂时写0
         }
         return config
     },

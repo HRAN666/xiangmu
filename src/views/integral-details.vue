@@ -1,6 +1,6 @@
 <template>
     <div>
-    <header-general  headTitle="积分明细" headClass="style4" routerTo='/'></header-general>
+    <header-general  headTitle="积分明细" headClass="style6" routerTo='/myself'></header-general>
     <div class="integralbox">
         <div class="integralmain"  v-for="(item,index) in integral" :key="index">
             <div class="integralmessage">
@@ -13,94 +13,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div>
-        <div class="integralmain">
-            <div class="integralmessage">
-                <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
-                </div>
-                <div class="integralmessage-right">
-                    +1<img src="../assets/integralicon.png" alt="">
-                </div>
-            </div>
-        </div> -->
         <div class="page">
             <div class="previous-page">上一页</div>
             <div class="next-page">下一页</div>
@@ -191,9 +103,11 @@ export default {
    top:.04rem;
 }
 .page{
+    position: fixed;
     width: 100%;
-    position: relative;
+    z-index: 999;
     bottom: 0;
+    background: #fff;
     font-size: .18rem;
     height: .58rem;
     color: #909399;
