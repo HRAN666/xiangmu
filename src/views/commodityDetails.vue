@@ -41,8 +41,8 @@
                 <div class="recommend-line"></div>
             </div>
             <div class="details-goods">
-                <div class="details-goods-img">
-                    <img  :src="'http://img.cmhg.shop/'+items" v-for="(items,i) in bannerImg" :key="i">
+            <div class="details-goods-img">
+                <img  :src="'http://img.cmhg.shop/'+items" v-for="(items,i) in bannerImg" :key="i" @click="toThumbnail('http://img.cmhg.shop/'+items)">
             </div>
             </div>
             <div class="recommend">

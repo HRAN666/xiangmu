@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <div class="home-subfor" v-for="(item,index) in shopModels" :key="index">  
+    <div class="home-subfor" v-for="(item,index) in shopModels">  
         <div class="home-title">
             <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
