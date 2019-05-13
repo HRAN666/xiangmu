@@ -173,7 +173,6 @@ export default {
         loadingShop(){
             let params={
                "userOpenId":localStorage.getItem('userOpenId'),
-               "storeId":"0"//暂时写0
             }
             loadingshopCar(params).then((result) => {
                 this.ShopList=result.data.list;
@@ -217,7 +216,6 @@ export default {
                 'deliverPhone':'13715363223',//收货电话
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopInf),//商品信息
-                'storeId':'0',//
                 'totalFee':this.totlePrice*100,//总价格
                 'totalNum':this.totalNum,//商品购买总量
                 'ext1':'测试',

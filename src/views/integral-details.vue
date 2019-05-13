@@ -37,7 +37,6 @@ export default {
         selectIntegralDetail(){        
             let params={
                 "userOpenId":localStorage.getItem('userOpenId'),
-                "storeId":"0"
             }
             IntegralDetail(params).then((result) => {
                 // let IntegralDetail = []

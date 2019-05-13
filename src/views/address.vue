@@ -71,8 +71,8 @@ export default {
 }
 .address_header .mint-header{
     height: .5rem;
-    background: #fff;
-    color:#000;
+    background: #0288D1;
+    color:#fff;
 }
 .address_content .mint-cell::after{
     display: none;
@@ -106,7 +106,7 @@ export default {
     width: 100%;
     left: 0;
     border-radius: 0;
-    background: #BC2D2A;
+    background: #0288D1;
 }
 </style>
 

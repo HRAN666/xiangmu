@@ -194,7 +194,6 @@ export default {
         loadingShopCarLength(){//加载购物车有多少商品
              let params={
                "userOpenId":localStorage.getItem('userOpenId'),
-               "storeId":"0"//暂时写0
             }
              this.$store.dispatch('loadingShop',params).then((result) => {
                  this.$store.state.shop_store.shopLength=0

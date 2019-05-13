@@ -170,7 +170,6 @@ export default {
             let params={
                 'id':id,
                 'userOpenId':localStorage.getItem('userOpenId'),
-                'storeId':'0'
             }
             productDetails(params).then((result) => {
                 this.shopDetails.push(result.data);
@@ -192,7 +191,6 @@ export default {
         loadingItegral(id){
             let params={
                 'id':id,
-                'storeId':'0'
             }
             integralDeatil(params).then((result) => {
                 this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
@@ -277,7 +275,6 @@ export default {
                 'deliverPhone':'13715363223',//收货电话
                 'deliverAddress':'测试',//收货地址
                 'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
-                'storeId':'0',//
                 'totalFee':this.total*100,//总价格
                 'totalNum':this.shopDetails[0].quantity,//商品购买总量
                 'ext1':'测试',
@@ -347,7 +344,6 @@ export default {
              let params={
                 "productId":this.shopDetails[0].id,//写死0
                 "userOpenId":localStorage.getItem('userOpenId'),
-                "storeId":'0'//暂时0
             }
             collectShop(params).then((result) => {
                 if (result.data.resultCode==200) {

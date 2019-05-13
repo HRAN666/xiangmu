@@ -116,7 +116,6 @@ export default {
           let params={
               "productId":id,
               "userOpenId":localStorage.getItem('userOpenId'),
-              "storeId":storeId
           }
           event.stopPropagation(); 
           this.$store.dispatch('addtoShop',params).then((result) => {
@@ -335,7 +334,7 @@ export default {
 .home-to{
     position: absolute;
     width: .2rem;
-    right: -.78rem;
+    right: .25rem;
     top: .23rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
