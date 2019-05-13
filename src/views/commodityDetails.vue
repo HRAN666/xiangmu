@@ -191,7 +191,8 @@ export default {
         },
         loadingItegral(id){
             let params={
-                'id':id
+                'id':id,
+                'storeId':'0'
             }
             integralDeatil(params).then((result) => {
                 this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品

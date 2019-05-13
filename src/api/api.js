@@ -32,7 +32,7 @@ export const shopmodel =params =>{
 }
 /************积分商城 */
 export const integral =params =>{
-    return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
+    return axios.post('/api/biz/v01/listBizIntegralProductByStoreId.do',params);
 }
 /************兑换记录 */
 export const selectIntegral =params =>{
@@ -44,7 +44,7 @@ export const  conversionIntegral =params =>{
 }
 /************积分详情 */
 export const  integralDeatil =params =>{
-    return axios.post('/api/biz/v01/listBizIntegralProduct.do',params);
+    return axios.post('/api/biz/v01/listBizIntegralProductByStoreId.do',params);
 }
 /************首页banner */
 export const homeBanner =params =>{

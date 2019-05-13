@@ -41,7 +41,9 @@ export default {
     },
     methods: {
         loadingIntegral(){
-            let params={}
+            let params={
+                "storeId":"0"
+            }
             integral(params).then((result) => {
                 this.integralList=result.data.list
             }).catch((err) => {
