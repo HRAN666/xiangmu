@@ -8,8 +8,11 @@
                     <div class="integralmessage-left-title">支付积分回馈</div>
                     <div class="integralmessage-left-time">{{item.createTime}}</div>
                 </div>
-                <div class="integralmessage-right">
-                    {{item.integral}}<img src="../assets/integralicon.png" alt="">
+                <div class="integralmessage-right" v-if="item.regulation == '1' ">
+                    +{{item.integral/100}}<img src="../assets/integralicon.png" alt="">
+                </div>
+                <div class="integralmessage-right" v-if="item.regulation == '2' ">
+                    -{{item.integral/100}}<img src="../assets/integralicon.png" alt="">
                 </div>
             </div>
         </div>
@@ -42,7 +45,7 @@ export default {
                 // let IntegralDetail = []
                 // this.integral = result.data.list
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
-                    debugger
+                    // debugger
                     var time = getDay(result.data.list[index].createTime)
                     this.integral.push(result.data.list[index])
                     this.integral[index].createTime = time;
