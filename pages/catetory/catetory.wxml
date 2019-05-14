@@ -1,0 +1,14 @@
+<!--pages/catetory/catetory.wxml-->
+<view class="catetory">
+  <view class="catetory-tab">
+    <scroll-view
+      scroll-y
+      bindscroll="scroll"
+      style="height:{{contentHeight}}px"
+    >
+      <view wx:for="2323232323232313123123123123123123123123123123123123123123123213123123123123123" wx:key="*this">
+        asd{{item}}
+      </view>
+    </scroll-view>
+  </view>
+</view>

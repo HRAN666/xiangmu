@@ -7,21 +7,32 @@ Component({
       pagePath: "/pages/index/index",
       iconPath: "/image/icon_component.png",
       selectedIconPath: "/image/icon_component_HL.png",
-      text: "组件"
+      text: "主页"
     }, {
-      pagePath: "/pages/logs/logs",
+      pagePath: "/pages/catetory/catetory",
       iconPath: "/image/icon_API.png",
       selectedIconPath: "/image/icon_API_HL.png",
-      text: "接口"
+      text: "分类"
+    }, {
+      pagePath: "/pages/cart/cart",
+      iconPath: "/image/icon_API.png",
+      selectedIconPath: "/image/icon_API_HL.png",
+      text: "购物车"
+    }, {
+      pagePath: "/pages/me/me",
+      iconPath: "/image/icon_API.png",
+      selectedIconPath: "/image/icon_API_HL.png",
+      text: "我"
     }]
   },
-  attached() {
-  },
+  attached() {},
   methods: {
     switchTab(e) {
       const data = e.currentTarget.dataset
       const url = data.path
-      wx.switchTab({url})
+      wx.switchTab({
+        url
+      })
       this.setData({
         selected: data.index
       })

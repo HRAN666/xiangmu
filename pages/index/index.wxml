@@ -1,7 +1,30 @@
 <!--index.wxml-->
 <view class="container">
   <swipers imgList="{{BannerImgList}}"></swipers>
-  <productItem Product="{{item}}" wx:for="{{ProductList}}"            wx:key="*this.id"></productItem>
+  <view class="content-list">
+    <view class="hot-sale-product">
+      <view class="title">
+      热销产品
+      </view>
+      <productThreeInColumn Product="{{ProductList}}"></productThreeInColumn>
+    </view>
+  </view>
+  <view class="content-list">
+    <view class="new-product">
+      <view class="title">
+      最新商品
+      </view>
+      <productTwoInColumn Product="{{ProductList}}"></productTwoInColumn>
+    </view>
+  </view>
+  <view class="content-list">
+    <view class="recomment-product">
+      <view class="title">
+      推荐商品
+      </view>
+      <productOneInColumn Product="{{ProductList}}"></productOneInColumn>
+    </view>
+  </view>
   <!-- <view class="userinfo">
     <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
     <block wx:else>

@@ -1,6 +1,8 @@
 {
   "usingComponents": {
     "swipers": "../../components/swiper/swiper",
-    "productItem": "../../components/product-item/product-item"
+    "productThreeInColumn": "../../components/productThreeInColumn/productThreeInColumn",
+    "productTwoInColumn": "../../components/productTwoInColumn/productTwoInColumn",
+    "productOneInColumn": "../../components/productOneInColumn/productOneInColumn"
   }
 }

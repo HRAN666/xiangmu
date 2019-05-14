@@ -1,0 +1,22 @@
+/* pages/me/me.wxss */
+scroll-view {
+  height: 50%;
+}
+.scroll-view-item {
+  height: 300px;
+}
+.bc_green {
+  background-color: green;
+}
+
+.bc_red {
+  background-color: red;
+}
+
+.bc_yellow {
+  background-color: yellow;
+}
+
+.bc_blue {
+  background-color: blue;
+}

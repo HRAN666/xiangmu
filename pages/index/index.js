@@ -74,6 +74,9 @@ Page({
     BannerImgList: [],
     ProductList: []
   },
+  onPageScroll() {
+    console.log('123')
+  },
   onShow() {
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {

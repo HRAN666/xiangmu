@@ -1,0 +1,17 @@
+<!--components/productTwoInColumn/productTwoInColumn.wxml-->
+<wxs  src="../../filter/format.wxs" module="format" />
+<view class="product-list">
+  <view class="product-item" wx:for="{{Product}}" wx:key="*this.id">
+    <view class="item-img">
+      <image src="{{imgUrl}}{{item.bizCommodityForSales.mainPhoto}}"></image>
+    </view>
+    <view class="item-detail">
+      <text class="item-name">{{item.bizCommodityForSales.title}}</text>
+      <view class="item-introduce">{{item.bizCommodityForSales.introduce}}</view>
+      <view class="item-price">
+        <text>{{format.price_format(item.bizCommodityForSales.presentPrice)}}
+        </text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -19,3 +19,39 @@
 .usermotto {
   margin-top: 200px;
 }
+
+.content-list {
+  padding: 40rpx 20rpx 0;
+  color: #2c3e50;
+}
+
+.content-list .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  font-weight: bold;
+  padding: 32rpx 20rpx;
+}
+
+.content-list .title::after, .content-list .title::before{
+  content: '';
+  width: 90rpx;
+  height: 2rpx;
+  background-color: #1fb48e;
+  margin: 0 20rpx;
+}
+
+.hot-sale-product {
+  padding: 0 0 0 20rpx;
+  border-radius: 30rpx;
+  background-color: #fff;
+}
+
+.new-product .title{
+  background-color: #fff;
+}
+
+.recomment-product .title {
+  background-color: #fff;
+}
