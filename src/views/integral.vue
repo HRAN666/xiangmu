@@ -56,6 +56,7 @@ export default {
                 'id':id,
             }
             integralDeatil(params).then((result) => {
+                this.integralListJson=[];
                 this.integralListJson.push(result.data.list[0]);//写死0因为只有一个商品
                 let params={
                     'userOpenId':localStorage.getItem('userOpenId'),
