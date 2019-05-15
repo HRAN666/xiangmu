@@ -278,9 +278,13 @@ export default {
 }
 .amap-page-container .card .selectAddress .el-select{
     padding: .04rem;
+    width:30%;
 }
 .amap-page-container .card .selectAddress .el-select .el-input{
     width: 1rem;
+}
+.amap-page-container .card .main .el-select {
+    width: 43%;
 }
 .amap-page-container .card .main .school-name .el-input {
     width: 1.5rem;

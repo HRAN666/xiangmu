@@ -134,6 +134,10 @@ export const collect =params =>{
 export const browse =params =>{
     return axios.post('/api/portal/v01/listPortalUserHistorical.do',params);
 }
+/*************修改默认地址 */
+export const checkAddress =params =>{
+    return axios.post('/api/portal/v01/freezePortalUserAddress.do',params);
+}
 axios.interceptors.request.use(//拦截器
     config=>{
         if (localStorage.getItem('accessToken')) {

@@ -13,7 +13,8 @@
             <div>{{item.phone}}</div>
             <div>{{item.province+item.city+item.county+item.detailedAddress}}</div>
             <div class="address_content_bottom">
-                <mt-checklist :options="['默认地址']" v-model="value1"></mt-checklist>
+                <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="event(item.id,index)">
+                <label class=""></label>
                 <span>编辑</span>
                 <span @click="deleteAddress">删除</span>
             </div>
@@ -26,8 +27,10 @@
 <script>
 import { Checklist  } from 'mint-ui';
 import header from '../components/header.vue'
-import {seachAdress,insertAdress,lookaddAddress} from '../api/api.js'
-export default {
+import { Toast } from 'mint-ui';
+import {seachAdress,insertAdress,lookaddAddress,checkAddress} from '../api/api.js'
+import { debug, debuglog } from 'util';
+export default {  
     data () {
         return {
             value1:[],
@@ -37,33 +40,93 @@ export default {
             phone:'',
             address:'',
             commit:false,//确认按钮
+            status:[],//设置默认地址key
         }
     },
     methods: {
         deleteAddress(){
             this.$router.push('/addAddress')
         },
-
         eventinsertAdress(){        
-
             let params={
                 "userOpenId":localStorage.getItem('userOpenId')
             }
             lookaddAddress(params).then((result) => {
-                console.log(result.data.list)
-                this.addressList = result.data.list
+                this.addressList = result.data.list;
+                for (let i = 0; i < result.data.list.length; i++) {
+                    this.status.push(result.data.list[i].status)
+                }
+                console.log(this.status)
             }).catch((err) => {
                 
             });
 
         },
+        event(id,index){//arg[0] 地址id arg[1] 获取索引
+            let statusLength=this.status.length;
+            this.status=[]
+            for (let i = 0; i < statusLength; i++) {
+                this.status.push(0)
+            }
+            this.status[index]=1
+            let params={
+                "id":id,
+                "userOpenId":localStorage.getItem('userOpenId')
+            }
+            checkAddress(params).then((result) => {
+                if (result.data.resultCode==200) {
+                Toast({
+                  message: '成功修改默认地址',
+                  duration: 1000
+                  });
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        }
     },
     mounted () {
         this.eventinsertAdress();
+        // this.ababa();
     }
 }
 </script>
 <style>
+.address_header_checkbox {
+    margin-left:.16rem;
+    margin-top: .22rem;
+    float: left;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+.address_header_checkbox+label{
+    margin-left:.16rem;
+    margin-top: .22rem;
+    left: 0;
+    position:absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #A6A6A6;
+    border-radius: 50%;
+    background-color: #BC2D2A;
+}
+.address_header_checkbox:checked+label:after {
+    content: "";
+    position: absolute;
+    left: .04rem;
+    top: .01rem;
+    width: .05rem;
+    height: .09rem;
+    font-size: .14rem;
+    color: #fff;
+    border-style: solid;
+    border-color: #fff;
+    border-width: 0 .02rem .02rem 0;
+    -webkit-transform: rotateZ(45deg);
+    transform: rotateZ(45deg);
+    
+}
 .address_header .mint-header-title{
     font-size: .18rem;
     font-weight: normal;
