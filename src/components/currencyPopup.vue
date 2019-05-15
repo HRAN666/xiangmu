@@ -409,12 +409,12 @@ export default {
 .details-message-right-number .el-icon-minus:before{
     font-size: .16rem;
     position: relative;
-    top: -.06rem;
+    top: -.03rem;
 }
 .details-message-right-number .el-icon-plus:before{
     font-size: .16rem;
     position: relative;
-    top: -.06rem;
+    top: -.03rem;
 }
 </style>
 <style scoped>

@@ -495,16 +495,18 @@ input[type="checkbox"]:checked::before{
     height: .2rem;
 }
 input[type="checkbox"]:checked::after{
-    content: "  √";
-    font-family: '华文琥珀';
+    content: "√";
+    font-family: '微软雅黑';
+    font-weight: bold;
     font-size: .17rem;
     position: absolute;
     color: #fff;
-    left: .18rem;
+    left: .15rem;
 }
 .shopCar_totle .shopCar_totle_checkbox{
     height: .2rem;
     width:.2rem;
+    margin-left: 0;
 }
 .shopCar_totle .shopCar_totle_checkedAll{
     float: left;

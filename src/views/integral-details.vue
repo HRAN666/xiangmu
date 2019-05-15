@@ -5,7 +5,8 @@
         <div class="integralmain"  v-for="(item,index) in integral" :key="index">
             <div class="integralmessage">
                 <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">支付积分回馈</div>
+                    <div class="integralmessage-left-title" v-if="item.regulation == '1' ">支付积分回馈</div>
+                    <div class="integralmessage-left-title" v-if="item.regulation == '2' ">兑换商品</div>
                     <div class="integralmessage-left-time">{{item.createTime}}</div>
                 </div>
                 <div class="integralmessage-right" v-if="item.regulation == '1' ">
