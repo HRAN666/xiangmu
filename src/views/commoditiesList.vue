@@ -3,9 +3,9 @@
         <div class="mark" v-show="showMark" @click="disShow"></div>
         <div class="commodities-header">
             <div class="commodities-headerLeft" @click="goHome"><img src="../assets/goBack.png" alt="返回"></div>
-            <!-- <div class="commodities-headerCenter"><el-input v-model="input" placeholder="请输入内容"></el-input></div>
-             -->
-             <div class="commodities-headerCenter"><el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input" @input="toseachShop"></el-input></div>
+             <div class="commodities-headerCenter">
+                 <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input" @input="toseachShop" autofocus="true"></el-input>
+            </div>
             <div class="commodities-headerRight"><img src="../assets/msg_shop.png" alt="msg"></div>
         </div>
         <div class="menuNav">
@@ -91,7 +91,6 @@ export default {
             shopInf:''
         }
     },
-
     methods: {
         handleSelect(key,keyPath) {
             if (key!='price asc') {//除了价格排序
@@ -258,7 +257,7 @@ export default {
             this.loadingAllShop();
         }
        window.addEventListener('scroll',this.scroll);
-       this.loadingShopCarLength()
+       this.loadingShopCarLength();
     },
 }
 </script>

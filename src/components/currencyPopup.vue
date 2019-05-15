@@ -237,7 +237,7 @@ export default {
     },
     methods: {
         router(){
-            this.$router.push('/addAddress')
+            this.$router.push('/address')
         },
         express(){
             this.expressShow=true
