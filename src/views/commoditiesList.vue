@@ -1,10 +1,11 @@
 <template>
     <div>
+        <div class="mark" v-show="showMark" @click="disShow"></div>
         <div class="commodities-header">
             <div class="commodities-headerLeft" @click="goHome"><img src="../assets/goBack.png" alt="返回"></div>
-            <!-- <div class="commodities-headerCenter"><el-input v-model="input" placeholder="请输入内容"></el-input></div>
-             -->
-             <div class="commodities-headerCenter"><el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input" @input="toseachShop"></el-input></div>
+             <div class="commodities-headerCenter">
+                 <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="input" @input="toseachShop" autofocus="true"></el-input>
+            </div>
             <div class="commodities-headerRight"><img src="../assets/msg_shop.png" alt="msg"></div>
         </div>
         <div class="menuNav">
@@ -30,7 +31,7 @@
                 <img :src="'http://img.cmhg.shop/'+item.icon" alt="" v-show="showShop[index].show" class="list_shopDrop" :key="index">
                 </transition>
                 <div class="buy">
-                    <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index)">立即购买</el-button>
+                    <el-button type="danger" round @click.native="addToShop(item.storeId,item.id,item.price,index,item)">立即购买</el-button>
                 </div>
             </div>
 
@@ -44,22 +45,21 @@
             </div>
         </div>
         <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength==0" v-show="todisPlayFooter">
-            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
+            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""  @click="goShopCar"></div>
             <div class="shoppingLeft">未选购商品<br>另需配送费1元</div>
             <router-link to="/shopcar">
             <div class="shoppingRight">结算</div>
             </router-link>
         </div>
         <div class="yourShoppingCar" v-if="$store.state.shop_store.shopLength>0"  v-show="todisPlayFooter">
-            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt=""></div>
+            <div class="shoppingIcon"><img src="../assets/shoppingCar.png" alt="" @click="goShopCar"></div>
             <div class="shoppingLength">{{$store.state.shop_store.shopLength}}</div>
             <div class="shoppingLeft">已选购{{$store.state.shop_store.shopLength}}件商品</div>
-            <router-link to="/shopcar">
-            <div class="shoppingRight">{{totlePrice|filtertoMoney}}</div>
-            </router-link>
+            <div class="shoppingRight" @click="settlement">{{totlePrice|filtertoMoney}}</div>
         </div>
         <img src="../assets/top.png" alt="" class="list-top" v-show="listTop" @click="goTop">
         <footer-currency @disPlay="disPlayFooter" ref="showFooter"></footer-currency>
+        <currencyPopup ref="popup" popup="style1" :selectpay='selectpay' :total="totlePrice.toFixed(2)/100" :quantity="$store.state.shop_store.shopLength" :shopInf="shopInf"></currencyPopup>
     </div>
 </template>
 <script>
@@ -68,10 +68,11 @@ import { Toast } from 'mint-ui';
 import {seachShop,addShop} from '../api/api.js'
 import {filtertoMoney} from '../filter/filter.js'
 import {debounce} from '../common/common.js'
-import { debug } from 'util';
+import currencyPopup from '../components/currencyPopup.vue'
 export default {
     components:{
-        'footer-currency':footer
+        'footer-currency':footer,
+        currencyPopup
     },
     data() {
         return {
@@ -85,9 +86,11 @@ export default {
             listTop:false,//是否显示返回顶部
             todisPlayFooter:true,
             display: false, //筛选框弹出
+            showMark:false,//结算遮罩
+            selectpay:'微信支付',
+            shopInf:''
         }
     },
-
     methods: {
         handleSelect(key,keyPath) {
             if (key!='price asc') {//除了价格排序
@@ -139,7 +142,7 @@ export default {
         goHome(){
             this.$router.push('/')
         },
-        addToShop(storeId,id,price,index){
+        addToShop(storeId,id,price,index,AddshopInf){//arg[0] 店名 arg[1] 商品id arg[2] 动画所需的索引位置 arg[3]添加的商品信息
             this.indexes=index//获取点击商品list
             this.showShop[index].show=true//开始动画
             let params={
@@ -148,12 +151,19 @@ export default {
                 "storeId":storeId
             }
             this.$store.dispatch('addtoShop',params).then((result) => {
-                 Toast({
-                    message: '成功加入购物车',
-                    duration: 1000
-                    });
+                if (result.resultCode==200) {
+                    Toast({
+                       message: '成功加入购物车',
+                       duration: 1000
+                       });
                 this.totlePrice+=price;
-                localStorage.setItem('totlePrice',this.totlePrice)
+                localStorage.setItem('totlePrice',this.totlePrice);
+                }else{
+                      Toast({
+                       message: '加入失败请重试',
+                       duration: 1000
+                       });
+                }
             }).catch((err) => {
                 console.log(err)
             });
@@ -196,7 +206,7 @@ export default {
                "userOpenId":localStorage.getItem('userOpenId'),
             }
              this.$store.dispatch('loadingShop',params).then((result) => {
-                 this.$store.state.shop_store.shopLength=0
+                 this.$store.state.shop_store.shopLength=0;
                     for (let i = 0; i < result.length; i++) {
                         this.totlePrice+=result[i].bizProductVo.price*result[i].theNum
                         this.$store.state.shop_store.shopLength+=result[i].theNum
@@ -219,6 +229,25 @@ export default {
         Exitfilter(){
             this.$refs.look.style.right = -2.7 + "rem";
             this.display = false;
+        },
+        settlement(){
+            this.showMark=true
+            this.$refs.popup.isPoup=true;
+             let params={
+               "userOpenId":localStorage.getItem('userOpenId'),
+            }
+             this.$store.dispatch('loadingShop',params).then((result) => {
+                 this.shopInf=result
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
+        disShow(){
+            this.showMark=false
+            this.$refs.popup.isPoup=false
+        },
+        goShopCar(){
+            this.$router.push('/shopcar')
         }
     },
     created () {
@@ -228,12 +257,20 @@ export default {
             this.loadingAllShop();
         }
        window.addEventListener('scroll',this.scroll);
-       this.loadingShopCarLength()
+       this.loadingShopCarLength();
     },
 }
 </script>
 
 <style scoped>
+    .mark{
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: #000;
+        z-index: 1000;
+        opacity: .5;
+    }
     .list{
         margin-bottom: 1.33rem;
     }
@@ -381,7 +418,7 @@ export default {
         font-size: .12rem;
         position: fixed;
         bottom: 0;
-        z-index: 1000
+        z-index: 999
     }
     .yourShoppingCar .shoppingLength{
         position: absolute;

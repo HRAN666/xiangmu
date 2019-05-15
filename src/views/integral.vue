@@ -7,9 +7,9 @@
                 <img :src="'http://img.cmhg.shop/'+item.icon" class="" @click="goDetail(item.id)">
                 <p>{{item.name}}</p>
                 <div class="productBlock_bottom"> 
-                    <div class="productBlock_price">{{item.integral+'积分'}}</div>
+                    <div class="productBlock_price">{{item.integral/100+'积分'}}</div>
                     <div class="productBlock_specification">{{item.saleVolume}}人已兑</div>
-                    <span @click="conversion(item.id,item.saleVolume,item.integral)">兑换</span>
+                    <span @click="conversion(item.id)">兑换</span>
                 </div>
             </div>
             </div>
@@ -28,7 +28,7 @@
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
 import { Toast } from 'mint-ui';
-import {integral,conversionIntegral} from '../api/api.js'
+import {integral,conversionIntegral,integralDeatil} from '../api/api.js'
 export default {
     components:{
         'header-general':header,
@@ -36,7 +36,8 @@ export default {
     },
     data() {
         return {
-            integralList:''
+            integralList:'',
+            integralListJson:[],
         }
     },
     methods: {
@@ -50,31 +51,42 @@ export default {
                 
             });
         },
-        conversion(spId,saleVolume,integral){
+        conversion(id){
             let params={
-                "userOpenId":localStorage.getItem('userOpenId'),
-                "scoreProductId":spId,
-                "buyAmount":saleVolume,
-                "scorePrice":integral,
-                "scoreUse":integral, 
-                "phone":"",//暂时空
-                "userName":"",
-                "orderAddress":""                                 
+                'id':id,
             }
-            conversionIntegral(params).then((result) => {
-                if (result.data.resultCode==200) {
-                    Toast({
-                        message: '兑换成功',
-                        duration: 1000
-                    });
-                }else if(result.data.resultCode==500){
-                    Toast({
-                        message: '积分不足',
-                        duration: 1000
-                    });
+            integralDeatil(params).then((result) => {
+                this.integralListJson=[];
+                this.integralListJson.push(result.data.list[0]);//写死0因为只有一个商品
+                this.integralListJson[0].quantity= "1";//数量
+                this.integralListJson[0].paytype= 'integral';//购买方式
+                let params={
+                    'userOpenId':localStorage.getItem('userOpenId'),
+                    'deliverFee':'0',//暂时写0(运费)
+                    'userName':'测试',//收货人
+                    'phone':'13715363223',//收货电话
+                    'orderAddress':'测试',//收货地址
+                    'productDetailJson':JSON.stringify(this.integralListJson),//商品信息
+                    'scorePrice':(this.integralListJson[0].integral),
+                    'storeId':'0',//
                 }
+                conversionIntegral(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '兑换成功',
+                            duration: 1000
+                        });
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '积分不足',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
             }).catch((err) => {
-                console.log(err)
+                
             });
         },
         goDetail(id){
@@ -98,16 +110,18 @@ export default {
     background: #fff;
     border-radius:.1rem;
     margin-bottom: .2rem;
+    position: relative;
 }
 .productBlock span{
+    position: absolute;
+    right: .05rem;
+    bottom:.05rem;
     font-size: .12rem;
     background: #0288d1;
     border-radius: .1rem;
     display: inline-block;
     width: .3rem;
-    margin-left: .35rem;
     color: #fff;
-    float: left;
     line-height: .2rem;
 }
 .productBlock>img{

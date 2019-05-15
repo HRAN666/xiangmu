@@ -100,7 +100,7 @@
         </div>
         <div class="detail_mark" v-show="imgMark" @click="displayMark"></div>
         <img :src="imgSrc" v-show="imgMark" class="detail_img">
-            <currency-Popup ref="popup" popup="style5" :selectpay="selectpay" @changePay="paymethod" @toPay="todoWechatPay" :title="detailstitle" :price="parseFloat(detailsprice)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
+            <currency-Popup ref="popup" popup="style5"  :shopInf="shopDetails" :title="detailstitle" :price="parseFloat(detailsprice)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
     </div>
 </template>
 <script>
@@ -108,8 +108,6 @@ import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
 import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults,conversionIntegral} from '../api/api.js'
 import { Toast } from 'mint-ui';
-import { debug } from 'util';
-import { nextTick } from 'q';
 export default {
     components: {
         'header-general':header,
@@ -158,6 +156,7 @@ export default {
         addquantity(e){
             if (!this.fromIntegral) {
                 this.shopDetails[0].quantity=e;
+                this.quantity=e//更新传值数据
                 this.total=e* this.shopDetails[0].price/100;
                 this.integral=e* this.shopDetails[0].price/100;
             }else{//积分算法
@@ -238,9 +237,14 @@ export default {
                 "storeId":storeId
             }
             this.$store.dispatch('addtoShop',params).then((result) => {
-                if (result.data.resultCode==200) {
+                if (result.resultCode==200) {
                     Toast({
                         message: '成功加入购物车',
+                        duration: 1000
+                        });
+                }else{
+                    Toast({
+                        message: '加入失败请稍后重试',
                         duration: 1000
                         });
                 }
@@ -251,94 +255,9 @@ export default {
         gotoShopCar(){
             this.$router.push('/shopcar')
         },
-        paymethod(e){//切换支付方式
-            switch (e) {
-                case 'wechat':
-                    this.selectpay='微信支付'
-                    break;
-                case 'wait':
-                    this.selectpay='货到付款'                    
-                    break;
-                default:
-                    break;
-            }
-        },
         topay(){//结算
             this.showMark=true
             this.$refs.popup.isPoup=true
-        },
-        todoWechatPay(e){//微信支付||货到付款.
-            let params={
-                'userOpenId':localStorage.getItem('userOpenId'),
-                'deliverFee':'0',//暂时写0(运费)
-                'deliverName':'测试',//收货人
-                'deliverPhone':'13715363223',//收货电话
-                'deliverAddress':'测试',//收货地址
-                'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
-                'totalFee':this.total*100,//总价格
-                'totalNum':this.shopDetails[0].quantity,//商品购买总量
-                'ext1':'测试',
-                'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
-            }
-           switch (e) {
-                case 'wechat'://微信支付
-                    payNow(params).then((result) => {
-                        if (result.data.resultCode==200) {
-                            this.wechatpay(result.data);
-                        }
-                    }).catch((err) => {
-                        console.log(err)
-                    });
-                    break;
-                case 'wait'://货到付款
-                    payNext(params).then((result) => {
-                        if (result.data.resultCode==200) {
-                            Toast({
-                                message: '提交订单成功，请尽快支付',
-                                duration: 1000
-                            }); 
-                        }else  if(result.data.resultCode==406) {
-                            Toast({
-                                message: '您还有订单未支付，请先支付再下单，谢谢！',
-                                duration: 1000
-                            });
-                        }
-                    }).catch((err) => {
-                        console.log(err)
-                    });
-                    break;
-                default:
-                    break;
-            }
-        },
-        wechatpay(data){
-            WeixinJSBridge.invoke(
-                'getBrandWCPayRequest', {
-                    "appId":data.wxId,     //公众号名称，由商户传入     
-                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
-                    "nonceStr":data.nonceStr, //随机串     
-                    "package":"prepay_id="+data.prepayId,
-                    "signType":"MD5",         //微信签名方式：     
-                    "paySign":data.sign//微信签名 
-                },
-                function(res){
-                if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                    Toast({
-                        message: '支付成功!',
-                        duration: 1000
-                    });
-                }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
-                    Toast({
-                        message: '取消支付',
-                        duration: 1000
-                    });
-                }else{
-                    Toast({
-                        message: '支付失败！',
-                        duration: 1000
-                    });
-                }
-            });
         },
         eventCollect(){
              let params={
@@ -776,6 +695,7 @@ export default {
     display: block;
     font-size: .12rem;
     font-weight: bold;
+    color:#666;
 }
 .footer-img .customer-service{
     background: url(../assets/customer_service.png) no-repeat 52% 50%;

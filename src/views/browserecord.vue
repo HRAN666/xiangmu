@@ -9,11 +9,9 @@
     </mt-header>
     </div>
     <div class="item" v-for="(item,index) in browseList" :key="index">
-        <img :src="'http://img.cmhg.shop/'" alt="">
-        <dd>{{item.bizIntegralProductVo}}</dd>
-        <dt>12人收藏</dt>
-        <span>￥ 0.1</span>
-        
+        <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+        <dd>{{item.bizProductVo.name}}<span>12人收藏</span></dd>
+        <dt>￥ 0.1</dt>
     </div>
 </div>
     
@@ -60,40 +58,36 @@ export default {
 .item{
     position: relative;
     width: 100%;
-    height: 1.4rem;
+    height: 1.2rem;
     background-color: #ffffff;
-    padding-bottom: .05rem;
+    border-bottom: #efefef .01rem solid;
 }
 .item img{
     position: relative;
-    width: 1.3rem;
+    height: 1rem;
     left: -1.13rem;
     top: .1rem;
 }
 .item dd{
     position: absolute;
-    width: 2.27rem;
+    text-align: left;
+    width: 2.2rem;
     font-size: .14rem;
-    left: 1.03rem;
+    left: 1.1rem;
     top: .1rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
 }
-.item dt{
-    position: absolute;
-    width: .5rem;
+.item dd span{
+    margin-top: .05rem;
+    display: block;
     font-size: .12rem;
     color: #B0B0B0;
-    left: 1.49rem;
-    top: .33rem;
 }
-.item span{
+.item dt{
     position: absolute;
     width: .5rem;
     font-size: .18rem;
     color: #BC2D2A;
     left: 1.47rem;
-    top: 1.1rem;
+    top: 0.8rem;
 }
 </style>

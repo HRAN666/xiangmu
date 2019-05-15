@@ -1,11 +1,11 @@
 <template>
     <div>
-        <!--购物车模块-->
+        <!--购物车模块&&搜索商品列表弹窗-->
         <div :class="{'popup':displayPopup,'ispopup':isPoup}" v-if="popup=='style1'">
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
-                    请添加收货地址
+                    {{addressDetail==''?'请选择收货地址':addressDetail}}
                     <img src="../assets/down2.png" alt="">
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
-                    请添加收货地址
+                    请选择收货地址
                     <img src="../assets/down2.png" alt="">
                 </div>
             </div>
@@ -115,7 +115,7 @@
                     <el-dropdown-item command='wechat'>微信支付</el-dropdown-item>
                     <el-dropdown-item command='wait'>货到付款</el-dropdown-item>
                 </el-dropdown-menu>
-                <img src="../assets/down.png" alt=""> 
+                <img src="../assets/down.png" alt="" @click="handleCommand"> 
                 </el-dropdown>
                 </div>
             </div>
@@ -216,40 +216,154 @@
     </div>
 </template>
 <script>
+import {payNow,payNext,lookaddAddress} from '../api/api.js'
+import { Toast } from 'mint-ui';
 export default {
-    props:['popup','title',"price","img","integral","quantity","total","selectpay"],//title:模块名字 popup 弹窗类型
+    inject:['reload'],
+    props:['popup','title',"price","img","integral","quantity","total","shopInf"],/*title:模块名字 popup 弹窗类型 price 商品单价 img 商品缩略图 integral购买后获得的积分 total总价格 shopInf 商品信息*/
     data () {
         return {
             displayPopup:true,//初始样式默认不弹窗
             isPoup:false,//弹窗
             expressShow:false,//选择快递的控件
-            selectCommand:'wechat',
-            num:this.$props.quantity,
+            selectCommand:'wechat',//选择支付方式
+            selectpay:'微信支付',
+            num:this.$props.quantity,//数量
+            addressDetail:'',//收货地址
+            shopDetail:'',
+            consignee:'',//收货人
+            phone:'',//收货人电话
         }
     },
     methods: {
         router(){
-            this.$router.push('/addAddress')
+            this.$router.push('/address')
         },
         express(){
             this.expressShow=true
         },
         handleCommand(command) {
            this.selectCommand=command
-           this.$emit('changePay',this.selectCommand)
+            switch (command) {
+                case 'wechat':
+                    this.selectpay='微信支付'
+                    break;
+                case 'wait':
+                    this.selectpay='货到付款'                    
+                    break;
+                default:
+                    break;
+            }
         },
-        toPay(){//支付写在父组件里
-            this.$emit('toPay',this.selectCommand)
+        toPay(){//微信支付||货到付款
+            if (this.addressDetail=='') {
+                Toast({
+                    message: '请填写收货信息',
+                    duration: 1000
+                });
+            }else{
+                let params={
+                    'userOpenId':localStorage.getItem('userOpenId'),
+                    'deliverFee':'0',//暂时写0(运费)
+                    'deliverName':this.consignee,//收货人
+                    'deliverPhone':this.phone,//收货电话
+                    'deliverAddress':this.addressDetail,//收货地址
+                    'productDetailJson':JSON.stringify(this.$props.shopInf),//商品信息
+                    'totalFee':this.$props.total*100,//总价格
+                    'totalNum':this.$props.quantity,//商品购买总量
+                    'ext1':'测试',
+                    'payTime':this.selectCommand=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
+                }
+               switch (this.selectCommand) {
+                    case 'wechat'://微信支付
+                        payNow(params).then((result) => {
+                            if (result.data.resultCode==200) {
+                                this.wechatpay(result.data);
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        });
+                        break;
+                    case 'wait'://货到付款
+                        payNext(params).then((result) => {
+                            if (result.data.resultCode==200) {
+                                this.reload()
+                                Toast({
+                                    message: '提交订单成功，请尽快支付',
+                                    duration: 1000
+                                });
+                            }else if(result.data.resultCode==406){
+                                Toast({
+                                    message: '你上次订单尚未支付',
+                                    duration: 1000
+                                });
+                            }
+                        }).catch((err) => {
+                            console.log(err)
+                        });
+                        break;
+                    default:
+                        break;
+                }               
+            }
+        },
+        wechatpay(data){
+            WeixinJSBridge.invoke(
+                'getBrandWCPayRequest', {
+                    "appId":data.wxId,     //公众号名称，由商户传入     
+                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
+                    "nonceStr":data.nonceStr, //随机串     
+                    "package":"prepay_id="+data.prepayId,
+                    "signType":"MD5",         //微信签名方式：     
+                    "paySign":data.sign//微信签名 
+                },
+                function(res){
+                if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    Toast({
+                        message: '支付成功!',
+                        duration: 1000
+                    });
+                    this.reload()
+                }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
+                    Toast({
+                        message: '取消支付',
+                        duration: 1000
+                    });
+                }else{
+                    Toast({
+                        message: '支付失败！',
+                        duration: 1000
+                    });
+                }
+            });
         },
         handleChange() {
             this.$emit('addquantity',this.num)
         },
         toExchange(){
             this.$emit('toExchange')
-        }
+        },
+        seachAddress(){
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId')
+            }
+            lookaddAddress(params).then((result) => {
+                if(result.data.resultCode==200){
+                    for (let i = 0; i < result.data.list.length; i++) {
+                        if (result.data.list[i].status==1) {
+                            this.addressDetail=result.data.list[i].detailedAddress
+                            this.consignee=result.data.list[i].consignee
+                            this.phone=result.data.list[i].phone
+                        }   
+                    }
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
     },
-    mounted () {
-       
+    created () {
+       this.seachAddress()
     },
     computed: {
 
@@ -295,12 +409,12 @@ export default {
 .details-message-right-number .el-icon-minus:before{
     font-size: .16rem;
     position: relative;
-    top: -.06rem;
+    top: -.03rem;
 }
 .details-message-right-number .el-icon-plus:before{
     font-size: .16rem;
     position: relative;
-    top: -.06rem;
+    top: -.03rem;
 }
 </style>
 <style scoped>

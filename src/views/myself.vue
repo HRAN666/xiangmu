@@ -13,9 +13,9 @@
                 <div class="header_float_nickname">
                 <span>{{nickName}}</span>
                 <img src="../assets/vip.png" alt="" class="header_float_nickname_vip" v-if="vip">
-                <div>
+                <div v-for="(item,index) in myselfList" :key="index">
                     <img src="../assets/integral.png" alt="">
-                    <span>积分：263</span>
+                    <span>积分：{{item.point/100}}</span>
                 </div>
                 </div>
             </div>
@@ -93,6 +93,7 @@ export default {
             headimgurl:localStorage.getItem('headimgurl'),//头像
             nickName:localStorage.getItem('nickname'),//名字
             vip:localStorage.getItem('vip'),
+            myselfList:'',
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -129,6 +130,7 @@ export default {
                 "userOpenId":localStorage.getItem('userOpenId')
             }
             checkVip(params).then((result) => {
+                this.myselfList=result.data.list
                 if (result.data.resultCode==200) {
                     this.vip=true;
                     localStorage.setItem('vip',true)

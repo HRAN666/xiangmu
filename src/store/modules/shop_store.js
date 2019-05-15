@@ -12,15 +12,17 @@ const shop = {
       addtoShop({commit},params){
         return new Promise((resolve, reject)=>{
           addShop(params).then((result) => {
-                commit('SHOP_LENGTH_ADD')
-                resolve()
+            if (result.data.resultCode==200) {
+              commit('SHOP_LENGTH_ADD')
+            }
+            resolve(result.data)
           }).catch((err) => {
               console.log(err)
               reject()
           });
         })
       },
-      loadingShop({commit},params){
+       loadingShop({commit},params){
         return new Promise((resolve,reject)=>{
           loadingshopCar(params).then((result) => {
               if (result.data.resultCode==200) {
