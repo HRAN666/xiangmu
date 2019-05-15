@@ -20,10 +20,9 @@ Vue.use(VueAMap);
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
-    // let nexDayTime=DayTimes(+new Date,1)
-    // // if (nexDayTime-localStorage.getItem('accessTokenCreateTime')>7200000) {
-    // //     localStorage.removeItem('userOpenId')
-    // // }
+    if (to.meta.keepAlive) {
+      store.commit('global/keepAlive', to.name)
+    }
     let userOpenId=localStorage.getItem('userOpenId');
     let code = localStorage.getItem('code');
     if (!userOpenId && to.path!='/author') {

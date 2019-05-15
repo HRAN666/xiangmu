@@ -4,7 +4,7 @@
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑" ref="shop" @toDelete='toDelete'></header-general>
         <div class="shopCar_address" v-if="ShopList.length != ''">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
-            送至：广东龙岗区
+            {{this.$refs.popup.addressDetail}}
             <img src="../assets/shopCar_more.png" alt="" class="shopCar_address_iconMore">
         </div>
         <div class="shopCar_commodity">
@@ -84,12 +84,12 @@
             <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+totalNum+')'}}</el-button>
             <el-button type="danger" @click="removeShop" v-if="deletShop">{{'删除('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum" :selectpay="selectpay" :integral="integral" @changePay="paymethod" @toPay="todoWechatPay"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum"  :integral="integral" :shopInf="shopInf"></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
 <script>
-import {loadingshopCar,removeShopCar,payNow,payNext,addShop,productDetails} from '../api/api.js'
+import {removeShopCar,addShop,productDetails} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
@@ -112,7 +112,6 @@ export default {
             totlePrice:0,//总价格
             totalNum:0,//总价格
             integral:'',//购买所获得的积分 目前1块钱积分
-            selectpay:'微信支付',//初始支付方式
             deletShop:false,
         }
     },
@@ -158,27 +157,15 @@ export default {
             this.showMark=false
             this.$refs.popup.isPoup=false
         },
-        paymethod(e){//切换支付方式
-            switch (e) {
-                case 'wechat':
-                    this.selectpay='微信支付'
-                    break;
-                case 'wait':
-                    this.selectpay='货到付款'                    
-                    break;
-                default:
-                    break;
-            }
-        },
         loadingShop(){
             let params={
                "userOpenId":localStorage.getItem('userOpenId'),
             }
-            loadingshopCar(params).then((result) => {
-                this.ShopList=result.data.list;
+            this.$store.dispatch('loadingShop',params).then((result) => {
+                this.ShopList=result
                 this.tocheckAll()//全选
             }).catch((err) => {
-                
+                console.log(err)
             });
         },
         removeShop(){
@@ -208,79 +195,6 @@ export default {
                 this.deletShop=this.$refs.shop.deletShop
             })
         },
-        todoWechatPay(e){//微信支付||货到付款
-            let params={
-                'userOpenId':localStorage.getItem('userOpenId'),
-                'deliverFee':'0',//暂时写0(运费)
-                'deliverName':'测试',//收货人
-                'deliverPhone':'13715363223',//收货电话
-                'deliverAddress':'测试',//收货地址
-                'productDetailJson':JSON.stringify(this.shopInf),//商品信息
-                'totalFee':this.totlePrice*100,//总价格
-                'totalNum':this.totalNum,//商品购买总量
-                'ext1':'测试',
-                'payTime':e=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
-            }
-           switch (e) {
-                case 'wechat'://微信支付
-                    payNow(params).then((result) => {
-                        if (result.data.resultCode==200) {
-                            this.wechatpay(result.data);
-                        }
-                    }).catch((err) => {
-                        console.log(err)
-                    });
-                    break;
-                case 'wait'://货到付款
-                    payNext(params).then((result) => {
-                        if (result.data.resultCode==200) {
-                            Toast({
-                                message: '提交订单成功，请尽快支付',
-                                duration: 1000
-                            });
-                        }else if(result.data.resultCode==406){
-                            Toast({
-                                message: '你上次订单尚未支付',
-                                duration: 1000
-                            });
-                        }
-                    }).catch((err) => {
-                        console.log(err)
-                    });
-                    break;
-                default:
-                    break;
-            }               
-        },
-        wechatpay(data){
-            WeixinJSBridge.invoke(
-                'getBrandWCPayRequest', {
-                    "appId":data.wxId,     //公众号名称，由商户传入     
-                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
-                    "nonceStr":data.nonceStr, //随机串     
-                    "package":"prepay_id="+data.prepayId,
-                    "signType":"MD5",         //微信签名方式：     
-                    "paySign":data.sign//微信签名 
-                },
-                function(res){
-                if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                    Toast({
-                        message: '支付成功!',
-                        duration: 1000
-                    });
-                }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
-                    Toast({
-                        message: '取消支付',
-                        duration: 1000
-                    });
-                }else{
-                    Toast({
-                        message: '支付失败！',
-                        duration: 1000
-                    });
-                }
-            });
-        },
         gotoDetail(id){
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
         },
@@ -291,7 +205,6 @@ export default {
                 "storeId":storeId,
                 "theNum":theNum
             }
-            this.$store.dispatch('addtoShop',params).then((result) => {});
         },
     },
     computed: {
@@ -320,6 +233,9 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
+    },
+    mounted() {
+
     },
 }
 </script>

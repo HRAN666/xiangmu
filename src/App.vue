@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-
+    <keep-alive :include="keepAliveComponents">
     <router-view v-if="isRouterAlive"/>
+    </keep-alive>
   </div>
 </template>
 <style>
@@ -23,6 +24,7 @@ html body{
 
 </style>
 <script>
+import {mapState} from 'vuex'
 import './assets/icon/iconfont.css'
 export default {
    provide () {
@@ -42,7 +44,12 @@ export default {
         this.isRouterAlive = true
       })
     }
-  }
+  },
+  computed:{
+    ...mapState({
+      keepAliveComponents:state=>state.global.keepAliveComponents
+    })
+  },
 }
 </script>
 

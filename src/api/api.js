@@ -52,7 +52,7 @@ export const homeBanner =params =>{
 }
 /************查询购物车商品 */
 export const loadingshopCar =params =>{
-    return axios.post('/api/biz/v01/listBizUserTrolleyAndProductWithoutToken.do',params);
+    return  axios.post('/api/biz/v01/listBizUserTrolleyAndProductWithoutToken.do',params);
 }
 /***********删除购物车 */
 export const removeShopCar =params =>{
