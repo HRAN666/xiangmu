@@ -5,7 +5,7 @@
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
-                    {{addressDetail==''?'请添加收货地址':addressDetail}}
+                    {{addressDetail==''?'请选择收货地址':addressDetail}}
                     <img src="../assets/down2.png" alt="">
                 </div>
             </div>
@@ -72,7 +72,7 @@
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
-                    请添加收货地址
+                    请选择收货地址
                     <img src="../assets/down2.png" alt="">
                 </div>
             </div>

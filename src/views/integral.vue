@@ -58,6 +58,8 @@ export default {
             integralDeatil(params).then((result) => {
                 this.integralListJson=[];
                 this.integralListJson.push(result.data.list[0]);//写死0因为只有一个商品
+                this.integralListJson[0].quantity= "1";//数量
+                this.integralListJson[0].paytype= 'integral';//购买方式
                 let params={
                     'userOpenId':localStorage.getItem('userOpenId'),
                     'deliverFee':'0',//暂时写0(运费)
@@ -65,6 +67,7 @@ export default {
                     'phone':'13715363223',//收货电话
                     'orderAddress':'测试',//收货地址
                     'productDetailJson':JSON.stringify(this.integralListJson),//商品信息
+                    'scorePrice':(this.integralListJson[0].integral),
                     'storeId':'0',//
                 }
                 conversionIntegral(params).then((result) => {

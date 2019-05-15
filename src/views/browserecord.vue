@@ -58,13 +58,13 @@ export default {
 .item{
     position: relative;
     width: 100%;
-    height: 1.4rem;
+    height: 1.2rem;
     background-color: #ffffff;
     border-bottom: #efefef .01rem solid;
 }
 .item img{
     position: relative;
-    width: 1.3rem;
+    height: 1rem;
     left: -1.13rem;
     top: .1rem;
 }
@@ -88,6 +88,6 @@ export default {
     font-size: .18rem;
     color: #BC2D2A;
     left: 1.47rem;
-    top: 1.1rem;
+    top: 0.8rem;
 }
 </style>

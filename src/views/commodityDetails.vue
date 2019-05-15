@@ -695,6 +695,7 @@ export default {
     display: block;
     font-size: .12rem;
     font-weight: bold;
+    color:#666;
 }
 .footer-img .customer-service{
     background: url(../assets/customer_service.png) no-repeat 52% 50%;

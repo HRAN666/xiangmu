@@ -21,6 +21,16 @@
                 待评价
             </p>
 
+            <p class="box_right" v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 积分兑换，未发货 -->
+                待发货
+            </p>
+            <p class="box_right" v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' "> <!-- 积分兑换，已发货 -->
+                待收货
+            </p>
+            <p class="box_right" v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'CONFIRMED' "> <!-- 积分兑换，未评价 -->
+                待评价
+            </p>
+
             <p class="box_right" v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 货到付款，未发货 -->
                 待发货
             </p>
@@ -41,11 +51,19 @@
             </p>
             <div class="bigbox" style="display:block;" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
                 <div class="box_long">
-                    <div v-if="value.bizProductVo == null">  
+                    <div v-if="value.paytype== null && value.bizProductVo == null ">
                         <img class="box_left" :src="'http://img.cmhg.shop/'+ value.icon"/>
                         <div class="box_text">{{value.name}}</div>
                         <div class="box_righttext"> 
                             <span>{{value.price|filtertoMoney}}</span>
+                            <p>x{{value.quantity}}</p> 
+                        </div>
+                    </div>
+                    <div v-if="value.paytype=='integral' && value.bizProductVo == null ">
+                        <img class="box_left" :src="'http://img.cmhg.shop/'+ value.icon"/>
+                        <div class="box_text">{{value.name}}</div>
+                        <div class="box_righttext"> 
+                            <span>{{value.integral/100}}积分</span>
                             <p>x{{value.quantity}}</p> 
                         </div>
                     </div>
@@ -66,7 +84,11 @@
                 <p class="box_bottom_payTime" v-if="item.payTime === 'PAY_NEXT'">
                     货到付款
                 </p>
-                <div>{{'共'+item.totalNum+'件商品'}}<span>{{'合计：￥'+item.totalFee/100}}</span></div>
+                <p class="box_bottom_payTime" v-if="item.payway === 'score'">
+                    积分兑换
+                </p>
+                <div v-if="item.scorePrice == null">{{'共'+item.totalNum+'件商品'}}<span>{{'合计：￥'+item.totalFee/100}}</span></div>
+                <div v-if="item.scorePrice != null">{{'共1件商品'}}<span>{{'合计：'+item.scorePrice/100+'积分'}}</span></div>
             </div>
             <div class="box_bottom_button">
                 <div style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' " @click="todoWechatPay(item)"> <!-- 微信支付，未付款 -->
@@ -120,6 +142,19 @@
                 </div>
                 <div v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'ON_GOING'" @click="applyDrawback(item)"> <!-- 货到付款，已完成，未评价 -->
                     申请退款
+                </div>
+
+                <div v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 积分兑换，未发货 -->
+                    等待发货
+                </div>
+                <div v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' "> <!-- 积分兑换，已发货 -->
+                    查看物流
+                </div>
+                <div style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 货到付款，已发货 -->
+                    确认收货
+                </div>
+                <div style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'ON_GOING'"> <!-- 货到付款，已完成，未评价 -->
+                    立即评价
                 </div>
             </div>
         </div>
@@ -437,7 +472,7 @@ export default {
 .box_bottom {
     position: absolute;
     right: 0;
-    width: 2rem;
+    width: 2.4rem;
     margin-top: -.4rem;
 }
 .box_bottom .box_bottom_payTime{
