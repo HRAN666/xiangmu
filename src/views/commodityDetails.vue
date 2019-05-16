@@ -134,6 +134,7 @@ export default {
             imgMark:false,//图片缩略图遮罩
             imgSrc:'',//缩略图src
             fromIntegral:false,
+            toexquery:false,
 		}
     },
     mounted () {
@@ -210,6 +211,9 @@ export default {
                 let imgArr=result.data.list[0].morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
+                }
+                if(this.toexquery==true){
+                    this.Cover();
                 }
             }).catch((err) => {
                 
@@ -350,7 +354,7 @@ export default {
         if (this.$route.query.toexquery) {//积分兑换进入
             this.loadingItegral(this.$route.query.integral)
             this.fromIntegral=true;
-            this.Cover();
+            this.toexquery=true;
         }
     }
 }
