@@ -1,9 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
-
-export default new Router({
+const router=new Router({
   mode: 'history',
   base: '/mp2/',
   routes: [
@@ -168,4 +166,5 @@ export default new Router({
       meta:{title:'我的收藏'},
     },
   ]
-})
+});
+export default router

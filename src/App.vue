@@ -50,6 +50,9 @@ export default {
       keepAliveComponents:state=>state.global.keepAliveComponents
     })
   },
+  mounted () {
+    
+  },
 }
 </script>
 
