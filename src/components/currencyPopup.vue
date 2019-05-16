@@ -66,7 +66,7 @@
             </div>
             <div class="details-message-right">
                 <div class="details-message-right-title">{{title}}</div>
-                <div class="details-message-right-price">{{integral!=0?'￥'+price.toFixed(2):price+'积分'}}</div>
+                <div class="details-message-right-price">{{integral!=0?'￥'+price.toFixed(2):price/100+'积分'}}</div>
                 <div class="details-message-right-number">数量：<el-input-number @change="handleChange" size="mini" v-model="num" :min="1" :max="99"></el-input-number></div>
             </div>
             <div class="popup_list">
