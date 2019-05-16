@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="service">
-                <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
+                <div class="service-message">服务<span>过期包退</span><div class="commodityDetails-choice"></div></div>
             </div>
             <div class="specifications">
                 <div class="specifications-message">规格<span>配送至龙岗区</span><div class="commodityDetails-choice"></div></div>
