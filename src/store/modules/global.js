@@ -1,5 +1,5 @@
 const keepLive={
-        namespaced: true,
+    namespaced: true,
     state: {
         keepAliveComponents:[],//存放缓存的数组name
     },

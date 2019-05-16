@@ -9,11 +9,10 @@
     </mt-header>
     </div>
     <div class="item" v-for="(item,index) in collectList" :key="index">
-        <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
-        <dd>{{item.bizProductVo.name}}</dd>
+        <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="">
+        <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}</dd>
         <dt>12人收藏</dt>
-        <span>{{item.bizProductVo.price|filtertoMoney}}</span>
-        
+        <span>{{(item.bizProductVo=undefined?item.bizIntegralProductVo:item.bizProductVo).price}}</span> 
     </div>
 </div>
     
@@ -35,11 +34,10 @@ export default {
             }
             collect(params).then((result) => {
                 if (result.data.resultCode==200) {
-                    this.collectList=result.data.list
+                    this.collectList=result.data.list;
                 }
-                console.log(this.collectList)
             }).catch((err) => {
-                
+                console.log(err)
             });
         }
     },
