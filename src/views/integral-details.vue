@@ -27,7 +27,7 @@
 <script>
 import header from '../components/header.vue'
 import { integral,IntegralDetail } from '../api/api.js'
-import { getDay } from '../common/common.js'
+import { getSecond } from '../common/common.js'
 export default {
     components:{
         'header-general':header,
@@ -47,7 +47,7 @@ export default {
                 // this.integral = result.data.list
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
                     // debugger
-                    var time = getDay(result.data.list[index].createTime)
+                    var time = getSecond(result.data.list[index].createTime)
                     this.integral.push(result.data.list[index])
                     this.integral[index].createTime = time;
                 }  

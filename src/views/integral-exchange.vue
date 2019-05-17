@@ -2,14 +2,14 @@
     <div>
     <header-general  headTitle="兑换记录" headClass="style6" routerTo='/myself'></header-general>
     <div class="integralbox">
-        <div class="integralmain">
+        <div class="integralmain" v-for="(item,index) in IntegralOrder" :key="index">
             <div class="integralmessage">
                 <div class="integralmessage-left">
-                    <div class="integralmessage-left-title">老坛酸菜牛肉面/桶</div>
-                    <div class="integralmessage-left-time">2018-12-13 13:01</div>
+                    <div class="integralmessage-left-title">{{item.name}}</div>
+                    <div class="integralmessage-left-time">{{item.addTime}}</div>
                 </div>
                 <div class="integralmessage-right">
-                    -100<img src="../assets/integralicon.png" alt="">
+                    -{{item.scoreUse/100}}<img src="../assets/integralicon.png" alt="">
                 </div>
             </div>
         </div>
@@ -23,6 +23,7 @@
 <script>
 import header from '../components/header.vue'
 import {integral,selectIntegral} from '../api/api.js'
+import { getSecond } from '../common/common.js'
 export default {
     components:{
         'header-general':header,
@@ -41,9 +42,9 @@ export default {
                 // let IntegralDetail = []
                 // this.integral = result.data.list
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
-                    // var time = getDay(result.data.list[index].createTime)
+                    var time = getSecond(result.data.list[index].addTime)
                     this.IntegralOrder.push(result.data.list[index])
-                    console.log(this.IntegralOrder)
+                    this.IntegralOrder[index].addTime = time;
                 }  
             }).catch((err) => {
                 
