@@ -13,14 +13,14 @@
                     更多>>
                 </div>
             </div>
-            <div class="location_all">
+            <!-- <div class="location_all">
                 <span>全部城市</span>
-            </div>
-        <mt-index-list :height="indexListHeight">
+            </div> -->
+        <!-- <mt-index-list :height="indexListHeight">
             <mt-index-section v-for="(item,index) in city" :key="index" :index="item.title">
                 <mt-cell v-for="(value,Indexes) in item.lists" :key="Indexes" :title="value" @click.native="thisCity(value)"></mt-cell>
             </mt-index-section>
-        </mt-index-list>
+        </mt-index-list> -->
     </div>
 </template>
 <script>
@@ -29,6 +29,7 @@ import {checkStore} from '../api/api.js'
 import {cityJson} from '../common/cityJson.js'
 import { Toast } from 'mint-ui';
 export default {
+    inject:['reload'],
     components:{
         'header-general':header,
     },

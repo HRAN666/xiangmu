@@ -72,7 +72,7 @@
             <div class="popup_list">
                 <span>收货地址</span>
                 <div class="popup_list_color" @click="router">
-                    请选择收货地址
+                {{addressDetail==''?'请选择收货地址':addressDetail}}
                     <img src="../assets/down2.png" alt="">
                 </div>
             </div>
@@ -220,7 +220,7 @@ import {payNow,payNext,lookaddAddress} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
     inject:['reload'],
-    props:['popup','title',"price","img","integral","quantity","total","shopInf"],/*title:模块名字 popup 弹窗类型 price 商品单价 img 商品缩略图 integral购买后获得的积分 total总价格 shopInf 商品信息*/
+    props:['popup','title',"price","img","integral","quantity","total","shopInf","fromProduct"],/*title:模块名字 popup 弹窗类型 price 商品单价 img 商品缩略图 integral购买后获得的积分 total总价格 shopInf 商品信息*/
     data () {
         return {
             displayPopup:true,//初始样式默认不弹窗
@@ -272,7 +272,8 @@ export default {
                     'totalFee':this.$props.total*100,//总价格
                     'totalNum':this.$props.quantity,//商品购买总量
                     'ext1':'测试',
-                    'payTime':this.selectCommand=='wait'?'PAY_NEXT':'PAY_NOW'//货到付款:PAY_NEXT,立即支付:PAY_NOW
+                    'payTime':this.selectCommand=='wait'?'PAY_NEXT':'PAY_NOW',//货到付款:PAY_NEXT,立即支付:PAY_NOW
+                    'fromProduct':this.$props.fromProduct==1?1:0
                 }
                switch (this.selectCommand) {
                     case 'wechat'://微信支付

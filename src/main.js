@@ -10,9 +10,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import * as filter from './filter/filter'
 import './assets/icon/iconfont'
 import App from './App.vue'
-// let VConsole = require('../node_modules/vconsole/dist/vconsole.min');
-// let vConsole = new VConsole();
-
 Object.keys(filter).forEach(key => Vue.filter(key, filter[key]));
 Vue.use(mint)
 Vue.use(elmentUi)
@@ -50,7 +47,7 @@ axios.interceptors.request.use(//拦截器
   config=>{
       if (localStorage.getItem('accessToken')&&config.url!='/api/biz/v01/listBizStoreWithoutToken.do') {
           config.headers.userToken=localStorage.getItem('accessToken')//请求头加上token
-          config.data.storeId=store.state.selectStore.storeId//由于多店模式在每个请求params加上storeId  
+          config.data.storeId=localStorage.getItem('storeId')//由于多店模式在每个请求params加上storeId  
       }
       return config
   },

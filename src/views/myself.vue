@@ -62,11 +62,11 @@
                 <span>我的收藏</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
             </div>
-            <div class="my_list" @click="toCoupon">
+            <!-- <div class="my_list" @click="toCoupon">
                 <img src="../assets/Offer.png" alt="">
                 <span>优惠卡券</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
-            </div>
+            </div> -->
             <div class="my_list" @click="address">
                 <img src="../assets/address.png" alt="">
                 <span>收货地址</span>

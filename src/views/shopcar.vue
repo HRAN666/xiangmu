@@ -80,11 +80,11 @@
                 总计：
                 <span>{{sumPrice}}</span>
             </div>
-            <span class="shopCar_totle_discount" v-if="!deletShop">已优惠：￥10.00</span>
+            <!-- <span class="shopCar_totle_discount" v-if="!deletShop">已优惠：￥10.00</span> -->
             <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+totalNum+')'}}</el-button>
             <el-button type="danger" @click="removeShop" v-if="deletShop">{{'删除('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum"  :integral="integral" :shopInf="shopInf"></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum"  :integral="integral" :shopInf="shopInf" fromProduct='1'></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>

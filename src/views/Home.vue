@@ -39,7 +39,6 @@
         <img src="../assets/wait_serve.png" alt="" class="home-waitserve" @click="toexpressmedicines">
       </div>
     </div>
-
     <div class="home-subfor" v-for="(item,index) in shopModels">  
         <div class="home-title">
             <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
@@ -135,7 +134,7 @@ export default {
             let day = [];
             let get = [];
             for (let index = 0; index < result.data.list.length; index++) {
-              if(result.data.list[index].nodeName !== '代取服务'){
+              if(result.data.list[index].nodeName !== '代取服务'&&result.data.list){
                 day.push(result.data.list[index]);//带每日折扣数组
               }else{
                 get.push(result.data.list[index]);//带代取数组
@@ -161,7 +160,7 @@ export default {
             this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
         }
   },
-  mounted () {
+  created () {
     this.loadingBanner();
     this.loadingShopList();
     this.loadingShopModel();
