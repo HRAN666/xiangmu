@@ -101,9 +101,11 @@ export default {
    top:.04rem;
 }
 .page{
+    position: fixed;
     width: 100%;
-    position: relative;
+    z-index: 999;
     bottom: 0;
+    background: #fff;
     font-size: .18rem;
     height: .58rem;
     color: #909399;
