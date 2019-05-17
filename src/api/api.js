@@ -70,6 +70,10 @@ export const payNext =params =>{
 export const addAddress =params =>{
     return axios.post('/api/portal/v01/insertPortalUserAddress.do',params);
 }
+/**********删除收货地址 */
+export const removeAddress =params =>{
+    return axios.post('/api/portal/v01/deleteAdressPortalUserAddress.do',params);
+}
 /**********默认收货地址 */
 export const defaults =params =>{
     return axios.post('/api/portal/v01/freezePortalUserAddress.do',params);

@@ -11,16 +11,16 @@
         <div class="address_content" v-for="(item,index) in addressList" :key="index">
             <div class="address_content_Name">{{item.consignee}}</div>
             <div>{{item.phone}}</div>
-            <div>{{item.province+item.city+item.county+item.detailedAddress}}</div>
+            <div>{{item.province+item.city+item.county+item.town+item.detailedAddress}}</div>
             <div class="address_content_bottom">
-                <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="event(item.id,index)">
+                <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="switchover(item.id,index)">
                 <label class=""></label>
                 <span>编辑</span>
-                <span @click="deleteAddress">删除</span>
+                <span @click="deleteAddress(index,item.id)">删除</span>
             </div>
         </div>
-        <el-button type="danger" @click.native="eventinsertAdress">确认</el-button>
-        <el-button type="danger" @click.native="deleteAddress">新建收货地址</el-button>
+        <!-- <el-button type="danger" @click.native="eventinsertAdress">确认</el-button> -->
+        <el-button type="danger" @click.native="insertAddress">新建收货地址</el-button>
         </div>
     </div>
 </template>
@@ -28,7 +28,7 @@
 import { Checklist  } from 'mint-ui';
 import header from '../components/header.vue'
 import { Toast } from 'mint-ui';
-import {seachAdress,insertAdress,lookaddAddress,checkAddress} from '../api/api.js'
+import {seachAdress,insertAdress,lookaddAddress,checkAddress,removeAddress} from '../api/api.js'
 import { debug, debuglog } from 'util';
 export default {  
     data () {
@@ -44,10 +44,24 @@ export default {
         }
     },
     methods: {
-        deleteAddress(){
+        insertAddress(){
             this.$router.push('/addAddress')
         },
-        eventinsertAdress(){        
+        deleteAddress(i,tid){
+            this.addressList.splice(i,1)
+            let params={
+                "id":tid
+            }
+            removeAddress(params).then((result) => {
+                Toast({
+                    message: '已删除地址',
+                    duration: 1000
+                });
+            }).catch((err) => {
+                
+            });
+        },
+        findadress(){//查询地址
             let params={
                 "userOpenId":localStorage.getItem('userOpenId')
             }
@@ -60,9 +74,8 @@ export default {
             }).catch((err) => {
                 
             });
-
         },
-        event(id,index){//arg[0] 地址id arg[1] 获取索引
+        switchover(id,index){//arg[0] 地址id arg[1] 获取索引 切换按钮
             let statusLength=this.status.length;
             this.status=[]
             for (let i = 0; i < statusLength; i++) {
@@ -75,10 +88,10 @@ export default {
             }
             checkAddress(params).then((result) => {
                 if (result.data.resultCode==200) {
-                Toast({
-                  message: '成功修改默认地址',
-                  duration: 1000
-                  });
+                    Toast({
+                    message: '成功修改默认地址',
+                    duration: 1000
+                    });
                 }
             }).catch((err) => {
                 console.log(err)
@@ -86,7 +99,7 @@ export default {
         }
     },
     mounted () {
-        this.eventinsertAdress();
+        this.findadress();
         // this.ababa();
     }
 }
@@ -170,6 +183,7 @@ export default {
     left: 0;
     border-radius: 0;
     background: #0288D1;
+    border-color:#0288D1;
 }
 </style>
 
