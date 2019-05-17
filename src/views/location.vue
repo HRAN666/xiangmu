@@ -8,10 +8,7 @@
             </div>
             <div class="location_school">
                 <span>当前城市商城校区:</span>
-                <div>深圳技师学院</div>
-                <div>深圳技师学院</div>
-                <div>深圳技师学院</div>
-                <div>深圳技师学院</div>
+                <div v-for="(item,index) in school" :key="index" @click="selectSchool(item.id,index)" :class="{select:changed==index}">{{item.name}}</div>
                 <div class="location_school_more">
                     更多>>
                 </div>
@@ -28,7 +25,9 @@
 </template>
 <script>
 import header from '../components/header.vue'
+import {checkStore} from '../api/api.js'
 import {cityJson} from '../common/cityJson.js'
+import { Toast } from 'mint-ui';
 export default {
     components:{
         'header-general':header,
@@ -37,7 +36,9 @@ export default {
         return {
             city:'',
             selectCity:'',
-            indexListHeight:396
+            indexListHeight:396,
+            school:'',//校区list
+            changed:this.$store.state.selectStore.storeIndex,//选中的校区默认第一个
         }
     },
     methods:{
@@ -46,10 +47,29 @@ export default {
         },
         thisCity(selectCity_value){
             this.selectCity=selectCity_value//重新选择城市的value
+        },
+        getStore(){
+            let params={}
+            checkStore(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    this.school=result.data.list;
+                }
+            }).catch((err) => {
+                
+            });
+        },
+        selectSchool(id,index){
+            this.changed=index
+            Toast({
+                message: '切换成功',
+                duration: 1000
+                });
+            this.$store.commit('selectStore/CHANGE_STORE',{'id':id,'index':index})
         }
     },
     mounted () {
-       this.getCity()
+       this.getCity();
+       this.getStore()
     }
 }
 </script>
@@ -125,7 +145,7 @@ export default {
     background: #0288d1;
     left: .1rem;
 }
-.location_school div:nth-of-type(1){
+.location_school .select{
       border: .01rem solid #0288d1;
 }
 .location_school div{
@@ -139,6 +159,9 @@ export default {
 }
 .location_school .location_school_more{
      width: .5rem;
+    position: absolute;
+    right: .1rem;
+    bottom: .18rem;
 }
 .location_all{
     height: .35rem;

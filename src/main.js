@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import router from './router'
 import store from './store/index'
+import axios from 'axios'
 import mint from 'mint-ui'
 import elmentUi from 'element-ui'
 import VueAMap from 'vue-amap';
@@ -9,7 +10,6 @@ import 'element-ui/lib/theme-chalk/index.css';
 import * as filter from './filter/filter'
 import './assets/icon/iconfont'
 import App from './App.vue'
-import {DayTimes} from './common/common'
 // let VConsole = require('../node_modules/vconsole/dist/vconsole.min');
 // let vConsole = new VConsole();
 
@@ -21,7 +21,7 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title
     if (to.meta.keepAlive) {
-      store.commit('global/keepAlive', to.name)
+      store.commit('global/keepAlive',to.name)
     }
     let userOpenId=localStorage.getItem('userOpenId');
     let code = localStorage.getItem('code');
@@ -46,6 +46,18 @@ VueAMap.initAMapApiLoader({
   // 默认高德 sdk 版本为 1.4.4
   v: '1.4.4'
 });
+axios.interceptors.request.use(//拦截器
+  config=>{
+      if (localStorage.getItem('accessToken')&&config.url!='/api/biz/v01/listBizStoreWithoutToken.do') {
+          config.headers.userToken=localStorage.getItem('accessToken')//请求头加上token
+          config.data.storeId=store.state.selectStore.storeId//由于多店模式在每个请求params加上storeId  
+      }
+      return config
+  },
+  err=>{
+      return Promise.reject(err);
+  }
+)
 new Vue({
   router,
   store,

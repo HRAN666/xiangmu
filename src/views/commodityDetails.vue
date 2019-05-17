@@ -11,7 +11,7 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==undefined?item.integral+'积分':'￥'+item.price.toFixed(2)/100}}</div>
+                <div class="goods-price">{{item.price==undefined?(item.integral/100)+'积分':'￥'+item.price.toFixed(2)/100}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销{{item.salesVolume}}笔</span>
@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="service">
-                <div class="service-message">服务<span>过敏包退</span><div class="commodityDetails-choice"></div></div>
+                <div class="service-message">服务<span>过期包退</span><div class="commodityDetails-choice"></div></div>
             </div>
             <div class="specifications">
                 <div class="specifications-message">规格<span>配送至龙岗区</span><div class="commodityDetails-choice"></div></div>
@@ -91,9 +91,12 @@
                         </router-link>
                     </div>
                 </div>
-                <div class="footer-operation">
+                <div class="footer-operation" v-if="item.price!=null">
                     <div class="add-cart" @click="addtoShop(item.storeId,item.id)">加入购物车</div>
                     <div class="purchase" @click="Cover">立即购买</div>
+                </div>
+                <div class="footer-operation" v-if="item.price==null">
+                    <div class="purchase-integral" @click="Cover">立即兑换</div>
                 </div>
             </div>
             <div class="cover" id="cover" v-show="markshow" @click="displayCover"></div>
@@ -131,6 +134,7 @@ export default {
             imgMark:false,//图片缩略图遮罩
             imgSrc:'',//缩略图src
             fromIntegral:false,
+            toexquery:false,
 		}
     },
     mounted () {
@@ -161,7 +165,8 @@ export default {
                 this.integral=e* this.shopDetails[0].price/100;
             }else{//积分算法
                 this.shopDetails[0].quantity=e;
-                this.total=e
+                this.quantity=e//更新传值数据
+                this.total=e* this.shopDetails[0].integral/100;
             }
         },
         loadingDetails(id){
@@ -193,17 +198,22 @@ export default {
             }
             integralDeatil(params).then((result) => {
                 this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
+                this.shopDetails[0].paytype= 'integral';//购买方式
                 this.detailstitle=this.shopDetails[0].name;//名字
                 this.detailsprice=this.shopDetails[0].integral//积分
                 this.detailsimg=this.shopDetails[0].icon;//缩略图
+                this.shopDetails[0].quantity= this.quantity;//购买数量
                 this.integral=0//传入弹窗中判断是否是积分商品 因为积分商品不得积分
                 this.shopDetails[0].quantity= this.quantity;//数量
-                this.total=this.shopDetails[0].integral;//总价格
+                this.total=this.shopDetails[0].integral/100;//总价格
                 this.collect=result.data.collectStatus==undefined?false:true//判断是否收藏
 
                 let imgArr=result.data.list[0].morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
+                }
+                if(this.toexquery==true){
+                    this.Cover();
                 }
             }).catch((err) => {
                 
@@ -307,10 +317,13 @@ export default {
                 "scoreProductId":this.$route.query.integral,//商品ID
                 "buyAmount":this.shopDetails[0].quantity,//购买数量
                 "scorePrice":this.shopDetails[0].integral,//积分价格
-                "scoreUse": this.total,//花费总积分  
-                "phone":"",//暂时空
-                "userName":"",
-                "orderAddress":""                              
+                'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
+                "scoreUse": this.total*100,//花费总积分  
+                'deliverFee':'0',//暂时写0(运费)
+                'userName':'测试',//收货人
+                'phone':'13715363223',//收货电话
+                'orderAddress':'测试',//收货地址
+                'storeId':'0',
             }
             conversionIntegral(params).then((result) => {
                 if (result.data.resultCode==200) {
@@ -332,13 +345,17 @@ export default {
     created() {
         if (this.$route.query.id) {//其他页面进入
             this.loadingDetails(this.$route.query.id)
-        }else{//积分商城进入
+        }else if(!this.$route.query.toexquery) {//积分商城进入
             this.loadingItegral(this.$route.query.integral)
-            this.fromIntegral=true
+            this.fromIntegral=true;
         }
     },
     mounted () {
-        //this.getaddAddress();
+        if (this.$route.query.toexquery) {//积分兑换进入
+            this.loadingItegral(this.$route.query.integral)
+            this.fromIntegral=true;
+            this.toexquery=true;
+        }
     }
 }
 
@@ -729,6 +746,12 @@ export default {
 }
 .footer-operation .purchase{
     width: 50%;
+    height: 100%;
+    background-color: #0288d1;
+    float: left;
+}
+.footer-operation .purchase-integral{
+    width: 100%;
     height: 100%;
     background-color: #0288d1;
     float: left;

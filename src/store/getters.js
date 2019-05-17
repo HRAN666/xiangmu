@@ -4,6 +4,9 @@ const getters = {
     },
     keepAliveComponents:(state)=>{
         state.global.keepAliveComponents
-    }
+    },
+    storeId:(state)=>{
+        state.selectStore.storeId
+    },
 }
 export default getters
