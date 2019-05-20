@@ -322,7 +322,10 @@ export default {
   margin:0 auto
 }
 .home-discount-img img{
-  width: 100%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
 }
 .home-title{
   position: relative;
