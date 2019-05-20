@@ -185,7 +185,7 @@ export default {
 
 <style scoped>
 .home{
-      overflow: hidden;
+  overflow: hidden;
 }
 .home-seach{
   background:#f8f8f8;
@@ -216,12 +216,12 @@ export default {
   width: 60%;
 }
 .home-seach-shop img{
-    width: .2rem;
-    height: .2rem;
-    position: absolute;
-    z-index: 888;
-    top: .22rem;
-    left: 40%;
+  width: .2rem;
+  height: .2rem;
+  position: absolute;
+  z-index: 888;
+  top: .22rem;
+  left: 40%;
 }
 .home-banner {
   height: 1.57rem;
@@ -258,8 +258,8 @@ export default {
   margin-left:.09rem;
 }
 .home-watiexpress{
-    width:37%;
-    height: 1.15rem;
+  width:37%;
+  height: 1.15rem;
 }
 .home-waitserve{
   width:27%;
@@ -334,17 +334,17 @@ export default {
   display: inline-block;
 }
 .home-to{
-    position: absolute;
-    width: .2rem;
-    right: .25rem;
-    top: .23rem;
+  position: absolute;
+  width: .2rem;
+  right: .25rem;
+  top: .23rem;
 }
 .home-discount-shoplist .home-discount-shopCar{
-    width: 0.24rem;
-    position: absolute;
-    top: 0.05rem;
-    right: 0.07rem;
-    padding: 0;
+  width: 0.24rem;
+  position: absolute;
+  top: 0.05rem;
+  right: 0.07rem;
+  padding: 0;
 }
 .to-the-end{
   position: relative;
@@ -353,7 +353,6 @@ export default {
   height: 1rem;
   top: 4.32rem;
 }
-
 .to-the-end .to-the-end-text{
   margin: 0 auto;
   line-height: .45rem;
@@ -369,7 +368,6 @@ export default {
   width: 30%;
   background: #cec9c9;
   height: .01rem;
-
 }
 .to-the-end .to-the-end-text:before{
   content: '';
