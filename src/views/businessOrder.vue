@@ -2,103 +2,231 @@
     <div>
         <header-general routerTo="/Home" headTitle="商家订单" headClass="style6"></header-general>
         <div class="date">
-            <div class="date-left">
-                <img src="../assets/before_day.png" alt="" class="date_img"><span>前一天</span>
-            </div>
-            <div class="date-title">2018-12-5</div>
-            <div class="date-right">
-                <span>后一天</span><img src="../assets/next_day.png" alt="" class="date_img">
-            </div>
-        </div>
+            <img src="../assets/before_day.png" alt="" @click="reductDate">
+            <el-date-picker 
+            v-model="value"
+            @change='getDate'
+            type="date"
+            placeholder="选择日期">
+            </el-date-picker>
+            <img src="../assets/next_day.png" alt="" @click="addDate">
+        </div>    
         <div class="type">
-            <div class="goodstype">全部货态<img src="../assets/day_more.png" alt="" class="type_img"></div>
+            <div class="goodstype">
+               <el-dropdown trigger="click"  @command="handledeliveryCommand">
+                <span class="el-dropdown-link">
+                    {{delivery==''?'全部货态':delivery}}<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command='全部货态'>全部货态</el-dropdown-item>
+                <el-dropdown-item command='送货中'>送货中</el-dropdown-item>
+                <el-dropdown-item command='已送达'>已送达</el-dropdown-item>
+            </el-dropdown-menu>
+                </el-dropdown>
+            </div>
             <div class="line"></div>
-            <div class="moneytype">全部货态<img src="../assets/day_more.png" alt="" class="type_img"></div>
+            <div class="moneytype">
+                <el-dropdown trigger="click"  @command="handlepayCommand">
+                <span class="el-dropdown-link">
+                    {{payState==''?'全部款态':payState}}<i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command='全部款态'>全部款态</el-dropdown-item>
+                <el-dropdown-item command='未支付'>未支付</el-dropdown-item>
+                <el-dropdown-item command='已支付'>已支付</el-dropdown-item>
+            </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </div>
-        <div class="information">
-            <div class="information-day"><img src="../assets/no_choice.png" alt=""><span>2018-12-5 10:43</span><span>订单号：</span><span>15411644025622351</span></div>
+        <div class="information_content">
+        <div class="information" v-for="(item,index) in orderList" :key="index">
+            <div class="information-day"><span>订单号：</span><span>{{item.id}}</span></div>
             <div class="information-name">
                 <div class="information-name-left">
-                    <div>收件人：<span>张斌13510025765</span></div>
-                    <div>收货店名：<span>深圳国际大饭店</span></div>
-                    <div>收货地址：<span>南山区深南大道</span></div>
-                    <div>付款状态：<span>现金</span></div>
+                    <div>收件人：<span>{{item.deliverName+item.deliverPhone}}</span></div>
+                    <div>收货店名：<span>{{item.deliverAddress}}</span></div>
+                    <div>收货地址：<span>{{item.deliverAddress}}</span></div>
+                    <div>付款状态：<span>{{item.payTime=='PAY_NEXT'?'未支付':'已支付'}}</span></div>
                 </div>
                 <div class="information-name-right">
-                    <div>已送达</div>
+                    <div>{{item.deliverStatus=='ON_THE_WAY'?'送货中':'已送达'}}</div>
                     <div>订单进行中</div>
                 </div>
             </div>
             <div class="information-total">
-                <div class="information-goodstotal">共<span>2</span>件商品<span>合计：￥</span><span>60.00</span></div>
+                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：￥</span><span>{{item.totalFee.toFixed(2)}}</span></div>
             </div>
         </div>
-        <div class="information">
-            <div class="information-day"><img src="../assets/no_choice.png" alt=""><span>2018-12-5 10:43</span><span>订单号：</span><span>15411644025622351</span></div>
-            <div class="information-name">
-                <div class="information-name-left">
-                    <div>收件人：<span>刘小冰18038054408</span></div>
-                    <div>收货店名：<span>五千年农夫</span></div>
-                    <div>收货地址：<span>龙岗区五联街道</span></div>
-                    <div>付款状态：<span>现金</span></div>
-                </div>
-                <div class="information-name-right">
-                    <div>已送达</div>
-                    <div>订单进行中</div>
-                </div>
-            </div>
-            <div class="information-total">
-                <div class="information-goodstotal">共<span>3</span>件商品<span>合计：￥</span><span>90.00</span></div>
-            </div>
         </div>
         <div class="footer">
-            <div><div class="up">上一页</div> <div class="down">下一页</div></div>
+            <div><div class="up" @click="up">上一页</div> <div class="down" @click="down">下一页</div></div>
         </div>
     </div>
 </template>
 <script>
 import header from '../components/header.vue'
+import {timestampToTime,DayTimes,getDay} from '../common/common.js'
 export default {
     components: {
         'header-general':header
     },
+   data () {
+        return {
+            orderList:[],
+            pageNo:1,
+            showToast:false,
+            delivery:'',//货态
+            payState:'',//款态
+            recordDelivery:'',
+            recordPayState:'',//收货状态
+            createTimeFrom:'',//前一天的时间
+            createTimeTo:'',//后一天的时间
+            value:new Date(),
+        }
+    },
+    methods: {
+        loadingOrder(){
+            let params={
+                'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
+                'pageSize':5,//默认给五条
+                'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
+                'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
+                'payStatus':arguments[3],
+                'deliverStatus':arguments[2],
+
+            }
+            bossOrder(params).then((result) => {
+                this.orderList=[]
+                this.orderList=this.orderList.concat(result.data.list)
+            }).catch((err) => {
+                
+            });
+        },
+        up(){
+            this.pageNo--
+            if (this.pageNo<=0) {
+                 this.showToast=true;
+                    setTimeout(() => {
+                        this.showToast=false
+                    }, 1000);
+                    return
+            }else{          
+                this.loadingOrder('',this.pageNo)
+            }
+        },
+        down(){
+            this.pageNo++
+            this.loadingOrder(this.createTimeFrom!=''?this.createTimeFrom:'',this.pageNo,'','',this.createTimeTo!=''?this.createTimeTo:'')
+        },
+        handledeliveryCommand(params){//货态
+            this.delivery=params
+           this.pageNo=1//每次搜索默认1
+            switch (params) {
+                case '全部货态':
+                   this.loadingOrder('','','',this.recordPayState) 
+                    break;
+                case '送货中':
+                   this.loadingOrder('','','ON_THE_WAY',this.recordPayState)
+                   this.recordDelivery='ON_THE_WAY'
+                    break;
+                case '已送达':
+                   this.loadingOrder('','','DELIVERED',this.recordPayState) 
+                   this.recordDelivery='DELIVERED'
+                    break;
+                default:
+                    break;
+            }
+        },
+        handlepayCommand(params){//款态
+            this.payState=params
+            this.pageNo=1//每次搜索默认1
+            switch (params) {
+                case '全部款态':
+                   this.loadingOrder('','',this.recordDelivery,'') 
+                    break;
+                case '未支付':
+                   this.loadingOrder('','',this.recordDelivery,'not_pay') 
+                   this.recordPayState='not_pay'
+                    break;
+                case '已支付':
+                   this.loadingOrder('','',this.recordDelivery,'PAID') 
+                   this.recordPayState='PAID'
+                    break;
+                default:
+                    break;
+            }
+        },
+        changeDate(e){
+            this.pageNo=1;
+            this.createTimeFrom=getDay(DayTimes(+e,1));//无论给什么都转格式
+            this.createTimeTo=getDay(DayTimes(+e,-1));
+            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
+        },
+         reductDate(){
+            let dateTime=getDay(this.value),
+            changeDate=timestampToTime(dateTime)
+            this.value=DayTimes(changeDate,-1)
+        },
+        addDate(){
+            let dateTime=getDay(this.value),
+            changeDate=timestampToTime(dateTime)
+            this.value=DayTimes(changeDate,1)            
+        },
+        getDate(){
+            
+        }
+    },
+    created () {
+       // this.loadingOrder()
+    }
 }
 </script>
+<style>
+.date .el-input{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.date .el-input__inner{
+    height: .36rem;
+}
+.date .el-input--prefix .el-input__inner{
+    text-align: center;
+    border: none;
+}
+.date .el-icon-date:before{
+    display: none;
+}
+.date .el-date-editor .el-icon-circle-close{
+    display: none;
+}
+</style>
+
 <style scoped>
 .date{
+    height: .36rem;
+    background: #fff;
     position: relative;
-    height: .5rem;
-    font-size: .17rem;
-    background-color: #ffffff
 }
-.date_img{
-    width: .21rem;
-    height: .21rem;
-    position: relative;
-    top: .04rem;
+.date img{
+    width:.14rem;
+    height:.14rem;
 }
-.date-left{
+.date img:nth-of-type(1){
+    float: left;
     position: absolute;
-    top: .08rem;
-    left: .05rem;
+    top: .1rem;
+    left: 10%;
+    z-index: 99;
 }
-.date-left span{
-    position: relative;
-    left: .1rem;
-}
-.date-title{
-    line-height: .5rem;
-    color: #0288d1;
-    font-size: .19rem;
-}
-.date-right{
+.date img:nth-of-type(2){
+    float: right;
     position: absolute;
-    top: .08rem;
-    right: .05rem;
-}
-.date-right span{
-    position: relative;
-    right: .1rem;
+    top: .1rem;
+    right: 10%;
+    z-index: 99;
 }
 .type{
     position: relative;
