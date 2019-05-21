@@ -72,7 +72,8 @@ export default {
                 email:'',
                 school:'',
                 radio: '1',
-            }
+            },
+            userid:''
         }
     },
     methods: {
@@ -87,29 +88,58 @@ export default {
                this.formLabelAlign.school=result.data.list[0].campus
                this.formLabelAlign.phone=result.data.list[0].phone
                this.formLabelAlign.email=result.data.list[0].email
+               this.userid=result.data.list[0].id
            }).catch((err) => {
                
            });
         },
         modifyVip(){
-            let params={
-                'userOpenId':localStorage.getItem('userOpenId'),
-                'sex':this.formLabelAlign.radio,
-                'campus':this.formLabelAlign.school,
-                'phone':this.formLabelAlign.phone,
-                'email':this.formLabelAlign.email
-                }
-            modify(params).then((result) => {
-                if (result.data.resultCode==200) {
-                    Toast({
-                    message: '修改信息成功',
+             if (this.formLabelAlign.name=='') {
+                Toast({
+                    message: '姓名不能为空',
+                    duration: 1000
+                    });
+            }else if(this.formLabelAlign.birthday==''){
+                Toast({
+                    message: '生日不能为空',
                     duration: 1000
                     })
-                    this.reload()
-                }
-            }).catch((err) => {
-                console.log(err)
-            });
+            }else if(this.formLabelAlign.school==''){
+                Toast({
+                    message: '校区不能为空',
+                    duration: 1000
+                    })
+            }else if(!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(this.formLabelAlign.phone)){
+                Toast({
+                    message: '请输入正确的手机号码',
+                    duration: 1000
+                    })
+            }else if (!/^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/.test(this.formLabelAlign.email)) {
+                
+                Toast({
+                    message: '请输入正确邮箱',
+                    duration: 1000
+                    })
+            }else{
+                let params={
+                    'id': this.userid,
+                    'sex':this.formLabelAlign.radio,
+                    'campus':this.formLabelAlign.school,
+                    'phone':this.formLabelAlign.phone,
+                    'email':this.formLabelAlign.email
+                    }
+                modify(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                        message: '修改信息成功',
+                        duration: 1000
+                        })
+                        this.reload()
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+            }
         }
     },
     created() {
