@@ -8,5 +8,8 @@ const getters = {
     storeId:(state)=>{
         state.selectStore.storeId
     },
+    isVip:(state)=>{
+        state.vipSale.isVip
+    }
 }
 export default getters

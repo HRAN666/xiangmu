@@ -4,14 +4,15 @@ import getters from './getters'
 import shop_store from './modules/shop_store'
 import global from './modules/global'
 import selectStore from './modules/selectStore'
-
+import vipSale from './modules/vipSale'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
     modules: {
         shop_store,
         global,
-        selectStore
+        selectStore,
+        vipSale
     },
     getters
 })

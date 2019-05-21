@@ -13,9 +13,9 @@
                 <div class="header_float_nickname">
                 <span>{{nickName}}</span>
                 <img src="../assets/vip.png" alt="" class="header_float_nickname_vip" v-if="vip">
-                <div v-for="(item,index) in myselfList" :key="index">
+                <div>
                     <img src="../assets/integral.png" alt="">
-                    <span>积分：{{item.point/100}}</span>
+                    <span>积分：{{ponit/100}}</span>
                 </div>
                 </div>
             </div>
@@ -83,7 +83,6 @@
 </template>
 <script>
 import footer from '../components/footer.vue'
-import {checkVip} from '../api/api.js'
 export default {
     components: {
       'footer-currency':footer
@@ -92,8 +91,8 @@ export default {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
             nickName:localStorage.getItem('nickname'),//名字
-            vip:localStorage.getItem('vip'),
-            myselfList:'',
+            vip:this.$store.state.vipSale.isVip,
+            ponit:0,
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -125,25 +124,17 @@ export default {
         goCollect(){
             this.$router.push('/collect')
         },
-        check(){//判断是否是会员
-            let params={
-                "userOpenId":localStorage.getItem('userOpenId')
-            }
-            checkVip(params).then((result) => {
-                this.myselfList=result.data.list
-                if (result.data.resultCode==200) {
-                    this.vip=true;
-                    localStorage.setItem('vip',true)
-                }else{
-                    localStorage.setItem('vip',false)
-                }
-            }).catch((err) => {
-                console.log(err)
-            });
-        }
     },
     created () {
-        this.check();
+        let params={
+            "userOpenId":localStorage.getItem('userOpenId')
+        }
+        this.$store.dispatch('check',params).then((result) => {
+            this.ponit=result.list[0].point
+            this.$store.commit('GET_PONIT',result.list[0].point)
+        }).catch((err) => {
+            console.log(err)
+        });
     }
 }
 </script>

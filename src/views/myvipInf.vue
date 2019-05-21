@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="vip_content">
-                    <div >*性别
+                    <div >性别
                     <br>
                     <el-radio v-model="formLabelAlign.radio" label="1">男</el-radio>
                     <el-radio v-model="formLabelAlign.radio" label="2">女</el-radio>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="vip_content">
-                    <div>*所在校区
+                    <div>所在校区
                     <br>
                     <el-select v-model="formLabelAlign.school" placeholder="请选择">
                         <el-option value="shanghai"></el-option>
@@ -35,26 +35,30 @@
                     </div>
                 </div>
                 <div class="vip_content">
-                    <div>*手机绑定
+                    <div>手机绑定
                     <br>
                     <input type="text"  v-model="formLabelAlign.phone">
                     </div>
                 </div>
                 <div class="vip_content">
-                    <div>*电子邮箱
+                    <div>电子邮箱
                     <br>
                     <input type="text"  v-model="formLabelAlign.email">       
                     </div>
                 </div>
         </div>
         <div class="add">
-          <el-button type="primary" @click="joinVip">确认修改</el-button>
+          <el-button type="primary" @click="modifyVip">确认修改</el-button>
         </div>
     </div>
 </template>
 <script>
 import header from '../components/header.vue'
+import {regVip,modify} from '../api/api'
+import { Toast } from 'mint-ui';
+
 export default {
+    inject:['reload'],
     components: {
         'header-general':header
     },
@@ -72,12 +76,44 @@ export default {
         }
     },
     methods: {
-        joinVip(){
-           
+        getVip(){
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId')
+            }
+           regVip(params).then((result) => {
+               this.formLabelAlign.name=result.data.list[0].name
+               this.formLabelAlign.birthday=result.data.list[0].birthday
+               this.formLabelAlign.radio=result.data.list[0].sex.toString()
+               this.formLabelAlign.school=result.data.list[0].campus
+               this.formLabelAlign.phone=result.data.list[0].phone
+               this.formLabelAlign.email=result.data.list[0].email
+           }).catch((err) => {
+               
+           });
+        },
+        modifyVip(){
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'sex':this.formLabelAlign.radio,
+                'campus':this.formLabelAlign.school,
+                'phone':this.formLabelAlign.phone,
+                'email':this.formLabelAlign.email
+                }
+            modify(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    Toast({
+                    message: '修改信息成功',
+                    duration: 1000
+                    })
+                    this.reload()
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
         }
     },
-    mounted() {
-
+    created() {
+        this.getVip()
     },
 }
 </script>
