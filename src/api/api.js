@@ -150,6 +150,10 @@ export const compileaddress =params =>{
 export const productReCommend =params =>{
     return axios.post('/api/biz/v01/BizProductReCommendById',params);
 }
+/*************根据浏览记录推荐 */
+export const HisproductReCommend =params =>{
+    return axios.post('/api/biz/v01/BizProductReCommendByHis',params);
+}
 /************* 查询店铺 */
 export const checkStore =params =>{
     return axios.post('/api/biz/v01/listBizStoreWithoutToken.do',params);
