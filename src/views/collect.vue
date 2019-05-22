@@ -12,7 +12,7 @@
         <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="">
         <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}</dd>
         <dt>12人收藏</dt>
-        <span v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral}}</span>
+        <span v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral}}积分</span>
         <span v-if="item.bizProductVo!=undefined">{{item.bizProductVo.price|filtertoMoney}}</span> 
     </div>
 </div>
@@ -92,7 +92,6 @@ export default {
 }
 .item span{
     position: absolute;
-    width: .5rem;
     font-size: .18rem;
     color: #BC2D2A;
     left: 1.47rem;

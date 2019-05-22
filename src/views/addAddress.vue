@@ -13,7 +13,7 @@
             <span v-else>正在定位</span>
         </div> -->
         <div class="card">
-            <div class="name">收件人姓名：<input type="text" class="inputBottom" placeholder="请输入真实名字" v-model="name"></div>
+            <div class="name">收件人姓名：<input type="text" class="inpBottom" placeholder="请输入真实名字" v-model="name"></div>
             <div class="phone">手机号码：<input type="text" class="inputBottom" placeholder="请输入11位手机号码" v-model="phone"></div>
             <div class="selectAddress">
                 <el-select v-model="value" placeholder="请选择">

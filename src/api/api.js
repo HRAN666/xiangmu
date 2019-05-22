@@ -142,6 +142,10 @@ export const browse =params =>{
 export const checkAddress =params =>{
     return axios.post('/api/portal/v01/freezePortalUserAddress.do',params);
 }
+/*************修改地址 */
+export const compileaddress =params =>{
+    return axios.post('/api/portal/v01/updateAddressPortalUserAddress.do',params);
+}
 /*************商品推荐 */
 export const productReCommend =params =>{
     return axios.post('/api/biz/v01/BizProductReCommendById',params);
