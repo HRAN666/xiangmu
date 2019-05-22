@@ -3,7 +3,7 @@
     <div class="orderd_goback" @click="goBack"><img src="../assets/goBack.png"></div>
     <el-row class="usestate">
         <nav>
-            <li v-for="item in usestate" :key="item.name":class="{active : active == item.name}" @click="selected(item.name)" >{{item.name}}</li>
+            <li v-for="item in usestate" :key="item.name" :class="{active : active == item.name}" @click="selected(item.name)" >{{item.name}}</li>
         </nav>
     </el-row>
     <div v-for="(item,index) in orderList" :key="index">

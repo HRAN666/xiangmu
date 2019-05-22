@@ -3,7 +3,7 @@
         <div class="address">
         <div class="address_header">
         <mt-header title="收货地址">
-        <router-link to="/myself" slot="left">
+        <router-link to="/myself"  slot="left">
             <mt-button icon="back"></mt-button>
         </router-link>
         </mt-header>
@@ -15,7 +15,7 @@
             <div class="address_content_bottom">
                 <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="switchover(item.id,index)">
                 <label class=""></label>
-                <span>编辑</span>
+                <span @click="compile(item.id)">编辑</span>
                 <span @click="deleteAddress(index,item.id)">删除</span>
             </div>
         </div>
@@ -44,6 +44,9 @@ export default {
         }
     },
     methods: {
+        compile(id){
+            this.$router.push({path:'/compile',query:{'id':id}})
+        },
         insertAddress(){
             this.$router.push('/addAddress')
         },
@@ -64,6 +67,7 @@ export default {
         findadress(){//查询地址
             let params={
                 "userOpenId":localStorage.getItem('userOpenId')
+
             }
             lookaddAddress(params).then((result) => {
                 this.addressList = result.data.list;
