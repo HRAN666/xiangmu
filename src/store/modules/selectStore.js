@@ -8,7 +8,8 @@ const storeId={
         CHANGE_STORE:(state,value)=>{
             localStorage.setItem('storeId',value.id)
             localStorage.setItem('storeIndex',value.index)
-            state.storeId=storeId;
+            state.storeId=value.id;
+            state.storeIndex=value.index;
         },
     },
     actions: {

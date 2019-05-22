@@ -150,5 +150,7 @@ export const productReCommend =params =>{
 export const checkStore =params =>{
     return axios.post('/api/biz/v01/listBizStoreWithoutToken.do',params);
 }
-
-
+/**********修改会员信息 */
+export const modify =params =>{
+    return axios.post('/api/portal/v01/changePortalUserMember.do',params);
+}

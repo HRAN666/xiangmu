@@ -41,7 +41,7 @@
     </div>
     <div class="home-subfor" v-for="(item,index) in shopModels">  
         <div class="home-title">
-            <img :src="'http://igo.vrdete.com/mp2/img/'+ item.bizProduct[0].nodeType+'.png'" alt="" class="home-sub">
+            <img :src="'http://igo.vrdete.com/mp2/img/discount.png'" alt="" class="home-sub">
             <span>{{item.nodeName}}</span>
             <img src="../assets/go.png" alt="" class="home-to" @click="modelSeach(item.catalogId)">
         </div>
@@ -186,6 +186,12 @@ export default {
 <style scoped>
 .home{
   overflow: hidden;
+}
+.home .home-subfor{
+    margin-top: .65rem;
+}
+.home .express{
+  margin-top: 0;
 }
 .home-seach{
   background:#f8f8f8;
