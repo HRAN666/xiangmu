@@ -399,7 +399,7 @@ export default {
     max-height: 100%;
 }
 .shopCar_shoplist p{
-    height: .4rem;
+    height: .45rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }

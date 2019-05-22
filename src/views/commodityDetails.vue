@@ -666,7 +666,7 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 1.8rem;
-    height: .4rem;
+    height: .45rem;
 }
 .commodityDetails-recommend-goods .recommend-goods-box .recommend-goods-price{
     position: absolute;
