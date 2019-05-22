@@ -240,6 +240,7 @@ export default {
                         message: '收货成功',
                         duration: 1000
                     });
+                    this.$router.go(0)//刷新当前页面
                 }else if(result.data.resultCode==500){
                     Toast({
                         message: '收货失败',
@@ -260,6 +261,7 @@ export default {
                         message: '申请取消订单',
                         duration: 1000
                     });
+                    this.$router.go(0)//刷新当前页面
                 }else if(result.data.resultCode==500){
                     Toast({
                         message: '取消失败',
@@ -280,6 +282,7 @@ export default {
                         message: '删除成功',
                         duration: 1000
                     });
+                    this.$router.go(0)//刷新当前页面
                 }else if(result.data.resultCode==500){
                     Toast({
                         message: '删除失败',
@@ -300,6 +303,7 @@ export default {
                         message: '申请退款',
                         duration: 1000
                     });
+                    this.$router.go(0)//刷新当前页面
                 }else if(result.data.resultCode==500){
                     Toast({
                         message: '申请失败',
