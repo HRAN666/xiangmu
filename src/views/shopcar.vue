@@ -25,7 +25,7 @@
             <span class="shopCar_recommendWord">商品推荐</span>
             <img src="../assets/comm.png" alt="" class="shopCar_recommendTitle">
             <div class="shopCar_discount">
-                <div v-for="(itemrecommend,indexes) in RecommendDetails" :key="indexes">
+                <div v-for="(itemrecommend,indexes) in RecommendDetails" :key="indexes" @click="gotoDetail(itemrecommend.id)">
                     <div class="shopCar_shoplist">
                         <div class="shopCarCar_shoplist_img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
                         <p>{{itemrecommend.name}}</p>
