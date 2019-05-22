@@ -192,10 +192,10 @@ export default {
                 console.log(err)
             });
         },
-        loadingRecommendDetails(){
+        loadingRecommendDetails(id){
             let params={
                 'userOpenId':localStorage.getItem('userOpenId'),
-                'id':'153b62b5-3310-4917-a930-2aad4bc09c3a',
+                'id':id,
                 'storeId':'0',
             }
             productReCommend(params).then((jsonData) => {
@@ -360,14 +360,14 @@ export default {
             this.loadingRecommendDetails();
         }else if(!this.$route.query.toexquery) {//积分商城进入
             this.loadingItegral(this.$route.query.integral);
-            this.loadingRecommendDetails();
+            this.loadingRecommendDetails(this.$route.query.integral);
             this.fromIntegral=true;
         }
     },
     mounted () {
         if (this.$route.query.toexquery) {//积分兑换进入
             this.loadingItegral(this.$route.query.integral);
-            this.loadingRecommendDetails();
+            this.loadingRecommendDetails(this.$route.query.integral);
             this.fromIntegral=true;
             this.toexquery=true;
         }
