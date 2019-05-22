@@ -346,7 +346,8 @@ export default {
         },
         seachAddress(){
             let params={
-                "userOpenId":localStorage.getItem('userOpenId')
+                "userOpenId":localStorage.getItem('userOpenId'),
+                'id':arguments[0]
             }
             lookaddAddress(params).then((result) => {
                 if(result.data.resultCode==200){
@@ -364,7 +365,7 @@ export default {
         },
     },
     created () {
-       this.seachAddress()
+       this.seachAddress(this.$route.query.address)
     },
     computed: {
 

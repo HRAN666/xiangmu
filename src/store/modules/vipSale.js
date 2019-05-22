@@ -17,6 +17,9 @@ const vip ={
                 if (result.data.resultCode==200) {
                     resolve(result.data)
                     localStorage.setItem('vip',true)
+                }else{
+                    resolve(result.data)
+                    localStorage.setItem('vip',false)
                 }
             }).catch((err) => {
                 reject(err)

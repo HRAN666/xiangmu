@@ -186,7 +186,7 @@ export default {
                     'province':this.value,//省
                     'city':this.value2,//城市
                     'county':this.value3,//区
-                    // 'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
+                     'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
                     'detailedAddress':this.fullAddress,//详情地址
                     'mobile':'13213152',
                     'town':this.value4,
@@ -265,13 +265,15 @@ export default {
 .amap-page-container .card .name input,.amap-page-container .card .phone input{
     width: 1.6rem;
     height: .18rem;
+    border:none;
+    outline: none;
 }
 .amap-page-container .card .phone{
     padding: .1rem;
 }
 .amap-page-container .card .inputBottom{
     float: right;
-    margin-right: .55rem;
+    margin-right: .85rem;
     border:none;
     border-bottom: 1px solid #e8e8e8;
     outline: none;

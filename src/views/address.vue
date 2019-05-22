@@ -8,10 +8,10 @@
         </router-link>
         </mt-header>
         </div>
-        <div class="address_content" v-for="(item,index) in addressList" :key="index">
+        <div class="address_content" v-for="(item,index) in addressList" :key="index" @click="changeAddress(item.id)">
             <div class="address_content_Name">{{item.consignee}}</div>
             <div>{{item.phone}}</div>
-            <div>{{item.province+item.city+item.county+item.town+item.detailedAddress}}</div>
+            <div>{{item.detailedAddress+item.campus+item.dormitory}}</div>
             <div class="address_content_bottom">
                 <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="switchover(item.id,index)">
                 <label class=""></label>
@@ -19,7 +19,6 @@
                 <span @click="deleteAddress(index,item.id)">删除</span>
             </div>
         </div>
-        <!-- <el-button type="danger" @click.native="eventinsertAdress">确认</el-button> -->
         <el-button type="danger" @click.native="insertAddress">新建收货地址</el-button>
         </div>
     </div>
@@ -29,7 +28,6 @@ import { Checklist  } from 'mint-ui';
 import header from '../components/header.vue'
 import { Toast } from 'mint-ui';
 import {seachAdress,insertAdress,lookaddAddress,checkAddress,removeAddress} from '../api/api.js'
-import { debug, debuglog } from 'util';
 export default {  
     data () {
         return {
@@ -50,10 +48,10 @@ export default {
         insertAddress(){
             this.$router.push('/addAddress')
         },
-        deleteAddress(i,tid){
+        deleteAddress(i,id){
             this.addressList.splice(i,1)
             let params={
-                "id":tid
+                "id":id
             }
             removeAddress(params).then((result) => {
                 Toast({
@@ -100,11 +98,13 @@ export default {
             }).catch((err) => {
                 console.log(err)
             });
+        },
+        changeAddress(id){   
+            this.$router.push({path:'/shopcar',query:{'address':id}})
         }
     },
     mounted () {
         this.findadress();
-        // this.ababa();
     }
 }
 </script>
