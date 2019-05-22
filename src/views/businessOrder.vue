@@ -66,6 +66,7 @@
 <script>
 import header from '../components/header.vue'
 import {timestampToTime,DayTimes,getDay} from '../common/common.js'
+import { Toast } from 'mint-ui';
 export default {
     components: {
         'header-general':header
@@ -74,7 +75,6 @@ export default {
         return {
             orderList:[],
             pageNo:1,
-            showToast:false,
             delivery:'',//货态
             payState:'',//款态
             recordDelivery:'',
@@ -105,10 +105,10 @@ export default {
         up(){
             this.pageNo--
             if (this.pageNo<=0) {
-                 this.showToast=true;
-                    setTimeout(() => {
-                        this.showToast=false
-                    }, 1000);
+                 Toast({
+                  message: '已经是第一页',
+                  duration: 1000
+                  });
                     return
             }else{          
                 this.loadingOrder('',this.pageNo)

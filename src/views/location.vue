@@ -39,7 +39,7 @@ export default {
             selectCity:'',
             indexListHeight:396,
             school:'',//校区list
-            changed:this.$store.state.selectStore.storeIndex,//选中的校区默认第一个
+            changed:localStorage.getItem('storeIndex'),//选中的校区默认第一个
         }
     },
     methods:{
@@ -71,7 +71,12 @@ export default {
     mounted () {
        this.getCity();
        this.getStore()
-    }
+    },
+    computed: {
+       changeIndex(){
+           return this.changed=this.$store.state.selectStore.storeIndex
+       }
+    },
 }
 </script>
 <style>
