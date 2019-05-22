@@ -136,6 +136,12 @@ const router=new Router({
       meta:{title:'代取外卖'},
     },
     {
+      path: '/compile',
+      name: 'compile',
+      component: () => import( './views/compile.vue'),
+      meta:{title:'编辑地址'},
+    },
+    {
       path: '/addAddress',
       name: 'addAddress',
       component: () => import( './views/addAddress.vue'),
