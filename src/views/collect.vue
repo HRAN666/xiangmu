@@ -12,7 +12,8 @@
         <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="">
         <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}</dd>
         <dt>12人收藏</dt>
-        <span>{{(item.bizProductVo=undefined?item.bizIntegralProductVo:item.bizProductVo).price}}</span> 
+        <span v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral}}</span>
+        <span v-if="item.bizProductVo!=undefined">{{item.bizProductVo.price|filtertoMoney}}</span> 
     </div>
 </div>
     

@@ -52,15 +52,10 @@
             </div>
             <div class="commodityDetails-recommend-goods">
                 <div class="recommend-message">推荐商品</div>
-                <div class="recommend-goods-img">
-                    <img src="../assets/图1.jpg" alt="">
-                    卫龙辣条亲嘴烧300g
-                    <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
-                </div>
-                <div class="recommend-goods-img">
-                    <img src="../assets/图1.jpg" alt="">
-                    卫龙辣条亲嘴烧300g
-                    <div class="recommend-goods-price">￥15.00<span>11人付款</span></div>
+                <div class="recommend-goods-box"  @click="gotoDetails(itemrecommend.id)" v-for="(itemrecommend,indexes) in RecommendDetails" :key="indexes">
+                    <div class="recommend-goods-img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
+                     <div class="recommend-goods-name">{{itemrecommend.name}}</div>
+                    <div class="recommend-goods-price">￥{{itemrecommend.price/100}}<span>{{itemrecommend.salesVolume}}人付款</span></div>
                 </div>
             </div>
             <div class="to-the-end">
@@ -109,7 +104,7 @@
 <script>
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue';
-import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults,conversionIntegral} from '../api/api.js'
+import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults,conversionIntegral,productReCommend} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
     components: {
@@ -121,6 +116,7 @@ export default {
             markshow:false,
             shopDetails:[],//商品详情信息 （和积分共用）
             bannerImg:[],//单独抽离出来的moreicon （和积分共用）
+            RecommendDetails:[],//商品推荐详情
             selectpay:'微信支付',//初始支付方式
             detailstitle:'',//商品名字
             detailsprice:'',//商品价格
@@ -144,6 +140,10 @@ export default {
     methods:{
         select(item){//单选商品 id:商品id  item:商品信息
             
+        },
+        gotoDetails(id){//go商品详情
+            this.$router.push({path:'/commodityDetails',query:{id:id}})//id:商品详情渲染的id
+            this.$router.go(0)//刷新当前页面
         },
         displayCover(){
             this.markshow=false
@@ -188,6 +188,18 @@ export default {
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
                 }
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
+        loadingRecommendDetails(){
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'id':'153b62b5-3310-4917-a930-2aad4bc09c3a',
+                'storeId':'0',
+            }
+            productReCommend(params).then((jsonData) => {
+                this.RecommendDetails=jsonData.data.list
             }).catch((err) => {
                 console.log(err)
             });
@@ -344,15 +356,18 @@ export default {
     },
     created() {
         if (this.$route.query.id) {//其他页面进入
-            this.loadingDetails(this.$route.query.id)
+            this.loadingDetails(this.$route.query.id);
+            this.loadingRecommendDetails();
         }else if(!this.$route.query.toexquery) {//积分商城进入
-            this.loadingItegral(this.$route.query.integral)
+            this.loadingItegral(this.$route.query.integral);
+            this.loadingRecommendDetails();
             this.fromIntegral=true;
         }
     },
     mounted () {
         if (this.$route.query.toexquery) {//积分兑换进入
-            this.loadingItegral(this.$route.query.integral)
+            this.loadingItegral(this.$route.query.integral);
+            this.loadingRecommendDetails();
             this.fromIntegral=true;
             this.toexquery=true;
         }
@@ -615,7 +630,6 @@ export default {
     margin-top: .15rem;
     color: #242424;
     font-size: .16rem;
-    height: 2.8rem;
     position: relative;
     text-align: left;
 }
@@ -625,32 +639,47 @@ export default {
     border-left:.1rem solid #207cd3;
     padding-left: .1rem;
 }
-.commodityDetails-recommend-goods .recommend-goods-img{
-    float: left;
-    width: 47%;
+.commodityDetails-recommend-goods .recommend-goods-box{
+    width: 1.75rem;
+    height: 2.6rem;
     margin-top: .08rem;
+    margin-left: .075rem;
+    position: relative;
+    display: inline-table;
 }
-.commodityDetails-recommend-goods .recommend-goods-img:nth-child(2){
-    margin-left: .068rem;
-}
-.commodityDetails-recommend-goods .recommend-goods-img:nth-child(3){
-    float: right;
-    margin-right: .1rem;
-}
-.commodityDetails-recommend-goods .recommend-goods-img img{
-    width: 100%;
+.commodityDetails-recommend-goods .recommend-goods-box .recommend-goods-img{
+    width: 1.75rem;
+    height: 1.75rem;
+    text-align: center;
     border: .01rem solid #ccc;
 }
-.commodityDetails-recommend-goods .recommend-goods-price{
-    margin-top: .1rem;
+.commodityDetails-recommend-goods .recommend-goods-box .recommend-goods-img img{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+.commodityDetails-recommend-goods .recommend-goods-box .recommend-goods-name{
+    display: inline-block;
+    position: absolute;
+    top: 1.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 1.8rem;
+    height: .4rem;
+}
+.commodityDetails-recommend-goods .recommend-goods-box .recommend-goods-price{
+    position: absolute;
+    top: 2.3rem;
+    width: 1.8rem;
     font-size: .15rem;
     line-height: .23rem;
     color: #0288d1;
 }
-.commodityDetails-recommend-goods .recommend-goods-price span{
+.commodityDetails-recommend-goods .recommend-goods-box .recommend-goods-price span{
     font-size: .13rem;
     line-height: .23rem;
-    display: inline;
+    margin-right: .05rem;
     float: right;
     color: #888888;
 }

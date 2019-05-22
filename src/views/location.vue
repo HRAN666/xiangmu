@@ -71,7 +71,12 @@ export default {
     mounted () {
        this.getCity();
        this.getStore()
-    }
+    },
+    computed: {
+       changeIndex(){
+           return this.changed=this.$store.state.selectStore.storeIndex
+       }
+    },
 }
 </script>
 <style>

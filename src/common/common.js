@@ -82,6 +82,19 @@ function DayTimes(theTime, num) {
     num = parseInt(num, "10");
     return theTime + 24 * 60 * 60 * 1000 * num;
 }
+function timestampToTime(timestamp) {
+    var year = timestamp.split("-")[0];
+    var month = timestamp.split("-")[1];
+    var day = timestamp.split("-")[2];
+    var datetime = new Date();
+    datetime.setFullYear(year);
+    datetime.setMonth(month - 1);
+    datetime.setDate(day);
+    datetime.setHours(0);
+    datetime.setMinutes(0);
+    datetime.setSeconds(0);
+    return datetime.getTime();
+}
 function getDay(timestamp) {
     var date = new Date(timestamp),
     Y = date.getFullYear() + '-',
@@ -118,5 +131,6 @@ export{
     debounce,
     DayTimes,
     getDay,
-    getSecond
+    getSecond,
+    timestampToTime
 }

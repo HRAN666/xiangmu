@@ -171,6 +171,12 @@ const router=new Router({
       component: () => import( './views/collect.vue'),
       meta:{title:'我的收藏'},
     },
+    {
+      path: '/customerService',
+      name: 'customerService',
+      component: () => import( './views/customerService.vue'),
+      meta:{title:'客服中心'},
+    },
   ]
 });
 export default router

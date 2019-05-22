@@ -10,7 +10,7 @@
                     </div>
                 </div>
                 <div class="reg_content">
-                    <div >*性别
+                    <div >性别
                     <br>
                     <el-radio v-model="formLabelAlign.radio" label="1">男</el-radio>
                     <el-radio v-model="formLabelAlign.radio" label="2">女</el-radio>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="reg_content">
-                    <div>*所在校区
+                    <div>所在校区
                     <br>
                     <el-select v-model="formLabelAlign.school" placeholder="请选择">
                         <el-option value="shanghai"></el-option>
@@ -35,13 +35,13 @@
                     </div>
                 </div>
                 <div class="reg_content">
-                    <div>*手机绑定
+                    <div>手机绑定
                     <br>
                     <input type="text"  v-model="formLabelAlign.phone">
                     </div>
                 </div>
                 <div class="reg_content">
-                    <div>*电子邮箱
+                    <div>电子邮箱
                     <br>
                     <input type="text"  v-model="formLabelAlign.email">       
                     </div>
