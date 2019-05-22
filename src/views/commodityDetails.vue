@@ -206,6 +206,7 @@ export default {
         loadingItegral(id){
             let params={
                 'id':id,
+                'userOpenId':localStorage.getItem('userOpenId')
             }
             integralDeatil(params).then((result) => {
                 this.shopDetails.push(result.data.list[0]);//写死0因为只有一个商品
@@ -217,8 +218,7 @@ export default {
                 this.integral=0//传入弹窗中判断是否是积分商品 因为积分商品不得积分
                 this.shopDetails[0].quantity= this.quantity;//数量
                 this.total=this.shopDetails[0].integral/100;//总价格
-                this.collect=result.data.collectStatus==undefined?false:true//判断是否收藏
-
+                this.collect=result.data.list[0].collectStatus==undefined?false:true//判断是否收藏
                 let imgArr=result.data.list[0].morePics.split(',')
                 for (let i = 0; i < imgArr.length; i++) {
                     this.bannerImg.push(imgArr[i])
