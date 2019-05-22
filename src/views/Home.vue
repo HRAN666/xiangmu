@@ -127,9 +127,7 @@ export default {
           });
       },
       loadingShopModel(){
-        let params={
-          'storeId':'0'
-        }
+        let params={}
         shopmodel(params).then((result) => {
             let day = [];
             let get = [];

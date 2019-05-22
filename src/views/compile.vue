@@ -3,7 +3,7 @@
         <div class="address">
         <div class="address_header">
             <mt-header title="">
-            <router-link to="/myself" slot="left">
+            <router-link to="/address" slot="left">
                 <mt-button icon="back">编辑收货地址</mt-button>
             </router-link>
             <mt-button slot="right" @click="update()">保存</mt-button>

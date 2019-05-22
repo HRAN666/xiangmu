@@ -196,7 +196,6 @@ export default {
             let params={
                 'userOpenId':localStorage.getItem('userOpenId'),
                 'id':id,
-                'storeId':'0',
             }
             productReCommend(params).then((jsonData) => {
                 this.RecommendDetails=jsonData.data.list
@@ -335,7 +334,6 @@ export default {
                 'userName':'测试',//收货人
                 'phone':'13715363223',//收货电话
                 'orderAddress':'测试',//收货地址
-                'storeId':'0',
             }
             conversionIntegral(params).then((result) => {
                 if (result.data.resultCode==200) {

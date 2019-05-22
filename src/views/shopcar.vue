@@ -145,7 +145,6 @@ export default {
         loadingHisproductReCommend(){
             let params={
                 'userOpenId':localStorage.getItem('userOpenId'),
-                'storeId':'0',
             }
             HisproductReCommend(params).then((jsonData) => {
                 this.RecommendDetails=jsonData.data.list

@@ -8,13 +8,16 @@
         </router-link>
         </mt-header>
         </div>
-        <div class="address_content" v-for="(item,index) in addressList" :key="index" @click="changeAddress(item.id)">
+        <div class="address_content" v-for="(item,index) in addressList" :key="index" >
             <div class="address_content_Name">{{item.consignee}}</div>
             <div>{{item.phone}}</div>
-            <div>{{item.detailedAddress+item.campus+item.dormitory}}</div>
+            <div @click="changeAddress(item.id)">{{item.detailedAddress+item.campus+item.dormitory}}</div>
             <div class="address_content_bottom">
                 <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="switchover(item.id,index)">
                 <label class=""></label>
+                <div>
+                    默认地址
+                </div>
                 <span @click="compile(item.id)">编辑</span>
                 <span @click="deleteAddress(index,item.id)">删除</span>
             </div>
@@ -240,6 +243,13 @@ export default {
     position: relative;
     top: .22rem;
     margin-right: .24rem;
+}
+.address_content_bottom div{
+    display: inline-block;
+    margin-top: .21rem;
+    float: left;
+    margin-left: .2rem;
+
 }
 .address_content .address_content_bottom{
     padding-top:.69rem;
