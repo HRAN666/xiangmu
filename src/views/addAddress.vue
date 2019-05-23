@@ -189,7 +189,8 @@ export default {
                     // 'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
                     'detailedAddress':this.fullAddress,//详情地址
                     'mobile':'13213152',
-                    'town':this.value4,
+                    'town':this.floorBuild+this.floorNumber,
+                    'campus':this.value4,
                     'userOpenId':localStorage.getItem('userOpenId')
                 }
                 addAddress(params).then((result) => {
