@@ -77,7 +77,7 @@ export default {
     },
     data(){
         return{
-            checkAll:false,//是否全选
+            checkAll:true,//是否全选
             shopListCheck:[],//选中商品id
             ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)

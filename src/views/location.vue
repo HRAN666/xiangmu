@@ -54,7 +54,7 @@ export default {
             checkStore(params).then((result) => {
                 if (result.data.resultCode==200) {
                     this.school=result.data.list;
-                    this.changed=0//默认第一个店
+                    this.changed=this.$store.state.selectStore.storeIndex//默认第一个店
                 }
             }).catch((err) => {
                 
