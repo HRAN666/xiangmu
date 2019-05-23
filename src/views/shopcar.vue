@@ -77,7 +77,7 @@ export default {
     },
     data(){
         return{
-            checkAll:true,//是否全选
+            checkAll:false,//是否全选
             shopListCheck:[],//选中商品id
             ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)
@@ -189,6 +189,11 @@ export default {
                 "storeId":storeId,
                 "theNum":theNum
             }
+            addShop(params).then((result) => {
+            }).catch((err) => {
+                console.log(err)
+            });
+
         },
     },
     computed: {
@@ -398,7 +403,7 @@ export default {
     max-height: 100%;
 }
 .shopCar_shoplist p{
-    height: .45rem;
+    height: .4rem;
     overflow: hidden;
     text-overflow: ellipsis;
 }
