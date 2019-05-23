@@ -117,6 +117,7 @@ export default {
                         message: '成功加入会员',
                         duration: 1000
                     })
+                    this.$router.push('/myvipInf')
                    }else{
                     Toast({
                         message: '该手机号已注册',
