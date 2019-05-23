@@ -8,6 +8,14 @@ const vip ={
     mutations: {
         GET_PONIT:(state,value)=>{
             state.ponit=value/100
+        },
+        VIP_TRUE:(state)=>{
+            localStorage.setItem('vip',true)
+            state.isVip=true
+        },
+        VIP_FALSE:(state)=>{
+            localStorage.setItem('vip',false)
+            state.isVip=false
         }
     },
     actions: {
@@ -15,11 +23,13 @@ const vip ={
         return new Promise((resolve,reject)=>{
             checkVip(params).then((result) => {
                 if (result.data.resultCode==200) {
+                    commit('VIP_TRUE')
+                    commit('GET_PONIT',result.data.list[0].point)
                     resolve(result.data)
-                    localStorage.setItem('vip',true)
                 }else{
+                    commit('VIP_FALSE')
+                    commit('GET_PONIT',result.data.list[0].point)
                     resolve(result.data)
-                    localStorage.setItem('vip',false)
                 }
             }).catch((err) => {
                 reject(err)
