@@ -5,17 +5,17 @@
             <div class="header_float">
                 <img :src="headimgurl" alt="" class="header_float_headimgurl">
                 <div class="header_float_reg">
-                <img src="../assets/reg.png"  alt="" v-if="vip==false">
-                <img src="../assets/imvip.png"  alt="" v-if="vip">
-                <span v-if="vip==false" @click="toreg">会员注册</span>
-                <span v-if="vip" :class="color" @click="myvip">我的会员</span>
+                <img src="../assets/reg.png"  alt="" v-if="getStore==false">
+                <img src="../assets/imvip.png"  alt="" v-if="getStore">
+                <span v-if="getStore==false" @click="toreg">会员注册</span>
+                <span v-if="getStore" :class="color" @click="myvip">我的会员</span>
                 </div>
                 <div class="header_float_nickname">
                 <span>{{nickName}}</span>
-                <img src="../assets/vip.png" alt="" class="header_float_nickname_vip" v-if="vip">
+                <img src="../assets/vip.png" alt="" class="header_float_nickname_vip" v-if="getStore">
                 <div>
                     <img src="../assets/integral.png" alt="">
-                    <span>积分：{{ponit/100}}</span>
+                    <span>积分：{{getStoreScore}}</span>
                 </div>
                 </div>
             </div>
@@ -91,8 +91,6 @@ export default {
         return {
             headimgurl:localStorage.getItem('headimgurl'),//头像
             nickName:localStorage.getItem('nickname'),//名字
-            vip:this.$store.state.vipSale.isVip,
-            ponit:0,
             color:'header_float_reg_vip',//会员样式
         }
     },
@@ -130,12 +128,20 @@ export default {
             "userOpenId":localStorage.getItem('userOpenId')
         }
         this.$store.dispatch('check',params).then((result) => {
-            this.ponit=result.list[0].point
-            this.$store.commit('GET_PONIT',result.list[0].point)
+            
         }).catch((err) => {
             console.log(err)
         });
-    }
+
+    },
+    computed: {
+        getStore(){
+            return this.$store.state.vipSale.isVip;
+        },
+        getStoreScore(){
+            return this.$store.state.vipSale.ponit
+        }
+    },
 }
 </script>
 

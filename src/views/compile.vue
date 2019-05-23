@@ -3,7 +3,7 @@
         <div class="address">
         <div class="address_header">
             <mt-header title="">
-            <router-link to="/myself" slot="left">
+            <router-link to="/address" slot="left">
                 <mt-button icon="back">编辑收货地址</mt-button>
             </router-link>
             <mt-button slot="right" @click="update()">保存</mt-button>
@@ -15,37 +15,24 @@
                     收货人  
                 </div>
                 <input type="text" v-model="name">
-                    <!-- <div contenteditable="true" v-model="name">
-
-                        {{item.consignee}}
-                    </div> -->
             </div>
             <div class="compile_box">
                 <div>
                     手机号码  
                 </div>
                 <input type="text" v-model="phone">
-                <!-- <div contenteditable="true" v-model="phone">
-                    {{item.phone}}
-                </div>                 -->
             </div>
             <div class="compile_box">
                 <div>
                     省市地区  
                 </div>
                 <input type="text" v-model="provincess">
-                <!-- <div contenteditable="true" v-model="province">
-                    {{item.province+item.city+item.county}}
-                </div>                 -->
             </div>
             <div class="compile_box">
                 <div>
                     详细地址  
                 </div>        
                 <input type="text" v-model="detailedAddress">
-                <!-- <div contenteditable="true" v-model="detailedAddress">
-                    {{item.detailedAddress}}
-                </div>         -->
             </div>     
             <div class="compile_bigbox">
                 <div>
@@ -59,8 +46,6 @@
                 </div>             
             </div>
         </div>
-        <!-- <el-button type="danger" @click.native="eventinsertAdress">确认</el-button> -->
-        <el-button type="danger" @click.native="insertAddress">保存收货地址</el-button>
         </div>
     </div>
 </template>
@@ -87,6 +72,7 @@ export default {
             commit:false,//确认按钮
             status:[],//设置默认地址key
             addressList:[],
+            value:false
 
         }
     },

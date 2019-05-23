@@ -43,7 +43,7 @@ export default {
     methods: {
         loadingIntegral(){
             let params={
-                "storeId":"0"
+                'userOpenId':localStorage.getItem('userOpenId')
             }
             integral(params).then((result) => {
                 this.integralList=result.data.list

@@ -3,7 +3,7 @@
     <div class="home-seach">
           <div class="home-seach-gps" @click="selectSchool">
             <img src="../assets/gps.png" alt="">
-            <p>深圳技师学院</p>
+            <p>{{getSelectStoreName}}</p>
           </div>
           <div class="home-seach-shop"> 
             <img src="../assets/seach.png" alt="">
@@ -127,9 +127,7 @@ export default {
           });
       },
       loadingShopModel(){
-        let params={
-          'storeId':'0'
-        }
+        let params={}
         shopmodel(params).then((result) => {
             let day = [];
             let get = [];
@@ -164,6 +162,11 @@ export default {
     this.loadingBanner();
     this.loadingShopList();
     this.loadingShopModel();
+  },
+  computed: {
+    getSelectStoreName(){
+      return this.$store.state.selectStore.storeName
+    }
   }
 }
 </script>
@@ -226,7 +229,7 @@ export default {
   height: .2rem;
   position: absolute;
   z-index: 888;
-  top: .22rem;
+  top: .2rem;
   left: 40%;
 }
 .home-banner {

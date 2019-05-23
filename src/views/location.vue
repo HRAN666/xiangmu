@@ -8,7 +8,7 @@
             </div>
             <div class="location_school">
                 <span>当前城市商城校区:</span>
-                <div v-for="(item,index) in school" :key="index" @click="selectSchool(item.id,index)" :class="{select:changed==index}">{{item.name}}</div>
+                <div v-for="(item,index) in school" :key="index" @click="selectSchool(item.id,index,item.name)" :class="{select:changed==index}">{{item.name}}</div>
                 <div class="location_school_more">
                     更多>>
                 </div>
@@ -59,13 +59,14 @@ export default {
                 
             });
         },
-        selectSchool(id,index){
+        selectSchool(id,index,name){
             this.changed=index
             Toast({
                 message: '切换成功',
                 duration: 1000
                 });
-            this.$store.commit('selectStore/CHANGE_STORE',{'id':id,'index':index})
+            this.$store.commit('selectStore/CHANGE_STORE',{'id':id,'index':index,'name':name})
+            this.$router.push('/Home')
         }
     },
     mounted () {

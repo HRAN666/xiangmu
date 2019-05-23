@@ -24,46 +24,19 @@
         <div class="shopCar_recommend">
             <span class="shopCar_recommendWord">商品推荐</span>
             <img src="../assets/comm.png" alt="" class="shopCar_recommendTitle">
-        <div class="shopCar_discount">
-          <div>
-          <div class="shopCar_shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="shopCar_shoplist_price">￥22.50</span>
-                <span>999人付款</span>
-                <span class="shopCar_shoplist_similar">相似</span>
-              </div>
-          </div>
-        <div class="shopCar_shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="shopCar_shoplist_price">￥22.50</span>
-                <span>999人付款</span>
-                <span class="shopCar_shoplist_similar">相似</span>
-              </div>
-          </div>
-             <div class="shopCar_shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="shopCar_shoplist_price">￥22.50</span>
-                <span>999人付款</span>
-                <span class="shopCar_shoplist_similar">相似</span>
-              </div>
-          </div>
-            <div class="shopCar_shoplist">
-              <img src="../assets/shopList.jpg" alt="">
-              <p>黑人茶倍健牙膏140g</p>
-              <div>
-                <span class="shopCar_shoplist_price">￥22.50</span>
-                <span>999人付款</span>
-                <span class="shopCar_shoplist_similar">相似</span>
-              </div>
-          </div>
-          </div>
-      </div>
+            <div class="shopCar_discount">
+                <div v-for="(itemrecommend,indexes) in RecommendDetails" :key="indexes" @click="gotoDetail(itemrecommend.id)">
+                    <div class="shopCar_shoplist">
+                        <div class="shopCarCar_shoplist_img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
+                        <p>{{itemrecommend.name}}</p>
+                        <div class="shopCarCar_shoplist_message">
+                            <span class="shopCar_shoplist_price">￥{{itemrecommend.price/100}}</span>
+                            <span>{{itemrecommend.salesVolume}}人付款</span>
+                            <span class="shopCar_shoplist_similar">相似</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="shopCar-to-the-end">
             <div class="shopCar-to-the-end-line"></div>
@@ -89,7 +62,7 @@
     </div>
 </template>
 <script>
-import {removeShopCar,addShop,productDetails} from '../api/api.js'
+import {removeShopCar,addShop,productDetails,HisproductReCommend} from '../api/api.js'
 import currencyPopup from '../components/currencyPopup.vue'//弹出层
 import header from '../components/header.vue'
 import footer from '../components/footer.vue'
@@ -104,10 +77,11 @@ export default {
     },
     data(){
         return{
-            checkAll:true,//是否全选
+            checkAll:false,//是否全选
             shopListCheck:[],//选中商品id
             ShopList:[],//存放商品
             shopInf:[],//商品所有信息（取价格&&数量)
+            RecommendDetails:[],//推荐商品信息
             showMark:false,
             totlePrice:0,//总价格
             totalNum:0,//总价格
@@ -168,6 +142,16 @@ export default {
                 console.log(err)
             });
         },
+        loadingHisproductReCommend(){
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+            }
+            HisproductReCommend(params).then((jsonData) => {
+                this.RecommendDetails=jsonData.data.list
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
         removeShop(){
             if (this.shopListCheck=='') {
                 Toast({
@@ -205,6 +189,11 @@ export default {
                 "storeId":storeId,
                 "theNum":theNum
             }
+            addShop(params).then((result) => {
+            }).catch((err) => {
+                console.log(err)
+            });
+
         },
     },
     computed: {
@@ -233,6 +222,7 @@ export default {
     },
     created() {
         this.loadingShop()//渲染购物车商品
+        this.loadingHisproductReCommend()//渲染推荐商品
     },
     mounted() {
 
@@ -383,36 +373,55 @@ export default {
     display:block;
 }
 .shopCar_discount{
-  margin-top:-1.08rem;
-  height: 5rem;
+    margin-top:-1.08rem;
+    height: 5rem;
 }
 .shopCar_shoplist{
-  height: 2.3rem;
-  width: 47%;
-  background: #fff;
-  float: left;
-  text-align:left;
-  margin-left:.08rem;
-  padding-left: .15rem;
-  box-sizing: border-box;
-  margin-top:.1rem;
-  border-radius: .1rem;
+    position: relative;
+    height: 2.4rem;
+    width: 47%;
+    background: #fff;
+    font-size:.14rem;
+    float: left;
+    text-align:left;
+    margin-left:.08rem;
+    padding-left: .15rem;
+    padding-right: .15rem;
+    box-sizing: border-box;
+    margin-top:.1rem;
+    border-radius: .1rem;
+}
+.shopCar_shoplist .shopCarCar_shoplist_img{
+    height: 1.5rem;
+    width: 1.5rem;
+    text-align: center;
 }
 .shopCar_shoplist img{
-  width:85%;
-  padding:.05rem;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
-.shopCar_shoplist {
-  font-size:.14rem;
+.shopCar_shoplist p{
+    height: .4rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.shopCar_shoplist .shopCarCar_shoplist_message{
+    position:absolute;
+    top: 2.1rem;
 }
 .shopCar_shoplist .shopCar_shoplist_price{
-  color:#0489D1;
-  font-size:.14rem;
+    color:#0489D1;
+    font-size:.14rem;
 }
 .shopCar_shoplist  span{
-  margin-right:.1rem;
-  font-size:.12rem;
-  color:#888888;
+    margin-right:.1rem;
+    font-size:.12rem;
+    color:#888888;
+}
+.shopCar_shoplist  span:nth-child(2){
+    margin-right:.25rem;
 }
 .shopCar_shoplist .shopCar_shoplist_similar{
     border: 1px solid #bbbbbb;
@@ -421,32 +430,32 @@ export default {
     padding: .02rem .04rem .02rem .04rem;
 }
 .shopCar-to-the-end{
-  position: relative;
-  color: #a8a8a8;
-  font-size: .16rem;
-  height: 1.7rem;
+    position: relative;
+    color: #a8a8a8;
+    font-size: .16rem;
+    height: 1.7rem;
 }
 .shopCar-to-the-end .shopCar-to-the-end-line{
-  border-top: #d8d8d8 solid .01rem;
-  width: 1rem;
-  position: relative;
-  top:.23rem;
-  height: .1rem;
+    border-top: #d8d8d8 solid .01rem;
+    width: 1rem;
+    position: relative;
+    top:.23rem;
+    height: .1rem;
 }
 .shopCar-to-the-end .shopCar-to-the-end-line:nth-child(1){
-  float: left;
-  margin-left: .3rem;
+    float: left;
+    margin-left: .3rem;
 }
 .shopCar-to-the-end .shopCar-to-the-end-line:nth-child(3){
-  float: right;
-  margin-right: .3rem;
+    float: right;
+    margin-right: .3rem;
 }
 .shopCar-to-the-end .shopCar-to-the-end-text{
-  margin: 0 auto;
-  line-height: .45rem;
-  width: 100%;
-  position:absolute;
-  top: .02rem;
+    margin: 0 auto;
+    line-height: .45rem;
+    width: 100%;
+    position:absolute;
+    top: .02rem;
 }
 .shopCar .shopCar_totle{
     background:#fff;

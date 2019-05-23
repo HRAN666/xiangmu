@@ -255,7 +255,7 @@ export default {
                     break;
             }
         },
-        toPay(){//微信支付||货到付款
+      toPay(){//微信支付||货到付款
             if (this.addressDetail=='') {
                 Toast({
                     message: '请填写收货信息',
@@ -309,6 +309,7 @@ export default {
             }
         },
         wechatpay(data){
+            let that=this
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                     "appId":data.wxId,     //公众号名称，由商户传入     
@@ -320,11 +321,11 @@ export default {
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
+                    that.reload()
                     Toast({
                         message: '支付成功!',
                         duration: 1000
                     });
-                    this.reload()
                 }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
                     Toast({
                         message: '取消支付',
@@ -346,7 +347,8 @@ export default {
         },
         seachAddress(){
             let params={
-                "userOpenId":localStorage.getItem('userOpenId')
+                "userOpenId":localStorage.getItem('userOpenId'),
+                'id':arguments[0]
             }
             lookaddAddress(params).then((result) => {
                 if(result.data.resultCode==200){
@@ -364,7 +366,7 @@ export default {
         },
     },
     created () {
-       this.seachAddress()
+       this.seachAddress(this.$route.query.address)
     },
     computed: {
 

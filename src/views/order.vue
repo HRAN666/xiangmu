@@ -324,15 +324,20 @@ export default {
                 for (let i = 0; i < result.data.list.length; i++) {
                     if(this.active=='待付款' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY'){
                         this.orderList.push(result.data.list[i]);
+                        console.log(this.orderList);
                     }else if(this.active=='待发货' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待发货' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payway=='score' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
                         this.orderList.push(result.data.list[i]);
                     }else if(this.active=='待发货' && result.data.list[i].payTime=='PAY_NEXT' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
                         this.orderList.push(result.data.list[i]);
-                    }else if(this.active=='待收货' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='DELIVERED'){
+                    }else if(this.active=='待收货' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payway=='score' && result.data.list[i].deliverStatus=='DELIVERED'){
                         this.orderList.push(result.data.list[i]);
                     }else if(this.active=='待收货' && result.data.list[i].payTime=='PAY_NEXT' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY' && result.data.list[i].deliverStatus=='DELIVERED'){
                         this.orderList.push(result.data.list[i]);
-                    }else if(this.active=='待评价' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='CONFIRMED'){
+                    }else if(this.active=='待评价' && result.data.list[i].orderStatus=='NOT_EVALUATED' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='CONFIRMED'){
+                        this.orderList.push(result.data.list[i]);
+                    }else if(this.active=='待评价' && result.data.list[i].orderStatus=='NOT_EVALUATED' && result.data.list[i].payway=='score' && result.data.list[i].deliverStatus=='CONFIRMED'){
                         this.orderList.push(result.data.list[i]);
                     }else if(this.active=='全部'){
                         this.orderList.push(result.data.list[i]);
