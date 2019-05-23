@@ -1,7 +1,7 @@
 <template>
     <div class="footer" v-show="showFooter">
        <div class="footer-img">
-           <router-link to="/"  active-class="footer-active" exact>
+           <router-link to="/Home"  active-class="footer-active" exact>
            <i class="el-icon_foot_home"></i>
            <span>首页</span>
            </router-link>

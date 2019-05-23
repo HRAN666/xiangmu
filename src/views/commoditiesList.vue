@@ -140,7 +140,7 @@ export default {
             });
         },
         goHome(){
-            this.$router.push('/')
+            this.$router.push('/Home')
         },
         addToShop(storeId,id,price,index,AddshopInf){//arg[0] 店名 arg[1] 商品id arg[2] 动画所需的索引位置 arg[3]添加的商品信息
             this.indexes=index//获取点击商品list

@@ -69,7 +69,7 @@ export default {
 }
 .productBlock{
     width: 1.71rem;
-    height: 1.9rem;
+    height: 2rem;
     float: left;
     margin-left: .13rem;
     background: #fff;
@@ -80,7 +80,7 @@ export default {
 .productBlock span{
     position: absolute;
     right: .05rem;
-    bottom:.05rem;
+    bottom:.07rem;
     font-size: .12rem;
     background: #0288d1;
     border-radius: .1rem;
@@ -116,9 +116,6 @@ export default {
     color: #888888;
     margin-top: .04rem;
     font-size: .11rem;
-}
-.productBlock_bottom{
-    margin-top: -.08rem;
 }
 .integral-bottom{
     font-size: .12rem;

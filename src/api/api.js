@@ -162,3 +162,11 @@ export const checkStore =params =>{
 export const modify =params =>{
     return axios.post('/api/portal/v01/changePortalUserMember.do',params);
 }
+/**********删除收藏商品 */
+export const deleteColl =params =>{
+    return axios.post('/api/biz/v01/deleteBizUserCollectWithoutToken.do',params);
+}
+/**********删除预览商品 */
+export const deleteBrowser =params =>{
+    return axios.post('/api/portal/v01/deletePortalUserHistorical.do',params);
+}

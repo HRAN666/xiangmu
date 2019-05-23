@@ -3,7 +3,7 @@ const storeId={
     state: {
         storeId:localStorage.getItem('storeId')||0,//店铺id 暂时0
         storeIndex:localStorage.getItem('storeIndex')||0,//校区的索引位置默认第一个
-        storeName:localStorage.getItem('name')||0,//校区名字
+        storeName:localStorage.getItem('name')||'第一家店',//校区名字
     },
     mutations: {
         CHANGE_STORE:(state,value)=>{

@@ -1,6 +1,6 @@
 <template>
     <div class="location">
-        <!-- <header-general routerTo='/' headTitle="位置" headClass="style4"></header-general> -->
+        <header-general routerTo='/Home' headTitle="位置" headClass="style6"></header-general>
         <div class="location_city">当前定位城市</div>
             <div class="location_current">
                 <span>深圳</span>
@@ -54,6 +54,7 @@ export default {
             checkStore(params).then((result) => {
                 if (result.data.resultCode==200) {
                     this.school=result.data.list;
+                    this.changed=this.$store.state.selectStore.storeIndex//默认第一个店
                 }
             }).catch((err) => {
                 

@@ -20,7 +20,7 @@
     <div class="home-shop">
       <div class="home-shop-list">
         <el-row :gutter="10">
-            <el-col :span="6" v-for="(item,index) in shopList" :key="index">
+            <el-col :span="6" v-for="(item,index) in shopList" :key="index" v-if="index<8">
               <img :src="'http://'+item.icon" alt="" @click="modelSeach(item.catalogId)">
               <p>{{item.nodeName}}</p>
             </el-col>
@@ -78,7 +78,6 @@ export default {
       seachContent:'',//seach的值
       bannerImg:[],//bannerImg
       shopList:'',
-      resultShopListLength:8,//配置list显示个数
       shopModels:'',// 存放商品模块
       shopget:'', //代取服务
     }
@@ -106,7 +105,6 @@ export default {
       let params={};
         selectCatalogParentWithoutToken(params).then((result) => {
           this.shopList=result.data.list;
-          this.shopList.splice(this.resultShopListLength, this.shopList.length-this.resultShopListLength)
         }).catch((err) => {
           console.log(err)
         });
