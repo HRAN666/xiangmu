@@ -66,6 +66,7 @@ export default {
                 duration: 1000
                 });
             this.$store.commit('selectStore/CHANGE_STORE',{'id':id,'index':index,'name':name})
+            this.$router.push('/Home')
         }
     },
     mounted () {
