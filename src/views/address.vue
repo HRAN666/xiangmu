@@ -129,23 +129,23 @@ export default {
     height: 16px;
     border: 1px solid #A6A6A6;
     border-radius: 50%;
-    background-color: #BC2D2A;
 }
 .address_header_checkbox:checked+label:after {
-    content: "";
-    position: absolute;
-    left: .04rem;
-    top: .01rem;
-    width: .05rem;
-    height: .09rem;
+    content: "√";
     font-size: .14rem;
+    font-family: '微软雅黑';
     color: #fff;
-    border-style: solid;
-    border-color: #fff;
-    border-width: 0 .02rem .02rem 0;
-    -webkit-transform: rotateZ(45deg);
-    transform: rotateZ(45deg);
-    
+    left: 0;
+    position:absolute;
+    top: -.01rem;
+    left: -.01rem;
+    width: 16px;
+    height: 16px;
+    line-height: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #0288D1;
+    border: 1px solid #0288D1;
 }
 .address_header .mint-header-title{
     font-size: .18rem;
@@ -248,8 +248,7 @@ export default {
     display: inline-block;
     margin-top: .21rem;
     float: left;
-    margin-left: .2rem;
-
+    margin-left: .1rem;
 }
 .address_content .address_content_bottom{
     padding-top:.69rem;
@@ -262,7 +261,6 @@ export default {
     width: 100%;
     left: 0;
     top: .7rem;
-
 }
 </style>
 

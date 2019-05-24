@@ -140,7 +140,7 @@ export default {
                         message: result.data.resultMessage,
                         duration: 1000
                     });
-                    this.$router.push('/address')
+                    this.$router.go(-1)//返回上一页
                 }else{
                     Toast({
                         message: result.data.resultMessage,
