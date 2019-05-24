@@ -146,6 +146,10 @@ export const checkAddress =params =>{
 export const compileaddress =params =>{
     return axios.post('/api/portal/v01/updateAddressPortalUserAddress.do',params);
 }
+/*************获取地址 */
+export const StoreIdaddress =params =>{
+    return axios.post('/api/portal/v01/selectByStoreId.do',params);
+}
 /*************商品推荐 */
 export const productReCommend =params =>{
     return axios.post('/api/biz/v01/BizProductReCommendById',params);

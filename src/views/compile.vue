@@ -26,7 +26,25 @@
                 <div>
                     省市地区  
                 </div>
-                <input type="text" v-model="provincess">
+                <div>{{provincess}}</div>
+            </div>
+            <div class="compile_box">
+                <div>
+                    校区
+                </div>
+                <input type="text" v-model="campus">
+            </div>
+             <div class="compile_box">
+                <div>
+                    宿舍楼
+                </div>
+                <input type="text" v-model="floorBuild">
+            </div>
+            <div class="compile_box">
+                <div>
+                    宿舍号
+                </div>
+                <input type="text" v-model="floorNumber">
             </div>
             <div class="compile_box">
                 <div>
@@ -57,23 +75,20 @@ import {seachAdress,insertAdress,lookaddAddress,checkAddress,removeAddress,compi
 export default {  
     data () {
         return {
-            value1:[],
-            value2:[],
             addressList:[],
-            name:'',
-            phone:'',
-            provincess:'',
-            province:'',
-            city:'',
-            county:'',
-            town:'111',
-            detailedAddress:'',
-            address:'',
+            name:'',//收件人姓名
+            phone:'',//手机号码
+            province: '',//省份
+            city: '',//城市
+            district: '',//地区
+            campus:'',//校区
+            floorBuild:'',//宿舍楼
+            floorNumber: '',//宿舍号
+            detailedAddress: '',//详细地址
+            town:'',//街道
             commit:false,//确认按钮
             status:[],//设置默认地址key
-            addressList:[],
             value:false
-
         }
     },
     methods: {
@@ -87,39 +102,51 @@ export default {
             }
             lookaddAddress(params).then((result) => {
                 this.addressList = result.data.list;
-                this.name = this.addressList[0].consignee;
-                this.phone = this.addressList[0].phone;
-                this.provincess = this.addressList[0].province+this.addressList[0].city+this.addressList[0].county;
-                this.province = this.addressList[0].province;   
-                this.city = this.addressList[0].city;      
-                this.county = this.addressList[0].county;      
-                this.detailedAddress = this.addressList[0].detailedAddress;      
+                this.name = this.addressList[0].consignee;//收货人
+                this.phone = this.addressList[0].phone;//手机号码
+                this.province = this.addressList[0].province//省份
+                this.city = this.addressList[0].city;//城市  
+                this.county = this.addressList[0].county;//地区 
+                this.provincess = this.addressList[0].province+this.addressList[0].city+this.addressList[0].county;//省市地区
+                this.campus = this.addressList[0].campus;//校区
+                this.floorBuild = this.addressList[0].floorBuild;//宿舍楼
+                this.floorNumber = this.addressList[0].floorNumber;//宿舍号
+                this.dormitory = this.campus+'-'+this.floorBuild+'-'+this.floorNumber;
+                this.detailedAddress = this.addressList[0].detailedAddress;//详细地址    
             }).catch((err) => {
                 
             });
         },
         update(){
-            let proone = this.provincess.split("省")[0]+"省"
-            let protwo = this.provincess.split("省")[1]
-            let protree = protwo.split("市")[0]+"市"
-            let prosfour = this.provincess.split("市")[1]
+            // let proone = this.provincess.split("省")[0]+"省"
+            // let protwo = this.provincess.split("省")[1]
+            // let protree = protwo.split("市")[0]+"市"
+            // let prosfour = this.provincess.split("市")[1]
 
             let params={
                 "id":this.$route.query.id,
-                "consignee":this.name,
-                "province":proone,
-                "city":protree,
-                "county":prosfour,
-                "town":this.town,
-                "detailedAddress":this.detailedAddress,
-                "phone":this.phone,
-                "dormitory":"h1",
-                "campus":"6"
+                'userOpenId':localStorage.getItem('userOpenId'),
+                'consignee':this.name,//收货人
+                'phone':this.phone,//手机号码
+                'campus':this.campus,//校区
+                'floorBuild':this.floorBuild,//宿舍区
+                'floorNumber':this.floorNumber,//宿舍号
+                'dormitory':this.campus+'-'+this.floorBuild+'-'+this.floorNumber,//校区+宿舍区+宿舍号
+                'detailedAddress':this.detailedAddress,//详情地址
             }
             compileaddress(params).then((result) => {
-                // this.addressList = result.data.list;
-                // console.log(this.status)
-                alert("6666")
+                if (result.data.resultCode==200) {
+                    Toast({
+                        message: result.data.resultMessage,
+                        duration: 1000
+                    });
+                    this.$router.push('/address')
+                }else{
+                    Toast({
+                        message: result.data.resultMessage,
+                        duration: 1000
+                    });
+                }
             }).catch((err) => {
                 
             });
@@ -127,7 +154,6 @@ export default {
     },
     mounted () {
         this.findadress();
-        // this.ababa();
     }
 }
 </script>
@@ -192,6 +218,14 @@ export default {
     width: 1rem;
     padding-left: .1rem;
     text-align: left;
+}
+.compile_box div:nth-child(2){
+    float: left;
+    text-align: left;
+    color: #888888;
+    border: none;
+    outline: none;
+    line-height: .38rem;
 }
 .compile_box input{
     float: left;
