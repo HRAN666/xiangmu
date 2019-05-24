@@ -1,22 +1,22 @@
 <template>
     <div>
         <div class="header" v-if="headClassdisplay"><!--有标题，有返回按钮，副标题（注册会员页面&&我的会员信息）蓝色底  -->
-            <router-link :to="routerTo">
+            <div @click="routerT">
                 <img src="../assets/arrow_second.png" alt="" class="header_img">
-            </router-link>
+            </div>
             <div class="title">{{headTitle}}</div>
             <div class="title_second">{{titleSecod}}</div>
         </div>
         <div class="header_second" v-if="headClassSecondDisplay"><!--有标题，有返回按钮  白色底-->
-            <router-link :to="routerTo">
+             <div @click="routerT">
                 <img src="../assets/arrow.png" alt="" class="header_img">
-            </router-link>
+            </div>
             <div class="title_style2">{{headTitle}}</div>
         </div>
         <div class="header_third" v-if="headClassThirdDisplay"><!--有标题，有返回按钮，顶部右侧有按钮  白色底-->
-            <router-link :to="routerTo">
+            <div @click="routerT">
                 <img src="../assets/arrow.png" alt="" class="header_img">
-            </router-link>
+            </div>
             <div class="title_style3">{{headTitle}}</div>
             <div class="header_third_right">
             <span  @click="toDelete" v-if="!deletShop">{{titleSecod}}</span>
@@ -28,9 +28,9 @@
             <div class="title_style4">{{headTitle}}</div>
         </div>
         <div class="header_five" v-if="headClassFiveDisplay"><!--有标题，有返回按钮，顶部右侧有按钮(2)  白色底-->
-            <router-link :to="routerTo">
+            <div @click="routerT">
                 <img src="../assets/arrow.png" alt="" class="header_img">
-            </router-link>
+            </div>
             <div class="title_style5">{{headTitle}}</div>
             <div class="header_five_right">
             <img src="../assets/share.png" alt="">
@@ -38,9 +38,9 @@
             </div>
         </div>
         <div class="header_six" v-if="headClassSixDisplay"><!--有标题，有返回按钮 蓝色底 -->
-            <router-link :to="routerTo" class="header_six_back">
+            <div @click="routerT" class="header_six_back">
                 <img src="../assets/arrow_second.png" alt="" class="header_img"><span>返回</span>
-            </router-link>
+            </div>
             <div class="title_style6">{{headTitle}}</div>
         </div>
     </div>
@@ -89,6 +89,13 @@ export default {
                 this.deletShop=false;                
             }
             this.$emit('toDelete')
+        },
+        routerT(){
+            if (this.$props.routerTo=='-1') {
+                this.$router.go(-1)
+            }else{
+                this.$router.push(this.$props.routerTo)
+            }
         }
     },
     mounted() {

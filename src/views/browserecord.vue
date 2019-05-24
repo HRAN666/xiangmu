@@ -17,7 +17,7 @@
     <div class="item" v-for="(item,index) in browseList" :key="index">
         <input type="checkbox" class="collect_checkedbox" v-if="delet" :checked="selectBrowId.indexOf(item.id)>=0" @click="selectId(item.id)">
         <label class="" v-if="delet"></label>
-        <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="">
+        <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="goDetail(item.productId)">
         <dd>{{item.bizProductVo.name}}<span>12人收藏</span></dd>
         <dt>￥ 0.1</dt>
     </div>
@@ -33,7 +33,6 @@
 <script>
 import {browse,deleteBrowser} from '../api/api.js';
 import { Toast } from 'mint-ui';
-
 export default {
     inject:['reload'],
     data() {
@@ -95,6 +94,9 @@ export default {
             }).catch((err) => {
                 
             });
+        },
+        goDetail(id){
+            this.$router.push({path:'/commodityDetails',query:{'id':id}})
         }
     },
     created() {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-general routerTo="/Home" headTitle="商品详情" headClass="style5"></header-general>    
+        <header-general routerTo="-1" headTitle="商品详情" headClass="style5" ></header-general>    
         <div v-for="(item,index) in shopDetails" :key="index">
             <div class="commodityDetails-gooods-message">
                 <div class="goods-img">
@@ -356,19 +356,17 @@ export default {
         if (this.$route.query.id) {//其他页面进入
             this.loadingDetails(this.$route.query.id);
             this.loadingRecommendDetails();
-        }else if(!this.$route.query.toexquery) {//积分商城进入
+        }else if(this.$route.query.integral) {//积分商城进入
             this.loadingItegral(this.$route.query.integral);
             this.loadingRecommendDetails(this.$route.query.integral);
             this.fromIntegral=true;
+            if (this.$route.query.toexquery) {//积分兑换进入
+                this.toexquery=true;
+            }
         }
     },
     mounted () {
-        if (this.$route.query.toexquery) {//积分兑换进入
-            this.loadingItegral(this.$route.query.integral);
-            this.loadingRecommendDetails(this.$route.query.integral);
-            this.fromIntegral=true;
-            this.toexquery=true;
-        }
+
     }
 }
 

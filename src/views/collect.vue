@@ -17,7 +17,7 @@
     <div class="item" v-for="(item,index) in collectList" :key="index">
         <input type="checkbox" class="collect_checkedbox" v-if="delet" @click="check(item.id)" :checked="selectCollect.indexOf(item.id)>=0">
         <label class="" v-if="delet"></label>
-        <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="">
+        <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="" @click="goDetail(item)">
         <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}</dd>
         <dt>12人收藏</dt>
         <span v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral/100}}积分</span>
@@ -99,6 +99,13 @@ export default {
             }).catch((err) => {
                 
             });
+        },
+        goDetail(val){
+            if (val.bizIntegralProductVo) {//积分商品
+                this.$router.push({path:'/commodityDetails',query:{'integral':val.productId}})
+            }else{
+                this.$router.push({path:'/commodityDetails',query:{'id':val.productId}})                
+            }
         }
     },
     created() {
