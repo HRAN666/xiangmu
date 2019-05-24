@@ -2,7 +2,7 @@
     <div class="shopCar">
             <div class="shopCar_mark" v-show="showMark" @click="displayMark"></div><!--结算遮罩层-->
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑" ref="shop" @toDelete='toDelete'></header-general>
-        <div class="shopCar_address" v-if="ShopList.length != ''">
+        <div class="shopCar_address" v-if="ShopList.length != ''" @click="router">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
             {{this.$refs.popup.addressDetail==''?'请填写收货地址':this.$refs.popup.addressDetail}}
             <img src="../assets/shopCar_more.png" alt="" class="shopCar_address_iconMore">
@@ -195,6 +195,9 @@ export default {
             });
 
         },
+         router(){
+            this.$router.push('/address')
+        }
     },
     computed: {
         sumPrice(){

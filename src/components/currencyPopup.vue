@@ -357,6 +357,11 @@ export default {
                             this.addressDetail=result.data.list[i].detailedAddress+result.data.list[i].campus+result.data.list[i].dormitory
                             this.consignee=result.data.list[i].consignee
                             this.phone=result.data.list[i].phone
+                        }
+                        if (arguments[0]) {
+                            this.addressDetail=result.data.list[i].detailedAddress+result.data.list[i].campus+result.data.list[i].dormitory
+                            this.consignee=result.data.list[i].consignee
+                            this.phone=result.data.list[i].phone
                         }   
                     }
                 }

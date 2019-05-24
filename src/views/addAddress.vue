@@ -179,6 +179,11 @@ export default {
                         message: '请输入正确收货人联系电话',
                         duration: 1500
                     }); 
+            }else if(this.floorBuild==''||this.floorNumber==''){
+                Toast({
+                    message: '请输入宿舍楼信息',
+                    duration: 1500
+                });
             }else{
                 let params={
                     'consignee':this.name,
@@ -186,19 +191,27 @@ export default {
                     'province':this.value,//省
                     'city':this.value2,//城市
                     'county':this.value3,//区
-                     'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
+                    'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
                     'detailedAddress':this.fullAddress,//详情地址
                     'mobile':'13213152',
-                    'town':this.floorBuild+this.floorNumber,
+                    'floor_build':this.floorBuild,
+                    'floor_number':this.floorNumber,
                     'campus':this.value4,
                     'userOpenId':localStorage.getItem('userOpenId')
                 }
                 addAddress(params).then((result) => {
-                    Toast({
-                        message: '添加地址成功',
-                        duration: 1500
-                    }); 
-                    this.$router.push('/address')            
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '添加地址成功',
+                            duration: 1500
+                        }); 
+                    this.$router.push('/address')                
+                    }else{
+                        Toast({
+                            message: '信息错误',
+                            duration: 1500
+                        }); 
+                    }
                 }).catch((err) => {
                     
                 });
@@ -266,7 +279,7 @@ export default {
 .amap-page-container .card .name input,.amap-page-container .card .phone input{
     width: 1.6rem;
     height: .18rem;
-    /* border:none; */
+    border:none;
     outline: none;
 }
 .amap-page-container .card .phone{

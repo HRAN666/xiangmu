@@ -19,7 +19,7 @@
         <label class="" v-if="delet"></label>
         <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="goDetail(item.productId)">
         <dd>{{item.bizProductVo.name}}<span>12人收藏</span></dd>
-        <dt>￥ 0.1</dt>
+        <dt>{{item.bizProductVo.price|filtertoMoney}}</dt>
     </div>
     </div>
       <div class="browserecord_bottom" v-if="delet">
@@ -33,6 +33,8 @@
 <script>
 import {browse,deleteBrowser} from '../api/api.js';
 import { Toast } from 'mint-ui';
+import {filtertoMoney} from '../filter/filter.js'
+
 export default {
     inject:['reload'],
     data() {
