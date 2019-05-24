@@ -165,7 +165,7 @@ export default {
             this.value3 = this.district;
             this.options4[0].label = this.lastName;
             this.value4 = this.lastName;
-            this.fullAddress = this.value + this.value2 + this.value3 + this.value4;
+            // this.fullAddress = this.value + this.value2 + this.value3 + this.value4;
         },
         address(){
             if (this.name=='') {
@@ -266,7 +266,7 @@ export default {
 .amap-page-container .card .name input,.amap-page-container .card .phone input{
     width: 1.6rem;
     height: .18rem;
-    border:none;
+    /* border:none; */
     outline: none;
 }
 .amap-page-container .card .phone{
