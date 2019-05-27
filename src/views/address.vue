@@ -11,7 +11,7 @@
         <div class="address_content" v-for="(item,index) in addressList" :key="index" >
             <div class="address_content_Name">{{item.consignee}}</div>
             <div>{{item.phone}}</div>
-            <div @click="changeAddress(item.id)">{{item.detailedAddress+item.campus+item.dormitory}}</div>
+            <div @click="changeAddress(item.id)">{{item.province+item.city+item.county+item.dormitory+' '+item.detailedAddress}}</div>
             <div class="address_content_bottom">
                 <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="switchover(item.id,index)">
                 <label class=""></label>
@@ -28,9 +28,8 @@
 </template>
 <script>
 import { Checklist  } from 'mint-ui';
-import header from '../components/header.vue';
+import header from '../components/header.vue'
 import { Toast } from 'mint-ui';
-import { MessageBox } from 'mint-ui';
 import {seachAdress,insertAdress,lookaddAddress,checkAddress,removeAddress} from '../api/api.js'
 export default {  
     data () {
@@ -43,7 +42,6 @@ export default {
             address:'',
             commit:false,//确认按钮
             status:[],//设置默认地址key
-            fromPath:'',//记录从那个地址进入
         }
     },
     methods: {
@@ -54,24 +52,18 @@ export default {
             this.$router.push('/addAddress')
         },
         deleteAddress(i,id){
-             MessageBox.confirm('是否删除此地址?').then(action => {
-                    if (action=='confirm') {
-                        this.addressList.splice(i,1)
-                        let params={
-                            "id":id
-                        }
-                        removeAddress(params).then((result) => {
-                            Toast({
-                                message: '已删除地址',
-                                duration: 1000
-                            });
-                        }).catch((err) => {
-                            
-                        });
-                    }
-                }).catch((err)=>{
-                    console.log(err)
-                })
+            this.addressList.splice(i,1)
+            let params={
+                "id":id
+            }
+            removeAddress(params).then((result) => {
+                Toast({
+                    message: '已删除地址',
+                    duration: 1000
+                });
+            }).catch((err) => {
+                
+            });
         },
         findadress(){//查询地址
             let params={
@@ -110,27 +102,51 @@ export default {
                 console.log(err)
             });
         },
-        changeAddress(id){
-             let path=this.fromPath
-             if (path=='/shopcar'||path=='/commoditiesList') {
-                 this.$router.push({path:path,query:{'address':id}})
-             }else{
-                 return false
-             }
+        changeAddress(id){   
+            this.$router.push({path:'/shopcar',query:{'address':id}})
         }
     },
     mounted () {
         this.findadress();
-    },
-    beforeRouteEnter (to, from, next) {
-        next(vm=>{
-            vm.fromPath=from.path
-        })
     }
 }
 </script>
 <style>
-
+.address_header_checkbox {
+    margin-left:.16rem;
+    margin-top: .22rem;
+    float: left;
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+.address_header_checkbox+label{
+    margin-left:.16rem;
+    margin-top: .22rem;
+    left: 0;
+    position:absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #A6A6A6;
+    border-radius: 50%;
+}
+.address_header_checkbox:checked+label:after {
+    content: "√";
+    font-size: .14rem;
+    font-family: '微软雅黑';
+    color: #fff;
+    left: 0;
+    position:absolute;
+    top: -.01rem;
+    left: -.01rem;
+    width: 16px;
+    height: 16px;
+    line-height: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #0288D1;
+    border: 1px solid #0288D1;
+}
 .address_header .mint-header-title{
     font-size: .18rem;
     font-weight: normal;
@@ -179,41 +195,6 @@ export default {
 </style>
 
 <style scoped>
-.address_header_checkbox {
-    margin-left:.16rem;
-    margin-top: .22rem;
-    float: left;
-    position: relative;
-    z-index: 2;
-    opacity: 0;
-}
-.address_header_checkbox+label{
-    margin-left:.16rem;
-    margin-top: .22rem;
-    left: 0;
-    position:absolute;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #0288D1;
-    border-radius: 50%;
-    background-color: #0288D1;
-}
-.address_header_checkbox:checked+label:after {
-    content: "";
-    position: absolute;
-    left: .04rem;
-    top: .01rem;
-    width: .05rem;
-    height: .09rem;
-    font-size: .14rem;
-    color: #fff;
-    border-style: solid;
-    border-color: #fff;
-    border-width: 0 .02rem .02rem 0;
-    -webkit-transform: rotateZ(45deg);
-    transform: rotateZ(45deg);
-    
-}
 .address_content input{
     border:none;
     outline:none;
@@ -267,8 +248,7 @@ export default {
     display: inline-block;
     margin-top: .21rem;
     float: left;
-    margin-left: .2rem;
-
+    margin-left: .1rem;
 }
 .address_content .address_content_bottom{
     padding-top:.69rem;
@@ -281,7 +261,6 @@ export default {
     width: 100%;
     left: 0;
     top: .7rem;
-
 }
 </style>
 

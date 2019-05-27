@@ -5,53 +5,18 @@
             <el-amap-marker vid="marker" :position="center"></el-amap-marker>
             </el-amap>
         </div>
-        <header-general routerTo='/myself' headClass='style6' headTitle='添加地址'></header-general>
-        <!-- <div class="toolbar">
-            <span v-if="loaded">
-            location: lng = {{ lng }} lat = {{ lat }}
-            </span>
-            <span v-else>正在定位</span>
-        </div> -->
         <div class="card">
             <div class="name">收件人姓名：<input type="text" class="inpBottom" placeholder="请输入真实名字" v-model="name"></div>
             <div class="phone">手机号码：<input type="text" class="inputBottom" placeholder="请输入11位手机号码" v-model="phone"></div>
             <div class="selectAddress">
-                <el-select v-model="value" placeholder="请选择">
-                    <el-option
-                    v-for="item in options"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-                <el-select v-model="value2" placeholder="请选择">
-                    <el-option
-                    v-for="item in options2"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
-                <el-select v-model="value3" placeholder="请选择">
-                    <el-option
-                    v-for="item in options3"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                    </el-option>
-                </el-select>
+                <div>{{province}}</div>
+                <div>{{city}}</div>
+                <div>{{district}}</div>
             </div>
             <div class="main">
-                    <el-select class="school-name" v-model="value4" placeholder="请选择">
-                        <el-option
-                        v-for="item in options4"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                        </el-option>
-                    </el-select>
-                  <el-input class="school-build-number" v-model="floorBuild" placeholder="宿舍楼"></el-input>
-                    <el-input class="school-build-number" v-model="floorNumber" placeholder="宿舍号"></el-input>
+                <div class="campus">{{campus}}</div>
+                <el-input class="school-build-number" v-model="floorBuild" placeholder="宿舍楼"></el-input>
+                <el-input class="school-build-number" v-model="floorNumber" placeholder="宿舍号"></el-input>
             </div>
             <div class="address-all"><el-input  v-model="fullAddress" placeholder="详细地址"></el-input></div>
         </div>
@@ -60,112 +25,81 @@
 </template>
 
 <script>
-import {addAddress} from '../api/api.js'
+import {addAddress,StoreIdaddress} from '../api/api.js'
 import header from '../components/header.vue'
 import { Toast } from 'mint-ui';
+import {filtertoMoney} from '../filter/filter.js'
 export default {
     components: {
         'header-general':header
     },
-  data() {
-    let self = this;
-    return {
-        name:'',
-        phone:'',
-        floorBuild:'',
-        options: [{
-          value: '选项1',
-          label: '广东省'
-        }],
-        value: '广东省',
-        options2: [{
-          value: '选项1',
-          label: '深圳市'
-        }],
-        value2: '深圳市',
-        options3: [{
-          value: '选项1',
-          label: '龙岗区'
-        }],
-        value3: '龙岗区',
-        options4: [{
-          value: '选项1',
-          label: '深圳技师学院'
-        }],
-        value4: '深圳技师学院',
-
-        value5: '',
-        floorNumber: '',
-        fullAddress: '',
-        province: '',
-        city: '',
-        district: '',
-        lastName: '',
-        center: [114.22839,22.74115],
-        zoom: 15,
-        lng: 0,
-        lat: 0,
-        loaded: false,
-        plugin: [   //工具插件
-        {
-            enableHighAccuracy: true,
-            timeout: 100,
-            maximumAge: 0,
-            convert: true,
-            showButton: true,
-            // buttonPosition: 'RB',
-            showMarker: true,
-            showCircle: true,
-            panToLocation: true,
-            // zoomToAccuracy:true,
-            extensions:'all',
-            pName: 'Geolocation',   //定位
-            events: {
-                init(o) {
-                // o 是高德地图定位插件实例
-                    o.getCurrentPosition((status, result) => {
-                        console.log(result)
-                        if (result && result.position) {
-                        self.lng = result.position.lng;             //设置经度
-                        self.lat = result.position.lat;             //设置维度
-                        self.center = [self.lng, self.lat];         //设置坐标
-                        self.loaded = true;                         //load
-                        self.$nextTick();                           //页面渲染好后
-                        self.province = result.addressComponent.province;
-                        self.city = result.addressComponent.city;
-                        self.district = result.addressComponent.district;
-                        }
-                    })
+    data() {
+        let self = this;
+        return {
+            name:'',//收件人姓名
+            phone:'',//手机号码
+            province: '',//省份
+            city: '',//城市
+            district: '',//地区
+            campus:'',//校区
+            floorBuild:'',//宿舍楼
+            floorNumber: '',//宿舍号
+            fullAddress: '',//详细地址
+            town:'',//街道
+            center: [114.22839,22.74115],
+            zoom: 15,
+            lng: 0,
+            lat: 0,
+            loaded: false,
+            plugin: [   //工具插件
+            {
+                enableHighAccuracy: true,
+                timeout: 100,
+                maximumAge: 0,
+                convert: true,
+                showButton: true,
+                // buttonPosition: 'RB',
+                showMarker: true,
+                showCircle: true,
+                panToLocation: true,
+                // zoomToAccuracy:true,
+                extensions:'all',
+                pName: 'Geolocation',   //定位
+                events: {
+                    init(o) {
+                    // o 是高德地图定位插件实例
+                        o.getCurrentPosition((status, result) => {
+                            console.log(result)
+                            if (result && result.position) {
+                            self.lng = result.position.lng;             //设置经度
+                            self.lat = result.position.lat;             //设置维度
+                            self.center = [self.lng, self.lat];         //设置坐标
+                            self.loaded = true;                         //load
+                            self.$nextTick();                           //页面渲染好后
+                            }
+                        })
+                    }
                 }
-            }
-        },
-        {
-            pName: 'ToolBar',  //工具栏
-            events: {
-                init(instance) {
-                    // console.log(instance);
+            },
+            {
+                pName: 'ToolBar',  //工具栏
+                events: {
+                    init(instance) {
+                        // console.log(instance);
+                    }
                 }
-            }
-        },
-      ]
-    }
-  },
-  methods: {
+            },
+        ]
+        }
+    },
+    methods: {
         Location(){
             if(this.lng==0 && this.lat==0){
                 console.log('定位中...')
             }
         }, 
         autoInput(){
-            this.options[0].label = this.province;
-            this.value = this.province;
-            this.options2[0].label = this.city;
-            this.value2 = this.city;
-            this.options3[0].label = this.district;
-            this.value3 = this.district;
-            this.options4[0].label = this.lastName;
-            this.value4 = this.lastName;
-            // this.fullAddress = this.value + this.value2 + this.value3 + this.value4;
+            
         },
         address(){
             if (this.name=='') {
@@ -179,46 +113,48 @@ export default {
                         message: '请输入正确收货人联系电话',
                         duration: 1500
                     }); 
-            }else if(this.floorBuild==''||this.floorNumber==''){
-                Toast({
-                    message: '请输入宿舍楼信息',
-                    duration: 1500
-                });
             }else{
                 let params={
                     'consignee':this.name,
                     'phone':this.phone,
-                    'province':this.value,//省
-                    'city':this.value2,//城市
-                    'county':this.value3,//区
-                    'dormitory':this.floorBuild+this.floorNumber,//宿舍区域&&宿舍号
+                    'province':this.province,//省份
+                    'city':this.city,//城市
+                    'county':this.district,//地区
+                    'town':this.town,//街道
+                    'campus':this.campus,//校区
+                    'floorBuild':this.floorBuild,//宿舍区
+                    'floorNumber':this.floorNumber,//宿舍号
+                    'dormitory':this.campus+'-'+this.floorBuild+'-'+this.floorNumber,//校区+宿舍区+宿舍号
                     'detailedAddress':this.fullAddress,//详情地址
-                    'mobile':'13213152',
-                    'floor_build':this.floorBuild,
-                    'floor_number':this.floorNumber,
-                    'campus':this.value4,
                     'userOpenId':localStorage.getItem('userOpenId')
                 }
                 addAddress(params).then((result) => {
-                    if (result.data.resultCode==200) {
-                        Toast({
-                            message: '添加地址成功',
-                            duration: 1500
-                        }); 
-                    this.$router.push('/address')                
-                    }else{
-                        Toast({
-                            message: '信息错误',
-                            duration: 1500
-                        }); 
-                    }
+                    Toast({
+                        message: '添加地址成功',
+                        duration: 1500
+                    }); 
+                    this.$router.push('/address')            
                 }).catch((err) => {
                     
                 });
             }    
+        },
+        StoreIdaddress(){
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId'),
+            }
+            StoreIdaddress(params).then((result) => {
+                this.province=result.data.list[0].province;
+                this.city=result.data.list[0].city;
+                this.district=result.data.list[0].district;
+                this.campus=result.data.list[0].name;
+                this.town=result.data.list[0].address;
+            }).catch((err) => {
+                console.log(err)
+            });
         }
-  }
-  ,watch: {
+    },
+    watch: {
         lng(newVal,oldVal){
             console.log(newVal,oldVal);
             console.log('定位成功');
@@ -231,7 +167,10 @@ export default {
     },
     mounted(){
         this.Location()
-    }
+    },
+    created() {
+        this.StoreIdaddress()//渲染购物车商品
+    },
 }
 </script>
 <style>
@@ -241,10 +180,24 @@ export default {
     width: 100%;
     left: 0;
     z-index: 999;
-
+}
+.amap-maps{
+    top: -.3rem
+}
+.amap-geolocation-con{
+    top: 6.1rem;
+}
+.amap-zoomcontrol{
+    left: .2rem;
+}
+.el-input__inner{
+    width: 97%;
+    margin-left: .06rem;
+}
+.main .el-input__inner{
+    margin-left: .03rem;
 }
 </style>
-
 <style scoped>
 .amap-page-container .header_six{
     position: absolute;
@@ -256,7 +209,7 @@ export default {
 }
 .amap-page-container .amap-all{
     width: 100%;
-    height: 6.05rem;
+    height: 6.8rem;
 }
 .card{
     position: absolute;
@@ -266,8 +219,8 @@ export default {
     border: 1px solid #ffffff;
     border-radius: .1rem;
     box-shadow: darkgrey 1px 10px 30px 0px;
-    left: .2rem;
-    bottom: 20%;
+    left: .1rem;
+    bottom: 1.2rem;
     color: black;
     font-size: .12rem;
     text-align: left;
@@ -317,5 +270,42 @@ export default {
 .address-all {
     width: 3.15rem;
     padding: .04rem;
+}
+.selectAddress{
+    margin-top: .1rem;
+}
+.selectAddress div{
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px;
+    width: 95px;
+    margin-left: .1rem;
+    text-indent: .15rem;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: .13rem;
+}
+.selectAddress div:nth-child(1){
+    margin-left: .1rem;
+}
+.campus{
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 4px;
+    width: 132px;
+    margin-left: .1rem;
+    margin-top: .04rem;
+    text-indent: .15rem;
+    border: 1px solid #DCDFE6;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: .13rem;
 }
 </style>

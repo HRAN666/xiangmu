@@ -8,7 +8,7 @@
             </div>
             <div class="location_school">
                 <span>当前城市商城校区:</span>
-                <div v-for="(item,index) in school" :key="index" @click="selectSchool(item.id,index,item.name)" :class="{select:changed==index}">{{item.name}}</div>
+                <div v-for="(item,index) in school" :key="index" @click="selectSchool(item.id,index,item.storeName)" :class="{select:changed==index}">{{item.storeName}}</div>
                 <div class="location_school_more">
                     更多>>
                 </div>

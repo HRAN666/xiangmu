@@ -204,11 +204,11 @@ export default {
         wechatpay(data){
             WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
-                    "appId":data.wxId,     //公众号名称，由商户传入     
-                    "timeStamp":data.timeStamp,         //时间戳，自1970年以来的秒数     
+                    "appId":data.wxId,//公众号名称，由商户传入     
+                    "timeStamp":data.timeStamp,//时间戳，自1970年以来的秒数     
                     "nonceStr":data.nonceStr, //随机串     
                     "package":"prepay_id="+data.prepayId,
-                    "signType":"MD5",         //微信签名方式：     
+                    "signType":"MD5",//微信签名方式：     
                     "paySign":data.sign//微信签名 
                 },
                 function(res){
