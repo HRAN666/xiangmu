@@ -13,7 +13,7 @@
             <div>{{item.phone}}</div>
             <div @click="changeAddress(item.id)">{{item.province+item.city+item.county+item.dormitory+' '+item.detailedAddress}}</div>
             <div class="address_content_bottom">
-                <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @click="switchover(item.id,index)">
+                <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @change="switchover(item.id,index)" :disabled="status[index]==1">
                 <label class=""></label>
                 <div>
                     默认地址
@@ -68,39 +68,38 @@ export default {
         findadress(){//查询地址
             let params={
                 "userOpenId":localStorage.getItem('userOpenId')
-
             }
             lookaddAddress(params).then((result) => {
                 this.addressList = result.data.list;
                 for (let i = 0; i < result.data.list.length; i++) {
                     this.status.push(result.data.list[i].status)
                 }
-                console.log(this.status)
             }).catch((err) => {
                 
             });
         },
-        switchover(id,index){//arg[0] 地址id arg[1] 获取索引 切换按钮
+        switchover(id,index){//arg[0] 地址id arg[1] 获取索引 切换按钮 arg[2] 
             let statusLength=this.status.length;
             this.status=[]
             for (let i = 0; i < statusLength; i++) {
                 this.status.push(0)
             }
-            this.status[index]=1
-            let params={
-                "id":id,
-                "userOpenId":localStorage.getItem('userOpenId')
-            }
-            checkAddress(params).then((result) => {
-                if (result.data.resultCode==200) {
-                    Toast({
-                    message: '成功修改默认地址',
-                    duration: 1000
-                    });
+            this.status[index]=1;
+
+                let params={
+                    "id":id,
+                    "userOpenId":localStorage.getItem('userOpenId')
                 }
-            }).catch((err) => {
-                console.log(err)
-            });
+                checkAddress(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                        message: '成功修改默认地址',
+                        duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
         },
         changeAddress(id){   
             this.$router.push({path:'/shopcar',query:{'address':id}})
