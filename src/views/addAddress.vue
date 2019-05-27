@@ -156,11 +156,11 @@ export default {
     },
     watch: {
         lng(newVal,oldVal){
-            console.log(newVal,oldVal);
+           console.log(newVal,oldVal);
             console.log('定位成功');
         },
         lat(newVal,oldVal){
-            console.log(newVal,oldVal);
+            //console.log(newVal,oldVal);
             console.log('定位成功');
             this.autoInput();
         }
@@ -169,7 +169,7 @@ export default {
         this.Location()
     },
     created() {
-        this.StoreIdaddress()//渲染购物车商品
+        this.StoreIdaddress()
     },
 }
 </script>

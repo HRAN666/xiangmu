@@ -354,12 +354,12 @@ export default {
                 if(result.data.resultCode==200){
                     for (let i = 0; i < result.data.list.length; i++) {
                         if (result.data.list[i].status==1) {
-                            this.addressDetail=result.data.list[i].dormitory;
+                            this.addressDetail=result.data.list[i].detailedAddress+result.data.list[i].campus+result.data.list[i].floorBuild+result.data.list[i].floorNumber;
                             this.consignee=result.data.list[i].consignee
                             this.phone=result.data.list[i].phone
                         }
                         if (arguments[0]) {
-                            this.addressDetail=result.data.list[i].dormitory;
+                            this.addressDetail=result.data.list[i].detailedAddress+result.data.list[i].campus+result.data.list[i].floorBuild+result.data.list[i].floorNumber;
                             this.consignee=result.data.list[i].consignee
                             this.phone=result.data.list[i].phone
                         }  

@@ -220,6 +220,12 @@ export default {
     created() {
         this.loadingShop()//渲染购物车商品
         this.loadingHisproductReCommend()//渲染推荐商品
+        if (this.$route.query.address) {
+        this.$nextTick(()=>{
+            this.showMark=true
+            this.$refs.popup.isPoup=true
+        })
+        }
     },
     mounted() {
 
