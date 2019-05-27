@@ -84,7 +84,7 @@ export default {
             RecommendDetails:[],//推荐商品信息
             showMark:false,
             totlePrice:0,//总价格
-            totalNum:0,//总价格
+            totalNum:0,//总数
             integral:'',//购买所获得的积分 目前1块钱积分
             deletShop:false,
         }
@@ -136,7 +136,10 @@ export default {
                "userOpenId":localStorage.getItem('userOpenId'),
             }
             this.$store.dispatch('loadingShop',params).then((result) => {
-                this.ShopList=result
+                this.ShopList=result;
+                for (let i = 0; i < result.length; i++) {
+                    this.totalNum+=result[i].theNum
+                }
                 this.tocheckAll()//全选
             }).catch((err) => {
                 console.log(err)
@@ -202,22 +205,17 @@ export default {
     computed: {
         sumPrice(){
             let totle=0;
-            let totalN=0;
             if (this.checkAll) {
                 this.ShopList.forEach(item=>{//计算总价格
                 totle+=item.bizProductVo.price*item.theNum;
-                totalN+=item.bizProductVo.price*item.theNum;
                 this.totlePrice=(totle/100);
                 this.integral=this.totlePrice;
-                this.totalNum=totalN;
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格取消反选之后计算的价格
                 totle+=item.theNum*item.bizProductVo.price;
-                totalN+=item.bizProductVo.price*item.theNum;
                 this.totlePrice=(totle/100);
                 this.integral=this.totlePrice;
-                this.totalNum=totalN;
             })    
             }
             return '￥'+(totle/100).toFixed(2)

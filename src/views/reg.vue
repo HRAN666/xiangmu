@@ -156,7 +156,7 @@ export default {
     border-radius: 0;
 }
 .reg .el-input{
-    width: 171%;
+    width: 3.4rem;
     margin-left: -18px;
 }
 .add .el-button--primary{
