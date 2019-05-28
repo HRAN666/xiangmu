@@ -40,20 +40,18 @@
         </div>
         <div class="information_content">
         <div class="information" v-for="(item,index) in orderList" :key="index">
-            <div class="information-day"><span>订单号：</span><span>{{item.id}}</span></div>
+            <div class="information-day"><span><img src="../assets/no_choice.png">{{item.createTime}}</span><span>订单号：</span><span>{{item.id}}</span></div>
             <div class="information-name">
                 <div class="information-name-left">
                     <div>收件人：<span>{{item.deliverName+' '+item.deliverPhone}}</span></div>
                     <div>收货地址：<span>{{item.deliverAddress}}</span></div>
-                    <div>付款状态：
-                        <span v-if="item.payStatus === 'PAID' ">已支付</span>
-                        <span v-if="item.payStatus === 'NOT_PAY' ">未支付</span>
-                        <span v-if="item.payway === 'score' ">积分兑换</span>
-                    </div>
-                    <div>付款方式：
-                        <span v-if="item.payTime === 'PAY_NOW' ">微信支付</span>
+                    <div>付款方式：<span v-if="item.payTime === 'PAY_NOW' ">微信支付</span>
                         <span v-if="item.payTime === 'PAY_NEXT' ">货到付款</span>
                         <span v-if="item.payway === 'score' ">积分兑换</span>
+                    </div>
+                    <div>付款状态：<span v-if="item.payStatus === 'PAID' ">已支付</span>
+                        <span v-if="item.payStatus === 'NOT_PAY' ">未支付</span>
+                        <span v-if="item.payway === 'score' ">已支付</span>
                     </div>
                 </div>
                 <div class="information-name-right">
@@ -81,7 +79,7 @@
 </template>
 <script>
 import header from '../components/header.vue'
-import {timestampToTime,DayTimes,getDay} from '../common/common.js'
+import {timestampToTime,DayTimes,getDay,getSecond} from '../common/common.js'
 import {historyOrder} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
@@ -115,6 +113,16 @@ export default {
             historyOrder(params).then((result) => {
                 this.orderList=[]
                 this.orderList=this.orderList.concat(result.data.list)
+                for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
+                    var time = getSecond(result.data.list[index].createTime)
+                    this.orderList.push(result.data.list[index])
+                    var new_vid = (result.data.list[index].id)
+                    if (new_vid.length > 10){
+                        new_vid = new_vid.substring(0,6)+'......'+new_vid.substring(new_vid.length-10,new_vid.length);
+                        this.orderList[index].id = new_vid;
+                    }
+                    this.orderList[index].createTime = time;
+                }
             }).catch((err) => {
                 console.log(err)
             });
@@ -295,12 +303,20 @@ export default {
     border-bottom: .01rem solid #efefef;
     padding-left: .1rem;
 }
+.information-day span:nth-child(2){
+    padding-left: .1rem;
+} 
+.information-day span:nth-child(3){
+    max-width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .information-day img{
     position: relative;
-    left: .1rem;
-    top:.015rem;
-    width: .13rem;
-    height: .13rem;
+    width: .11rem;
+    height: .11rem;
+    padding-right: .1rem;
 }
 .information-name{
     height: 1.2rem;
