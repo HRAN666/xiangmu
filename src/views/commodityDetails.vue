@@ -122,7 +122,7 @@ export default {
             detailsprice:'',//商品价格
             detailsimg:'',//商品图片
             total:'',//总价
-            addAddress:'',//获取收获地址
+            addressDetail:'',//获取默认地址
             defaultAddress:'',//默认收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:1,//购买数量，默认是1
@@ -230,16 +230,6 @@ export default {
                 
             });
         },
-        getaddAddress(){//查询收货地址
-            let params={
-                'userOpenId':localStorage.getItem('userOpenId'),
-            }
-            lookaddAddress(params).then((result) => {
-                this.addAddress=result.data.list;
-            }).catch((err) => {
-                
-            });
-        },
         defaultaddAddress(){//加默认收货地址
             let params={
                 'userOpenId':localStorage.getItem('userOpenId'),
@@ -322,46 +312,80 @@ export default {
             this.imgMark=false
             this.imgSrc=''
         },
-        toExchange(){//兑换商品
+        seachAddress(){
             let params={
                 "userOpenId":localStorage.getItem('userOpenId'),
-                "scoreProductId":this.$route.query.integral,//商品ID
-                "buyAmount":this.shopDetails[0].quantity,//购买数量
-                "scorePrice":this.shopDetails[0].integral,//积分价格
-                'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
-                "scoreUse": this.total*100,//花费总积分  
-                'deliverFee':'0',//暂时写0(运费)
-                'userName':'测试',//收货人
-                'phone':'13715363223',//收货电话
-                'orderAddress':'测试',//收货地址
+                'id':arguments[0]
             }
-            conversionIntegral(params).then((result) => {
-                if (result.data.resultCode==200) {
-                    Toast({
-                        message: '兑换成功',
-                        duration: 1000
-                    });
-                }else if(result.data.resultCode==500){
-                    Toast({
-                        message: '积分不足',
-                        duration: 1000
-                    });
+            lookaddAddress(params).then((result) => {
+                if(result.data.resultCode==200){
+                    for (let i = 0; i < result.data.list.length; i++) {
+                        if (result.data.list[i].status==1) {
+                            this.addressDetail=result.data.list[i].dormitory;
+                            this.consignee=result.data.list[i].consignee
+                            this.phone=result.data.list[i].phone
+                        }
+                        if (arguments[0]) {
+                            this.addressDetail=result.data.list[i].dormitory;
+                            this.consignee=result.data.list[i].consignee
+                            this.phone=result.data.list[i].phone
+                        }  
+                    }
                 }
             }).catch((err) => {
                 console.log(err)
             });
+        },
+        toExchange(){//兑换商品
+        if (this.addressDetail=='') {
+                Toast({
+                    message: '请填写收货信息',
+                    duration: 1000
+                });
+            }else{
+                let params={
+                    "userOpenId":localStorage.getItem('userOpenId'),
+                    'deliverFee':'0',//暂时写0(运费)
+                    'deliverName':this.consignee,//收货人
+                    'deliverPhone':this.phone,//收货电话
+                    'deliverAddress':this.addressDetail,//收货地址
+                    "scoreProductId":this.$route.query.integral,//商品ID
+                    "buyAmount":this.shopDetails[0].quantity,//购买数量
+                    "scorePrice":this.shopDetails[0].integral,//积分价格
+                    'productDetailJson':JSON.stringify(this.shopDetails),//商品信息
+                    "scoreUse": this.total*100,//花费总积分  
+                }
+                conversionIntegral(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '兑换成功',
+                            duration: 1000
+                        });
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '积分不足',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+            }
         }
     },
     created() {
         if (this.$route.query.id) {//其他页面进入
             this.loadingDetails(this.$route.query.id);
+            this.seachAddress(this.$route.query.address);
             this.loadingRecommendDetails();
         }else if(this.$route.query.integral) {//积分商城进入
             this.loadingItegral(this.$route.query.integral);
             this.loadingRecommendDetails(this.$route.query.integral);
+            this.seachAddress(this.$route.query.address);
             this.fromIntegral=true;
             if (this.$route.query.toexquery) {//积分兑换进入
                 this.toexquery=true;
+                this.seachAddress(this.$route.query.address);
             }
         }
     },

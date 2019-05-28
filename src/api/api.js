@@ -122,6 +122,10 @@ export const delcollectShop =params =>{
 export const checkVip =params =>{
     return axios.post('/api/portal/v01/checkPortalUserMember.do',params);
 }
+/********查询是否商家 */
+export const Account =params =>{
+    return axios.post('/api/biz/v01/listBizStoreAccount.do',params);
+}
 /**********用户积分明细 */
 export const IntegralDetail =params =>{
     return axios.post('/api/biz/v01/selectUserIntegralDetail.do',params);

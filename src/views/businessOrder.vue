@@ -4,7 +4,7 @@
         <div class="date">
             <img src="../assets/before_day.png" alt="" @click="reductDate">
             <el-date-picker 
-            v-model="value"
+            v-model="createTime"
             @change='getDate'
             type="date"
             placeholder="选择日期">
@@ -43,18 +43,34 @@
             <div class="information-day"><span>订单号：</span><span>{{item.id}}</span></div>
             <div class="information-name">
                 <div class="information-name-left">
-                    <div>收件人：<span>{{item.deliverName+item.deliverPhone}}</span></div>
-                    <div>收货店名：<span>{{item.deliverAddress}}</span></div>
+                    <div>收件人：<span>{{item.deliverName+' '+item.deliverPhone}}</span></div>
                     <div>收货地址：<span>{{item.deliverAddress}}</span></div>
-                    <div>付款状态：<span>{{item.payTime=='PAY_NEXT'?'未支付':'已支付'}}</span></div>
+                    <div>付款状态：
+                        <span v-if="item.payStatus === 'PAID' ">已支付</span>
+                        <span v-if="item.payStatus === 'NOT_PAY' ">未支付</span>
+                        <span v-if="item.payway === 'score' ">积分兑换</span>
+                    </div>
+                    <div>付款方式：
+                        <span v-if="item.payTime === 'PAY_NOW' ">微信支付</span>
+                        <span v-if="item.payTime === 'PAY_NEXT' ">货到付款</span>
+                        <span v-if="item.payway === 'score' ">积分兑换</span>
+                    </div>
                 </div>
                 <div class="information-name-right">
-                    <div>{{item.deliverStatus=='ON_THE_WAY'?'送货中':'已送达'}}</div>
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' ">
+                        待发货
+                    </div>
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' ">
+                        送货中
+                    </div>
+                    <div v-if="item.orderStatus === 'NOT_EVALUATED' && item.deliverStatus === 'CONFIRMED' ">
+                        已送达'
+                    </div>
                     <div>订单进行中</div>
                 </div>
             </div>
             <div class="information-total">
-                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：￥</span><span>{{item.totalFee.toFixed(2)}}</span></div>
+                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+item.totalFee.toFixed(2)/100}}</span></div>
             </div>
         </div>
         </div>
@@ -66,12 +82,13 @@
 <script>
 import header from '../components/header.vue'
 import {timestampToTime,DayTimes,getDay} from '../common/common.js'
+import {historyOrder} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
     components: {
         'header-general':header
     },
-   data () {
+    data () {
         return {
             orderList:[],
             pageNo:1,
@@ -81,25 +98,25 @@ export default {
             recordPayState:'',//收货状态
             createTimeFrom:'',//前一天的时间
             createTimeTo:'',//后一天的时间
-            value:new Date(),
+            createTime:new Date(),
         }
     },
     methods: {
         loadingOrder(){
             let params={
-                'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
-                'pageSize':5,//默认给五条
-                'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
-                'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
-                'payStatus':arguments[3],
-                'deliverStatus':arguments[2],
-
+                "createTime":this.createTime
+                // 'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
+                // 'pageSize':5,//默认给五条
+                // 'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
+                // 'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
+                // 'payStatus':arguments[3],
+                // 'deliverStatus':arguments[2],
             }
-            bossOrder(params).then((result) => {
+            historyOrder(params).then((result) => {
                 this.orderList=[]
                 this.orderList=this.orderList.concat(result.data.list)
             }).catch((err) => {
-                
+                console.log(err)
             });
         },
         up(){
@@ -120,7 +137,7 @@ export default {
         },
         handledeliveryCommand(params){//货态
             this.delivery=params
-           this.pageNo=1//每次搜索默认1
+            this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部货态':
                    this.loadingOrder('','','',this.recordPayState) 
@@ -163,21 +180,23 @@ export default {
             this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
         },
          reductDate(){
-            let dateTime=getDay(this.value),
+            let dateTime=getDay(this.createTime),
             changeDate=timestampToTime(dateTime)
-            this.value=DayTimes(changeDate,-1)
+            this.createTime=DayTimes(changeDate,-1)
+            this.loadingOrder()
         },
         addDate(){
-            let dateTime=getDay(this.value),
+            let dateTime=getDay(this.createTime),
             changeDate=timestampToTime(dateTime)
-            this.value=DayTimes(changeDate,1)            
+            this.createTime=DayTimes(changeDate,1)
+            this.loadingOrder()         
         },
         getDate(){
             
         }
     },
     created () {
-       // this.loadingOrder()
+       this.loadingOrder()
     }
 }
 </script>
@@ -261,6 +280,9 @@ export default {
     left: 50%;
     top: .05rem;
 }
+.information_content{
+    margin-bottom: .6rem;
+}
 .information{
     text-align: left;
     margin-top: .1rem;
@@ -271,6 +293,7 @@ export default {
     line-height: .35rem;
     font-size: .13rem;
     border-bottom: .01rem solid #efefef;
+    padding-left: .1rem;
 }
 .information-day img{
     position: relative;
@@ -278,12 +301,6 @@ export default {
     top:.015rem;
     width: .13rem;
     height: .13rem;
-}
-.information-day span:nth-child(2){
-    margin-left: .15rem;
-}
-.information-day span:nth-child(3){
-    margin-left: .25rem;
 }
 .information-name{
     height: 1.2rem;

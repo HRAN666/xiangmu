@@ -101,8 +101,8 @@ export default {
                     console.log(err)
                 });
         },
-        changeAddress(id){   
-            this.$router.push({path:'/shopcar',query:{'address':id}})
+        changeAddress(id){  
+            this.$router.go(-1,{query:{'address':id}})
         }
     },
     mounted () {

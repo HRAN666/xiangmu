@@ -72,9 +72,14 @@
                 <span>收货地址</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
             </div>
-             <div class="my_list" @click="goBrowser">
+            <div class="my_list" @click="goBrowser">
                 <img src="../assets/before.png" alt="">
                 <span>浏览记录</span>
+                <img src="../assets/more.png" alt="" class="my_list_go">
+            </div>
+            <div class="my_list" @click="tobusinessOrder" v-if="business==true">
+                <img src="../assets/Offer.png" alt="">
+                <span>商家订单</span>
                 <img src="../assets/more.png" alt="" class="my_list_go">
             </div>
         </div>
@@ -83,6 +88,7 @@
 </template>
 <script>
 import footer from '../components/footer.vue'
+import {Account} from '../api/api.js'
 export default {
     components: {
       'footer-currency':footer
@@ -92,6 +98,7 @@ export default {
             headimgurl:localStorage.getItem('headimgurl'),//头像
             nickName:localStorage.getItem('nickname'),//名字
             color:'header_float_reg_vip',//会员样式
+            business:false,//是否为商家
         }
     },
     methods: {
@@ -122,6 +129,22 @@ export default {
         goCollect(){
             this.$router.push('/collect')
         },
+        tobusinessOrder(){
+            this.$router.push('/businessOrder')
+        },
+        loadingAccount(){
+            let params={
+                'userOpenId':localStorage.getItem('userOpenId'),
+            }
+            Account(params).then((result) => {
+                if (!result.data.list[0]) {
+                }else{
+                    this.business=true;
+                }
+            }).catch((err) => {
+                console.log(err)
+            });
+        },
     },
     created () {
         let params={
@@ -132,7 +155,7 @@ export default {
         }).catch((err) => {
             console.log(err)
         });
-
+        this.loadingAccount();
     },
     computed: {
         getStore(){
