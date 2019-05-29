@@ -62,7 +62,7 @@
                         送货中
                     </div>
                     <div v-if="item.orderStatus === 'NOT_EVALUATED' && item.deliverStatus === 'CONFIRMED' ">
-                        已送达'
+                        已送达
                     </div>
                     <div>订单进行中</div>
                 </div>
