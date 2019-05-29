@@ -42,20 +42,20 @@
                     <img src="../assets/wait_pay.png" alt="">
                     <span>待付款</span>
                 </div>
-                <div class="myorder_list_wait_on_the_way">
-                    <img src="../assets/on_the_way.png" alt="" @click="toOrderState('ON_THE_WAY')">
+                <div class="myorder_list_wait_on_the_way" @click="toOrderState('ON_THE_WAY')">
+                    <img src="../assets/on_the_way.png" alt="">
                     <span>待发货</span>
                 </div>
-                <div class="myorder_list_wait_receipt">
-                    <img src="../assets/wait_receipt.png" alt="" @click="toOrderState('DELIVERED')">
+                <div class="myorder_list_wait_receipt" @click="toOrderState('DELIVERED')">
+                    <img src="../assets/wait_receipt.png" alt="">
                     <span>待收货</span>
                 </div>
-                <div class="myorder_list_msg">
-                    <img src="../assets/wait_msg.png" alt="" @click="toOrderState('NOT_EVALUATED')">
+                <div class="myorder_list_msg" @click="toOrderState('NOT_EVALUATED')">
+                    <img src="../assets/wait_msg.png" alt="">
                     <span>待评价</span>
                 </div>
-                <div class="myorder_list_refund">
-                    <img src="../assets/wait_refund.png" alt="" @click="toOrderState('APPLY_DRAWBACK')">
+                <div class="myorder_list_refund" @click="toOrderState('APPLY_DRAWBACK')">
+                    <img src="../assets/wait_refund.png" alt="">
                     <span>退款退货</span>
                 </div>
             </div>
@@ -338,7 +338,7 @@ export default {
     color: #5C5C5C;
     font-size: .12rem;
 }
-.myorder_list_wait_on_the_way::before{
+.myorder_list_waitpay::before{
     content: '';
     width: .01rem;
     background: #dad9d9;
@@ -347,13 +347,13 @@ export default {
     left: 20%;
     top: .52rem;
 }
-.myorder_list_waitpay::before{
+.myorder_list_wait_on_the_way::before{
     content: '';
     width: .01rem;
     background: #dad9d9;
     height: .36rem;
     position: absolute;
-    left: 40%;
+    left: 40.1%;
     top: .52rem;
 }
 .myorder_list_wait_receipt::before{

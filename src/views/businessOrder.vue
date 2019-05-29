@@ -314,9 +314,9 @@ export default {
 }
 .information-day img{
     position: relative;
-    width: .11rem;
-    height: .11rem;
-    padding-right: .1rem;
+    width: .1rem;
+    height: .1rem;
+    padding-right: .05rem;
 }
 .information-name{
     height: 1.2rem;
