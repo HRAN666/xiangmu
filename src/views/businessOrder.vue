@@ -3,12 +3,7 @@
         <header-general routerTo="/Home" headTitle="商家订单" headClass="style6"></header-general>
         <div class="date">
             <img src="../assets/before_day.png" alt="" @click="reductDate">
-            <el-date-picker 
-            v-model="createTime"
-            @change='getDate'
-            type="date"
-            placeholder="选择日期">
-            </el-date-picker>
+            <el-date-picker v-model="createTime" @change='getDate' type="date" placeholder="选择日期"></el-date-picker>
             <img src="../assets/next_day.png" alt="" @click="addDate">
         </div>    
         <div class="type">
@@ -19,6 +14,7 @@
                 </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command='全部货态'>全部货态</el-dropdown-item>
+                <el-dropdown-item command='待发货'>待发货</el-dropdown-item>
                 <el-dropdown-item command='送货中'>送货中</el-dropdown-item>
                 <el-dropdown-item command='已送达'>已送达</el-dropdown-item>
             </el-dropdown-menu>
@@ -32,8 +28,8 @@
                 </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command='全部款态'>全部款态</el-dropdown-item>
-                <el-dropdown-item command='未支付'>未支付</el-dropdown-item>
                 <el-dropdown-item command='已支付'>已支付</el-dropdown-item>
+                <el-dropdown-item command='未支付'>未支付</el-dropdown-item>
             </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -62,18 +58,28 @@
                         送货中
                     </div>
                     <div v-if="item.orderStatus === 'NOT_EVALUATED' && item.deliverStatus === 'CONFIRMED' ">
-                        已送达'
+                        已送达
                     </div>
                     <div>订单进行中</div>
                 </div>
             </div>
             <div class="information-total">
-                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+item.totalFee.toFixed(2)/100}}</span></div>
+                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+(item.totalFee/100).toFixed(2)}}</span></div>
             </div>
         </div>
         </div>
-        <div class="footer">
-            <div><div class="up" @click="up">上一页</div> <div class="down" @click="down">下一页</div></div>
+        <div class="footer" v-bind:style="{position: position}">
+            <div class="block">
+                <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage4"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="5"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalCount">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -90,73 +96,67 @@ export default {
         return {
             orderList:[],
             pageNo:1,
+            totalCount:0,//返回数量
             delivery:'',//货态
             payState:'',//款态
+            pageSize:5,
+            position: 'fixed',
             recordDelivery:'',
             recordPayState:'',//收货状态
-            createTimeFrom:'',//前一天的时间
-            createTimeTo:'',//后一天的时间
-            createTime:new Date(),
+            currentPage4: 1,
+            createTime: new Date().getTime(),
         }
     },
     methods: {
         loadingOrder(){
             let params={
-                "createTime":this.createTime
-                // 'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
-                // 'pageSize':5,//默认给五条
-                // 'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
-                // 'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
-                // 'payStatus':arguments[3],
-                // 'deliverStatus':arguments[2],
+                "createTime":this.createTime,
+                'payStatus':arguments[3],
+                'deliverStatus':arguments[2],
+                'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
+                'pageSize':this.pageSize
             }
             historyOrder(params).then((result) => {
                 this.orderList=[]
-                this.orderList=this.orderList.concat(result.data.list)
+                if(result.data.list.length>2){
+                    this.position='relative'
+                }else{
+                    this.position='fixed'
+                }
+                this.totalCount=result.data.totalCount;
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
-                    var time = getSecond(result.data.list[index].createTime)
                     this.orderList.push(result.data.list[index])
+                    var time = getSecond(result.data.list[index].createTime)
+                    this.orderList[index].createTime = time;
                     var new_vid = (result.data.list[index].id)
                     if (new_vid.length > 10){
                         new_vid = new_vid.substring(0,6)+'......'+new_vid.substring(new_vid.length-10,new_vid.length);
                         this.orderList[index].id = new_vid;
                     }
-                    this.orderList[index].createTime = time;
                 }
             }).catch((err) => {
                 console.log(err)
             });
-        },
-        up(){
-            this.pageNo--
-            if (this.pageNo<=0) {
-                 Toast({
-                  message: '已经是第一页',
-                  duration: 1000
-                  });
-                    return
-            }else{          
-                this.loadingOrder('',this.pageNo)
-            }
-        },
-        down(){
-            this.pageNo++
-            this.loadingOrder(this.createTimeFrom!=''?this.createTimeFrom:'',this.pageNo,'','',this.createTimeTo!=''?this.createTimeTo:'')
         },
         handledeliveryCommand(params){//货态
             this.delivery=params
             this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部货态':
-                   this.loadingOrder('','','',this.recordPayState) 
+                    this.loadingOrder('','','',this.recordPayState)
+                    this.recordDelivery=''
+                    break;
+                case '待发货':
+                    this.loadingOrder('','','ON_THE_WAY',this.recordPayState) 
+                    this.recordDelivery='ON_THE_WAY'
                     break;
                 case '送货中':
-                   this.loadingOrder('','','ON_THE_WAY',this.recordPayState)
-                   this.recordDelivery='ON_THE_WAY'
+                    this.loadingOrder('','','DELIVERED',this.recordPayState)
+                    this.recordDelivery='DELIVERED'
                     break;
                 case '已送达':
-                   this.loadingOrder('','','DELIVERED',this.recordPayState) 
-                   this.recordDelivery='DELIVERED'
+                    this.loadingOrder('','','CONFIRMED',this.recordPayState) 
+                    this.recordDelivery='CONFIRMED'
                     break;
                 default:
                     break;
@@ -167,15 +167,16 @@ export default {
             this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部款态':
-                   this.loadingOrder('','',this.recordDelivery,'') 
-                    break;
-                case '未支付':
-                   this.loadingOrder('','',this.recordDelivery,'not_pay') 
-                   this.recordPayState='not_pay'
+                    this.loadingOrder('','',this.recordDelivery,'')
+                    this.recordPayState=''
                     break;
                 case '已支付':
-                   this.loadingOrder('','',this.recordDelivery,'PAID') 
-                   this.recordPayState='PAID'
+                    this.loadingOrder('','',this.recordDelivery,'PAID')
+                    this.recordPayState='PAID'
+                    break;
+                case '未支付':
+                    this.loadingOrder('','',this.recordDelivery,'NOT_PAY')
+                    this.recordPayState='NOT_PAY'
                     break;
                 default:
                     break;
@@ -185,22 +186,30 @@ export default {
             this.pageNo=1;
             this.createTimeFrom=getDay(DayTimes(+e,1));//无论给什么都转格式
             this.createTimeTo=getDay(DayTimes(+e,-1));
-            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
         },
-         reductDate(){
+        reductDate(){
             let dateTime=getDay(this.createTime),
             changeDate=timestampToTime(dateTime)
             this.createTime=DayTimes(changeDate,-1)
-            this.loadingOrder()
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)
         },
         addDate(){
             let dateTime=getDay(this.createTime),
             changeDate=timestampToTime(dateTime)
             this.createTime=DayTimes(changeDate,1)
-            this.loadingOrder()         
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)    
         },
         getDate(){
-            
+            this.createTime=(this.createTime).getTime()
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)
+        },
+        handleSizeChange(val) {
+            this.pageSize= val;
+            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
+        },
+        handleCurrentChange(val) {
+            this.pageNo= val;
+            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
         }
     },
     created () {
@@ -228,6 +237,28 @@ export default {
 }
 .date .el-date-editor .el-icon-circle-close{
     display: none;
+}
+.block{
+    position: relative;
+    top: .1rem;
+}
+.btn-prev{
+    position: absolute;
+    top: .4rem;
+    left: 0;
+}
+.el-pager{
+    position: absolute;
+    top: .4rem;
+    left: .3rem;
+}
+.btn-next{
+    position: absolute;
+    top: .4rem;
+    right: 0;
+}
+.el-pager li{
+    min-width: 34px;
 }
 </style>
 
@@ -314,9 +345,9 @@ export default {
 }
 .information-day img{
     position: relative;
-    width: .11rem;
-    height: .11rem;
-    padding-right: .1rem;
+    width: .1rem;
+    height: .1rem;
+    padding-right: .05rem;
 }
 .information-name{
     height: 1.2rem;
@@ -362,33 +393,9 @@ export default {
 .footer{
     position: fixed;
     bottom: 0;
+    overflow:hidden;
     width: 100%;
-    height: .5rem;
+    height: .9rem;
     background-color: #ffffff;
-}
-.footer div{
-    margin: 0 auto;
-    width: 2rem;
-}
-.footer .up{
-    margin-top:.1rem; 
-    float: left;
-    font-size: .16rem;
-    padding: 0.03rem 0.05rem  0.03rem 0.05rem;
-    width: .8rem;
-    color: #ffffff;
-    background-color: #0288d1;
-    border-radius: 0.08rem;
-}
-.footer .down{
-    margin-top:.1rem;
-    float: left;
-    margin-left: .15rem;
-    font-size: .16rem;
-    padding: 0.03rem 0.05rem  0.03rem 0.05rem;
-    width: .8rem;
-    color: #ffffff;
-    background-color: #0288d1;
-    border-radius: 0.08rem;
 }
 </style>

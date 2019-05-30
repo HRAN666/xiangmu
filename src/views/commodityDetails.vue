@@ -11,7 +11,7 @@
                 </el-carousel>
                 </div>
                 <div class="goods-title">{{item.name}}</div>
-                <div class="goods-price">{{item.price==undefined?(item.integral/100)+'积分':'￥'+item.price.toFixed(2)/100}}</div>
+                <div class="goods-price">{{item.price==undefined?(item.integral/100)+'积分':'￥'+(item.price/100).toFixed(2)}}</div>
                 <div class="sales-volume">
                     <span>快递：0.00</span>
                     <span>月销{{item.salesVolume}}笔</span>
@@ -55,7 +55,7 @@
                 <div class="recommend-goods-box"  @click="gotoDetails(itemrecommend.id)" v-for="(itemrecommend,indexes) in RecommendDetails" :key="indexes">
                     <div class="recommend-goods-img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
                      <div class="recommend-goods-name">{{itemrecommend.name}}</div>
-                    <div class="recommend-goods-price">￥{{itemrecommend.price/100}}<span>{{itemrecommend.salesVolume}}人付款</span></div>
+                    <div class="recommend-goods-price">￥{{(itemrecommend.price/100).toFixed(2)}}<span>{{itemrecommend.salesVolume}}人付款</span></div>
                 </div>
             </div>
             <div class="to-the-end">
@@ -107,6 +107,7 @@ import header from '../components/header.vue';
 import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults,conversionIntegral,productReCommend} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
+    inject:['reload'],
     components: {
         'header-general':header,
         'currency-Popup':currencyPopup
@@ -361,6 +362,7 @@ export default {
                             message: '兑换成功',
                             duration: 1000
                         });
+                        this.reload()
                     }else if(result.data.resultCode==500){
                         Toast({
                             message: '积分不足',

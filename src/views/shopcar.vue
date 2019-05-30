@@ -11,7 +11,7 @@
             <div class="shopCar_commodity_list" v-for="(item,index) in ShopList" :key="index">
                 <input  @change="select(item.id,item)"   type="checkbox" :checked="shopListCheck.indexOf(item.id)>=0"  class="shopCar_commodity_list_checkbox">
                    <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="gotoDetail(item.productId)">
-                    <div class="shopCar_commodity_listTitle">{{item.bizProductVo.name}}</div>
+                    <div class="shopCar_commodity_listTitle" @click="gotoDetail(item.productId)">{{item.bizProductVo.name}}</div>
                     <span class="shopCar_commodity_listPrice">{{item.bizProductVo.price|filtertoMoney}}</span>
                     <el-input-number size="mini" @change="theNumChange(item.productId,item.storeId,item.theNum)" v-model="item.theNum" :min="1" :max="99"></el-input-number>
             </div>
@@ -30,7 +30,7 @@
                         <div class="shopCarCar_shoplist_img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
                         <p>{{itemrecommend.name}}</p>
                         <div class="shopCarCar_shoplist_message">
-                            <span class="shopCar_shoplist_price">￥{{itemrecommend.price/100}}</span>
+                            <span class="shopCar_shoplist_price">￥{{(itemrecommend.price/100).toFixed(2)}}</span>
                             <span>{{itemrecommend.salesVolume}}人付款</span>
                             <span class="shopCar_shoplist_similar">相似</span>
                         </div>

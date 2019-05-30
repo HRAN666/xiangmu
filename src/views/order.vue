@@ -87,7 +87,7 @@
                 <p class="box_bottom_payTime" v-if="item.payway === 'score'">
                     积分兑换
                 </p>
-                <div v-if="item.scorePrice == null">{{'共'+item.totalNum+'件商品'}}<span>{{'合计：￥'+item.totalFee/100}}</span></div>
+                <div v-if="item.scorePrice == null">{{'共'+item.totalNum+'件商品'}}<span>{{'合计：￥'+(item.totalFee/100).toFixed(2)}}</span></div>
                 <div v-if="item.scorePrice != null">{{'共'+item.buyAmount+'件商品'}}<span>{{'合计：'+item.scoreUse/100+'积分'}}</span></div>
             </div>
             <div class="box_bottom_button">
@@ -324,7 +324,6 @@ export default {
                 for (let i = 0; i < result.data.list.length; i++) {
                     if(this.active=='待付款' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='NOT_PAY'){
                         this.orderList.push(result.data.list[i]);
-                        console.log(this.orderList);
                     }else if(this.active=='待发货' && result.data.list[i].payTime=='PAY_NOW' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payStatus=='PAID' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
                         this.orderList.push(result.data.list[i]);
                     }else if(this.active=='待发货' && result.data.list[i].orderStatus=='ON_GOING' && result.data.list[i].payway=='score' && result.data.list[i].deliverStatus=='ON_THE_WAY'){
@@ -361,8 +360,24 @@ export default {
             }
         },
         created() {
-            this.loadingOrder()
-        }
+            if(this.$route.query.State) {//具体分类进入
+                if(this.$route.query.State=='NOT_PAY'){
+                    this.active = '待付款';
+                    this.selected(this.active);
+                }if(this.$route.query.State=='ON_THE_WAY'){
+                    this.active = '待发货';
+                    this.selected(this.active);
+                }if(this.$route.query.State=='DELIVERED'){
+                    this.active = '待收货';
+                    this.selected(this.active);
+                }if(this.$route.query.State=='NOT_EVALUATED'){
+                    this.active = '待评价';
+                    this.selected(this.active);
+                }
+            }else{//我的订单进入
+                this.loadingOrder();
+            }
+        },
 };
 </script>
 <style scoped>

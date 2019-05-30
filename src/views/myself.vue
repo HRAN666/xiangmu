@@ -38,19 +38,23 @@
                 </div>
             </div>
             <div class="myorder_list">
-                <div class="myorder_list_waitpay">
+                <div class="myorder_list_waitpay" @click="toOrderState('NOT_PAY')">
                     <img src="../assets/wait_pay.png" alt="">
                     <span>待付款</span>
                 </div>
-                <div class="myorder_list_wait_receipt">
+                <div class="myorder_list_wait_on_the_way" @click="toOrderState('ON_THE_WAY')">
+                    <img src="../assets/on_the_way.png" alt="">
+                    <span>待发货</span>
+                </div>
+                <div class="myorder_list_wait_receipt" @click="toOrderState('DELIVERED')">
                     <img src="../assets/wait_receipt.png" alt="">
                     <span>待收货</span>
                 </div>
-                <div class="myorder_list_msg">
+                <div class="myorder_list_msg" @click="toOrderState('NOT_EVALUATED')">
                     <img src="../assets/wait_msg.png" alt="">
-                    <span>评价</span>
+                    <span>待评价</span>
                 </div>
-                <div class="myorder_list_refund">
+                <div class="myorder_list_refund" @click="toOrderState('APPLY_DRAWBACK')">
                     <img src="../assets/wait_refund.png" alt="">
                     <span>退款退货</span>
                 </div>
@@ -104,6 +108,9 @@ export default {
     methods: {
         toOrder(){
             this.$router.push('/order')
+        },
+        toOrderState(State){
+            this.$router.push({path:'/order',query:{'State':State}})//id:商品详情渲染的id
         },
         toreg(){
             this.$router.push('/reg')
@@ -319,7 +326,7 @@ export default {
     margin-top: .1rem;
 }
 .myorder_list div{
-    width: 25%;
+    width: 20%;
     float: left;
 }
 .myorder_list div img{
@@ -337,7 +344,16 @@ export default {
     background: #dad9d9;
     height: .36rem;
     position: absolute;
-    left: 25%;
+    left: 20%;
+    top: .52rem;
+}
+.myorder_list_wait_on_the_way::before{
+    content: '';
+    width: .01rem;
+    background: #dad9d9;
+    height: .36rem;
+    position: absolute;
+    left: 40.1%;
     top: .52rem;
 }
 .myorder_list_wait_receipt::before{
@@ -346,7 +362,7 @@ export default {
     background: #dad9d9;
     height: .36rem;
     position: absolute;
-    left: 50%;
+    left: 60%;
     top: .52rem;
 }
 .myorder_list_msg::before{
@@ -355,7 +371,7 @@ export default {
     background: #dad9d9;
     height: .36rem;
     position: absolute;
-    left: 75%;
+    left: 80%;
     top: .52rem;
 }
 .header_float_reg_vip{
@@ -366,7 +382,6 @@ export default {
     left: .35rem;
     top: .02rem;
 }
-
 .my{
     position: relative;
     top: .9rem;
@@ -398,7 +413,6 @@ export default {
 .my .my_list:last-of-type{
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-
 }
 .my .my_list:first-of-type{
     border-top-left-radius: 8px;
@@ -406,7 +420,6 @@ export default {
 }
 .my .my_list:last-of-type::before{
     display: none;
-
 }
 .my .my_list img{
     width: .18rem;
