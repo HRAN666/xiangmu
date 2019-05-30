@@ -1,0 +1,54 @@
+/* components/tabSelection/tabSelection.wxss */
+.catetory-tab {
+  width: 200rpx;
+  height: 100%;
+  position: relative;
+}
+
+.tab-scroll-container {
+  width: 100%;
+  background-color: #f6f6f6;
+  text-align: center;
+}
+
+.tab-catetory {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+  height: 90rpx;
+  line-height: 90rpx;
+}
+
+.tab-catetory.active {
+  background-color: #fff;
+  color: #1fb48e;
+}
+
+.active-tab-top, .active-tab-bottom {
+  position: absolute;
+  left: 0;
+  width: 200rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  color: #1fb48e;
+  background-color: #fff;
+  z-index: 99999;
+  display: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.active-tab-top.active {
+  display: block;
+}
+
+.active-tab-bottom {
+  bottom: 0;
+}
+
+.active-tab-bottom.active {
+  display: block;
+}

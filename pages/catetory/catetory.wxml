@@ -1,14 +1,18 @@
 <!--pages/catetory/catetory.wxml-->
-<view class="catetory">
-  <view class="catetory-tab">
-    <scroll-view
-      scroll-y
-      bindscroll="scroll"
-      style="height:{{contentHeight}}px"
+<wxs src="../../filter/format.wxs" module="format" />
+<view class="catetory" style="height:{{contentHeight}}px">
+  <tabSelection catetoryTabList="{{catetoryTabList}}" tabIndex="{{tabIndex}}" contentHeight="{{contentHeight}}" bind:tapTab="changeActiveTab" bind:scrollTo="scrollTo" scrollInto="{{scrollInto}}">
+  </tabSelection>
+  <scroll-view class="catetory-product-list" scroll-y>
+    <view class="noData" wx:if="{{hasNoData}}">暂无数据......</view>
+    <view 
+      class="catetory-product"
+      wx:for="{{productList[tabIndex]}}"
+      wx:key="{{index}}"
+      id="catalogId{{item.catalogId}}"
     >
-      <view wx:for="2323232323232313123123123123123123123123123123123123123123123213123123123123123" wx:key="*this">
-        asd{{item}}
-      </view>
-    </scroll-view>
-  </view>
+      <view>{{item.catalogName}}</view>
+      <productThreeInColumn Product="{{item.children}}"></productThreeInColumn>
+    </view>
+  </scroll-view>
 </view>

@@ -6,6 +6,30 @@ var price_format = function (value) {
   return value
 }
 
+var checkIsWhat = function (value) {
+  var obj_list = []
+  value.forEach(function(item) {
+    var obj = {}
+    var isHome = item['bizCommodityForSales'] !== undefined
+    console.log(isHome)
+    obj.commodityNumber = isHome
+      ? item.bizCommodityForSales.commodityNumber
+      : item.commodityNumber
+    obj.photo = isHome
+      ? 'FqIN8H-qIxtRKC_OkdfzGlkyMK99'
+      : item.dataResultObj.homePhoto
+    obj.commodityName = isHome
+      ? item.bizCommodityForSales.title
+      : item.dataResultObj.commodityName
+    obj.price = isHome
+      ? item.bizCommodityForSales.presentPrice || item.bizCommodityForSales.originalPrice
+      : ''
+    obj_list.push(obj)
+  })
+  return obj_list
+}
+
 module.exports = {
-  price_format: price_format
+  price_format: price_format,
+  checkIsWhat: checkIsWhat
 };

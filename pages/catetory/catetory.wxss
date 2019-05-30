@@ -1,1 +1,14 @@
 /* pages/catetory/catetory.wxss */
+.catetory {
+  display: flex;
+  position: relative;
+}
+.catetory-product-list {
+  height: 100%;
+  flex: 1;
+}
+.noData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -3,12 +3,12 @@
 <view class="product-list">
   <view class="product-item" wx:for="{{Product}}" wx:key="*this.id" bindtap="bindViewTap">
     <view class="item-img">
-      <image src="{{imgUrl}}{{item.bizCommodityForSales.mainPhoto}}"></image>
+      <image src="{{imgUrl}}{{item.photo}}" lazy-load></image>
     </view>
     <view class="item-detail">
-      <text class="item-name">{{item.bizCommodityForSales.title}}</text>
+      <text class="item-name">{{item.commodityName}}</text>
       <view class="item-price">
-        <text>{{format.price_format(item.bizCommodityForSales.presentPrice)}}
+        <text>{{format.price_format(item.price)}}
         </text>
       </view>
     </view>

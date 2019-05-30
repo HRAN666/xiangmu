@@ -1,0 +1,14 @@
+<!--components/tabSelection/tabSelection.wxml-->
+<view class="catetory-tab">
+  <view class="active-tab-top {{isShowActiveTabOfTop ? 'active': ''}}">
+  {{catetoryTabList[tabIndex].catalogName}}
+  </view>
+  <view class="active-tab-bottom {{isShowActiveTabOfBottom ? 'active': ''}}">
+  {{catetoryTabList[tabIndex].catalogName}}
+  </view>
+  <scroll-view class="tab-scroll-container" scroll-y bindscroll="onScroll" style="height:{{contentHeight}}px" scroll-with-animation  scroll-top="{{scrollInto}}" id="sbdl">
+    <view class="tab-catetory {{item.active ? 'active': ''}}" wx:for="{{catetoryTabList}}" wx:key="*this.catalogId" bindtap="changeTab" data-index="{{index}}">
+      {{item.catalogName}}
+    </view>
+  </scroll-view>
+</view>

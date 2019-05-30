@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "tabSelection": "/components/tabSelection/tabSelection",
+    "productThreeInColumn": "/components/productThreeInColumn/productThreeInColumn"
+  }
 }

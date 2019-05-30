@@ -22,7 +22,8 @@
 
 .product-item .item-name {
   text-align: left;
-  height: 64rpx;
+  /* height: 64rpx; */
+  height: 50rpx;
   display: flex;
   flex-direction:  column;
   align-content: flex-start;

@@ -1,4 +1,5 @@
 <!--index.wxml-->
+<wxs src="../../filter/format.wxs" module="format" />
 <view class="container">
   <swipers imgList="{{BannerImgList}}"></swipers>
   <view class="content-list">
@@ -6,7 +7,7 @@
       <view class="title">
       热销产品
       </view>
-      <productThreeInColumn Product="{{ProductList}}"></productThreeInColumn>
+      <productThreeInColumn Product="{{format.checkIsWhat(ProductList)}}"></productThreeInColumn>
     </view>
   </view>
   <view class="content-list">

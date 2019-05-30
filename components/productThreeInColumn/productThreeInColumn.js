@@ -25,6 +25,9 @@ Component({
       wx.navigateTo({
         url: '/pages/logs/logs'
       })
+    },
+    onLazyLoad(e){
+      console.log(e)
     }
   }
 })
