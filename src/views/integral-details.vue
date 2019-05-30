@@ -1,6 +1,10 @@
 <template>
     <div>
     <header-general  headTitle="积分明细" headClass="style6" routerTo='/myself'></header-general>
+    <div class="integral_empty" v-if="integral==''">
+        <img src="../assets/integral_empty.png" alt="">
+        <p>暂无积分记录</p>
+    </div>
     <div class="integralbox">
         <div class="integralmain"  v-for="(item,index) in integral" :key="index">
             <div class="integralmessage">
@@ -43,10 +47,7 @@ export default {
                 "userOpenId":localStorage.getItem('userOpenId'),
             }
             IntegralDetail(params).then((result) => {
-                // let IntegralDetail = []
-                // this.integral = result.data.list
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
-                    // debugger
                     var time = getSecond(result.data.list[index].createTime)
                     this.integral.push(result.data.list[index])
                     this.integral[index].createTime = time;
@@ -120,6 +121,14 @@ export default {
     width: 50%;
     float: left;
 }
-
+.integral_empty img{
+    width: .5rem;
+    margin-top: .55rem
+}
+.integral_empty p{
+    margin-top: -.1rem;
+    font-size: .14rem;
+    color: #797878;
+}
 </style>
 
