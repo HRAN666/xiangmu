@@ -30,7 +30,7 @@
                         <div class="shopCarCar_shoplist_img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
                         <p>{{itemrecommend.name}}</p>
                         <div class="shopCarCar_shoplist_message">
-                            <span class="shopCar_shoplist_price">￥{{itemrecommend.price/100}}</span>
+                            <span class="shopCar_shoplist_price">￥{{(itemrecommend.price/100).toFixed(2)}}</span>
                             <span>{{itemrecommend.salesVolume}}人付款</span>
                             <span class="shopCar_shoplist_similar">相似</span>
                         </div>

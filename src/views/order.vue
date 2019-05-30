@@ -87,7 +87,7 @@
                 <p class="box_bottom_payTime" v-if="item.payway === 'score'">
                     积分兑换
                 </p>
-                <div v-if="item.scorePrice == null">{{'共'+item.totalNum+'件商品'}}<span>{{'合计：￥'+item.totalFee/100}}</span></div>
+                <div v-if="item.scorePrice == null">{{'共'+item.totalNum+'件商品'}}<span>{{'合计：￥'+(item.totalFee/100).toFixed(2)}}</span></div>
                 <div v-if="item.scorePrice != null">{{'共'+item.buyAmount+'件商品'}}<span>{{'合计：'+item.scoreUse/100+'积分'}}</span></div>
             </div>
             <div class="box_bottom_button">

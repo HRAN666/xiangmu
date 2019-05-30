@@ -59,7 +59,7 @@
         </div>
         <img src="../assets/top.png" alt="" class="list-top" v-show="listTop" @click="goTop">
         <footer-currency @disPlay="disPlayFooter" ref="showFooter"></footer-currency>
-        <currencyPopup ref="popup" popup="style1" :selectpay='selectpay' :total="totlePrice.toFixed(2)/100" :quantity="$store.state.shop_store.shopLength" :shopInf="shopInf"></currencyPopup>
+        <currencyPopup ref="popup" popup="style1" :selectpay='selectpay' :total="(totlePrice/100).toFixed(2)" :quantity="$store.state.shop_store.shopLength" :shopInf="shopInf"></currencyPopup>
     </div>
 </template>
 <script>

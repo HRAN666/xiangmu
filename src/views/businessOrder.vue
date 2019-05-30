@@ -3,12 +3,7 @@
         <header-general routerTo="/Home" headTitle="商家订单" headClass="style6"></header-general>
         <div class="date">
             <img src="../assets/before_day.png" alt="" @click="reductDate">
-            <el-date-picker 
-            v-model="createTime"
-            @change='getDate'
-            type="date"
-            placeholder="选择日期">
-            </el-date-picker>
+            <el-date-picker v-model="createTime" @change='getDate' type="date" placeholder="选择日期"></el-date-picker>
             <img src="../assets/next_day.png" alt="" @click="addDate">
         </div>    
         <div class="type">
@@ -19,6 +14,7 @@
                 </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command='全部货态'>全部货态</el-dropdown-item>
+                <el-dropdown-item command='待发货'>待发货</el-dropdown-item>
                 <el-dropdown-item command='送货中'>送货中</el-dropdown-item>
                 <el-dropdown-item command='已送达'>已送达</el-dropdown-item>
             </el-dropdown-menu>
@@ -32,8 +28,8 @@
                 </span>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command='全部款态'>全部款态</el-dropdown-item>
-                <el-dropdown-item command='未支付'>未支付</el-dropdown-item>
                 <el-dropdown-item command='已支付'>已支付</el-dropdown-item>
+                <el-dropdown-item command='未支付'>未支付</el-dropdown-item>
             </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -68,7 +64,7 @@
                 </div>
             </div>
             <div class="information-total">
-                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+item.totalFee.toFixed(2)/100}}</span></div>
+                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+(item.totalFee/100).toFixed(2)}}</span></div>
             </div>
         </div>
         </div>
@@ -96,32 +92,31 @@ export default {
             recordPayState:'',//收货状态
             createTimeFrom:'',//前一天的时间
             createTimeTo:'',//后一天的时间
-            createTime:new Date(),
+            createTime: new Date().getTime(),
         }
     },
     methods: {
         loadingOrder(){
             let params={
-                "createTime":this.createTime
-                // 'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
-                // 'pageSize':5,//默认给五条
-                // 'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
-                // 'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
-                // 'payStatus':arguments[3],
-                // 'deliverStatus':arguments[2],
+                "createTime":this.createTime,
+                'payStatus':arguments[3],
+                'deliverStatus':arguments[2],
+                'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
+                'pageSize':5,//默认给五条
+                'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
+                'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
             }
             historyOrder(params).then((result) => {
                 this.orderList=[]
-                this.orderList=this.orderList.concat(result.data.list)
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
-                    var time = getSecond(result.data.list[index].createTime)
                     this.orderList.push(result.data.list[index])
+                    var time = getSecond(result.data.list[index].createTime)
+                    this.orderList[index].createTime = time;
                     var new_vid = (result.data.list[index].id)
                     if (new_vid.length > 10){
                         new_vid = new_vid.substring(0,6)+'......'+new_vid.substring(new_vid.length-10,new_vid.length);
                         this.orderList[index].id = new_vid;
                     }
-                    this.orderList[index].createTime = time;
                 }
             }).catch((err) => {
                 console.log(err)
@@ -130,11 +125,11 @@ export default {
         up(){
             this.pageNo--
             if (this.pageNo<=0) {
-                 Toast({
-                  message: '已经是第一页',
-                  duration: 1000
-                  });
-                    return
+                Toast({
+                    message: '已经是第一页',
+                    duration: 1000
+                });
+                return
             }else{          
                 this.loadingOrder('',this.pageNo)
             }
@@ -148,15 +143,19 @@ export default {
             this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部货态':
-                   this.loadingOrder('','','',this.recordPayState) 
+                    this.loadingOrder('','','',this.recordPayState) 
+                    break;
+                case '待发货':
+                    this.loadingOrder('','','ON_THE_WAY',this.recordPayState) 
+                    this.recordDelivery='ON_THE_WAY'
                     break;
                 case '送货中':
-                   this.loadingOrder('','','ON_THE_WAY',this.recordPayState)
-                   this.recordDelivery='ON_THE_WAY'
+                    this.loadingOrder('','','DELIVERED',this.recordPayState)
+                    this.recordDelivery='DELIVERED'
                     break;
                 case '已送达':
-                   this.loadingOrder('','','DELIVERED',this.recordPayState) 
-                   this.recordDelivery='DELIVERED'
+                    this.loadingOrder('','','CONFIRMED',this.recordPayState) 
+                    this.recordDelivery='CONFIRMED'
                     break;
                 default:
                     break;
@@ -167,15 +166,15 @@ export default {
             this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部款态':
-                   this.loadingOrder('','',this.recordDelivery,'') 
-                    break;
-                case '未支付':
-                   this.loadingOrder('','',this.recordDelivery,'not_pay') 
-                   this.recordPayState='not_pay'
+                    this.loadingOrder('','',this.recordDelivery,'') 
                     break;
                 case '已支付':
-                   this.loadingOrder('','',this.recordDelivery,'PAID') 
-                   this.recordPayState='PAID'
+                    this.loadingOrder('','',this.recordDelivery,'PAID') 
+                    this.recordPayState='PAID'
+                    break;
+                case '未支付':
+                    this.loadingOrder('','',this.recordDelivery,'NOT_PAY') 
+                    this.recordPayState='NOT_PAY'
                     break;
                 default:
                     break;
@@ -187,20 +186,21 @@ export default {
             this.createTimeTo=getDay(DayTimes(+e,-1));
             this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
         },
-         reductDate(){
+        reductDate(){
             let dateTime=getDay(this.createTime),
             changeDate=timestampToTime(dateTime)
             this.createTime=DayTimes(changeDate,-1)
-            this.loadingOrder()
+            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
         },
         addDate(){
             let dateTime=getDay(this.createTime),
             changeDate=timestampToTime(dateTime)
             this.createTime=DayTimes(changeDate,1)
-            this.loadingOrder()         
+            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)        
         },
         getDate(){
-            
+            this.createTime=(this.createTime).getTime()
+            this.loadingOrder()
         }
     },
     created () {
