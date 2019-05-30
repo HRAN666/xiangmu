@@ -1,12 +1,16 @@
 <template>
     <div>
     <header-general  headTitle="兑换记录" headClass="style6" routerTo='/myself'></header-general>
+        <div v-if="IntegralOrder==''" class="exchange_empty">
+            <img src="../assets/empty_exchange.png" alt="">
+            <p>暂无兑换记录</p>
+        </div>
     <div class="integralbox">
         <div class="integralmain" v-for="(item,index) in IntegralOrder" :key="index">
-            <div class="integralmessage">
+            <div class="integralmessage" @click="goDetail(item.scoreProductId)">
                 <div class="integralmessage-left">
                     <div class="integralmessage-left-title">{{item.name}}</div>
-                    <div class="integralmessage-left-time">{{item.addTime}}</div>
+                    <div class="integralmessage-left-time">{{new Date(item.createTime).getFullYear()+'-'+(new Date(item.createTime).getMonth()+1)+'-'+new Date(item.createTime).getDate()}}</div>
                 </div>
                 <div class="integralmessage-right">
                     -{{item.scoreUse/100}}<img src="../assets/integralicon.png" alt="">
@@ -30,7 +34,7 @@ export default {
     },
     data() {
         return {
-            IntegralOrder:[]
+            IntegralOrder:''
         }
     },
     methods: {
@@ -39,16 +43,13 @@ export default {
                 "userOpenId":localStorage.getItem('userOpenId')
             }
             selectIntegral(params).then((result) => {
-                // let IntegralDetail = []
-                // this.integral = result.data.list
-                for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
-                    var time = getSecond(result.data.list[index].addTime)
-                    this.IntegralOrder.push(result.data.list[index])
-                    this.IntegralOrder[index].addTime = time;
-                }  
+               this.IntegralOrder=result.data.list
             }).catch((err) => {
                 
             });
+        },
+        goDetail(id){
+            this.$router.push({path:'/commodityDetails',query:{integral:id}})
         }
     },
     mounted() {
@@ -114,6 +115,15 @@ export default {
 .previous-page{
     width: 50%;
     float: left;
+}
+.exchange_empty img{
+    width: .5rem;
+    margin-top: .55rem
+}
+.exchange_empty p{
+    margin-top: -.1rem;
+    font-size: .14rem;
+    color: #797878;
 }
 </style>
 

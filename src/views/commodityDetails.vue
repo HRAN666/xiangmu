@@ -107,6 +107,7 @@ import header from '../components/header.vue';
 import { payNow,payNext,integralDeatil,lookaddAddress,collectShop, productDetails,addShop,delcollectShop,defaults,conversionIntegral,productReCommend} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
+    inject:['reload'],
     components: {
         'header-general':header,
         'currency-Popup':currencyPopup
@@ -361,6 +362,7 @@ export default {
                             message: '兑换成功',
                             duration: 1000
                         });
+                        this.reload()
                     }else if(result.data.resultCode==500){
                         Toast({
                             message: '积分不足',
