@@ -72,7 +72,7 @@
             </div>
         </div>
         </div>
-        <div class="footer" v-bind:style="{position: position}">
+        <div class="footer" v-bind:style="{position: position,display: footerretract}">
             <div class="block">
                 <el-pagination
                 @size-change="handleSizeChange"
@@ -107,6 +107,7 @@ export default {
             pageSize:5,//默认显示5条
             position: 'fixed',
             retract: 'none',
+            footerretract:'block',
             phoneHeight: '',//屏幕的高
             addHeight: '',//页面的高
             recordDelivery:'',//收货状态
@@ -139,8 +140,10 @@ export default {
                 }
                 if(result.data.list.length==0){
                     this.retract='block';
+                    this.footerretract='none';
                 }else{
                     this.retract='none';
+                    this.footerretract='block';
                 }
                 this.addHeight=132+90+217*result.data.list.length;//获取页面的高3
                 // console.log('页面高：'+this.addHeight)
