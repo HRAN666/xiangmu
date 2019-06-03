@@ -94,6 +94,10 @@ export const historyOrder =params =>{
 export const Orderpay =params =>{
     return axios.post('/api/biz/v01/payExistBizOrderWithoutToken.do',params);
 }
+/************订单详情 */
+export const allOrder =params =>{
+    return axios.post('/api/biz/v01/getBizAllOrder.do',params);
+}
 /************申请取消订单 */
 export const applyCancel =params =>{
     return axios.post('/api/biz/v01/applyCancelBizOrderWithoutToken.do',params);

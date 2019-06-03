@@ -35,6 +35,10 @@
             </div>
         </div>
         <div class="information_content">
+        <div class="information_content_null" v-bind:style="{display: retract}">
+            <img src="../assets/businessOrder_null.png" alt="" >
+            <p>没有更多订单数据了~</p>
+        </div>
         <div class="information" v-for="(item,index) in orderList" :key="index">
             <div class="information-day"><span><img src="../assets/no_choice.png">{{item.createTime}}</span><span>订单号：</span><span>{{item.id}}</span></div>
             <div class="information-name">
@@ -68,8 +72,18 @@
             </div>
         </div>
         </div>
-        <div class="footer">
-            <div><div class="up" @click="up">上一页</div> <div class="down" @click="down">下一页</div></div>
+        <div class="footer" v-bind:style="{position: position,display: footerretract}">
+            <div class="block">
+                <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+                :page-sizes="[5, 10, 15, 20]"
+                :page-size="5"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="totalCount">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -85,29 +99,35 @@ export default {
     data () {
         return {
             orderList:[],
-            pageNo:1,
+            pageNo:1,//默认第一页
+            currentPage: 1,
+            totalCount:0,//返回数量
             delivery:'',//货态
             payState:'',//款态
-            recordDelivery:'',
-            recordPayState:'',//收货状态
-            createTimeFrom:'',//前一天的时间
-            createTimeTo:'',//后一天的时间
-            createTime: new Date().getTime(),
+            pageSize:5,//默认显示5条
+            position: 'fixed',
+            retract: 'none',
+            footerretract:'block',
+            phoneHeight: '',//屏幕的高
+            addHeight: '',//页面的高
+            recordDelivery:'',//收货状态
+            recordPayState:'',//支付状态
+            createTime: new Date().getTime(),//获取当前时间
         }
     },
     methods: {
-        loadingOrder(){
+        loadingOrder(){//加载数据
+            this.phoneHeight = document.documentElement.clientHeight//获取屏幕的高
             let params={
                 "createTime":this.createTime,
                 'payStatus':arguments[3],
                 'deliverStatus':arguments[2],
                 'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
-                'pageSize':5,//默认给五条
-                'createTimeFrom':arguments[0]==undefined||arguments[0]==''?'':arguments[0],//前一天的时间
-                'createTimeTo':arguments[0]==undefined||arguments[0]==''?'':arguments[4],//后一天的时间
+                'pageSize':this.pageSize
             }
             historyOrder(params).then((result) => {
                 this.orderList=[]
+                this.totalCount=result.data.totalCount;
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
                     this.orderList.push(result.data.list[index])
                     var time = getSecond(result.data.list[index].createTime)
@@ -118,32 +138,32 @@ export default {
                         this.orderList[index].id = new_vid;
                     }
                 }
+                if(result.data.list.length==0){
+                    this.retract='block';
+                    this.footerretract='none';
+                }else{
+                    this.retract='none';
+                    this.footerretract='block';
+                }
+                this.addHeight=132+90+217*result.data.list.length;//获取页面的高3
+                // console.log('页面高：'+this.addHeight)
+                // console.log('屏幕高：'+this.phoneHeight)
+                if(this.addHeight-this.phoneHeight>0){//当页面高度超过手机高度时候，分页置下
+                    this.position='relative'
+                }else{//当页面高度小于手机高度时候，分页固定
+                    this.position='fixed'
+                }
             }).catch((err) => {
                 console.log(err)
             });
-        },
-        up(){
-            this.pageNo--
-            if (this.pageNo<=0) {
-                Toast({
-                    message: '已经是第一页',
-                    duration: 1000
-                });
-                return
-            }else{          
-                this.loadingOrder('',this.pageNo)
-            }
-        },
-        down(){
-            this.pageNo++
-            this.loadingOrder(this.createTimeFrom!=''?this.createTimeFrom:'',this.pageNo,'','',this.createTimeTo!=''?this.createTimeTo:'')
         },
         handledeliveryCommand(params){//货态
             this.delivery=params
             this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部货态':
-                    this.loadingOrder('','','',this.recordPayState) 
+                    this.loadingOrder('','','',this.recordPayState)
+                    this.recordDelivery=''
                     break;
                 case '待发货':
                     this.loadingOrder('','','ON_THE_WAY',this.recordPayState) 
@@ -166,42 +186,44 @@ export default {
             this.pageNo=1//每次搜索默认1
             switch (params) {
                 case '全部款态':
-                    this.loadingOrder('','',this.recordDelivery,'') 
+                    this.loadingOrder('','',this.recordDelivery,'')
+                    this.recordPayState=''
                     break;
                 case '已支付':
-                    this.loadingOrder('','',this.recordDelivery,'PAID') 
+                    this.loadingOrder('','',this.recordDelivery,'PAID')
                     this.recordPayState='PAID'
                     break;
                 case '未支付':
-                    this.loadingOrder('','',this.recordDelivery,'NOT_PAY') 
+                    this.loadingOrder('','',this.recordDelivery,'NOT_PAY')
                     this.recordPayState='NOT_PAY'
                     break;
                 default:
                     break;
             }
         },
-        changeDate(e){
-            this.pageNo=1;
-            this.createTimeFrom=getDay(DayTimes(+e,1));//无论给什么都转格式
-            this.createTimeTo=getDay(DayTimes(+e,-1));
-            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
+        handleSizeChange(val) {//显示数量
+            this.pageNo=1//每次选择默认1
+            this.pageSize= val;
+            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
         },
-        reductDate(){
-            let dateTime=getDay(this.createTime),
-            changeDate=timestampToTime(dateTime)
-            this.createTime=DayTimes(changeDate,-1)
-            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)
+        handleCurrentChange(val) {//页码
+            this.pageNo= val;
+            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
         },
-        addDate(){
-            let dateTime=getDay(this.createTime),
-            changeDate=timestampToTime(dateTime)
-            this.createTime=DayTimes(changeDate,1)
-            this.loadingOrder(this.createTimeTo,'','','',this.createTimeFrom)        
+        reductDate(){//前一天
+            this.pageNo=1//每次选择默认1
+            this.createTime = (this.createTime) - 24*60*60*1000
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)
+        },
+        addDate(){//后一天
+            this.pageNo=1//每次选择默认1
+            this.createTime = (this.createTime) + 24*60*60*1000 
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)
         },
         getDate(){
             this.createTime=(this.createTime).getTime()
-            this.loadingOrder()
-        }
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)
+        },
     },
     created () {
        this.loadingOrder()
@@ -228,6 +250,28 @@ export default {
 }
 .date .el-date-editor .el-icon-circle-close{
     display: none;
+}
+.block{
+    position: relative;
+    top: .1rem;
+}
+.btn-prev{
+    position: absolute;
+    top: .4rem;
+    left: 0;
+}
+.el-pager{
+    position: absolute;
+    top: .4rem;
+    left: .3rem;
+}
+.btn-next{
+    position: absolute;
+    top: .4rem;
+    right: 0;
+}
+.el-pager li{
+    min-width: 34px;
 }
 </style>
 
@@ -296,6 +340,15 @@ export default {
     margin-top: .1rem;
     background-color: #ffffff;
 }
+.information_content_null img{
+    width: .5rem;
+    margin-top: .55rem
+}
+.information_content_null p{
+    margin-top: -.1rem;
+    font-size: .14rem;
+    color: #797878;
+}
 .information-day{
     color: #868686;
     line-height: .35rem;
@@ -362,33 +415,9 @@ export default {
 .footer{
     position: fixed;
     bottom: 0;
+    overflow:hidden;
     width: 100%;
-    height: .5rem;
+    height: .9rem;
     background-color: #ffffff;
-}
-.footer div{
-    margin: 0 auto;
-    width: 2rem;
-}
-.footer .up{
-    margin-top:.1rem; 
-    float: left;
-    font-size: .16rem;
-    padding: 0.03rem 0.05rem  0.03rem 0.05rem;
-    width: .8rem;
-    color: #ffffff;
-    background-color: #0288d1;
-    border-radius: 0.08rem;
-}
-.footer .down{
-    margin-top:.1rem;
-    float: left;
-    margin-left: .15rem;
-    font-size: .16rem;
-    padding: 0.03rem 0.05rem  0.03rem 0.05rem;
-    width: .8rem;
-    color: #ffffff;
-    background-color: #0288d1;
-    border-radius: 0.08rem;
 }
 </style>

@@ -1,10 +1,11 @@
 <template>
-    <div class="bigbox">
-        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;">
+    <div>
+    <div class="bigbox"  v-for="(item,index) in orderdetails" :key="index">
+        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;" >
             <img class="box_left" src="../assets/收货地址.png"/>
             <div class="orderdetails_boxname">
-                <span>苟富贵</span>
-                <span>13755867641</span>
+                <span>{{item.deliverName}}</span>
+                <span>{{item.deliverPhone}}</span>
                 <div>地址：广东省深圳市龙岗区 龙城街道将军路1号深圳技师学院北校门</div>
             </div>
         </div>
@@ -17,72 +18,28 @@
             <img class="orderdetails_names" src="../assets/商家.png"/>
             <span class="orderleft">聪明惠购XX分店</span>
         </div>
-        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .07rem .11rem;">
-            <img class="express" src="../assets/wati_express.png"/>
+        <div class="orderdetails_box" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes" style="border-bottom: .01rem solid #f7f7f7;padding: .07rem .11rem;">
+            <img class="express" :src="'http://img.cmhg.shop/'+ value.bizProductVo.icon"/>
             <div class="express_right">
                 <div class="express_righttop">
-                    <span>代取快递</span>
-                    <span>x1</span>
+                    <span>{{value.bizProductVo.name}}</span>
+                    <span>x{{value.theNum}}</span>
                 </div>
                 <div class="express_rightbottom">
-                    <span>￥0.00</span>
+                    <span>￥{{value.theNum*value.bizProductVo.price/100}}</span>
                     <span>申请售后</span>
                 </div>            
             </div>
         </div>
         <div class="orderdetails_box" style="border-bottom: .1rem solid #f7f7f7;">
             <div class="orderdetails_box_data"> 
-                <span>收件人姓名：苟富贵</span>
-                <span>收件人电话：13755867641</span>
-            </div>
-            <div class="orderdetails_box_data" style="margin-top:.07rem;">  
-                <span>收件人姓名：苟富贵</span>
-                <span>收件人电话：13755867641</span>
+                <span>收件人姓名：{{item.deliverName}}</span>
+                <span>收件人电话：{{item.deliverPhone}}</span>
             </div>
             <div class="orderdetails_box_data"  style="margin-top:.07rem;"> 
-                <span>备注：物品贵重，轻拿轻放，谢谢</span>
+                <span>备注:{{item.comment==null?'暂无备注':item.comment}}</span>
             </div>                        
         </div>
-        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .07rem .11rem;">
-            <img class="express" src="../assets/wati_express.png"/>
-            <div class="express_right">
-                <div class="express_righttop">
-                    <span>代取快递</span>
-                    <span>x1</span>
-                </div>
-                <div class="express_rightbottom">
-                    <span>￥0.00</span>
-                    <span>申请售后</span>
-                </div>            
-            </div>
-        </div>
-        <div class="orderdetails_box" style="border-bottom: .1rem solid #f7f7f7;">
-            <div class="orderdetails_box_data"> 
-                <span>收件人姓名：苟富贵</span>
-                <span>收件人电话：13755867641</span>
-            </div>
-            <div class="orderdetails_box_data" style="margin-top:.07rem;">  
-                <span>收件人姓名：苟富贵</span>
-                <span>收件人电话：13755867641</span>
-            </div>
-            <div class="orderdetails_box_data"  style="margin-top:.07rem;"> 
-                <span>备注：物品贵重，轻拿轻放，谢谢</span>
-            </div>                        
-        </div>
-        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .07rem .11rem;">
-            <img class="express" src="../assets/wati_express.png"/>
-            <div class="express_right">
-                <div class="express_righttop">
-                    <span>msone日本漂白漂白水漂白剂白色衣物去黄去污渍专用洗白染色还原剂</span>
-                    <span>x1</span>                    
-                </div>
-                <div class="orderdetails_productsize">净重：1500ml</div>
-                <div class="express_rightbottom">
-                    <span>￥0.00</span>
-                    <span style="border: none;width:auto">该商品不支持售后</span>
-                </div>            
-            </div>
-        </div>        
         <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .16rem .11rem;">
             <span class="orderdetails_box_no">备注：</span>
             <span>无</span>
@@ -94,11 +51,11 @@
         <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;padding: .16rem .11rem;">
             <div class="orderdetails_money">
                 <span>运费</span>
-                <span>￥0.00</span>
+                <span>￥{{item.deliverFee/100}}</span>
             </div>
             <div class="orderdetails_moneybottom">
                 <span>实付款（含运费）</span>
-                <span>￥115.73</span>
+                <span>￥{{item.totalFee/100}}</span>
             </div>
         </div>     
         <div class="orderdetails_box" style="border-bottom: .1rem solid #f7f7f7;padding: .135rem .11rem;">
@@ -109,9 +66,9 @@
         </div>
         <div class="orderdetails_box" style="padding: .135rem .11rem;">
             <div class="orderdetails_number">
-                <div>订单编号：11523546265138451</div>
+                <div>订单编号：{{item.serNum}}</div>
                 <div>支付方式：线上支付</div>
-                <div>下单时间：2018-10-1 18:42:07</div>
+                <div>下单时间：{{item.createTime}}</div>
                 <div>成交时间：2018-10-3 15:28:03</div>
                 <div>成交时间：2018-10-3 15:28:03</div>
             </div>
@@ -130,22 +87,35 @@
             </div>
         </div>
     </div>
-</template> 
+    </div>
+</template>
 <script>
     import footer from '../components/footer'
+    import {allOrder} from '../api/api.js';
+    import { Toast } from 'mint-ui';    
     export default {
         components: {
         'footer-currency':footer
         },
         data(){
             return{
-                box_text:'可口可乐摩登罐 330*24 整箱装 可口可乐出品'
+                orderdetails:[],
             }
         },
         methods: {
+            allOrderclick(){
+                let params={
+                    "id":'F5A04F36F48D44D6ADB787B4E72F3BE5'                          
+                }
+                allOrder(params).then((result) => {
+                    this.orderdetails.push(result.data.bizOrder);
+                    }).catch((err) => {
+                        console.log(err)
+                });
+            }
         },
-        mounted () {
-        
+        created() {
+            this.allOrderclick()
         }
     }
 </script>
