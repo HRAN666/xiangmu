@@ -2,7 +2,7 @@
     <div class="shopCar">
             <div class="shopCar_mark" v-show="showMark" @click="displayMark"></div><!--结算遮罩层-->
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑" ref="shop" @toDelete='toDelete'></header-general>
-        <div class="shopCar_address" v-if="ShopList.length != ''">
+        <div class="shopCar_address" v-if="ShopList.length != ''" @click="goAddress">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
             {{this.$refs.popup.addressDetail==''?'请填写收货地址':this.$refs.popup.addressDetail}}
             <img src="../assets/shopCar_more.png" alt="" class="shopCar_address_iconMore">
@@ -193,10 +193,21 @@ export default {
                 "theNum":theNum
             }
             addShop(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    this.totalNum++
+                }else{
+                    Toast({
+                        message: '数量更新失败，请重试',
+                        duration: 1000
+                    });
+                }
             }).catch((err) => {
                 console.log(err)
             });
         },
+        goAddress(){
+             this.$router.push('/address')
+        }
     },
     computed: {
         sumPrice(){
@@ -223,12 +234,12 @@ export default {
         if (this.$route.query.address) {
         this.$nextTick(()=>{
             this.showMark=true
-            this.$refs.popup.isPoup=true
+            this.$refs.popup.isPoup=true;
         })
         }
     },
     mounted() {
-
+        window.scrollTo(0,0)   //滚动条位置bug解决（暂时
     },
 }
 </script>

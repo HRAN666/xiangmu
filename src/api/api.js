@@ -178,3 +178,7 @@ export const deleteColl =params =>{
 export const deleteBrowser =params =>{
     return axios.post('/api/portal/v01/deletePortalUserHistorical.do',params);
 }
+/**********代取商品*/
+export const addexpress =params =>{
+    return axios.post('/api/biz/v01/insertBizOrderSubsituteWithoutToken.do',params);
+}

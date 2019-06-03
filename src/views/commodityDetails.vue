@@ -124,7 +124,6 @@ export default {
             detailsimg:'',//商品图片
             total:'',//总价
             addressDetail:'',//获取默认地址
-            defaultAddress:'',//默认收获地址
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:1,//购买数量，默认是1
             collect:false,//默认未收藏
@@ -231,17 +230,6 @@ export default {
                 
             });
         },
-        defaultaddAddress(){//加默认收货地址
-            let params={
-                'userOpenId':localStorage.getItem('userOpenId'),
-                'id':'5200475142A84F82A32AC42279824FDF'
-            }
-            defaults(params).then((result) => {
-                this.defaultAddress=result.data.id;
-            }).catch((err) => {
-                
-            });
-        },
         addtoShop(storeId,id){
             let params={
                 "productId":id,
@@ -313,30 +301,6 @@ export default {
             this.imgMark=false
             this.imgSrc=''
         },
-        seachAddress(){
-            let params={
-                "userOpenId":localStorage.getItem('userOpenId'),
-                'id':arguments[0]
-            }
-            lookaddAddress(params).then((result) => {
-                if(result.data.resultCode==200){
-                    for (let i = 0; i < result.data.list.length; i++) {
-                        if (result.data.list[i].status==1) {
-                            this.addressDetail=result.data.list[i].dormitory;
-                            this.consignee=result.data.list[i].consignee
-                            this.phone=result.data.list[i].phone
-                        }
-                        if (arguments[0]) {
-                            this.addressDetail=result.data.list[i].dormitory;
-                            this.consignee=result.data.list[i].consignee
-                            this.phone=result.data.list[i].phone
-                        }  
-                    }
-                }
-            }).catch((err) => {
-                console.log(err)
-            });
-        },
         toExchange(){//兑换商品
         if (this.addressDetail=='') {
                 Toast({
@@ -378,22 +342,22 @@ export default {
     created() {
         if (this.$route.query.id) {//其他页面进入
             this.loadingDetails(this.$route.query.id);
-            this.seachAddress(this.$route.query.address);
             this.loadingRecommendDetails();
         }else if(this.$route.query.integral) {//积分商城进入
             this.loadingItegral(this.$route.query.integral);
             this.loadingRecommendDetails(this.$route.query.integral);
-            this.seachAddress(this.$route.query.address);
             this.fromIntegral=true;
             if (this.$route.query.toexquery) {//积分兑换进入
                 this.toexquery=true;
-                this.seachAddress(this.$route.query.address);
             }
         }
     },
     mounted () {
-
-    }
+        this.$nextTick(()=>{
+            debugger
+            this.addressDetail=this.$refs.popup.addressDetail
+        })
+    },
 }
 
 </script>

@@ -237,7 +237,7 @@ export default {
     },
     methods: {
         router(){
-            this.$router.push('/address')
+            this.$router.push({path:'/address',query:{route:this.$route.name}})
         },
         express(){
             this.expressShow=true
@@ -374,7 +374,7 @@ export default {
        this.seachAddress(this.$route.query.address)
     },
     computed: {
-
+        
     }
 }
 </script>
@@ -641,6 +641,7 @@ export default {
     border: none;
     position: relative;
     top: -0.02rem;
+    outline: none;
 }
 .express-message form .choose-express{
     line-height: .2rem;
@@ -665,6 +666,7 @@ export default {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     border:none;
     resize : none;
+    outline: none;
 }
 .button{
     position: absolute;

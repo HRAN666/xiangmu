@@ -52,7 +52,7 @@ export default {
             this.$router.push({path:'/commodityDetails',query:{integral:id}})
         }
     },
-    mounted() {
+    created() {
         this.Integral()
     },
 }
