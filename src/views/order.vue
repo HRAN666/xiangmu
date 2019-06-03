@@ -50,7 +50,7 @@
                 交易失败
             </p>
             <div class="bigbox" style="display:block;" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
-                <div class="box_long">
+                <div class="box_long"  @click="detail(item.id)">
                     <div v-if="value.paytype== null && value.bizProductVo == null ">
                         <img class="box_left" :src="'http://img.cmhg.shop/'+ value.icon"/>
                         <div class="box_text">{{value.name}}</div>
@@ -200,6 +200,9 @@ export default {
                 }).catch((err) => {
                     console.log(err)
             });
+        },
+        detail(Id){//订单详情
+            this.$router.push({path:'/orderdetails',query:{'id':Id}})
         },
         wechatpay(data){
             WeixinJSBridge.invoke(
