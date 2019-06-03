@@ -66,7 +66,7 @@
             </div>
             <div class="details-message-right">
                 <div class="details-message-right-title">{{title}}</div>
-                <div class="details-message-right-price">{{integral!=0?'￥'+(price/100).toFixed(2):price/100+'积分'}}</div>
+                <div class="details-message-right-price">{{integral!=0?'￥'+price:price+'积分'}}</div>
                 <div class="details-message-right-number">数量：<el-input-number @change="handleChange" size="mini" v-model="num" :min="1" :max="99"></el-input-number></div>
             </div>
             <div class="popup_list">
@@ -237,7 +237,7 @@ export default {
     },
     methods: {
         router(){
-            this.$router.push({path:'/address',query:{route:this.$route.name}})
+            this.$router.push({path:'/address',query:{route:this.$route.name,id:this.$route.query.id}})
         },
         express(){
             this.expressShow=true
@@ -374,7 +374,7 @@ export default {
        this.seachAddress(this.$route.query.address)
     },
     computed: {
-        
+
     }
 }
 </script>

@@ -98,7 +98,7 @@
         </div>
         <div class="detail_mark" v-show="imgMark" @click="displayMark"></div>
         <img :src="imgSrc" v-show="imgMark" class="detail_img">
-            <currency-Popup ref="popup" popup="style5"  :shopInf="shopDetails" :title="detailstitle" :price="parseFloat(detailsprice)" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
+            <currency-Popup ref="popup" popup="style5"  :shopInf="shopDetails" :title="detailstitle" :price="total" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
     </div>
 </template>
 <script>
@@ -131,6 +131,8 @@ export default {
             imgSrc:'',//缩略图src
             fromIntegral:false,
             toexquery:false,
+            consignee:'',//收货人
+            phone:'',//收货电话
 		}
     },
     mounted () {
@@ -308,6 +310,7 @@ export default {
                     duration: 1000
                 });
             }else{
+                debugger
                 let params={
                     "userOpenId":localStorage.getItem('userOpenId'),
                     'deliverFee':'0',//暂时写0(运费)
@@ -340,6 +343,12 @@ export default {
         }
     },
     created() {
+        if (this.$route.query.address) {
+            this.$nextTick(()=>{
+                this.markshow=true
+                this.$refs.popup.isPoup=true
+            })
+        }
         if (this.$route.query.id) {//其他页面进入
             this.loadingDetails(this.$route.query.id);
             this.loadingRecommendDetails();
@@ -353,11 +362,8 @@ export default {
         }
     },
     mounted () {
-        this.$nextTick(()=>{
-            debugger
-            this.addressDetail=this.$refs.popup.addressDetail
-        })
-    },
+
+    }
 }
 
 </script>

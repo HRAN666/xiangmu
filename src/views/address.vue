@@ -102,7 +102,7 @@ export default {
                 });
         },
         changeAddress(id){  
-            this.$router.push({path:`/${this.$route.query.route}`,query:{address:id}})
+            this.$router.push({path:`/${this.$route.query.route}`,query:{address:id,id:this.$route.query.id}})
         }
     },
     mounted () {

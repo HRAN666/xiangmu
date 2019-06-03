@@ -9,7 +9,7 @@
     <mt-button slot="right" @click="delet=false" v-if="delet">完成</mt-button>
     </mt-header>
     </div>
-    <div class="collect_null" v-if="collectList==''">
+    <div class="collect_null"  v-if="collectList==''">
         <img src="../assets/collect_null.png" alt="" >
         <p>没有更多收藏数据了~</p>
     </div>
