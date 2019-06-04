@@ -82,7 +82,6 @@
             <div class="orderdetails_button">
                 <span>确认收货</span>
                 <span>查看物流</span>
-
             </div>
         </div>
     </div>
@@ -111,7 +110,6 @@
                     this.orderdetails.push(result.data.bizOrder);
                     console.log(this.orderdetails)
                     for (let index = 0; index < 1; index++) {//循环每一个时间转换格式
-                        debugger
                         var time = getSecond(result.data.bizOrder.createTime)
                         this.orderdetails[index].createTime = time;
                         var lastUpdateTime = getSecond(result.data.bizOrder.lastUpdateTime)
