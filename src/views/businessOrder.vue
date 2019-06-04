@@ -35,6 +35,10 @@
             </div>
         </div>
         <div class="information_content">
+        <div class="information_content_null" v-bind:style="{display: retract}">
+            <img src="../assets/businessOrder_null.png" alt="" >
+            <p>没有更多订单数据了~</p>
+        </div>
         <div class="information" v-for="(item,index) in orderList" :key="index">
             <div class="information-day"><span><img src="../assets/no_choice.png">{{item.createTime}}</span><span>订单号：</span><span>{{item.id}}</span></div>
             <div class="information-name">
@@ -68,12 +72,12 @@
             </div>
         </div>
         </div>
-        <div class="footer" v-bind:style="{position: position}">
+        <div class="footer" v-bind:style="{position: position,display: footerretract}">
             <div class="block">
                 <el-pagination
                 @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
-                :current-page="currentPage4"
+                :current-page="currentPage"
                 :page-sizes="[5, 10, 15, 20]"
                 :page-size="5"
                 layout="total, sizes, prev, pager, next, jumper"
@@ -95,20 +99,25 @@ export default {
     data () {
         return {
             orderList:[],
-            pageNo:1,
+            pageNo:1,//默认第一页
+            currentPage: 1,
             totalCount:0,//返回数量
             delivery:'',//货态
             payState:'',//款态
-            pageSize:5,
+            pageSize:5,//默认显示5条
             position: 'fixed',
-            recordDelivery:'',
-            recordPayState:'',//收货状态
-            currentPage4: 1,
-            createTime: new Date().getTime(),
+            retract: 'none',
+            footerretract:'block',
+            phoneHeight: '',//屏幕的高
+            addHeight: '',//页面的高
+            recordDelivery:'',//收货状态
+            recordPayState:'',//支付状态
+            createTime: new Date().getTime(),//获取当前时间
         }
     },
     methods: {
-        loadingOrder(){
+        loadingOrder(){//加载数据
+            this.phoneHeight = document.documentElement.clientHeight//获取屏幕的高
             let params={
                 "createTime":this.createTime,
                 'payStatus':arguments[3],
@@ -118,11 +127,6 @@ export default {
             }
             historyOrder(params).then((result) => {
                 this.orderList=[]
-                if(result.data.list.length>2){
-                    this.position='relative'
-                }else{
-                    this.position='fixed'
-                }
                 this.totalCount=result.data.totalCount;
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
                     this.orderList.push(result.data.list[index])
@@ -133,6 +137,21 @@ export default {
                         new_vid = new_vid.substring(0,6)+'......'+new_vid.substring(new_vid.length-10,new_vid.length);
                         this.orderList[index].id = new_vid;
                     }
+                }
+                if(result.data.list.length==0){
+                    this.retract='block';
+                    this.footerretract='none';
+                }else{
+                    this.retract='none';
+                    this.footerretract='block';
+                }
+                this.addHeight=132+90+217*result.data.list.length;//获取页面的高3
+                // console.log('页面高：'+this.addHeight)
+                // console.log('屏幕高：'+this.phoneHeight)
+                if(this.addHeight-this.phoneHeight>0){//当页面高度超过手机高度时候，分页置下
+                    this.position='relative'
+                }else{//当页面高度小于手机高度时候，分页固定
+                    this.position='fixed'
                 }
             }).catch((err) => {
                 console.log(err)
@@ -182,35 +201,29 @@ export default {
                     break;
             }
         },
-        changeDate(e){
-            this.pageNo=1;
-            this.createTimeFrom=getDay(DayTimes(+e,1));//无论给什么都转格式
-            this.createTimeTo=getDay(DayTimes(+e,-1));
+        handleSizeChange(val) {//显示数量
+            this.pageNo=1//每次选择默认1
+            this.pageSize= val;
+            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
         },
-        reductDate(){
-            let dateTime=getDay(this.createTime),
-            changeDate=timestampToTime(dateTime)
-            this.createTime=DayTimes(changeDate,-1)
+        handleCurrentChange(val) {//页码
+            this.pageNo= val;
+            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
+        },
+        reductDate(){//前一天
+            this.pageNo=1//每次选择默认1
+            this.createTime = (this.createTime) - 24*60*60*1000
             this.loadingOrder('','',this.recordDelivery,this.recordPayState)
         },
-        addDate(){
-            let dateTime=getDay(this.createTime),
-            changeDate=timestampToTime(dateTime)
-            this.createTime=DayTimes(changeDate,1)
-            this.loadingOrder('','',this.recordDelivery,this.recordPayState)    
+        addDate(){//后一天
+            this.pageNo=1//每次选择默认1
+            this.createTime = (this.createTime) + 24*60*60*1000 
+            this.loadingOrder('','',this.recordDelivery,this.recordPayState)
         },
         getDate(){
             this.createTime=(this.createTime).getTime()
             this.loadingOrder('','',this.recordDelivery,this.recordPayState)
         },
-        handleSizeChange(val) {
-            this.pageSize= val;
-            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
-        },
-        handleCurrentChange(val) {
-            this.pageNo= val;
-            this.loadingOrder('',this.pageNo,this.recordDelivery,this.recordPayState)
-        }
     },
     created () {
        this.loadingOrder()
@@ -326,6 +339,15 @@ export default {
     text-align: left;
     margin-top: .1rem;
     background-color: #ffffff;
+}
+.information_content_null img{
+    width: .5rem;
+    margin-top: .55rem
+}
+.information_content_null p{
+    margin-top: -.1rem;
+    font-size: .14rem;
+    color: #797878;
 }
 .information-day{
     color: #868686;

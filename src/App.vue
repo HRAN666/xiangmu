@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <keep-alive :include="keepAliveComponents">
+    <!-- <keep-alive>
+    </keep-alive> -->
     <router-view v-if="isRouterAlive"/>
-    </keep-alive>
   </div>
 </template>
 <style>

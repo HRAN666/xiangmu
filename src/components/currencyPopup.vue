@@ -66,7 +66,7 @@
             </div>
             <div class="details-message-right">
                 <div class="details-message-right-title">{{title}}</div>
-                <div class="details-message-right-price">{{integral!=0?'￥'+(price/100).toFixed(2):price/100+'积分'}}</div>
+                <div class="details-message-right-price">{{integral!=0?'￥'+price:price+'积分'}}</div>
                 <div class="details-message-right-number">数量：<el-input-number @change="handleChange" size="mini" v-model="num" :min="1" :max="99"></el-input-number></div>
             </div>
             <div class="popup_list">
@@ -237,7 +237,11 @@ export default {
     },
     methods: {
         router(){
-            this.$router.push('/address')
+            if (this.$route.query.id==undefined) {
+                this.$router.push({path:'/address',query:{route:this.$route.name,integral:this.$route.query.integral}})//积分跳
+            }else{
+                this.$router.push({path:'/address',query:{route:this.$route.name,id:this.$route.query.id}})//其他跳
+            }
         },
         express(){
             this.expressShow=true
@@ -641,6 +645,7 @@ export default {
     border: none;
     position: relative;
     top: -0.02rem;
+    outline: none;
 }
 .express-message form .choose-express{
     line-height: .2rem;
@@ -665,6 +670,7 @@ export default {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     border:none;
     resize : none;
+    outline: none;
 }
 .button{
     position: absolute;
