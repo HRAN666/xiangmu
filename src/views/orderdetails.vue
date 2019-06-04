@@ -1,7 +1,7 @@
 <template>
     <div>
     <div class="bigbox"  v-for="(item,index) in orderdetails" :key="index">
-        <div class="orderdetails_box" style="border-bottom: .01rem solid #f7f7f7;" >
+        <div class="orderdetails_box"  style="border-bottom: .01rem solid #f7f7f7;" >
             <img class="box_left" src="../assets/收货地址.png"/>
             <div class="orderdetails_boxname">
                 <span>{{item.deliverName}}</span>
@@ -69,8 +69,7 @@
                 <div>订单编号：{{item.serNum}}</div>
                 <div>支付方式：线上支付</div>
                 <div>下单时间：{{item.createTime}}</div>
-                <div>成交时间：2018-10-3 15:28:03</div>
-                <div>成交时间：2018-10-3 15:28:03</div>
+                <div>成交时间：{{item.lastUpdateTime}}</div>
             </div>
         </div>
         <div class="orderdetails_box" style="padding: .135rem .11rem;background-Color: #f7f7f7">
@@ -83,7 +82,6 @@
             <div class="orderdetails_button">
                 <span>确认收货</span>
                 <span>查看物流</span>
-
             </div>
         </div>
     </div>
@@ -93,13 +91,14 @@
     import footer from '../components/footer'
     import {allOrder} from '../api/api.js';
     import { Toast } from 'mint-ui';    
+    import { getSecond } from '../common/common.js'
     export default {
         components: {
         'footer-currency':footer
         },
         data(){
             return{
-                orderdetails:[],
+                orderdetails:[]
             }
         },
         methods: {
@@ -109,10 +108,18 @@
                 }
                 allOrder(params).then((result) => {
                     this.orderdetails.push(result.data.bizOrder);
+                    console.log(this.orderdetails)
+                    for (let index = 0; index < 1; index++) {//循环每一个时间转换格式
+                        var time = getSecond(result.data.bizOrder.createTime)
+                        this.orderdetails[index].createTime = time;
+                        var lastUpdateTime = getSecond(result.data.bizOrder.lastUpdateTime)
+                        this.orderdetails[index].lastUpdateTime = lastUpdateTime;
+                    }  
                     }).catch((err) => {
                         console.log(err)
                 });
-            }
+            },
+
         },
         created() {
             this.allOrderclick()

@@ -15,7 +15,7 @@
             <div class="address_content_bottom">
                 <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @change="switchover(item.id,index)" :disabled="status[index]==1">
                 <label class=""></label>
-                <div>
+                <div @click="switchover(item.id,index)">
                     默认地址
                 </div>
                 <span @click="compile(item.id)">编辑</span>
