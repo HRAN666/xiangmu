@@ -101,8 +101,13 @@ export default {
                     console.log(err)
                 });
         },
-        changeAddress(id){  
-            this.$router.push({path:`/${this.$route.query.route}`,query:{address:id,id:this.$route.query.id}})
+        changeAddress(id){
+            debugger
+            if (this.$route.query.id==undefined) {
+                this.$router.push({path:`/${this.$route.query.route}`,query:{address:id,integral:this.$route.query.integral}})
+            }else{
+                this.$router.push({path:`/${this.$route.query.route}`,query:{address:id,id:this.$route.query.id}})
+            }
         }
     },
     mounted () {

@@ -304,13 +304,15 @@ export default {
             this.imgSrc=''
         },
         toExchange(){//兑换商品
+            this.addressDetail=this.$refs.popup.addressDetail;
+            this.consignee=this.$refs.popup.consignee;
+            this.phone=this.$refs.popup.phone
         if (this.addressDetail=='') {
                 Toast({
                     message: '请填写收货信息',
                     duration: 1000
                 });
             }else{
-                debugger
                 let params={
                     "userOpenId":localStorage.getItem('userOpenId'),
                     'deliverFee':'0',//暂时写0(运费)

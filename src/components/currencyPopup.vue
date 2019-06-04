@@ -237,7 +237,11 @@ export default {
     },
     methods: {
         router(){
-            this.$router.push({path:'/address',query:{route:this.$route.name,id:this.$route.query.id}})
+            if (this.$route.query.id==undefined) {
+                this.$router.push({path:'/address',query:{route:this.$route.name,integral:this.$route.query.integral}})//积分跳
+            }else{
+                this.$router.push({path:'/address',query:{route:this.$route.name,id:this.$route.query.id}})//其他跳
+            }
         },
         express(){
             this.expressShow=true

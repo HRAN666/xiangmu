@@ -197,7 +197,7 @@ export default {
                     this.totalNum++
                 }else{
                     Toast({
-                        message: '数量更新失败，请重试',
+                        message: '数量更新失败，请重试~',
                         duration: 1000
                     });
                 }
