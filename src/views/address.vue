@@ -8,10 +8,11 @@
         </router-link>
         </mt-header>
         </div>
-        <div class="address_content" v-for="(item,index) in addressList" :key="index" >
+        <div class="address_content"  v-for="(item,index) in addressList" :key="index" >
             <div class="address_content_Name">{{item.consignee}}</div>
             <div>{{item.phone}}</div>
-            <div @click="changeAddress(item.id)">{{item.province+item.city+item.county+item.dormitory+' '+item.detailedAddress}}</div>
+            <div @click="compile(item.id)">{{item.province+item.city+item.county+item.dormitory+' '+item.detailedAddress}}</div>
+            <!-- @click="changeAddress(item.id)" -->
             <div class="address_content_bottom">
                 <input type="checkbox"  :checked="status[index]==1"  class="address_header_checkbox" @change="switchover(item.id,index)" :disabled="status[index]==1">
                 <label class=""></label>

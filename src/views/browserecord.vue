@@ -2,27 +2,28 @@
 <div>
     <div class="header">
     <mt-header title="">
-    <router-link to="/myself" slot="left">
-        <mt-button icon="back">浏览记录</mt-button>
-    </router-link>
-    <mt-button slot="right" @click="delet=true" v-if="!delet">编辑</mt-button>
-    <mt-button slot="right" @click="delet=false" v-if="delet">完成</mt-button>
+        <router-link to="/myself" slot="left">
+            <mt-button icon="back">浏览记录</mt-button>
+        </router-link>
+        <mt-button slot="right" @click="delet=true" v-if="!delet">编辑</mt-button>
+        <mt-button slot="right" @click="delet=false" v-if="delet">完成</mt-button>
     </mt-header>
     </div>
-    <div class="browserecord_null" v-if="browseList==''">
+    <div class="browserecord_null" v-bind:style="{display: retract}">
         <img src="../assets/browser.png" alt="" >
         <p>没有更多浏览数据了~</p>
     </div>
     <div class="item_ui">
-    <div class="item" v-for="(item,index) in browseList" :key="index">
-        <input type="checkbox" class="collect_checkedbox" v-if="delet" :checked="selectBrowId.indexOf(item.id)>=0" @click="selectId(item.id)">
-        <label class="" v-if="delet"></label>
-        <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="goDetail(item.productId)">
-        <dd  @click="goDetail(item.productId)">{{item.bizProductVo.name}}<span>12人收藏</span></dd>
-        <dt>{{item.bizProductVo.price|filtertoMoney}}</dt>
+        <div class="item" v-for="(item,index) in browseList" :key="index">
+            <input type="checkbox" class="collect_checkedbox" v-if="delet" :checked="selectBrowId.indexOf(item.id)>=0" @click="selectId(item.id)">
+            <label class="" v-if="delet"></label>
+            <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="" @click="goDetail(item)">
+            <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}<span>{{item.bizProductVo==undefined?item.bizIntegralProductVo.saleVolume:item.bizProductVo.salesVolume}}人购买</span></dd>
+            <dt v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral/100}}积分</dt>
+            <dt v-if="item.bizProductVo!=undefined">{{item.bizProductVo.price|filtertoMoney}}</dt> 
+        </div>
     </div>
-    </div>
-      <div class="browserecord_bottom" v-if="delet">
+    <div class="browserecord_bottom" v-if="delet">
         <span>全选</span>
         <input type="checkbox" class="collect_checkedbox" v-if="delet" @change="check" v-model="checkAll">
         <label class="" v-if="delet"></label>
@@ -31,9 +32,9 @@
 </div>
 </template>
 <script>
-import {browse,deleteBrowser} from '../api/api.js';
+import { browse,deleteBrowser } from '../api/api.js';
 import { Toast } from 'mint-ui';
-import {filtertoMoney} from '../filter/filter.js'
+import { filtertoMoney } from '../filter/filter.js'
 
 export default {
     inject:['reload'],
@@ -44,6 +45,7 @@ export default {
             selectBrowId:[],//预览记录商品id
             checkAll:false,
             browsere:[],
+            retract:'none',//默认不显示
         }
     },
     methods: {
@@ -51,19 +53,24 @@ export default {
             let params ={
                 "userOpenId":localStorage.getItem("userOpenId"),
             };
-            browse(params).then((jsonData) => {
-              if (jsonData.data.resultCode==200) {
-                    this.browseList=jsonData.data.list
-                    for (let i = 0; i < jsonData.data.list.length; i++) {
-                        this.browsere.push(jsonData.data.list[i].id)    
+            browse(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    this.browseList=result.data.list
+                    for (let i = 0; i < result.data.list.length; i++) {
+                        this.browsere.push(result.data.list[i].id)    
                     }
+                }
+                if(result.data.list.length==0){
+                    this.retract='block';
+                }else{
+                    this.retract='none';
                 }
             }).catch((err) => {
                 console.log(err)
             });
         },
         selectId(id){
-             let index=this.selectBrowId.indexOf(id)
+            let index=this.selectBrowId.indexOf(id)
             if (index>=0) {
                 this.selectBrowId.splice(index,1)
             }else{
@@ -81,6 +88,7 @@ export default {
             }
         },
         deleteBrowse(){
+<<<<<<< HEAD
             if (this.selectBrowId=='') {
                 Toast({
                     message: '请选择删除的浏览商品',
@@ -103,9 +111,30 @@ export default {
                     
                 });
             }
+=======
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId'),
+                'id':this.selectBrowId.join(',')
+            } 
+            deleteBrowser(params).then((result) => {
+                if (result.data.resultCode==200) {
+                    Toast({
+                        message: '已删除',
+                        duration: 1000
+                    });
+                    this.reload()
+                }
+            }).catch((err) => {
+                
+            });
+>>>>>>> ae4dbd857e3a698e993d729f55dc8a8f15c6a771
         },
-        goDetail(id){
-            this.$router.push({path:'/commodityDetails',query:{'id':id}})
+        goDetail(val){
+            if (val.bizIntegralProductVo) {//积分商品
+                this.$router.push({path:'/commodityDetails',query:{'integral':val.productId}})
+            }else{
+                this.$router.push({path:'/commodityDetails',query:{'id':val.productId}})                
+            }
         }
     },
     created() {
@@ -162,7 +191,6 @@ export default {
 }
 .item dt{
     position: absolute;
-    width: .5rem;
     font-size: .18rem;
     color: #BC2D2A;
     left: 1.47rem;
@@ -198,26 +226,26 @@ export default {
     position:absolute;
     width: 16px;
     height: 16px;
-    border: 1px solid #0288D1;
+    border: 1px solid #A6A6A6;
     border-radius: 50%;
-    background-color: #0288D1;
     z-index: 10;
 }
 .collect_checkedbox:checked+label:after {
-    content: "";
-    position: absolute;
-    left: .04rem;
-    top: .01rem;
-    width: .05rem;
-    height: .09rem;
+    content: "√";
     font-size: .14rem;
+    font-family: '微软雅黑';
     color: #fff;
-    border-style: solid;
-    border-color: #fff;
-    border-width: 0 .02rem .02rem 0;
-    -webkit-transform: rotateZ(45deg);
-    transform: rotateZ(45deg);
-    
+    left: 0;
+    position:absolute;
+    top: -.01rem;
+    left: -.01rem;
+    width: 16px;
+    height: 16px;
+    line-height: 20px;
+    font-weight: bold;
+    border-radius: 50%;
+    background-color: #0288D1;
+    border: 1px solid #0288D1;
 }
 .collect_checkedbox{
     position: absolute;

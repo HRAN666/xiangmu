@@ -56,7 +56,7 @@
                 <div>
                     设为默认地址  
                 </div>
-                <mt-switch :value.sync="value"></mt-switch>                   
+                <mt-switch  v-model="value"></mt-switch>                   
             </div>
             <div class="compile_bigbox compile_bigbox_color">
                 <div>
@@ -174,7 +174,6 @@ export default {
 .mint-switch-core{
     width: .44rem;
     height: .20rem;    
-
 }
 </style>
 
