@@ -19,14 +19,14 @@
             <span class="orderleft">聪明惠购XX分店</span>
         </div>
         <div class="orderdetails_box" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes" style="border-bottom: .01rem solid #f7f7f7;padding: .07rem .11rem;">
-            <img class="express" :src="'http://img.cmhg.shop/'+ value.icon"/>
+            <!-- <img class="express" :src="'http://img.cmhg.shop/'+ value.totalNum=='1'?value.icon:value.bizProductVo.icon"/> -->
             <div class="express_right">
                 <div class="express_righttop">
-                    <span>{{value.name}}</span>
-                    <span>x{{value.quantity}}</span>
+                    <span>{{value.totalNum=='1'?value.name:value.bizProductVo.name}}</span>
+                    <span>x{{value.totalNum=='1'?'1':value.theNum}}</span>
                 </div>
                 <div class="express_rightbottom">
-                    <span>￥{{value.quantity*value.price/100}}</span>
+                    <span>￥{{value.totalNum=='1'?value.price/100:value.theNum*value.bizProductVo.price/100}}</span>
                     <span>申请售后</span>
                 </div>            
             </div>
