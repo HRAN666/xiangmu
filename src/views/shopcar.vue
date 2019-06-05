@@ -57,7 +57,7 @@
             <el-button type="primary" @click="topay" v-if="!deletShop">{{'结算('+totalNum+')'}}</el-button>
             <el-button type="danger" @click="removeShop" v-if="deletShop">{{'删除('+shopInf.length+')'}}</el-button>
         </div>
-        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum"  :integral="integral" :shopInf="shopInf" fromProduct='1'></currency-Popup>
+        <currency-Popup ref="popup" popup="style1" :total="totlePrice.toFixed(2)" :quantity="totalNum" :integral="integral" :shopInf="shopInf" fromProduct='1'></currency-Popup>
         <footer-currency></footer-currency>
     </div>
 </template>
@@ -206,26 +206,29 @@ export default {
             });
         },
         goAddress(){
-             this.$router.push('/address')
+            this.$router.push('/address')
         }
     },
     computed: {
         sumPrice(){
             let totle=0;
+            let totalNum=0;
             if (this.checkAll) {
                 this.ShopList.forEach(item=>{//计算总价格
-                totle+=item.bizProductVo.price*item.theNum;
-                this.totalNum=item.theNum;
-                this.totlePrice=(totle/100);
-                this.integral=this.totlePrice;
-            })    
+                    totle+=item.bizProductVo.price*item.theNum;
+                    totalNum+=item.theNum;
+                    this.totalNum=totalNum;
+                    this.totlePrice=(totle/100);
+                    this.integral=this.totlePrice;
+                })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格取消反选之后计算的价格
-                totle+=item.theNum*item.bizProductVo.price;
-                this.totalNum=item.theNum;
-                this.totlePrice=(totle/100);
-                this.integral=this.totlePrice;
-            })    
+                    totle+=item.theNum*item.bizProductVo.price;
+                    totalNum+=item.theNum;
+                    this.totalNum=totalNum;
+                    this.totlePrice=(totle/100);
+                    this.integral=this.totlePrice;
+                })
             }
             return '￥'+(totle/100).toFixed(2)
         },

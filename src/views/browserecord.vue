@@ -17,9 +17,10 @@
         <div class="item" v-for="(item,index) in browseList" :key="index">
             <input type="checkbox" class="collect_checkedbox" v-if="delet" :checked="selectBrowId.indexOf(item.id)>=0" @click="selectId(item.id)">
             <label class="" v-if="delet"></label>
-            <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="goDetail(item.productId)">
-            <dd>{{item.bizProductVo.name}}<span>{{item.bizProductVo.salesVolume}}人购买</span></dd>
-            <dt>{{item.bizProductVo.price|filtertoMoney}}</dt>
+            <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="" @click="goDetail(item)">
+            <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}<span>{{item.bizProductVo==undefined?item.bizIntegralProductVo.saleVolume:item.bizProductVo.salesVolume}}人购买</span></dd>
+            <dt v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral/100}}积分</dt>
+            <dt v-if="item.bizProductVo!=undefined">{{item.bizProductVo.price|filtertoMoney}}</dt> 
         </div>
     </div>
     <div class="browserecord_bottom" v-if="delet">
@@ -103,8 +104,12 @@ export default {
                 
             });
         },
-        goDetail(id){
-            this.$router.push({path:'/commodityDetails',query:{'id':id}})
+        goDetail(val){
+            if (val.bizIntegralProductVo) {//积分商品
+                this.$router.push({path:'/commodityDetails',query:{'integral':val.productId}})
+            }else{
+                this.$router.push({path:'/commodityDetails',query:{'id':val.productId}})                
+            }
         }
     },
     created() {
@@ -161,7 +166,6 @@ export default {
 }
 .item dt{
     position: absolute;
-    width: .5rem;
     font-size: .18rem;
     color: #BC2D2A;
     left: 1.47rem;

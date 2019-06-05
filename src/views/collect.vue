@@ -166,7 +166,6 @@ export default {
 }
 .item dt{
     position: absolute;
-    width: .5rem;
     font-size: .18rem;
     color: #BC2D2A;
     left: 1.47rem;
