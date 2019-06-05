@@ -84,21 +84,28 @@ export default {
             }
         },
         deleteCollect(){
-            let params={
-                "userOpenId":localStorage.getItem('userOpenId'),
-                'id':this.selectCollect.join(',')
-            }
-            deleteColl(params).then((result) => {
-                if (result.data.resultCode==200) {
-                     Toast({
-                        message: '已删除',
-                        duration: 1000
-                    });
-                    this.reload()
+            if (this.selectCollect=='') {
+                Toast({
+                    message: '请选择删除的收藏商品',
+                    duration: 1000
+                });
+            }else{
+                let params={
+                    "userOpenId":localStorage.getItem('userOpenId'),
+                    'id':this.selectCollect.join(',')
                 }
-            }).catch((err) => {
-                
-            });
+                deleteColl(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                         Toast({
+                            message: '已删除',
+                            duration: 1000
+                        });
+                        this.reload()
+                    }
+                }).catch((err) => {
+                    
+                });
+            }
         },
         goDetail(val){
             if (val.bizIntegralProductVo) {//积分商品

@@ -18,7 +18,7 @@
         <input type="checkbox" class="collect_checkedbox" v-if="delet" :checked="selectBrowId.indexOf(item.id)>=0" @click="selectId(item.id)">
         <label class="" v-if="delet"></label>
         <img :src="'http://img.cmhg.shop/'+item.bizProductVo.icon" alt="" @click="goDetail(item.productId)">
-        <dd>{{item.bizProductVo.name}}<span>12人收藏</span></dd>
+        <dd  @click="goDetail(item.productId)">{{item.bizProductVo.name}}<span>12人收藏</span></dd>
         <dt>{{item.bizProductVo.price|filtertoMoney}}</dt>
     </div>
     </div>
@@ -81,21 +81,28 @@ export default {
             }
         },
         deleteBrowse(){
-            let params={
-                "userOpenId":localStorage.getItem('userOpenId'),
-                'id':this.selectBrowId.join(',')
-            } 
-            deleteBrowser(params).then((result) => {
-                if (result.data.resultCode==200) {
-                     Toast({
-                        message: '已删除',
-                        duration: 1000
-                    });
-                    this.reload()
-                }
-            }).catch((err) => {
-                
-            });
+            if (this.selectBrowId=='') {
+                Toast({
+                    message: '请选择删除的浏览商品',
+                    duration: 2000
+                });
+            }else{
+                let params={
+                    "userOpenId":localStorage.getItem('userOpenId'),
+                    'id':this.selectBrowId.join(',')
+                } 
+                deleteBrowser(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '已删除',
+                            duration: 1000
+                        });
+                        this.reload()
+                    }
+                }).catch((err) => {
+                    
+                });
+            }
         },
         goDetail(id){
             this.$router.push({path:'/commodityDetails',query:{'id':id}})

@@ -4,7 +4,7 @@
         <header-general routerTo='/home' headTitle="购物车" headClass="style3"  titleSecod="编辑" ref="shop" @toDelete='toDelete'></header-general>
         <div class="shopCar_address" v-if="ShopList.length != ''" @click="goAddress">
             <img src="../assets/shopCar_address.png" alt="" class="shopCar_address_icon">
-            {{this.$refs.popup.addressDetail==''?'请填写收货地址':this.$refs.popup.addressDetail}}
+            {{ this.$refs.popup.addressUser+this.$refs.popup.addressDetail==''?'请填写收货地址':this.$refs.popup.addressUser+this.$refs.popup.addressDetail}}
             <img src="../assets/shopCar_more.png" alt="" class="shopCar_address_iconMore">
         </div>
         <div class="shopCar_commodity">
@@ -197,7 +197,7 @@ export default {
                     return
                 }else{
                     Toast({
-                        message: '数量更新失败，请重试~',
+                        message: '数量更新失败，请重试!',
                         duration: 1000
                     });
                 }

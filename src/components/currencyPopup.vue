@@ -233,6 +233,7 @@ export default {
             shopDetail:'',
             consignee:'',//收货人
             phone:'',//收货人电话
+            addressUser:'',//省 市 区
         }
     },
     methods: {
@@ -271,7 +272,7 @@ export default {
                     'deliverFee':'0',//暂时写0(运费)
                     'deliverName':this.consignee,//收货人
                     'deliverPhone':this.phone,//收货电话
-                    'deliverAddress':this.addressDetail,//收货地址
+                    'deliverAddress':this.addressUser+this.addressDetail,//收货地址
                     'productDetailJson':JSON.stringify(this.$props.shopInf),//商品信息
                     'totalFee':this.$props.total*100,//总价格
                     'totalNum':this.$props.quantity,//商品购买总量
@@ -357,15 +358,18 @@ export default {
             lookaddAddress(params).then((result) => {
                 if(result.data.resultCode==200){
                     for (let i = 0; i < result.data.list.length; i++) {
+                        let resultList=result.data.list[i]
                         if (result.data.list[i].status==1) {
-                            this.addressDetail=result.data.list[i].detailedAddress+result.data.list[i].campus+result.data.list[i].floorBuild+result.data.list[i].floorNumber;
-                            this.consignee=result.data.list[i].consignee
-                            this.phone=result.data.list[i].phone
+                            this.addressUser=resultList.province+resultList.city+resultList.county;
+                            this.addressDetail=resultList.detailedAddress+resultList.campus+resultList.floorBuild+resultList.floorNumber;
+                            this.consignee=resultList.consignee
+                            this.phone=resultList.phone
                         }
                         if (arguments[0]) {
-                            this.addressDetail=result.data.list[i].detailedAddress+result.data.list[i].campus+result.data.list[i].floorBuild+result.data.list[i].floorNumber;
-                            this.consignee=result.data.list[i].consignee
-                            this.phone=result.data.list[i].phone
+                            this.addressUser=resultList.province+resultList.city+resultList.county;
+                            this.addressDetail=resultList.detailedAddress+resultList.campus+resultList.floorBuild+resultList.floorNumber;
+                            this.consignee=resultList.consignee
+                            this.phone=resultList.phone
                         }  
                     }
                 }
@@ -461,7 +465,8 @@ export default {
     font-size:.14rem;
     height: .5rem;
     line-height: 3.5; 
-    position: relative;  
+    position: relative;
+       
 }
 .popup_list .popup_list_wechat{
     left: -.1rem;
