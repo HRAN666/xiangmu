@@ -45,12 +45,12 @@
                 <img  :src="'http://img.cmhg.shop/'+items" v-for="(items,i) in bannerImg" :key="i" @click="toThumbnail('http://img.cmhg.shop/'+items)">
             </div>
             </div>
-            <div class="recommend">
+            <div class="recommend" v-bind:style="{display: retract}">
                 <div class="recommend-line"></div>
                 <div class="recommend-img"><img src="../assets/like.png">推荐</div>
                 <div class="recommend-line"></div>
             </div>
-            <div class="commodityDetails-recommend-goods">
+            <div class="commodityDetails-recommend-goods" v-bind:style="{display: retract}">
                 <div class="recommend-message">推荐商品</div>
                 <div class="recommend-goods-box"  @click="gotoDetails(itemrecommend.id)" v-for="(itemrecommend,indexes) in RecommendDetails" :key="indexes">
                     <div class="recommend-goods-img"><img :src="'http://img.cmhg.shop/'+itemrecommend.icon" ></div>
@@ -98,7 +98,7 @@
         </div>
         <div class="detail_mark" v-show="imgMark" @click="displayMark"></div>
         <img :src="imgSrc" v-show="imgMark" class="detail_img">
-            <currency-Popup ref="popup" popup="style5"  :shopInf="shopDetails" :title="detailstitle" :price="total" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
+            <currency-Popup ref="popup" popup="style5" :shopInf="shopDetails" :title="detailstitle" :price="total" :img="detailsimg" :integral="integral" :quantity="quantity" :total="parseFloat(total)" @addquantity="addquantity" @toExchange="toExchange"></currency-Popup>
     </div>
 </template>
 <script>
@@ -133,6 +133,7 @@ export default {
             toexquery:false,
             consignee:'',//收货人
             phone:'',//收货电话
+            retract:'block',
 		}
     },
     mounted () {
@@ -307,7 +308,7 @@ export default {
             this.addressDetail=this.$refs.popup.addressDetail;
             this.consignee=this.$refs.popup.consignee;
             this.phone=this.$refs.popup.phone
-        if (this.addressDetail=='') {
+            if (this.addressDetail=='') {
                 Toast({
                     message: '请填写收货信息',
                     duration: 1000
@@ -331,7 +332,7 @@ export default {
                             message: '兑换成功',
                             duration: 1000
                         });
-                        this.reload()
+                        this.displayCover()
                     }else if(result.data.resultCode==500){
                         Toast({
                             message: '积分不足',
@@ -342,7 +343,7 @@ export default {
                     console.log(err)
                 });
             }
-        }
+        },
     },
     created() {
         if (this.$route.query.address) {
@@ -352,9 +353,11 @@ export default {
             })
         }
         if (this.$route.query.id) {//其他页面进入
+            this.retract='block';
             this.loadingDetails(this.$route.query.id);
             this.loadingRecommendDetails();
         }else if(this.$route.query.integral) {//积分商城进入
+            this.retract='none';
             this.loadingItegral(this.$route.query.integral);
             this.loadingRecommendDetails(this.$route.query.integral);
             this.fromIntegral=true;
@@ -365,7 +368,7 @@ export default {
     },
     mounted () {
 
-    }
+    },
 }
 
 </script>

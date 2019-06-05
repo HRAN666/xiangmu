@@ -1,6 +1,6 @@
 <template>
     <div>
-        <header-general routerTo="/Home" headTitle="商家订单" headClass="style6"></header-general>
+        <header-general routerTo="-1" headTitle="商家订单" headClass="style6"></header-general>
         <div class="date">
             <img src="../assets/before_day.png" alt="" @click="reductDate">
             <el-date-picker v-model="createTime" @change='getDate' type="date" placeholder="选择日期"></el-date-picker>
@@ -90,7 +90,7 @@
 <script>
 import header from '../components/header.vue'
 import {timestampToTime,DayTimes,getDay,getSecond} from '../common/common.js'
-import {historyOrder} from '../api/api.js'
+import {businessOrder} from '../api/api.js'
 import { Toast } from 'mint-ui';
 export default {
     components: {
@@ -125,7 +125,7 @@ export default {
                 'pageNo':arguments[1]==undefined||arguments[1]==''?this.pageNo:arguments[1],//分页
                 'pageSize':this.pageSize
             }
-            historyOrder(params).then((result) => {
+            businessOrder(params).then((result) => {
                 this.orderList=[]
                 this.totalCount=result.data.totalCount;
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
@@ -145,7 +145,7 @@ export default {
                     this.retract='none';
                     this.footerretract='block';
                 }
-                this.addHeight=132+90+217*result.data.list.length;//获取页面的高3
+                this.addHeight=132+90+217*result.data.list.length;//获取页面的高
                 // console.log('页面高：'+this.addHeight)
                 // console.log('屏幕高：'+this.phoneHeight)
                 if(this.addHeight-this.phoneHeight>0){//当页面高度超过手机高度时候，分页置下

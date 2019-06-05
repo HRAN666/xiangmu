@@ -1,7 +1,7 @@
 <template>
     <div>
     <header-general  headTitle="兑换记录" headClass="style6" routerTo='/myself'></header-general>
-        <div v-if="IntegralOrder==''" class="exchange_empty">
+        <div class="exchange_empty" v-bind:style="{display: retract}">
             <img src="../assets/empty_exchange.png" alt="">
             <p>暂无兑换记录</p>
         </div>
@@ -10,7 +10,7 @@
             <div class="integralmessage" @click="goDetail(item.scoreProductId)">
                 <div class="integralmessage-left">
                     <div class="integralmessage-left-title">{{item.name}}</div>
-                    <div class="integralmessage-left-time">{{new Date(item.createTime).getFullYear()+'-'+(new Date(item.createTime).getMonth()+1)+'-'+new Date(item.createTime).getDate()}}</div>
+                    <div class="integralmessage-left-time">{{item.createTime}}</div>
                 </div>
                 <div class="integralmessage-right">
                     -{{item.scoreUse/100}}<img src="../assets/integralicon.png" alt="">
@@ -18,8 +18,8 @@
             </div>
         </div>
         <div class="page">
-            <div class="previous-page">上一页</div>
-            <div class="next-page">下一页</div>
+            <div @click="pageup" class="previous-page">上一页</div>
+            <div @click="pagenext" class="next-page">下一页</div>
         </div>
     </div>
     </div>
@@ -28,25 +28,68 @@
 import header from '../components/header.vue'
 import {integral,selectIntegral} from '../api/api.js'
 import { getSecond } from '../common/common.js'
+import { Toast } from 'mint-ui'
 export default {
     components:{
         'header-general':header,
     },
     data() {
         return {
-            IntegralOrder:''
+            IntegralOrder:[],
+            pageNo:'1',//默认第一页
+            pageMax:'',//最大页
+            pageSize:'',//显示数量
+            phoneHeight: '',//屏幕的高
+            retract:'none',//默认不显示
         }
     },
     methods: {
-        Integral(){        
+        Integral(){
+            this.phoneHeight = document.documentElement.clientHeight//获取屏幕的高
+            this.pageSize = Math.floor((this.phoneHeight-45-58)/69);
+            this.IntegralOrder=[]
             let params={
-                "userOpenId":localStorage.getItem('userOpenId')
+                "userOpenId":localStorage.getItem('userOpenId'),
+                "pageNo":this.pageNo,
+                "pageSize":this.pageSize,//根据屏幕高度显示数量
             }
             selectIntegral(params).then((result) => {
-               this.IntegralOrder=result.data.list
+                for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
+                    var time = getSecond(result.data.list[index].createTime)
+                    this.IntegralOrder.push(result.data.list[index])
+                    this.IntegralOrder[index].createTime = time;
+                }
+                this.pageMax=Math.ceil(result.data.totalCount/this.pageSize);
+                if(result.data.list.length==0){
+                    this.retract='block';
+                }else{
+                    this.retract='none';
+                }
             }).catch((err) => {
                 
             });
+        },
+        pageup(){
+            if(this.pageNo==1){
+                Toast({
+                    message: '已经是第一页',
+                    duration: 1000
+                });
+            }else{
+                this.pageNo--
+                this.Integral()
+            }
+        },
+        pagenext(){
+            if(this.pageNo==this.pageMax){
+                Toast({
+                    message: '已经是最后一页',
+                    duration: 1000
+                });
+            }else{
+                this.pageNo++
+                this.Integral()
+            }
         },
         goDetail(id){
             this.$router.push({path:'/commodityDetails',query:{integral:id}})
