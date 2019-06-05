@@ -186,3 +186,7 @@ export const deleteBrowser =params =>{
 export const addexpress =params =>{
     return axios.post('/api/biz/v01/insertBizOrderSubsituteWithoutToken.do',params);
 }
+/**********商家订单*/
+export const businessOrder =params =>{
+    return axios.post('/api/biz/v01/listBizStoreOrderWithoutToken.do',params);
+}

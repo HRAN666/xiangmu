@@ -1,7 +1,7 @@
 <template>
     <div>
     <header-general  headTitle="积分明细" headClass="style6" routerTo='/myself'></header-general>
-    <div class="integral_empty" v-if="integral==''">
+    <div class="integral_empty" v-bind:style="{display: retract}">
         <img src="../assets/integral_empty.png" alt="">
         <p>暂无积分记录</p>
     </div>
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div class="page">
-            <div class="previous-page">上一页</div>
-            <div class="next-page">下一页</div>
+            <div @click="pageup" class="previous-page">上一页</div>
+            <div @click="pagenext" class="next-page">下一页</div>
         </div>
     </div>
     </div>
@@ -32,29 +32,68 @@
 import header from '../components/header.vue'
 import { integral,IntegralDetail } from '../api/api.js'
 import { getSecond } from '../common/common.js'
+import { Toast } from 'mint-ui'
 export default {
     components:{
         'header-general':header,
     },  
     data() {
         return {
-            integral:[]
+            integral:[],
+            pageNo:'1',//默认第一页
+            pageMax:'',//最大页
+            pageSize:'',//显示数量
+            phoneHeight: '',//屏幕的高
+            retract:'none',//默认不显示
         }
     },
     methods: {
-        selectIntegralDetail(){        
+        selectIntegralDetail(){
+            this.phoneHeight = document.documentElement.clientHeight//获取屏幕的高
+            this.pageSize = Math.floor((this.phoneHeight-45-58)/69);
+            this.integral=[]
             let params={
                 "userOpenId":localStorage.getItem('userOpenId'),
+                "pageNo":this.pageNo,
+                "pageSize":this.pageSize,//根据屏幕高度显示数量
             }
             IntegralDetail(params).then((result) => {
                 for (let index = 0; index < result.data.list.length; index++) {//循环每一个时间转换格式
                     var time = getSecond(result.data.list[index].createTime)
                     this.integral.push(result.data.list[index])
                     this.integral[index].createTime = time;
-                }  
+                }
+                this.pageMax=Math.ceil(result.data.totalCount/this.pageSize);
+                if(result.data.list.length==0){
+                    this.retract='block';
+                }else{
+                    this.retract='none';
+                }
             }).catch((err) => {
                 
             });
+        },
+        pageup(){
+            if(this.pageNo==1){
+                Toast({
+                    message: '已经是第一页',
+                    duration: 1000
+                });
+            }else{
+                this.pageNo--
+                this.selectIntegralDetail()
+            }
+        },
+        pagenext(){
+            if(this.pageNo==this.pageMax){
+                Toast({
+                    message: '已经是最后一页',
+                    duration: 1000
+                });
+            }else{
+                this.pageNo++
+                this.selectIntegralDetail()
+            }
         }
     },
     mounted () {
