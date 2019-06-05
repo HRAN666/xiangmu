@@ -19,14 +19,14 @@
             <span class="orderleft">聪明惠购XX分店</span>
         </div>
         <div class="orderdetails_box" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes" style="border-bottom: .01rem solid #f7f7f7;padding: .07rem .11rem;">
-            <img class="express" :src="'http://img.cmhg.shop/'+ value.bizProductVo.icon"/>
+            <img class="express" :src="'http://img.cmhg.shop/'+ value.icon"/>
             <div class="express_right">
                 <div class="express_righttop">
-                    <span>{{value.bizProductVo.name}}</span>
-                    <span>x{{value.theNum}}</span>
+                    <span>{{value.name}}</span>
+                    <span>x{{value.quantity}}</span>
                 </div>
                 <div class="express_rightbottom">
-                    <span>￥{{value.theNum*value.bizProductVo.price/100}}</span>
+                    <span>￥{{value.quantity*value.price/100}}</span>
                     <span>申请售后</span>
                 </div>            
             </div>
@@ -104,7 +104,7 @@
         methods: {
             allOrderclick(){
                 let params={
-                    "id":'F5A04F36F48D44D6ADB787B4E72F3BE5'                          
+                    "id":this.$route.query.id                          
                 }
                 allOrder(params).then((result) => {
                     this.orderdetails.push(result.data.bizOrder);
