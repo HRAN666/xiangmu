@@ -194,7 +194,7 @@ export default {
             }
             addShop(params).then((result) => {
                 if (result.data.resultCode==200) {
-                    this.totalNum++
+                    return
                 }else{
                     Toast({
                         message: '数量更新失败，请重试~',
@@ -215,12 +215,14 @@ export default {
             if (this.checkAll) {
                 this.ShopList.forEach(item=>{//计算总价格
                 totle+=item.bizProductVo.price*item.theNum;
+                this.totalNum=item.theNum;
                 this.totlePrice=(totle/100);
                 this.integral=this.totlePrice;
             })    
             }else{
                 this.shopInf.forEach(item=>{//计算总价格取消反选之后计算的价格
                 totle+=item.theNum*item.bizProductVo.price;
+                this.totalNum=item.theNum;
                 this.totlePrice=(totle/100);
                 this.integral=this.totlePrice;
             })    

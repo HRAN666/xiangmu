@@ -325,11 +325,11 @@ export default {
                 },
                 function(res){
                 if(res.err_msg == "get_brand_wcpay_request:ok" ){
-                    that.reload()
                     Toast({
                         message: '支付成功!',
                         duration: 1000
                     });
+                    that.reload()
                 }else if(res.err_msg == "get_brand_wcpay_request:cancel" ){
                     Toast({
                         message: '取消支付',
