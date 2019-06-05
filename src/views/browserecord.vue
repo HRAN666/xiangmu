@@ -88,7 +88,6 @@ export default {
             }
         },
         deleteBrowse(){
-<<<<<<< HEAD
             if (this.selectBrowId=='') {
                 Toast({
                     message: '请选择删除的浏览商品',
@@ -111,23 +110,6 @@ export default {
                     
                 });
             }
-=======
-            let params={
-                "userOpenId":localStorage.getItem('userOpenId'),
-                'id':this.selectBrowId.join(',')
-            } 
-            deleteBrowser(params).then((result) => {
-                if (result.data.resultCode==200) {
-                    Toast({
-                        message: '已删除',
-                        duration: 1000
-                    });
-                    this.reload()
-                }
-            }).catch((err) => {
-                
-            });
->>>>>>> ae4dbd857e3a698e993d729f55dc8a8f15c6a771
         },
         goDetail(val){
             if (val.bizIntegralProductVo) {//积分商品
