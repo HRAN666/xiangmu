@@ -124,6 +124,7 @@ export default {
             detailsimg:'',//商品图片
             total:'',//总价
             addressDetail:'',//获取默认地址
+            addressUser:'',//省 市 区
             integral:'',//购买所获得的积分 目前1块钱积分
             quantity:1,//购买数量，默认是1
             collect:false,//默认未收藏
@@ -306,6 +307,7 @@ export default {
         },
         toExchange(){//兑换商品
             this.addressDetail=this.$refs.popup.addressDetail;
+            this.addressUser=this.$refs.popup.addressUser;
             this.consignee=this.$refs.popup.consignee;
             this.phone=this.$refs.popup.phone
             if (this.addressDetail=='') {
@@ -319,7 +321,7 @@ export default {
                     'deliverFee':'0',//暂时写0(运费)
                     'deliverName':this.consignee,//收货人
                     'deliverPhone':this.phone,//收货电话
-                    'deliverAddress':this.addressDetail,//收货地址
+                    'deliverAddress':this.addressUser+this.addressDetail,//收货地址
                     "scoreProductId":this.$route.query.integral,//商品ID
                     "buyAmount":this.shopDetails[0].quantity,//购买数量
                     "scorePrice":this.shopDetails[0].integral,//积分价格

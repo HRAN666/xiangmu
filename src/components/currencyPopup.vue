@@ -360,14 +360,14 @@ export default {
                     for (let i = 0; i < result.data.list.length; i++) {
                         let resultList=result.data.list[i]
                         if (result.data.list[i].status==1) {
-                            this.addressUser=resultList.province+resultList.city+resultList.county;
-                            this.addressDetail=resultList.detailedAddress+resultList.campus+resultList.floorBuild+resultList.floorNumber;
+                            this.addressUser=resultList.province+resultList.city+resultList.county+resultList.town;
+                            this.addressDetail=resultList.campus+resultList.floorBuild+resultList.floorNumber+' '+resultList.detailedAddress;
                             this.consignee=resultList.consignee
                             this.phone=resultList.phone
                         }
                         if (arguments[0]) {
-                            this.addressUser=resultList.province+resultList.city+resultList.county;
-                            this.addressDetail=resultList.detailedAddress+resultList.campus+resultList.floorBuild+resultList.floorNumber;
+                            this.addressUser=resultList.province+resultList.city+resultList.county+resultList.town;
+                            this.addressDetail=resultList.campus+resultList.floorBuild+resultList.floorNumber+' '+resultList.detailedAddress;
                             this.consignee=resultList.consignee
                             this.phone=resultList.phone
                         }  
