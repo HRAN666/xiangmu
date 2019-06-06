@@ -24,7 +24,7 @@
         <div class="list" v-if="seachShopList!=''">
             <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index">
                 <div class="imgLeft"  @click="gotoDetails(item.id)"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
-                <div class="informationTop">{{item.name}}</div>
+                <div class="informationTop"  @click="gotoDetails(item.id)">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">{{item.price|filtertoMoney}}</div>
                 <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" >
