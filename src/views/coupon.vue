@@ -9,7 +9,7 @@
     </div>
         <el-row class="usestate">
             <nav>
-                <li v-for="item in usestate" :key="item.name":class="{active : active == item.name}" @click="selected(item.name);onshow(item.tabId);" >{{item.name}}(3)</li>
+                <li v-for="item in usestate" :key="item.name" :class="{active : active == item.name}" @click="selected(item.name);onshow(item.tabId);" >{{item.name}}(3)</li>
             </nav>
         </el-row>
         <div class="unused" v-show="tab==0">

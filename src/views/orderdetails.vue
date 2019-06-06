@@ -6,7 +6,7 @@
             <div class="orderdetails_boxname">
                 <span>{{item.deliverName}}</span>
                 <span>{{item.deliverPhone}}</span>
-                <div>地址：广东省深圳市龙岗区 龙城街道将军路1号深圳技师学院北校门</div>
+                <div>地址：{{item.deliverAddress}}</div>
             </div>
         </div>
         <div class="orderdetails_box">
