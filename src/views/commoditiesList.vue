@@ -117,7 +117,11 @@ export default {
                 this.indexes='';
                 this.showShop=[];
                     if (this.input=='') {//input值
-                        this.loadingAllShop()
+                        if(this.$route.query.catalogId){
+                            this.loadingAllShop('','',this.$route.query.catalogId)                            
+                        }else{
+                            this.loadingAllShop()
+                        }
                     }else{
                         this.loadingAllShop(this.input,'',this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
                     } 
