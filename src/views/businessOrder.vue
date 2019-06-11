@@ -39,8 +39,8 @@
             <img src="../assets/businessOrder_null.png" alt="" >
             <p>没有更多订单数据了~</p>
         </div>
-        <div class="information" v-for="(item,index) in orderList" :key="index">
-            <div class="information-day"><span><img src="../assets/no_choice.png">{{item.createTime}}</span><span>订单号：</span><span>{{item.id}}</span></div>
+        <div class="information" v-for="(item,index) in orderList" :key="index" @click="detail(item.id)">
+            <div class="information-day"><span><img src="../assets/no_choice.png">{{item.createTime}}</span><span>订单号：</span><span>{{item.cutid}}</span></div>
             <div class="information-name">
                 <div class="information-name-left">
                     <div>收件人：<span>{{item.deliverName+' '+item.deliverPhone}}</span></div>
@@ -55,20 +55,41 @@
                     </div>
                 </div>
                 <div class="information-name-right">
-                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' ">
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' && item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' ">
                         待发货
+                    </div>
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' && item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' ">
+                        待发货
+                    </div>
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' && item.payway === 'score' ">
+                        待发货
+                    </div>
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' && item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' ">
+                        未支付
                     </div>
                     <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' ">
                         送货中
                     </div>
-                    <div v-if="item.orderStatus === 'NOT_EVALUATED' && item.deliverStatus === 'CONFIRMED' ">
+                    <div v-if="item.orderStatus === 'ON_GOING' && item.deliverStatus === 'CONFIRMED' ">
                         已送达
                     </div>
-                    <div>订单进行中</div>
+                    <div v-if="item.orderStatus === 'NOT_EVALUATED' && item.deliverStatus === 'CONFIRMED' ">
+                        未评价
+                    </div>
+                    <div v-if="item.orderStatus != 'APPLY_CANCEL' && item.orderStatus!= 'CANCELED' && item.orderStatus!= 'APPLY_DRAWBACK' ">订单进行中</div>
+                    <div v-if="item.orderStatus === 'APPLY_CANCEL' "> <!-- 订单取消中 -->
+                        订单取消中
+                    </div>
+                    <div v-if="item.orderStatus === 'CANCELED' "> <!-- 订单取消中 -->
+                        关闭交易
+                    </div>
+                    <div v-if="item.orderStatus === 'APPLY_DRAWBACK' "> <!-- 订单取消中 -->
+                        退款申请中
+                    </div>
                 </div>
             </div>
             <div class="information-total">
-                <div class="information-goodstotal">共<span>{{JSON.parse(item.productDetailJson).length}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+(item.totalFee/100).toFixed(2)}}</span></div>
+                <div class="information-goodstotal">共<span>{{item.totalNum}}</span>件商品<span>合计：</span><span>{{item.totalFee==undefined?(item.scorePrice/100)+'积分':'￥'+(item.totalFee/100).toFixed(2)}}</span></div>
             </div>
         </div>
         </div>
@@ -116,6 +137,9 @@ export default {
         }
     },
     methods: {
+        detail(Id){//订单详情
+            this.$router.push({path:'/orderdetails',query:{'id':Id}})
+        },
         loadingOrder(){//加载数据
             this.phoneHeight = document.documentElement.clientHeight//获取屏幕的高
             let params={
@@ -135,7 +159,7 @@ export default {
                     var new_vid = (result.data.list[index].id)
                     if (new_vid.length > 10){
                         new_vid = new_vid.substring(0,6)+'......'+new_vid.substring(new_vid.length-10,new_vid.length);
-                        this.orderList[index].id = new_vid;
+                        this.orderList[index].cutid = new_vid;
                     }
                 }
                 if(result.data.list.length==0){

@@ -47,7 +47,7 @@
                 退款申请中...
             </p>
             <p class="box_right" style="color:#1591d4" v-if="item.orderStatus === 'CANCELED' "> <!-- 订单取消中 -->
-                交易失败
+                关闭交易
             </p>
             <div class="bigbox" style="display:block;" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
                 <div class="box_long"  @click="detail(item.id)">
@@ -118,7 +118,7 @@
                 <div style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 微信支付，已完成，未评价 -->
                     立即评价
                 </div>
-                <div v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'ON_GOING'" @click="applyDrawback(item)"> <!-- 微信支付，已完成，未评价 -->
+                <div v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'" @click="applyDrawback(item)"> <!-- 微信支付，已完成，未评价 -->
                     申请退款
                 </div>
                 <div v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->

@@ -98,6 +98,18 @@ export const Orderpay =params =>{
 export const allOrder =params =>{
     return axios.post('/api/biz/v01/getBizAllOrder.do',params);
 }
+/************商家发货 */
+export const deliveredBizOrder =params =>{
+    return axios.post('/api/biz/v01/deliveredBizOrderWithoutToken.do',params);
+}
+/************商家退款 */
+export const confirmDrawback =params =>{
+    return axios.post('/api/biz/v01/confirmDrawbackBizOrderWithoutToken.do',params);
+}
+/************商家确认取消订单 */
+export const confirmCancel =params =>{
+    return axios.post('/api/biz/v01/confirmCancelBizOrderWithoutToken.do',params);
+}
 /************申请取消订单 */
 export const applyCancel =params =>{
     return axios.post('/api/biz/v01/applyCancelBizOrderWithoutToken.do',params);
