@@ -18,7 +18,7 @@
             <input type="checkbox" class="collect_checkedbox" v-if="delet" :checked="selectBrowId.indexOf(item.id)>=0" @click="selectId(item.id)">
             <label class="" v-if="delet"></label>
             <img :src="'http://img.cmhg.shop/'+(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).icon" alt="" @click="goDetail(item)">
-            <dd>{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}<span>{{item.bizProductVo==undefined?item.bizIntegralProductVo.saleVolume:item.bizProductVo.salesVolume}}人购买</span></dd>
+            <dd  @click="goDetail(item)">{{(item.bizProductVo==undefined?item.bizIntegralProductVo:item.bizProductVo).name}}<span>{{item.bizProductVo==undefined?item.bizIntegralProductVo.saleVolume:item.bizProductVo.salesVolume}}人购买</span></dd>
             <dt v-if="item.bizProductVo==undefined">{{item.bizIntegralProductVo.integral/100}}积分</dt>
             <dt v-if="item.bizProductVo!=undefined">{{item.bizProductVo.price|filtertoMoney}}</dt> 
         </div>

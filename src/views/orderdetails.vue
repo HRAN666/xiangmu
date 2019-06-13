@@ -6,7 +6,7 @@
             <div class="orderdetails_boxname">
                 <span>{{item.deliverName}}</span>
                 <span>{{item.deliverPhone}}</span>
-                <div>地址：广东省深圳市龙岗区 龙城街道将军路1号深圳技师学院北校门</div>
+                <div>地址：{{item.deliverAddress}}</div>
             </div>
         </div>
         <div class="orderdetails_box">
@@ -51,7 +51,7 @@
                 退款申请中...
             </span>
             <span class="orderright" style="color:#1591d4" v-if="item.orderStatus === 'CANCELED' "> <!-- 订单取消中 -->
-                交易失败
+                关闭交易
             </span>
         </div>
         <div class="orderdetails_box">
@@ -143,16 +143,133 @@
                 <div>成交时间：{{item.lastUpdateTime}}</div>
             </div>
         </div>
+        <div class="orderdetails_box" style="padding: .105rem .11rem;" v-if="item.userOpenId==visitorOpenId">
+            <div class="orderdetails_button">
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' " @click="todoWechatPay(item)"> <!-- 微信支付，未付款 -->
+                    立即支付
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' " @click="applyCancel(item)"> <!-- 微信支付，未付款 -->
+                    取消订单
+                </span>
+                <span v-if="item.orderStatus === 'APPLY_CANCEL' ">
+                    订单取消中...
+                </span>
+                <span v-if="item.orderStatus === 'CANCELED' " @click="deleteorder(item)"> 
+                    删除订单
+                </span>
+                <span v-if="item.orderStatus === 'APPLY_DRAWBACK' ">
+                    退款申请中...
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.orderStatus === 'ON_GOING' && item.payStatus === 'PAID' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 微信支付，已付款，未发货 -->
+                    等待发货
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.orderStatus === 'ON_GOING' && item.payStatus === 'PAID' && item.deliverStatus === 'ON_THE_WAY' " @click="applyDrawback(item)"> <!-- 微信支付，已付款，未发货 -->
+                    申请退款
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 微信支付，已付款，已发货 -->
+                    确认收货
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 微信支付，已完成，未评价 -->
+                    立即评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'" @click="applyDrawback(item)"> <!-- 微信支付，已完成，未评价 -->
+                    申请退款
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->
+                    查看物流
+                </span>
+
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 货到付款，未发货 -->
+                    等待发货
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' " @click="applyCancel(item)"> <!-- 货到付款，未发货 -->
+                    取消订单
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 货到付款，已发货 -->
+                    确认收货
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    立即评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'" @click="applyDrawback(item)"> <!-- 货到付款，已完成，未评价 -->
+                    申请退款
+                </span>
+
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 积分兑换，未发货 -->
+                    等待发货
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 货到付款，已发货 -->
+                    确认收货
+                </span>
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' "> <!-- 积分兑换，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    立即评价
+                </span>
+            </div>
+        </div>
+        <div class="orderdetails_box" style="padding: .105rem .11rem;" v-if="item.userOpenId!=visitorOpenId && business==true">
+            <div class="orderdetails_button">
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' "> <!-- 微信支付，未付款 -->
+                    等待用户支付
+                </span>
+                <span v-if="item.orderStatus === 'APPLY_CANCEL'" @click="confirmCancel(item)">
+                   确认取消
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.orderStatus === 'ON_GOING' && item.payStatus === 'PAID' && item.deliverStatus === 'ON_THE_WAY' " @click="deliveredBizOrder(item)"><!-- 微信支付，已付款，未发货 -->
+                    配送货物
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->
+                    等待用户收货
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 微信支付，已完成，未评价 -->
+                    查看评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.orderStatus === 'APPLY_DRAWBACK'" @click="confirmDrawback(item)"> <!-- 微信支付，已完成，未评价 -->
+                    确认退款
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->
+                    查看物流
+                </span>
+
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' " @click="deliveredBizOrder(item)"> <!-- 货到付款，未发货 -->
+                    配送货物
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    等待用户收货
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    查看评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'APPLY_DRAWBACK'" @click="confirmDrawback(item)"> <!-- 货到付款，已完成，未评价 -->
+                    确认退款
+                </span>
+
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' " @click="deliveredBizOrder(item)"> <!-- 积分兑换，未发货 -->
+                    配送货物
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payway === 'score' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    等待用户收货
+                </span>
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' "> <!-- 积分兑换，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    查看评价
+                </span>
+            </div>
+        </div>
         <div class="orderdetails_box" style="border-top: .01rem solid #efefef;">
             <div class="orderdetails_phone">
                 <span>如有疑问，请致电聪明惠购客服18038054405</span>
                 <img src="../assets/电话.png">
-            </div>
-        </div>
-        <div class="orderdetails_box" style="padding: .105rem .11rem;">
-            <div class="orderdetails_button">
-                <span>确认收货</span>
-                <span>查看物流</span>
             </div>
         </div>
     </div>
@@ -160,7 +277,7 @@
 </template>
 <script>
     import footer from '../components/footer'
-    import {allOrder} from '../api/api.js';
+    import {allOrder,Account,deliveredBizOrder,Confirmreceipt,applyCancel,deleteorder,applyDrawback,confirmDrawback,confirmCancel} from '../api/api.js';
     import { Toast } from 'mint-ui';    
     import { getSecond } from '../common/common.js'
     export default {
@@ -171,6 +288,8 @@
             return{
                 orderdetails:[],
                 storeName:'',//商店名字
+                visitorOpenId:'',//游客OpenId
+                business:false,//是否为商家
             }
         },
         methods: {
@@ -182,8 +301,8 @@
                     this.storeName=result.data.storeName;
                     if(result.data.bizOrder){
                         this.orderdetails.push(result.data.bizOrder);
-                    }else if(result.data.bizIntegralOrder){
-                        this.orderdetails.push(result.data.bizIntegralOrder);
+                    }else if(result.data.bizIntegralOrderVo){
+                        this.orderdetails.push(result.data.bizIntegralOrderVo);
                     }
                     for (let index = 0; index < 1; index++) {//循环每一个时间转换格式
                         if(result.data.bizOrder){
@@ -191,10 +310,10 @@
                             this.orderdetails[index].createTime = time;
                             var lastUpdateTime = getSecond(result.data.bizOrder.lastUpdateTime)
                             this.orderdetails[index].lastUpdateTime = lastUpdateTime;
-                        }else if(result.data.bizIntegralOrder){
-                            var time = getSecond(result.data.bizIntegralOrder.createTime)
+                        }else if(result.data.bizIntegralOrderVo){
+                            var time = getSecond(result.data.bizIntegralOrderVo.createTime)
                             this.orderdetails[index].createTime = time;
-                            var lastUpdateTime = getSecond(result.data.bizIntegralOrder.lastUpdateTime)
+                            var lastUpdateTime = getSecond(result.data.bizIntegralOrderVo.lastUpdateTime)
                             this.orderdetails[index].lastUpdateTime = lastUpdateTime;
                         }
                     }  
@@ -202,9 +321,179 @@
                         console.log(err)
                 });
             },
-
+            loadingAccount(){
+                let params={
+                    'userOpenId':localStorage.getItem('userOpenId'),
+                }
+                Account(params).then((result) => {
+                    if (!result.data.list[0]) {
+                    }else{
+                        this.business=true;
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                });
+            },
+            confirmCancel(item){
+                let params={
+                    "id":item.id,                              
+                }
+                confirmCancel(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '取消成功',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '取消失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            confirmDrawback(item){
+                let params={
+                    'userOpenId':localStorage.getItem('userOpenId'),
+                    "id":item.id,                              
+                }
+                confirmDrawback(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '退款成功',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '退款失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            deliveredBizOrder(item){
+                let params={
+                    "id":item.id,                              
+                }
+                deliveredBizOrder(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '发货成功',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '发货失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            Confirmreceipt(item){
+                let params={
+                    "id":item.id,                              
+                }
+                Confirmreceipt(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '收货成功',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '收货失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            applyCancel(item){
+                let params={
+                    "id":item.id,                              
+                }
+                applyCancel(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '申请取消订单',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '取消失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            deleteorder(item){
+                let params={
+                    "id":item.id,                              
+                }
+                deleteorder(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '删除成功',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '删除失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
+            applyDrawback(item){
+                let params={
+                    "id":item.id,                              
+                }
+                applyDrawback(params).then((result) => {
+                    if (result.data.resultCode==200) {
+                        Toast({
+                            message: '申请退款',
+                            duration: 1000
+                        });
+                        this.$router.go(0)//刷新当前页面
+                    }else if(result.data.resultCode==500){
+                        Toast({
+                            message: '申请失败',
+                            duration: 1000
+                        });
+                    }
+                }).catch((err) => {
+                    
+                });
+            },
         },
         created() {
+            let params={
+                "userOpenId":localStorage.getItem('userOpenId')
+            }
+            this.$store.dispatch('check',params).then((result) => {
+                
+            }).catch((err) => {
+                console.log(err)
+            });
+            this.loadingAccount();
+            this.visitorOpenId=localStorage.getItem('userOpenId');
             this.allOrderclick()
         }
     }

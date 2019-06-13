@@ -24,7 +24,7 @@
         <div class="list" v-if="seachShopList!=''">
             <div class="commodities-list" v-for="(item,index) in seachShopList" :key="index">
                 <div class="imgLeft"  @click="gotoDetails(item.id)"><img :src="'http://img.cmhg.shop/'+item.icon"></div>
-                <div class="informationTop">{{item.name}}</div>
+                <div class="informationTop"  @click="gotoDetails(item.id)">{{item.name}}</div>
                 <div class="informationIcon"><img src="../assets/spot.png" alt=""></div>
                 <div class="price">{{item.price|filtertoMoney}}</div>
                 <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" >
@@ -117,7 +117,11 @@ export default {
                 this.indexes='';
                 this.showShop=[];
                     if (this.input=='') {//input值
-                        this.loadingAllShop()
+                        if(this.$route.query.catalogId){
+                            this.loadingAllShop('','',this.$route.query.catalogId)                            
+                        }else{
+                            this.loadingAllShop()
+                        }
                     }else{
                         this.loadingAllShop(this.input,'',this.$route.query.catalogId=='undefined'?'':this.$route.query.catalogId)
                     } 
@@ -510,25 +514,22 @@ export default {
     }
      .commoditiesList-filter-mark{
         width: 100%;
-        height: 4.62rem;
-        position: absolute;
+        height:100%;
+        position: fixed;
         top: 0;
         left: 0;
         z-index: 1002;
         background-color: #000000;
-        margin-top: .91rem;
         transition: all .8s;
         opacity: 0.4;
     }   
     .commoditiesList-filter-list{
         width: 70%;
-        height: 4.62rem;
+        height:100%;
         position: fixed;
         top: 0;
         right: -2.7rem;
         z-index: 1002;
-        margin-top: 1rem;
-        margin-top: .91rem;
         background-color: #ffffff;
         transition: all .8s;
     }
