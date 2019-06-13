@@ -53,6 +53,9 @@
             <span class="orderright" style="color:#1591d4" v-if="item.orderStatus === 'CANCELED' "> <!-- 订单取消中 -->
                 关闭交易
             </span>
+            <span class="orderright" v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                退款成功
+            </span>
         </div>
         <div class="orderdetails_box">
             <img class="orderdetails_names" src="../assets/商家.png"/>
@@ -144,6 +147,9 @@
                 <span v-if="item.orderStatus === 'APPLY_CANCEL' ">
                     订单取消中...
                 </span>
+                <span v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                    退款成功
+                </span>
                 <span v-if="item.orderStatus === 'CANCELED' " @click="deleteorder(item)"> 
                     删除订单
                 </span>
@@ -204,6 +210,9 @@
         </div>
         <div class="orderdetails_box" style="padding: .105rem .11rem;" v-if="item.userOpenId!=visitorOpenId && business==true">
             <div class="orderdetails_button">
+                <span v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                    退款成功
+                </span>
                 <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' "> <!-- 微信支付，未付款 -->
                     等待用户支付
                 </span>

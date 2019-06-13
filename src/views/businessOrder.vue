@@ -76,7 +76,7 @@
                     <div v-if="item.orderStatus === 'NOT_EVALUATED' && item.deliverStatus === 'CONFIRMED' ">
                         未评价
                     </div>
-                    <div v-if="item.orderStatus != 'APPLY_CANCEL' && item.orderStatus!= 'CANCELED' && item.orderStatus!= 'APPLY_DRAWBACK' ">订单进行中</div>
+                    <div v-if="item.orderStatus != 'APPLY_CANCEL' && item.orderStatus!= 'CANCELED' && item.orderStatus!= 'APPLY_DRAWBACK' && item.drawbackStatus != 'SUCCESS' ">订单进行中</div>
                     <div v-if="item.orderStatus === 'APPLY_CANCEL' "> <!-- 订单取消中 -->
                         订单取消中
                     </div>
@@ -85,6 +85,9 @@
                     </div>
                     <div v-if="item.orderStatus === 'APPLY_DRAWBACK' "> <!-- 订单取消中 -->
                         退款申请中
+                    </div>
+                    <div v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                        退款成功
                     </div>
                 </div>
             </div>
