@@ -49,6 +49,9 @@
             <p class="box_right" style="color:#1591d4" v-if="item.orderStatus === 'CANCELED' "> <!-- 订单取消中 -->
                 关闭交易
             </p>
+            <p class="box_right" style="color:#1591d4" v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                退款成功
+            </p>
             <div class="bigbox" style="display:block;" v-for="(value,indexes) in JSON.parse(item.productDetailJson)" :key="indexes">
                 <div class="box_long"  @click="detail(item.id)">
                     <div v-if="value.paytype== null && value.bizProductVo == null ">
@@ -99,6 +102,9 @@
                 </div>
                 <div v-if="item.orderStatus === 'APPLY_CANCEL' ">
                     订单取消中...
+                </div>
+                <div v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                    退款成功
                 </div>
                 <div v-if="item.orderStatus === 'CANCELED' " @click="deleteorder(item)"> 
                     删除订单

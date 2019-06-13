@@ -53,6 +53,9 @@
             <span class="orderright" style="color:#1591d4" v-if="item.orderStatus === 'CANCELED' "> <!-- 订单取消中 -->
                 交易失败
             </span>
+            <span class="orderright" v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                退款成功
+            </span>
         </div>
         <div class="orderdetails_box">
             <img class="orderdetails_names" src="../assets/商家.png"/>
@@ -141,6 +144,135 @@
                 <div v-if="item.payway=='score'">支付方式：积分兑换</div>
                 <div>下单时间：{{item.createTime}}</div>
                 <div>成交时间：{{item.lastUpdateTime}}</div>
+            </div>
+        </div>
+        <div class="orderdetails_box" style="padding: .105rem .11rem;" v-if="item.userOpenId==visitorOpenId">
+            <div class="orderdetails_button">
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' " @click="todoWechatPay(item)"> <!-- 微信支付，未付款 -->
+                    立即支付
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' " @click="applyCancel(item)"> <!-- 微信支付，未付款 -->
+                    取消订单
+                </span>
+                <span v-if="item.orderStatus === 'APPLY_CANCEL' ">
+                    订单取消中...
+                </span>
+                <span v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                    退款成功
+                </span>
+                <span v-if="item.orderStatus === 'CANCELED' " @click="deleteorder(item)"> 
+                    删除订单
+                </span>
+                <span v-if="item.orderStatus === 'APPLY_DRAWBACK' ">
+                    退款申请中...
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.orderStatus === 'ON_GOING' && item.payStatus === 'PAID' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 微信支付，已付款，未发货 -->
+                    等待发货
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.orderStatus === 'ON_GOING' && item.payStatus === 'PAID' && item.deliverStatus === 'ON_THE_WAY' " @click="applyDrawback(item)"> <!-- 微信支付，已付款，未发货 -->
+                    申请退款
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 微信支付，已付款，已发货 -->
+                    确认收货
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 微信支付，已完成，未评价 -->
+                    立即评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'" @click="applyDrawback(item)"> <!-- 微信支付，已完成，未评价 -->
+                    申请退款
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->
+                    查看物流
+                </span>
+
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 货到付款，未发货 -->
+                    等待发货
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' " @click="applyCancel(item)"> <!-- 货到付款，未发货 -->
+                    取消订单
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 货到付款，已发货 -->
+                    确认收货
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    立即评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'" @click="applyDrawback(item)"> <!-- 货到付款，已完成，未评价 -->
+                    申请退款
+                </span>
+
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' "> <!-- 积分兑换，未发货 -->
+                    等待发货
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'DELIVERED' " @click="Confirmreceipt(item)"> <!-- 货到付款，已发货 -->
+                    确认收货
+                </span>
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' "> <!-- 积分兑换，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    立即评价
+                </span>
+            </div>
+        </div>
+        <div class="orderdetails_box" style="padding: .105rem .11rem;" v-if="item.userOpenId!=visitorOpenId && business==true">
+            <div class="orderdetails_button">
+                <span v-if="item.drawbackStatus === 'SUCCESS' "> <!-- 退款成功 -->
+                    退款成功
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' "> <!-- 微信支付，未付款 -->
+                    等待用户支付
+                </span>
+                <span v-if="item.orderStatus === 'APPLY_CANCEL'" @click="confirmCancel(item)">
+                   确认取消
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.orderStatus === 'ON_GOING' && item.payStatus === 'PAID' && item.deliverStatus === 'ON_THE_WAY' " @click="deliveredBizOrder(item)"><!-- 微信支付，已付款，未发货 -->
+                    配送货物
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->
+                    等待用户收货
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 微信支付，已完成，未评价 -->
+                    查看评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.orderStatus === 'APPLY_DRAWBACK'" @click="confirmDrawback(item)"> <!-- 微信支付，已完成，未评价 -->
+                    确认退款
+                </span>
+                <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'PAID' && item.deliverStatus === 'DELIVERED' "> <!-- 微信支付，已付款，已发货 -->
+                    查看物流
+                </span>
+
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'ON_THE_WAY' " @click="deliveredBizOrder(item)"> <!-- 货到付款，未发货 -->
+                    配送货物
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    等待用户收货
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.orderStatus === 'ON_GOING' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    查看评价
+                </span>
+                <span v-if="item.payTime === 'PAY_NEXT' && item.payStatus === 'NOT_PAY' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'APPLY_DRAWBACK'" @click="confirmDrawback(item)"> <!-- 货到付款，已完成，未评价 -->
+                    确认退款
+                </span>
+
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'ON_THE_WAY' " @click="deliveredBizOrder(item)"> <!-- 积分兑换，未发货 -->
+                    配送货物
+                </span>
+                <span style="color:#db2828;border-color:#db2828;padding:0 .1rem;" v-if="item.payway === 'score' && item.deliverStatus === 'DELIVERED' "> <!-- 货到付款，已发货 -->
+                    等待用户收货
+                </span>
+                <span v-if="item.payway === 'score' && item.orderStatus === 'ON_GOING' && item.deliverStatus === 'DELIVERED' "> <!-- 积分兑换，已发货 -->
+                    查看物流
+                </span>
+                <span style="color:#db2828;border-color:#db2828;" v-if="item.payway === 'score' && item.deliverStatus === 'CONFIRMED' && item.orderStatus === 'NOT_EVALUATED'"> <!-- 货到付款，已完成，未评价 -->
+                    查看评价
+                </span>
             </div>
         </div>
         <div class="orderdetails_box" style="border-top: .01rem solid #efefef;">
