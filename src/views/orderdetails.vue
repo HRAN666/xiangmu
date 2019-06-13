@@ -65,6 +65,16 @@
             <img class="express" :src="'http://img.cmhg.shop/'+ value.bizProductVo.icon" v-if="value.bizProductVo != null ">
             <img class="express" :src="'http://img.cmhg.shop/'+ value.icon" v-if="value.bizProductVo == null ">
             <img class="express" :src="'http://img.cmhg.shop/'+ value.icon" v-if="value.payway=='score' && value.bizProductVo == null">
+            <!-- <div class="express_right" >
+                <div class="express_righttop">
+                    <span>{{value.bizProductVo == null?value.name:value.bizProductVo.name}}</span>
+                    <span>x{{value.quantity}}</span>
+                </div>
+                <div class="express_rightbottom">
+                    <span>￥{{value.price/100*value.quantity}}</span>
+                    <span>申请售后</span>
+                </div>            
+            </div> -->
             <div class="express_right" v-if="item.payway!='score' && value.bizProductVo == null ">
                 <div class="express_righttop">
                     <span>{{value.name}}</span>

@@ -176,6 +176,12 @@ const router=new Router({
       component: () => import( './views/customerService.vue'),
       meta:{title:'客服中心'},
     },
+    {
+      path: '/allcomments',
+      name: 'allcomments',
+      component: () => import( './views/allcomments.vue'),
+      meta:{title:'全部评论'},
+    },
   ]
 });
 export default router

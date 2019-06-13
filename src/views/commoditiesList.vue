@@ -514,25 +514,22 @@ export default {
     }
      .commoditiesList-filter-mark{
         width: 100%;
-        height: 4.62rem;
-        position: absolute;
+        height:100%;
+        position: fixed;
         top: 0;
         left: 0;
         z-index: 1002;
         background-color: #000000;
-        margin-top: .91rem;
         transition: all .8s;
         opacity: 0.4;
     }   
     .commoditiesList-filter-list{
         width: 70%;
-        height: 4.62rem;
+        height:100%;
         position: fixed;
         top: 0;
         right: -2.7rem;
         z-index: 1002;
-        margin-top: 1rem;
-        margin-top: .91rem;
         background-color: #ffffff;
         transition: all .8s;
     }
