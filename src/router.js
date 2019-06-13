@@ -84,6 +84,12 @@ const router=new Router({
       meta: {title: '订单详情'}
     },
     {
+      path: '/refund',
+      name: 'refund',
+      component: () => import('./views/refund.vue'),
+      meta: {title: '退款'}
+    },
+    {
       path: '/location',
       name: 'location',
       component: () => import( './views/location.vue'),
