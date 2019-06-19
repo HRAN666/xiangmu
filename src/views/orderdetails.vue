@@ -143,9 +143,9 @@
                 <div v-if="item.payTime=='PAY_NEXT'">支付方式：货到付款</div>
                 <div v-if="item.payway=='score'">支付方式：积分兑换</div>
                 <div>下单时间：{{item.createTime}}</div>
-                <div>成交时间：{{item.lastUpdateTime}}</div>
+                <div>成交时间： {{item.lastUpdateTime}}</div>
             </div>
-        </div>
+        </div> 
         <div class="orderdetails_box" style="padding: .105rem .11rem;" v-if="item.userOpenId==visitorOpenId">
             <div class="orderdetails_button">
                 <span v-if="item.payTime === 'PAY_NOW' && item.payStatus === 'NOT_PAY' && item.orderStatus === 'ON_GOING' " @click="todoWechatPay(item)"> <!-- 微信支付，未付款 -->
